@@ -31,4 +31,3 @@ void AceptarJugador::aceptarJugador(){
  */
 void AceptarJugador::main(){
 
-}
