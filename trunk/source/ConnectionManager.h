@@ -14,10 +14,10 @@ class ConnectionManager
 {
 
 public:
-	ConnectionManager();
-	virtual ~ConnectionManager();
-	Pool *m_Pool;
-
+	static ConnectionManager* getInstance();
+	Pool* pool;
+	int maxJugadores;
+	
 	void agregarJugador(Jugador jugador);
 	void enviarMensajes();
 	Pool GetJugadores();
@@ -26,6 +26,12 @@ public:
 
 private:
 	Pool jugadores;
+    static ConnectionManager* pConnectionManager;
+
+protected:
+	ConnectionManager(int maxJugadores=10);
+    ConnectionManager(const ConnectionManager&);
+    ConnectionManager& operator= (const ConnectionManager&);
 
 };
 #endif // !defined(EA_9FD9E414_BBDB_43e0_8CD7_CFB519785B5B__INCLUDED_)

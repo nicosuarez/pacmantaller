@@ -10,17 +10,11 @@
 CerrarServidor::CerrarServidor(){
 
 }
-
-
-
+/*----------------------------------------------------------------------------*/
 CerrarServidor::~CerrarServidor(){
 
 }
-
-
-
-
-
+/*----------------------------------------------------------------------------*/
 /**
  * Se ejecuta el hilo principal del juego el del modelo. Cuando finaliza se cierra
  * el servidor
