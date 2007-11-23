@@ -30,4 +30,5 @@ void AceptarJugador::aceptarJugador(){
  * Hilo que se encarga de aceptar la conexion de un jugador nuevo
  */
 void AceptarJugador::main(){
+}
 
