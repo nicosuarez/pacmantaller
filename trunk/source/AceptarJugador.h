@@ -17,6 +17,7 @@ public:
 	AceptarJugador();
 	virtual ~AceptarJugador();
 
+	
 	void aceptarJugador();
 	void main();
 
