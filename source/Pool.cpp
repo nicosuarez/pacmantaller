@@ -6,28 +6,21 @@
 
 #include "Pool.h"
 
-
 Pool::Pool(){
 
 }
-
-
-
+/*----------------------------------------------------------------------------*/
 Pool::~Pool(){
 
 }
-
-
-
-
-
-tListJugadores Pool::getJugadoresList(){
+/*----------------------------------------------------------------------------*/
+tListJugadores& Pool::getJugadoresList(){
 
 	return jugadoresList;
 }
-
-
+/*----------------------------------------------------------------------------*/
 void Pool::setJugadoresList(tListJugadores jugadores){
 
 	jugadoresList = jugadores;
 }
+/*----------------------------------------------------------------------------*/

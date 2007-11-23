@@ -7,42 +7,41 @@
 #include "ConnectionManager.h"
 
 
-ConnectionManager::ConnectionManager(){
+ConnectionManager* ConnectionManager::pConnectionManager = NULL;
 
+ConnectionManager* ConnectionManager::getInstance () 
+{
+    if (pConnectionManager == NULL)
+    {  
+    	pConnectionManager = new ConnectionManager(); 
+    }
+    return pConnectionManager;
 }
-
-
-
-ConnectionManager::~ConnectionManager(){
-
+/*----------------------------------------------------------------------------*/
+ConnectionManager::ConnectionManager(int maxJugadores) 
+{ 
+   this->maxJugadores=maxJugadores;
 }
-
-
-
-
-
+/*----------------------------------------------------------------------------*/
 void ConnectionManager::agregarJugador(Jugador jugador){
-
+	
 }
-
-
+/*----------------------------------------------------------------------------*/
 void ConnectionManager::enviarMensajes(){
 
 }
-
-
+/*----------------------------------------------------------------------------*/
 Pool ConnectionManager::GetJugadores(){
 
 	return jugadores;
 }
-
-
+/*----------------------------------------------------------------------------*/
 void ConnectionManager::quitarJugador(){
 
 }
-
-
+/*----------------------------------------------------------------------------*/
 void ConnectionManager::SetJugadores(Pool newVal){
 
 	jugadores = newVal;
 }
+/*----------------------------------------------------------------------------*/

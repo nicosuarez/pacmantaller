@@ -7,29 +7,49 @@
 #include "Dispatcher.h"
 
 
-Dispatcher::Dispatcher(){
-
+Dispatcher::Dispatcher(Mutex* m_dispacher)
+{
+    this->m_dispacher=m_dispacher;
 }
-
-
-
-Dispatcher::~Dispatcher(){
-
+/*----------------------------------------------------------------------------*/
+tListJugadores& Dispatcher::getJugadoresList()
+{
+	Pool pool=ConnectionManager::getInstance()->GetJugadores();
+	return pool.getJugadoresList();
 }
-
-
-
-
-
-void Dispatcher::enviarMensajes(){
-
+/*----------------------------------------------------------------------------*/
+void Dispatcher::enviarMensaje(Mensaje* mensaje)
+{
+    mensajes.push(mensaje);
+    //Le avisa al hilo del Dispatcher que hay un mensaje que procesar.
+    recibiMensajeEvent.activar();
 }
-
-
+/*----------------------------------------------------------------------------*/
+Evento& Dispatcher::getRecibiMensajeEvent(){return this->recibiMensajeEvent;};
+/*----------------------------------------------------------------------------*/
 /**
  * Hilo que se encarga de despachar los mensajes de la cola a todos los jugadores
  * conectados
  */
-void Dispatcher::main(){
+void Dispatcher::main()
+{
+	tListJugadores& jugadores = getJugadoresList();
+    this->getRecibiMensajeEvent().esperar();
+    while(!mensajes.empty())
+    {
+    	itListJugadores it;
+        m_dispacher->lock();
+        for(it=jugadores.begin(); it!=jugadores.end(); it++ )
+        {
+            Socket* sk_jugador = (*it)->GetSocket();
+            Mensaje* msg = mensajes.front();
+            sk_jugador->enviar(msg->Serialize());
+        }
+        m_dispacher->unlock();
+        mensajes.pop();
+        if( mensajes.empty() )
+            this->getRecibiMensajeEvent().esperar();
+    }
 
 }
+/*----------------------------------------------------------------------------*/

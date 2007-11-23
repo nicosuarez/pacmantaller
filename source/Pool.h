@@ -11,6 +11,7 @@
 #include <list>
 
 typedef std::list<Jugador*> tListJugadores;
+typedef std::list<Jugador*>::iterator itListJugadores;
 
 class Pool
 {
@@ -20,7 +21,7 @@ public:
 	virtual ~Pool();
 	Jugador *m_Jugador;
 
-	tListJugadores getJugadoresList();
+	tListJugadores& getJugadoresList();
 	void setJugadoresList(tListJugadores jugadores);
 
 private:

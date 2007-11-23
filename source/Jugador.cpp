@@ -10,17 +10,11 @@
 Jugador::Jugador(){
 
 }
-
-
-
+/*----------------------------------------------------------------------------*/
 Jugador::~Jugador(){
 
 }
-
-
-
-
-
+/*----------------------------------------------------------------------------*/
 /**
  * pone a corres el thread escucharJugador, el mismo se pone a recibir los
  * mesnajes del server
@@ -29,8 +23,7 @@ Jugador::~Jugador(){
 void Jugador::escuchar(){
 
 }
-
-
+/*----------------------------------------------------------------------------*/
 /**
  * Identificador de jugador
  */
@@ -38,8 +31,7 @@ int Jugador::GetIdJugador(){
 
 	return idJugador;
 }
-
-
+/*----------------------------------------------------------------------------*/
 /**
  * Socket mediante el cual el jugador mantiene la conexion con el servidor
  */
@@ -47,8 +39,7 @@ Socket* Jugador::GetSocket(){
 
 	return socket;
 }
-
-
+/*----------------------------------------------------------------------------*/
 /**
  * Identificador de jugador
  */
@@ -56,8 +47,7 @@ void Jugador::SetIdJugador(int idJugador){
 
 	this->idJugador = idJugador;
 }
-
-
+/*----------------------------------------------------------------------------*/
 /**
  * Socket mediante el cual el jugador mantiene la conexion con el servidor
  */
