@@ -2,6 +2,6 @@
 
 int main(int argc,char* argv[])
 {
-	std::cout<<"PACMA  N\n";
+	std::cout<<"PACMAN\n";
 	return 0;
 }
