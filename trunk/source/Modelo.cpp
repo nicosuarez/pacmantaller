@@ -6,21 +6,24 @@
 
 #include "Modelo.h"
 
+Modelo* Modelo::pModelo = NULL;
 
-Modelo::Modelo()
+Modelo* Modelo::getInstance () 
 {
-
+    if (pModelo == NULL)
+    {  
+    	pModelo = new Modelo(); 
+    }
+    return pModelo;
 }
 
+Modelo::Modelo(){
 
+}
 
 Modelo::~Modelo(){
 
 }
-
-
-
-
 
 /**
  * Coloca la operacion en la cola.
@@ -49,11 +52,10 @@ Mapa* Modelo::GetMapa(){
 
 
 /**
- * Lista de personajes puede ser PacMan o Fantasma
+ * Lista de jugadores puede ser PacMan o Fantasma
  */
-tListPersonajes* Modelo::GetPersonajes(){
-
-	return &personajes;
+tListJugadores* Modelo::GetJugadores(){
+	return &jugadores;
 }
 
 
@@ -85,16 +87,16 @@ void Modelo::SetElementos(tListElementos elementos){
 /**
  * Nivel que se esta jugando actualmente.
  */
-void Modelo::setMapa( Mapa *mapa)
+void Modelo::SetMapa(Mapa *mapa)
 {
 	this->mapa = mapa;
 }
 
 
 /**
- * Lista de personajes puede ser PacMan o Fantasma
+ * Lista de jugadores puede ser PacMan o Fantasma
  */
-void Modelo::SetPersonajes(tListPersonajes personajes){
+void Modelo::SetJugadores(tListJugadores jugadores){
 
-	this->personajes = personajes;
+	this->jugadores = jugadores;
 }
