@@ -14,6 +14,7 @@ class Posicion
 {
 
 public:
+	
 	Posicion();
 	virtual ~Posicion();
 
