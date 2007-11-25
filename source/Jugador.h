@@ -9,6 +9,7 @@
 
 #include "EscucharJugador.h"
 #include "Socket.h"
+#include "Personaje.h"
 
 /**
  * Clase que modela un jugador contiene el socket y instancia un hilo que se
@@ -19,16 +20,20 @@ class Jugador
 {
 
 public:
-	Jugador();
+	Jugador(Socket* sk,int idPersonaje=-1,int idJugador=-1);
 	virtual ~Jugador();
-	EscucharJugador *m_EscucharJugador;
+	EscucharJugador* escucharJugador;
 
 	void escuchar();
 	int GetIdJugador();
+	int GetIdPersonaje();
+	Personaje* getPersonaje();
 	Socket* GetSocket();
 	void SetIdJugador(int idJugador);
 	void SetSocket(Socket* socket);
-
+	void SetIdPersonaje(int idPersonaje);
+	void SetPersonaje(Personaje* personaje);
+	
 private:
 	/**
 	 * Identificador de jugador
@@ -38,6 +43,14 @@ private:
 	 * Socket mediante el cual el jugador mantiene la conexion con el servidor
 	 */
 	Socket* socket;
+	/**
+	 * Identificador de personaje
+	 */
+	int idPersonaje;
+	/**
+	 * Identificador de personaje
+	 */
+	Personaje* personaje;
 
 };
 #endif // !defined(EA_7A23278A_58F2_4d8e_BC8B_EFD82299567B__INCLUDED_)

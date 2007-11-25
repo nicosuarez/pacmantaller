@@ -23,25 +23,30 @@ ConnectionManager::ConnectionManager(int maxJugadores)
    this->maxJugadores=maxJugadores;
 }
 /*----------------------------------------------------------------------------*/
-void ConnectionManager::agregarJugador(Jugador jugador){
+
+void ConnectionManager::agregarJugador(Jugador* jugador){
+	this->pool.getJugadoresList().push_back(jugador);
+}
+/*----------------------------------------------------------------------------*/
+void ConnectionManager::enviarMensaje(){
+
+}
+/*----------------------------------------------------------------------------*/
+Pool& ConnectionManager::GetPool(){
+	return pool;
+}
+/*----------------------------------------------------------------------------*/
+void ConnectionManager::quitarJugador(int idJugador){
 	
+	tListJugadores jugadores=this->pool.getJugadoresList();
+	itListJugadores it;
+	
+	for(it=jugadores.begin();it!=jugadores.end();it++)
+	{
+		Jugador* jugador = *it;
+		if(jugador->GetIdJugador()==idJugador)
+		{
+			jugadores.erase(it);
+		}
+	}
 }
-/*----------------------------------------------------------------------------*/
-void ConnectionManager::enviarMensajes(){
-
-}
-/*----------------------------------------------------------------------------*/
-Pool ConnectionManager::GetJugadores(){
-
-	return jugadores;
-}
-/*----------------------------------------------------------------------------*/
-void ConnectionManager::quitarJugador(){
-
-}
-/*----------------------------------------------------------------------------*/
-void ConnectionManager::SetJugadores(Pool newVal){
-
-	jugadores = newVal;
-}
-/*----------------------------------------------------------------------------*/
