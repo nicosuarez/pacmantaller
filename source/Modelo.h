@@ -11,15 +11,16 @@
 #include <queue>
 #include "Elemento.h"
 #include "Operacion.h"
-#include "Personaje.h"
+#include "Jugador.h"
 #include "AppSettings.h"
 #include "Mapa.h"
 
 class Operacion;
 
-typedef std::list<Elemento*> tListElementos;
-typedef std::list<Personaje*> tListPersonajes; 
-typedef std::queue<Operacion*> tQueueOperacion; 
+typedef std::list<Elemento*> tListElementos; 
+typedef std::queue<Operacion*> tQueueOperacion;
+typedef std::list<Jugador*> tListJugadores;
+typedef std::list<Jugador*>::iterator itListJugadores;
 
 /**
  * Clase que se controla el ciclo de vida del juego, aplicando diferentes
@@ -29,21 +30,30 @@ class Modelo
 {
 
 public:
-	Modelo();
+	static Modelo* getInstance();
 	virtual ~Modelo();
 
 	void agregarOperacion(Operacion* operacion);
 	tListElementos* GetElementos();
 	Mapa* GetMapa();
-	tListPersonajes* GetPersonajes();
+	tListJugadores* GetJugadores();
 	void main();
 	void notify();
 	void SetElementos(tListElementos elementos);
-	void setMapa( Mapa *mapa);
-	void SetPersonajes(tListPersonajes personajes);
-	static Modelo* getInstance();
+	void SetMapa(Mapa* mapa);
+	void SetJugadores(tListJugadores jugadores);
+	void seFinalizoElNivel(bool finalizo){this->finalizoNivel=finalizo;};
+	void seFinalizoElJuevo(bool finalizo){this->finalizoJuego=finalizo;};
+	bool seFinalizoElNivel(){return this->finalizoNivel;};
+	bool seFinalizoElJuevo(){return this->finalizoJuego;};
 
+protected:
+	Modelo();
+	Modelo(const Modelo&);
+	Modelo& operator= (const Modelo&);
+	
 private:
+	static Modelo* pModelo;
 	/**
 	 * Lista de elementos del mapa.
 	 */
@@ -57,9 +67,17 @@ private:
 	 */
 	tQueueOperacion operaciones;
 	/**
-	 * Lista de personajes puede ser PacMan o Fantasma
+	 * Lista de jugadores pueden ser PacMan o Fantasma
 	 */
-	tListPersonajes personajes;
+	tListJugadores jugadores;
+	/**
+	 * Indica si el nivel ha finalizado o no
+	 */
+	bool finalizoNivel;
+	/**
+	 * Indica si el juego ha finalizado o no
+	 */
+	bool finalizoJuego;
 
 };
 #endif // !defined(EA_C452893E_00CB_470e_BB7D_F33E91B1347A__INCLUDED_)
