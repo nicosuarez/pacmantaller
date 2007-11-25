@@ -13,6 +13,7 @@
 #include "Operacion.h"
 #include "Personaje.h"
 #include "AppSettings.h"
+#include "Mapa.h"
 
 class Operacion;
 
@@ -32,14 +33,15 @@ public:
 	virtual ~Modelo();
 
 	void agregarOperacion(Operacion* operacion);
-	tListElementos GetElementos();
-	tGrafo* GetMapa();
-	tListPersonajes GetPersonajes();
+	tListElementos* GetElementos();
+	Mapa* GetMapa();
+	tListPersonajes* GetPersonajes();
 	void main();
 	void notify();
 	void SetElementos(tListElementos elementos);
-	void SetMapa(tGrafo* mapa);
+	void setMapa( Mapa *mapa);
 	void SetPersonajes(tListPersonajes personajes);
+	static Modelo* getInstance();
 
 private:
 	/**
@@ -49,7 +51,7 @@ private:
 	/**
 	 * Nivel que se esta jugando actualmente.
 	 */
-	tGrafo* mapa;
+	Mapa *mapa;
 	/**
 	 * Lista de operacion que se ejecutan sobre el modelo
 	 */
