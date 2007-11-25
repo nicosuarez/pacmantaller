@@ -19,10 +19,8 @@ class Pool
 public:
 	Pool();
 	virtual ~Pool();
-	Jugador *m_Jugador;
 
 	tListJugadores& getJugadoresList();
-	void setJugadoresList(tListJugadores jugadores);
 
 private:
 	/**

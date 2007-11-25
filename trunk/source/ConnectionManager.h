@@ -15,17 +15,15 @@ class ConnectionManager
 
 public:
 	static ConnectionManager* getInstance();
-	Pool* pool;
 	int maxJugadores;
 	
-	void agregarJugador(Jugador jugador);
-	void enviarMensajes();
-	Pool GetJugadores();
-	void quitarJugador();
-	void SetJugadores(Pool newVal);
-
+	void agregarJugador(Jugador* jugador);
+	void enviarMensaje();
+	Pool& GetPool();
+	void quitarJugador(int idJugador);
+	
 private:
-	Pool jugadores;
+	Pool pool;
     static ConnectionManager* pConnectionManager;
 
 protected:

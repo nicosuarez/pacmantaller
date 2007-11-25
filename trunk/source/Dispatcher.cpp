@@ -14,7 +14,7 @@ Dispatcher::Dispatcher(Mutex* m_dispacher)
 /*----------------------------------------------------------------------------*/
 tListJugadores& Dispatcher::getJugadoresList()
 {
-	Pool pool=ConnectionManager::getInstance()->GetJugadores();
+	Pool pool=ConnectionManager::getInstance()->GetPool();
 	return pool.getJugadoresList();
 }
 /*----------------------------------------------------------------------------*/

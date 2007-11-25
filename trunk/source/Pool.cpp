@@ -19,8 +19,3 @@ tListJugadores& Pool::getJugadoresList(){
 	return jugadoresList;
 }
 /*----------------------------------------------------------------------------*/
-void Pool::setJugadoresList(tListJugadores jugadores){
-
-	jugadoresList = jugadores;
-}
-/*----------------------------------------------------------------------------*/

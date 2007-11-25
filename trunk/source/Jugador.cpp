@@ -7,12 +7,44 @@
 #include "Jugador.h"
 
 
-Jugador::Jugador(){
-
+Jugador::Jugador(Socket* sk,int idPersonaje,int idJugador){
+	this->socket=sk;
+	this->idJugador=idJugador;
+	this->idPersonaje=idPersonaje;
+	this->personaje=NULL;
 }
 /*----------------------------------------------------------------------------*/
 Jugador::~Jugador(){
-
+	delete this->socket;
+	delete this->personaje;
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Setea el identificador de personaje
+ */
+void Jugador::SetIdPersonaje(int idPersonaje){
+	this->idPersonaje=idPersonaje;
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Personaje el cual representa el jugador.
+ */
+void Jugador::SetPersonaje(Personaje* personaje){
+	this->personaje=personaje;
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Obtiene el identificador de personaje
+ */
+int Jugador::GetIdPersonaje(){
+	return this->idPersonaje;
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Obtiene el personaje el cual representa el jugador.
+ */
+Personaje* Jugador::getPersonaje(){
+	return this->personaje;
 }
 /*----------------------------------------------------------------------------*/
 /**
