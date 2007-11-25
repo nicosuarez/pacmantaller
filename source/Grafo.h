@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "server_appSettings.h"
+#include "AppSettings.h"
 
 template < class TipoIdVertice, class TipoDatoVertice, 
 class TipoIdArco, class TipoDatoArco >
