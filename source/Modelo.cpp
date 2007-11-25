@@ -7,7 +7,8 @@
 #include "Modelo.h"
 
 
-Modelo::Modelo(){
+Modelo::Modelo()
+{
 
 }
 
@@ -32,16 +33,16 @@ void Modelo::agregarOperacion(Operacion* operacion){
 /**
  * Lista de elementos del mapa.
  */
-tListElementos Modelo::GetElementos(){
+tListElementos* Modelo::GetElementos(){
 
-	return elementos;
+	return &elementos;
 }
 
 
 /**
  * Nivel que se esta jugando actualmente.
  */
-tGrafo* Modelo::GetMapa(){
+Mapa* Modelo::GetMapa(){
 
 	return mapa;
 }
@@ -50,9 +51,9 @@ tGrafo* Modelo::GetMapa(){
 /**
  * Lista de personajes puede ser PacMan o Fantasma
  */
-tListPersonajes Modelo::GetPersonajes(){
+tListPersonajes* Modelo::GetPersonajes(){
 
-	return personajes;
+	return &personajes;
 }
 
 
@@ -84,8 +85,8 @@ void Modelo::SetElementos(tListElementos elementos){
 /**
  * Nivel que se esta jugando actualmente.
  */
-void Modelo::SetMapa(tGrafo* mapa){
-
+void Modelo::setMapa( Mapa *mapa)
+{
 	this->mapa = mapa;
 }
 
