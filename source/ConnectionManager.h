@@ -25,6 +25,8 @@ public:
 private:
 	Pool pool;
     static ConnectionManager* pConnectionManager;
+    //Asigna a los jugadores un id unico.
+    int asignarId;
 
 protected:
 	ConnectionManager(int maxJugadores=10);

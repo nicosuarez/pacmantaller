@@ -14,6 +14,7 @@
 #include "Jugador.h"
 #include "AppSettings.h"
 #include "Mapa.h"
+#include "Thread.h"
 
 class Operacion;
 
@@ -26,7 +27,7 @@ typedef std::list<Jugador*>::iterator itListJugadores;
  * Clase que se controla el ciclo de vida del juego, aplicando diferentes
  * operaciones.
  */
-class Modelo
+class Modelo: public Thread
 {
 
 public:

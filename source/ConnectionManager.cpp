@@ -21,11 +21,19 @@ ConnectionManager* ConnectionManager::getInstance ()
 ConnectionManager::ConnectionManager(int maxJugadores) 
 { 
    this->maxJugadores=maxJugadores;
+   this->asignarId=0;
 }
 /*----------------------------------------------------------------------------*/
 
 void ConnectionManager::agregarJugador(Jugador* jugador){
+	//Se le asigna un id unico.
+	jugador->SetIdJugador(this->asignarId);
+	//Se agrega a la lista de jugadores
 	this->pool.getJugadoresList().push_back(jugador);
+	//Se pone a escuchar el socket del jugador
+	jugador->escucharJugador->run();
+	//Se incrementa el id para asignar al proximo jugador.
+	this->asignarId++;
 }
 /*----------------------------------------------------------------------------*/
 void ConnectionManager::enviarMensaje(){
