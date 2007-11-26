@@ -12,11 +12,13 @@ Jugador::Jugador(Socket* sk,int idPersonaje,int idJugador){
 	this->idJugador=idJugador;
 	this->idPersonaje=idPersonaje;
 	this->personaje=NULL;
+	this->escucharJugador = new EscucharJugador(sk);
 }
 /*----------------------------------------------------------------------------*/
 Jugador::~Jugador(){
 	delete this->socket;
 	delete this->personaje;
+	delete this->escucharJugador;
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -53,7 +55,7 @@ Personaje* Jugador::getPersonaje(){
  * 
  */
 void Jugador::escuchar(){
-
+	this->escucharJugador->run();
 }
 /*----------------------------------------------------------------------------*/
 /**

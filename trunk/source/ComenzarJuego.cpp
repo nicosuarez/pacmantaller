@@ -4,21 +4,21 @@
 //  Created on:      21-Nov-2007 23:40:18
 ///////////////////////////////////////////////////////////
 
-#include "CerrarServidor.h"
+#include "ComenzarJuego.h"
 
 
-CerrarServidor::CerrarServidor(){
+ComenzarJuego::ComenzarJuego(Socket* sk,int port,string configPath,
+		                     pBool finalizoJuego,pBool cerrarServidor){
 
 }
 /*----------------------------------------------------------------------------*/
-CerrarServidor::~CerrarServidor(){
+ComenzarJuego::~ComenzarJuego(){
 
 }
 /*----------------------------------------------------------------------------*/
 /**
- * Se ejecuta el hilo principal del juego el del modelo. Cuando finaliza se cierra
- * el servidor
+ * Se ejecuta el hilo principal del juego el del modelo.
  */
-void CerrarServidor::main(){
+void ComenzarJuego::main(){
 
 }
