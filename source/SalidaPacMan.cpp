@@ -17,8 +17,10 @@ SalidaPacMan::~SalidaPacMan(){
 
 }
 
-
-
+tipoElemento SalidaPacMan:: getTipo()const
+{
+	return tSalidaPacman;
+}
 
 
 /**
@@ -26,4 +28,9 @@ SalidaPacMan::~SalidaPacMan(){
  */
 void SalidaPacMan::renderizar(){
 
+}
+
+bool SalidaPacMan::operator==( tipoElemento tipo) const
+{
+	return tipo == tSalidaPacman;
 }

@@ -17,13 +17,19 @@ CasaFantasmas::~CasaFantasmas(){
 
 }
 
-
-
-
+tipoElemento CasaFantasmas:: getTipo()const
+{
+	return tCasaFantasmas;
+}
 
 /**
  * Metodo que pertmite renderizar el objeto en la pantalla
  */
 void CasaFantasmas::renderizar(){
 
+}
+
+bool CasaFantasmas::operator==( tipoElemento tipo) const
+{
+	return tipo == tCasaFantasmas;
 }

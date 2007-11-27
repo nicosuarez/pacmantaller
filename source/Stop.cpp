@@ -7,8 +7,9 @@
 #include "Stop.h"
 
 
-Stop::Stop(){
-
+Stop::Stop( int razon)
+{
+	this->razon = razon;
 }
 
 
@@ -17,11 +18,18 @@ Stop::~Stop(){
 
 }
 
+int Stop::getTipo()
+{
+	return TIPO_STOP;
+}
 
-
-
-
-string Stop::Serialize(){
-
-	return  NULL;
+char* Stop::Serialize()
+{
+	char* buffer = new char[sizeof(PktStop)];
+	PktStop *pkt = (PktStop*) buffer;
+	pkt->version = 0;
+	pkt->tipo = TIPO_STOP;
+	pkt->aux = this->razon;
+	pkt->puntuacion = Modelo::getInstance()->GetPuntuacion();
+	return buffer;
 }

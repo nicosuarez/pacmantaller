@@ -7,17 +7,27 @@
 #if !defined(EA_72D732AB_1333_4cdf_975A_35F4250477B3__INCLUDED_)
 #define EA_72D732AB_1333_4cdf_975A_35F4250477B3__INCLUDED_
 
-#include "string.h"
 #include "Mensaje.h"
+#include "Modelo.h"
+#define TIPO_STOP 3
+
+typedef struct PktStop: PktCabecera
+{
+	uint32_t puntuacion;
+};
+
 
 class Stop : public Mensaje
 {
-
+	int razon;
 public:
-	Stop();
+	Stop( int razon );
+	
 	virtual ~Stop();
+	
+	int getTipo();
 
-	string Serialize();
+	char* Serialize();
 
 };
 #endif // !defined(EA_72D732AB_1333_4cdf_975A_35F4250477B3__INCLUDED_)

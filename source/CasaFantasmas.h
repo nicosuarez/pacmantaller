@@ -19,9 +19,14 @@ class CasaFantasmas : public Elemento
 
 public:
 	CasaFantasmas();
+	
 	virtual ~CasaFantasmas();
+	
+	tipoElemento getTipo()const;
 
-	virtual void renderizar();
+	void renderizar();
+	
+	bool operator==( tipoElemento tipo) const;
 
 };
 #endif // !defined(EA_8B343B63_2435_4646_A883_375D52FA746A__INCLUDED_)

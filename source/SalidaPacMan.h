@@ -18,9 +18,14 @@ class SalidaPacMan : public Elemento
 
 public:
 	SalidaPacMan();
+	
 	virtual ~SalidaPacMan();
+	
+	tipoElemento getTipo()const;
 
 	void renderizar();
+	
+	bool operator==( tipoElemento tipo) const;
 
 };
 #endif // !defined(EA_85575FEF_01A0_47d7_86AE_71ADBC8E965F__INCLUDED_)

@@ -7,7 +7,12 @@
 #if !defined(EA_F887A8C4_26A7_4b56_9859_BC974BB6BA04__INCLUDED_)
 #define EA_F887A8C4_26A7_4b56_9859_BC974BB6BA04__INCLUDED_
 
-#include "Posicion.h"
+#include "Orientacion.h"
+
+typedef enum tipoElemento
+{
+	tSalidaPacman, tCasaFantasmas, tPowerup, tBonus
+};
 
 /**
  * Clase que representa cualquier objeto que puede estar situado en el mapa
@@ -16,16 +21,27 @@ class Elemento
 {
 
 public:
-	Elemento();
+	Elemento( tipoOrientacion tOrientacion = Norte);
+	
 	virtual ~Elemento();
-	Posicion *m_Posicion;
 
-	Posicion GetPosicion();
+	int getPosicion();
+	
+	virtual tipoElemento getTipo()const = 0;
+	
+	Orientacion getOrientacion()const;
+	
+	void setOrientacion( Orientacion orientacion);
+	
+	void SetPosicion(int newVal);
+	
 	virtual void renderizar();
-	void SetPosicion(Posicion newVal);
+	
+	virtual bool operator==( tipoElemento tipo) const = 0;
 
 private:
-	Posicion posicion;
-
+	
+	Orientacion orientacion;
+	int posicion; //es el id del vertice donde se encuentra el elemento
 };
 #endif // !defined(EA_F887A8C4_26A7_4b56_9859_BC974BB6BA04__INCLUDED_)

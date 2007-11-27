@@ -17,7 +17,7 @@ public:
 	Quit();
 	virtual ~Quit();
 
-	virtual string Serialize();
+	char* Serialize();
 
 };
 #endif // !defined(EA_3528273F_A36E_4232_A4A7_4BC86A49F8F1__INCLUDED_)

@@ -7,8 +7,9 @@
 #include "Key.h"
 
 
-Key::Key(){
-
+Key::Key( int key )
+{
+	this->key = key;
 }
 
 
@@ -18,10 +19,18 @@ Key::~Key(){
 }
 
 
+int Key::getTipo()
+{
+	return TIPO_KEY;
+}
 
 
-
-string Key::Serialize(){
-
-	return  NULL;
+char* Key::Serialize()
+{
+	char* buffer = new char[sizeof(PktCabecera)];
+	PktCabecera *pkt = (PktCabecera*) buffer;
+	pkt->version = 0;
+	pkt->tipo = TIPO_KEY;
+	pkt->aux = this->key;
+	return buffer;
 }
