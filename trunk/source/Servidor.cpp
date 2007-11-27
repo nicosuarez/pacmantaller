@@ -7,31 +7,17 @@
 #include "Servidor.h"
 #include <sstream>
 
-Servidor::Servidor(port_type nro_puerto,int cantParam,char** params,
-        int maxcon){
-	  this->skServer = new Socket(nro_puerto,maxcon);
+Servidor::Servidor(int maxcon){
+	  this->skServer = new Socket(Config::getInstance()->GetPort(),maxcon);
 	  this->finalizoJuego = false;
-	  this->port = nro_puerto;
 	  this->cerrarServidor=false;
-	  
-	  if(cantParam==2)
-	  {
-		  this->configPath=params[1]; 
-	  }
-	  else
-	  {
-		  this->configPath=""; 
-	  }
 }
 /*----------------------------------------------------------------------------*/
 Servidor::~Servidor(){
 
 }
 /*----------------------------------------------------------------------------*/
-int Servidor::ejecutar(int argc){
-	
-	//Se validan los paramentros de entrada.
-	Parser::validarParametros(argc);
+int Servidor::ejecutar(){
 	
 	//Se pone a monitorear la entrada por teclado para poder cerrar el server.
 	MonitorearEntrada monitor(&cerrarServidor);
@@ -41,8 +27,7 @@ int Servidor::ejecutar(int argc){
 	{
 		this->finalizoJuego=false;
 		//Comienza el juego.
-		ComenzarJuego comenzar(skServer,configPath,&finalizoJuego,
-				               &cerrarServidor);
+		ComenzarJuego comenzar(skServer,&finalizoJuego,&cerrarServidor);
 		comenzar.run();
 	}
 	return 0;

@@ -23,16 +23,11 @@ class Servidor
 {
 
 public:
-	Servidor(port_type nro_puerto,int cantParam,char** params,
-	        int maxcon=10);
+	Servidor(int maxcon=10);
 	virtual ~Servidor();
-	int ejecutar(int argc);
+	int ejecutar();
 	
 private:
-	/**
-	 * Puerto donde escucha las conexiones de los jugadores.
-	 */
-	int port;
 	/**
 	 *  Socket para escuchar 
 	 */
@@ -45,10 +40,6 @@ private:
 	 * Determina si hay que cerrar el servidor.
 	 */
 	bool cerrarServidor;
-	/** 
-	 * Path del archivo de configuracion.
-	 */
-	std::string configPath;
 
 };
 #endif // !defined(EA_14A2EC85_1217_49ba_9849_66D713CD39A6__INCLUDED_)

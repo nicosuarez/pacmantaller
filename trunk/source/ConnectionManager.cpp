@@ -18,9 +18,9 @@ ConnectionManager* ConnectionManager::getInstance ()
     return pConnectionManager;
 }
 /*----------------------------------------------------------------------------*/
-ConnectionManager::ConnectionManager(int maxJugadores) 
+ConnectionManager::ConnectionManager() 
 { 
-   this->maxJugadores=maxJugadores;
+   this->maxJugadores=Config::getInstance()->GetMaxJugadores();
    this->asignarId=0;
 }
 /*----------------------------------------------------------------------------*/

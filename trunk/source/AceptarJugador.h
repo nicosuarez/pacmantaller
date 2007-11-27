@@ -9,11 +9,12 @@
 
 #include "ConnectionManager.h"
 #include "Modelo.h"
+#include "Thread.h"
 
 /**
  * Este thread se encarga de escuchar y aceptar los jugadores.
  */
-class AceptarJugador
+class AceptarJugador: public Thread
 {
 private:
 	bool* finalizoJuego;

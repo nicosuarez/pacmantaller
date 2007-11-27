@@ -9,6 +9,7 @@
 
 #include "Pool.h"
 #include "Jugador.h"
+#include "Config.h"
 
 class ConnectionManager
 {
@@ -29,7 +30,7 @@ private:
     int asignarId;
 
 protected:
-	ConnectionManager(int maxJugadores=10);
+	ConnectionManager();
     ConnectionManager(const ConnectionManager&);
     ConnectionManager& operator= (const ConnectionManager&);
 
