@@ -24,17 +24,12 @@ void Parser::cargarConfiguracion(char* pathConfig)
     {
         while(!fileConfig.eof())
         {
-            std::getline(fileConfig,linea);
-            
-            std::cout<<"Linea\n";
-            std::cout<<linea;
-            
+            std::getline(fileConfig,linea);         
             //Se ignoran las lineas vacias.
             if(linea!=EMPTY)
             {
             	std::cout<<linea;
                 tVecStr strTok=StrToken::getStrTokens(linea,";");
-                
                 cargarConfiguracion(strTok);
             }
             linea=EMPTY;
@@ -50,7 +45,7 @@ void Parser::cargarConfiguracion(tVecStr strTok)
     int port=0,minJugadores=2,maxJugadores=5,vidas=1;
     bool com_fantasmas=false;
 
-    StrToken::setTokensParams(strTok,"sdddbds",&mundoXmlPath,&port,
+    StrToken::setTokensParams(strTok,"siiibis",&mundoXmlPath,&port,
         &minJugadores,&maxJugadores,&com_fantasmas,
         &vidas,&archivoLog);
     
