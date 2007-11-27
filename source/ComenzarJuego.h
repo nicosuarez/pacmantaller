@@ -24,8 +24,7 @@ class ComenzarJuego: public Thread
 {
 
 public:
-	ComenzarJuego(Socket* sk,string configPath,pBool finalizoJuego,
-				  pBool cerrarServidor);
+	ComenzarJuego(Socket* skServer,pBool finalizoJuego,pBool cerrarServidor);
 	virtual ~ComenzarJuego();
 
 	void main();
@@ -35,6 +34,14 @@ private:
 	 * Indica si termino el juego o no.
 	 */
 	pBool finalizoJuego;
+	/**
+	 * Indica si el servidor de cerror o no.
+	 */
+	pBool cerrarServidor;
+	/**
+	 * Socket por el cual el servidor escucha a los jugadores.
+	 */
+	Socket* skServer;
 
 };
 #endif // !defined(EA_F88EAA8B_43FD_4d3a_825C_387F3C6CC317__INCLUDED_)

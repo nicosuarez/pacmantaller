@@ -7,6 +7,7 @@
 #define __PARSER_H__
 #include <fstream>
 #include <string>
+#include <iostream>
 
 #include "StrToken.h"
 #include "Config.h"
