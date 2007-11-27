@@ -43,11 +43,13 @@ public:
 	tListElementos* GetElementos();
 	Mapa* GetMapa();
 	tListJugadores* GetJugadores();
+	int GetPuntuacion()const;
 	void main();
 	void notify();
 	void SetElementos(tListElementos elementos);
 	void SetMapa(Mapa* mapa);
 	void SetJugadores(tListJugadores jugadores);
+	void SetPuntuacion( int puntuacion );
 	void seFinalizoElNivel(bool finalizo){*finalizoNivel=finalizo;};
 	void seFinalizoElJuevo(bool finalizo){*finalizoJuego=finalizo;};
 	bool seFinalizoElNivel(){return this->finalizoNivel;};
@@ -89,6 +91,11 @@ private:
 	 * Indica si el servidor termino o no.
 	 */
 	pBool cerroServidor;
+	
+	/**
+	 * Puntuacion del pacman
+	 */
+	int puntuacion;
 
 };
 #endif // !defined(EA_C452893E_00CB_470e_BB7D_F33E91B1347A__INCLUDED_)
