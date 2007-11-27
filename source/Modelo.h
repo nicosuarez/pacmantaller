@@ -51,9 +51,9 @@ public:
 	void SetJugadores(tListJugadores jugadores);
 	void SetPuntuacion( int puntuacion );
 	void seFinalizoElNivel(bool finalizo){*finalizoNivel=finalizo;};
-	void seFinalizoElJuevo(bool finalizo){*finalizoJuego=finalizo;};
+	void seFinalizoElJuego(bool finalizo){*finalizoJuego=finalizo;};
 	bool seFinalizoElNivel(){return this->finalizoNivel;};
-	bool seFinalizoElJuevo(){return this->finalizoJuego;};
+	bool seFinalizoElJuego(){return this->finalizoJuego;};
 
 protected:
 	Modelo();
@@ -63,6 +63,10 @@ protected:
 	
 private:
 	static Modelo* pModelo;
+	/**
+	 * Desacola una operacion de la cola y la ejecuta.
+	 */
+	void ejecutarOperaciones();
 	/**
 	 * Lista de elementos del mapa.
 	 */
@@ -91,7 +95,6 @@ private:
 	 * Indica si el servidor termino o no.
 	 */
 	pBool cerroServidor;
-	
 	/**
 	 * Puntuacion del pacman
 	 */
