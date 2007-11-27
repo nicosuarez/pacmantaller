@@ -31,5 +31,18 @@ void ComenzarJuego::main(){
 	//Se instancia el modelo. Singleton
 	//finalizoJuego,cerrarServidor son flags de estado.
 	Modelo::setInstance(finalizoJuego,cerrarServidor);
+	
+	//Comienza el juego...
 	Modelo::getInstance()->run();
+	
+	//Espera que finalice...
+	Modelo::getInstance()->join();
+	
+	//Deja de aceptar jugadores
+	this->terminarDeAceptarClientes();
+}
+/*----------------------------------------------------------------------------*/
+void ComenzarJuego::terminarDeAceptarClientes()
+{
+	Socket socket("127.0.0.1",Config::getInstance()->GetPort());
 }
