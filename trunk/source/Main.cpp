@@ -10,7 +10,7 @@ int main(int argc,char* argv[])
 	//Se carga el objeto singleton de configuracion del servidor.
 	Parser::cargarConfiguracion(argv[1]);
 	
-	//Se insatancia el servidor y se pone a correr.
+	//Se instancia el servidor y se pone a correr.
 	Servidor server;
 	return server.ejecutar();
 }
