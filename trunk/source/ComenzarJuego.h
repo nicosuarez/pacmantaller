@@ -28,7 +28,7 @@ public:
 	virtual ~ComenzarJuego();
 
 	void main();
-
+	void terminarDeAceptarClientes();
 private:
 	/**
 	 * Indica si termino el juego o no.
