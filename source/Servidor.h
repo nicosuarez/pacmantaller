@@ -13,8 +13,6 @@
 #include <stdio.h>
 #include <string>
 
-#define ERR_MAL_EJECUTADO 2
-
 typedef unsigned short port_type;
 using std::string;
 
@@ -29,8 +27,6 @@ public:
 	        int maxcon=10);
 	virtual ~Servidor();
 	int ejecutar(int argc);
-	void validarParametros(int cantParam);
-	int parsePuerto(char* cPort);
 	
 private:
 	/**

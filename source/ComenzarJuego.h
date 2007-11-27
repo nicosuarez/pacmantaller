@@ -11,6 +11,7 @@
 #include "Modelo.h"
 #include "AceptarJugador.h"
 #include "ConnectionManager.h"
+#include "Parser.h"
 #include <string>
 
 typedef bool* pBool;
@@ -23,7 +24,7 @@ class ComenzarJuego: public Thread
 {
 
 public:
-	ComenzarJuego(Socket* sk,int port,string configPath,pBool finalizoJuego,
+	ComenzarJuego(Socket* sk,string configPath,pBool finalizoJuego,
 				  pBool cerrarServidor);
 	virtual ~ComenzarJuego();
 
@@ -34,10 +35,6 @@ private:
 	 * Indica si termino el juego o no.
 	 */
 	pBool finalizoJuego;
-	/**
-	 * Puerto donde el servidor escucha los conexiones
-	 */
-	int port;
 
 };
 #endif // !defined(EA_F88EAA8B_43FD_4d3a_825C_387F3C6CC317__INCLUDED_)
