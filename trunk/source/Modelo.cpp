@@ -76,6 +76,11 @@ tListJugadores* Modelo::GetJugadores(){
 }
 
 
+int Modelo::GetPuntuacion()const
+{
+	return puntuacion;
+}
+
 /**
  * Ejecucion del hilo.
  */
