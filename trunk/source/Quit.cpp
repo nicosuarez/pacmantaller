@@ -18,10 +18,7 @@ Quit::~Quit(){
 }
 
 
-
-
-
-string Quit::Serialize(){
-
+char* Quit::Serialize()
+{
 	return  NULL;
 }

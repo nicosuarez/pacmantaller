@@ -18,9 +18,14 @@ class PowerUp : public Elemento
 
 public:
 	PowerUp();
+	
 	virtual ~PowerUp();
+	
+	tipoElemento getTipo()const;
 
 	void renderizar();
+	
+	bool operator==( tipoElemento tipo) const;
 
 };
 #endif // !defined(EA_36BDC085_0509_46c5_AB9B_B4CF19D4F9EE__INCLUDED_)

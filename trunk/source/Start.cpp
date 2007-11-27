@@ -7,7 +7,7 @@
 #include "Start.h"
 
 
-Start::Start(){
+Start::Start( int id ):id(id){
 
 }
 
@@ -18,10 +18,19 @@ Start::~Start(){
 }
 
 
+int Start::getTipo()
+{
+	return TIPO_START;
+}
 
 
-
-string Start::Serialize(){
-
-	return  NULL;
+char* Start::Serialize()
+{
+	char* buffer = new char[sizeof(PktStart)];
+	PktStart *pkt = (PktStart*) buffer;
+	pkt->version = 0;
+	pkt->tipo = TIPO_START;
+	pkt->aux = 0;
+	pkt->id = this->id;
+	return buffer;
 }

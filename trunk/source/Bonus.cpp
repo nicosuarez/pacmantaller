@@ -17,13 +17,19 @@ Bonus::~Bonus(){
 
 }
 
-
-
-
+tipoElemento Bonus::getTipo()const
+{
+	return tBonus;
+}
 
 /**
  * Metodo que pertmite renderizar el objeto en la pantalla
  */
 void Bonus::renderizar(){
 
+}
+
+bool Bonus::operator==( tipoElemento tipo) const
+{
+	return tipo == tBonus;
 }

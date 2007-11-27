@@ -17,11 +17,3 @@ Mensaje::~Mensaje(){
 
 }
 
-
-
-
-
-string Mensaje::Serialize(){
-
-	return  NULL;
-}

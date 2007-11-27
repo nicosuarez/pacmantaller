@@ -17,8 +17,10 @@ PowerUp::~PowerUp(){
 
 }
 
-
-
+tipoElemento PowerUp:: getTipo()const
+{
+	return tPowerup;
+}
 
 
 /**
@@ -26,4 +28,9 @@ PowerUp::~PowerUp(){
  */
 void PowerUp::renderizar(){
 
+}
+
+bool PowerUp::operator==( tipoElemento tipo) const
+{
+	return tipo == tPowerup;
 }

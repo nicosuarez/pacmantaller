@@ -7,25 +7,30 @@
 #include "Elemento.h"
 
 
-Elemento::Elemento(){
+Elemento::Elemento( tipoOrientacion tOrientacion):orientacion(tOrientacion)
+{
+}
 
+Elemento::~Elemento()
+{
 }
 
 
-
-Elemento::~Elemento(){
-
-}
-
-
-
-
-
-Posicion Elemento::GetPosicion(){
-
+int Elemento::getPosicion()
+{
 	return posicion;
 }
 
+
+Orientacion Elemento::getOrientacion()const
+{
+	return orientacion;
+}
+
+void Elemento::setOrientacion( Orientacion orientacion)
+{
+	this->orientacion = orientacion;
+}
 
 /**
  * Metodo que pertmite renderizar el objeto en la pantalla
@@ -34,8 +39,7 @@ void Elemento::renderizar(){
 
 }
 
-
-void Elemento::SetPosicion(Posicion newVal){
+void Elemento::SetPosicion(int newVal){
 
 	posicion = newVal;
 }
