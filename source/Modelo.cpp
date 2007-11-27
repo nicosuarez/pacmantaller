@@ -31,6 +31,7 @@ void Modelo::setInstance(pBool finalizoJuego,pBool cerroServidor)
 Modelo::Modelo(pBool finalizoJuego,pBool cerroServidor){
 	this->finalizoJuego=finalizoJuego;
 	this->cerroServidor=cerroServidor;
+	this->puntuacion = 0;
 }
 /*----------------------------------------------------------------------------*/
 Modelo::Modelo(){
