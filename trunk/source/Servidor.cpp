@@ -14,9 +14,9 @@ Servidor::Servidor(port_type nro_puerto,int cantParam,char** params,
 	  this->port = nro_puerto;
 	  this->cerrarServidor=false;
 	  
-	  if(cantParam==3)
+	  if(cantParam==2)
 	  {
-		  this->configPath=params[2]; 
+		  this->configPath=params[1]; 
 	  }
 	  else
 	  {
@@ -31,7 +31,7 @@ Servidor::~Servidor(){
 int Servidor::ejecutar(int argc){
 	
 	//Se validan los paramentros de entrada.
-	this->validarParametros(argc);
+	Parser::validarParametros(argc);
 	
 	//Se pone a monitorear la entrada por teclado para poder cerrar el server.
 	MonitorearEntrada monitor(&cerrarServidor);
