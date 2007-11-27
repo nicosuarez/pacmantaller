@@ -17,8 +17,25 @@ Modelo* Modelo::getInstance ()
     return pModelo;
 }
 
-Modelo::Modelo(){
+/**
+ * Se setea una unica instancia del modelo.
+ */
+void Modelo::setInstance(pBool finalizoJuego,pBool cerroServidor)
+{
+	if (pModelo == NULL)
+    {  
+    	pModelo = new Modelo(finalizoJuego,cerroServidor);
+    }
+}
 
+Modelo::Modelo(pBool finalizoJuego,pBool cerroServidor){
+	this->finalizoJuego=finalizoJuego;
+	this->cerroServidor=cerroServidor;
+}
+
+Modelo::Modelo(){
+	this->finalizoJuego=NULL;
+	this->cerroServidor=NULL;
 }
 
 Modelo::~Modelo(){

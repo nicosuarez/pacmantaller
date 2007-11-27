@@ -7,7 +7,7 @@
 #include "ComenzarJuego.h"
 
 
-ComenzarJuego::ComenzarJuego(Socket* sk,int port,string configPath,
+ComenzarJuego::ComenzarJuego(Socket* sk,string configPath,
 		                     pBool finalizoJuego,pBool cerrarServidor){
 
 }
@@ -20,5 +20,7 @@ ComenzarJuego::~ComenzarJuego(){
  * Se ejecuta el hilo principal del juego el del modelo.
  */
 void ComenzarJuego::main(){
-
+	
+//	Modelo::setInstance()
+	
 }

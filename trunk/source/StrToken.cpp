@@ -42,6 +42,7 @@ void StrToken::setTokensParams(tVecStr strTok,char *formato,...)
     int* iarg; 
     string* strarg;
     double* darg;
+    bool* barg;
 
     va_start(p, formato); 
     //analizamos la cadena de formato para saber el numero y tipo de los 
@@ -66,6 +67,10 @@ void StrToken::setTokensParams(tVecStr strTok,char *formato,...)
         case 'd': /* Double */ 
             darg = va_arg(p, double*); 
             StrToken::stringTo<double>(*darg,cadena); 
+            break;
+        case 'b': /* Bool */ 
+        	barg = va_arg(p, bool*); 
+            StrToken::stringTo<bool>(*barg,cadena);
             break;
         } 
     } 

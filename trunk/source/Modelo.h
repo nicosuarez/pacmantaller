@@ -9,6 +9,7 @@
 
 #include <list>
 #include <queue>
+#include <string>
 #include "Elemento.h"
 #include "Operacion.h"
 #include "Jugador.h"
@@ -16,12 +17,15 @@
 #include "Mapa.h"
 #include "Thread.h"
 
+using std::string;
+
 class Operacion;
 
 typedef std::list<Elemento*> tListElementos; 
 typedef std::queue<Operacion*> tQueueOperacion;
 typedef std::list<Jugador*> tListJugadores;
 typedef std::list<Jugador*>::iterator itListJugadores;
+typedef bool* pBool;
 
 /**
  * Clase que se controla el ciclo de vida del juego, aplicando diferentes
@@ -32,6 +36,7 @@ class Modelo: public Thread
 
 public:
 	static Modelo* getInstance();
+	static void setInstance(pBool finalizoJuego,pBool cerroServidor);
 	virtual ~Modelo();
 
 	void agregarOperacion(Operacion* operacion);
@@ -43,13 +48,14 @@ public:
 	void SetElementos(tListElementos elementos);
 	void SetMapa(Mapa* mapa);
 	void SetJugadores(tListJugadores jugadores);
-	void seFinalizoElNivel(bool finalizo){this->finalizoNivel=finalizo;};
-	void seFinalizoElJuevo(bool finalizo){this->finalizoJuego=finalizo;};
+	void seFinalizoElNivel(bool finalizo){*finalizoNivel=finalizo;};
+	void seFinalizoElJuevo(bool finalizo){*finalizoJuego=finalizo;};
 	bool seFinalizoElNivel(){return this->finalizoNivel;};
 	bool seFinalizoElJuevo(){return this->finalizoJuego;};
 
 protected:
 	Modelo();
+	Modelo(pBool finalizoJuego,pBool cerroServidor);
 	Modelo(const Modelo&);
 	Modelo& operator= (const Modelo&);
 	
@@ -74,11 +80,15 @@ private:
 	/**
 	 * Indica si el nivel ha finalizado o no
 	 */
-	bool finalizoNivel;
+	pBool finalizoNivel;
 	/**
 	 * Indica si el juego ha finalizado o no
 	 */
-	bool finalizoJuego;
+	pBool finalizoJuego;
+	/**
+	 * Indica si el servidor termino o no.
+	 */
+	pBool cerroServidor;
 
 };
 #endif // !defined(EA_C452893E_00CB_470e_BB7D_F33E91B1347A__INCLUDED_)

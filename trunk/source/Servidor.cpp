@@ -41,29 +41,11 @@ int Servidor::ejecutar(int argc){
 	{
 		this->finalizoJuego=false;
 		//Comienza el juego.
-		ComenzarJuego comenzar(skServer,port,configPath,&finalizoJuego,
+		ComenzarJuego comenzar(skServer,configPath,&finalizoJuego,
 				               &cerrarServidor);
 		comenzar.run();
 	}
 	return 0;
 }
 /*----------------------------------------------------------------------------*/
-void Servidor::validarParametros(int cantParam)
-{
-    if(cantParam!=3)
-    {
-        std::cout<<"Cantidad de parametros invalido.\n";
-        exit(ERR_MAL_EJECUTADO);
-    }
-}
-/*----------------------------------------------------------------------------*/
-int Servidor::parsePuerto(char* cPort)
-{
-    string arg="";
-    int iPort;
-    arg.assign(cPort);
-    std::stringstream ps;
-    ps.str(arg);
-    ps >> iPort;
-    return iPort;
-}
+
