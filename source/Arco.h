@@ -6,6 +6,8 @@
 #ifndef __ARCO_H__
 #define __ARCO_H__
 
+#include <iostream>
+
 template <class TipoIdVertice, class TipoDatoVertice,
 class TipoIdArco, class TipoDatoArco > class Vertice;
 
