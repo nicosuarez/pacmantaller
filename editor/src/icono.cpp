@@ -6,7 +6,7 @@ int Icono::clickAnterior = -2;
 int Icono::ultimaMarca = -1;
 int Icono::marcaAnterior = -1;
 
-Icono::Icono(int parId,std::string parPathImagen,std::string parPathImagenSel,int parCantRotaciones):Gtk::Image(parPathImagen),pathImagen(parPathImagen),pathImagenSel(parPathImagenSel),cantRotaciones(parCantRotaciones),idImagen(parId)
+Icono::Icono(int parId,std::string parPathImagen,std::string parPathImagenSel,int parCantRotaciones):Gtk::Image(parPathImagen),pathImagen(parPathImagen),pathImagenSel(parPathImagenSel),idImagen(parId),cantRotaciones(parCantRotaciones)
 {
 	rotacion = 0;
 }
