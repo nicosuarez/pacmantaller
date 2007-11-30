@@ -37,6 +37,7 @@ Modelo::Modelo(pBool finalizoJuego,pBool cerroServidor){
 Modelo::Modelo(){
 	this->finalizoJuego=NULL;
 	this->cerroServidor=NULL;
+	this->puntuacion = 0;
 }
 /*----------------------------------------------------------------------------*/
 Modelo::~Modelo(){
@@ -134,4 +135,9 @@ void Modelo::SetMapa(Mapa *mapa)
 void Modelo::SetJugadores(tListJugadores jugadores){
 
 	this->jugadores = jugadores;
+}
+
+void Modelo::SetPuntuacion( int puntuacion )
+{
+	this->puntuacion = puntuacion;
 }

@@ -7,11 +7,19 @@
 #if !defined(EA_F887A8C4_26A7_4b56_9859_BC974BB6BA04__INCLUDED_)
 #define EA_F887A8C4_26A7_4b56_9859_BC974BB6BA04__INCLUDED_
 
-#include "Orientacion.h"
-
 typedef enum tipoElemento
 {
 	tSalidaPacman, tCasaFantasmas, tPowerup, tBonus
+};
+
+typedef enum Orientacion
+{
+	Norte, Sur, Este, Oeste
+};
+
+typedef enum Estado
+{
+	Aparece, Desaparece 
 };
 
 /**
@@ -21,7 +29,7 @@ class Elemento
 {
 
 public:
-	Elemento( tipoOrientacion tOrientacion = Norte);
+	Elemento( Orientacion orientacion = Norte );
 	
 	virtual ~Elemento();
 
@@ -31,9 +39,13 @@ public:
 	
 	Orientacion getOrientacion()const;
 	
+	Estado getEstado()const;
+	
 	void setOrientacion( Orientacion orientacion);
 	
 	void SetPosicion(int newVal);
+	
+	void setEstado( Estado estado );
 	
 	virtual void renderizar();
 	
@@ -43,5 +55,6 @@ private:
 	
 	Orientacion orientacion;
 	int posicion; //es el id del vertice donde se encuentra el elemento
+	Estado estado;
 };
 #endif // !defined(EA_F887A8C4_26A7_4b56_9859_BC974BB6BA04__INCLUDED_)

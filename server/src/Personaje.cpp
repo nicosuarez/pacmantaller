@@ -33,9 +33,9 @@ int Personaje::GetId(){
 /**
  * Posicion del personaje en el mapa
  */
-Posicion Personaje::GetPosicion(){
+Posicion* Personaje::GetPosicion(){
 
-	return posicion;
+	return &posicion;
 }
 
 
@@ -62,7 +62,9 @@ void Personaje::SetId(int newVal){
  */
 void Personaje::SetPosicion(Posicion newVal){
 
-	posicion = newVal;
+	posicion.setArista( newVal.getArista() );
+	posicion.setPosicionArista( newVal.getPosicionArista() );
+	posicion.setDireccion( newVal.getDireccion() );
 }
 
 

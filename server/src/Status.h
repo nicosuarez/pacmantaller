@@ -18,8 +18,9 @@
 class Status : public Mensaje
 {
 
+	tListaElemento *elementos;
 public:
-	Status();
+	Status( tListaElemento *elementos);
 	
 	virtual ~Status();
 
