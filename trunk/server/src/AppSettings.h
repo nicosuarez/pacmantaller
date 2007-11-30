@@ -16,13 +16,10 @@
 #include "Arco.h"
 #include "Vertice.h"
 #include "Grafo.h"
-#include "Orientacion.h"
 
 template < class TipoIdVertice, class TipoDatoVertice, 
 class TipoIdArco, class TipoDatoArco >
 class Grafo;
-
-
 
 typedef Grafo<int,Elemento,int,Orientacion> tGrafo;
 typedef Vertice<int,Elemento,int,Orientacion> tVertice;
@@ -35,10 +32,19 @@ typedef std::list<tArco*> tListaArco;
 typedef std::list<Elemento*> tListaElemento;
 
 
+
 typedef struct PktElemento
 {
 	uint8_t tipo: 6;
 	uint8_t orientacion: 2;
+	uint16_t posicion;
+}__attribute__((__packed__));
+
+typedef struct PktElementoStatus
+{
+	uint8_t tipo: 6;
+	uint8_t orientacion: 2;
+	uint8_t estado: 2;
 	uint16_t posicion;
 }__attribute__((__packed__));
 

@@ -21,7 +21,7 @@ public:
 	Posicion *m_Posicion;
 
 	int GetId();
-	Posicion GetPosicion();
+	Posicion *GetPosicion();
 	virtual int GetVelocidad();
 	void SetId(int newVal);
 	void SetPosicion(Posicion newVal);

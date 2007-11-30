@@ -9,13 +9,23 @@
 
 Posicion::Posicion()
 {
+	this->idArista = 0;
+	this->posicionArista = 0;
+	this->direccion = 0;
 }
 
-Posicion::Posicion( int idArista, int posicionArista, Orientacion direccion )
+Posicion::Posicion( int idArista, int posicionArista, int direccion )
 {
 	this->idArista = idArista;
 	this->posicionArista = posicionArista;
 	this->direccion = direccion;
+}
+
+Posicion::Posicion( const Posicion &posicion )
+{
+	this->idArista = posicion.getArista();
+	this->posicionArista = posicion.getPosicionArista();
+	this->direccion = posicion.getDireccion();
 }
 
 Posicion::~Posicion(){
@@ -32,7 +42,7 @@ int Posicion::getPosicionArista()const
 	return posicionArista;
 }
 
-Orientacion Posicion::getDireccion()
+int Posicion::getDireccion()const
 {
 	return direccion;
 }
@@ -47,7 +57,14 @@ void Posicion::setPosicionArista( int posicionArista )
 	this->posicionArista = posicionArista;
 }
 
-void Posicion::setDireccion( Orientacion orientacion )
+void Posicion::setDireccion( int direccion )
 {
 	this->direccion = direccion;
+}
+
+void Posicion::operator=( const Posicion &posicion )
+{
+	this->idArista = posicion.getArista();
+	this->posicionArista = posicion.getPosicionArista();
+	this->direccion = posicion.getDireccion();
 }

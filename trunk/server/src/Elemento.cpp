@@ -7,7 +7,7 @@
 #include "Elemento.h"
 
 
-Elemento::Elemento( tipoOrientacion tOrientacion):orientacion(tOrientacion)
+Elemento::Elemento( Orientacion orientacion):orientacion(orientacion), estado(Aparece)
 {
 }
 
@@ -27,9 +27,19 @@ Orientacion Elemento::getOrientacion()const
 	return orientacion;
 }
 
+Estado Elemento::getEstado()const
+{
+	return estado;
+}
+
 void Elemento::setOrientacion( Orientacion orientacion)
 {
 	this->orientacion = orientacion;
+}
+
+void Elemento::setEstado( Estado estado)
+{
+	this->estado = estado;
 }
 
 /**

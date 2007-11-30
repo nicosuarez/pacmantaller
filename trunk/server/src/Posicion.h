@@ -6,7 +6,7 @@
 
 #if !defined(EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_)
 #define EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_
-#include "Orientacion.h"
+#include "AppSettings.h"
 
 /**
  * Clase que indentifica la posicion un elemento en el mapa
@@ -16,13 +16,15 @@ class Posicion
 private:
 	int idArista;
 	int posicionArista;
-	Orientacion direccion;	
+	int direccion;	
 
 public:
 	
 	Posicion();
 	
-	Posicion( int idArista, int posicionArista, Orientacion direccion );
+	Posicion( const Posicion & posicion);
+	
+	Posicion( int idArista, int posicionArista, int direccion );
 	
 	virtual ~Posicion();
 	
@@ -30,13 +32,15 @@ public:
 	
 	int getPosicionArista()const;
 	
-	Orientacion getDireccion();
+	int getDireccion()const;
 	
 	void setArista( int idArista );
 	
 	void setPosicionArista( int posicionArista );
 	
-	void setDireccion( Orientacion orientacion );
+	void setDireccion( int direccion );
+	
+	void operator=( const Posicion &posicion );
 	
 	
 
