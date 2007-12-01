@@ -27,10 +27,36 @@ int Servidor::ejecutar(){
 	{
 		this->finalizoJuego=false;
 		//Comienza el juego.
-		ComenzarJuego comenzar(skServer,&finalizoJuego,&cerrarServidor);
-		comenzar.run();
+		this->comenzarJuego();
 	}
 	return 0;
 }
 /*----------------------------------------------------------------------------*/
+/**
+ * Se ejecuta el hilo principal del juego el del modelo.
+ */
+void Servidor::comenzarJuego(){
 
+	//Se empieza aceptar jugadores a traves del socket del servidor, hasta que
+	//finalice el juego.
+	AceptarJugador aceptarJugador(skServer,&finalizoJuego);
+	aceptarJugador.run();
+	
+	//Se instancia el modelo. Singleton
+	//finalizoJuego,cerrarServidor son flags de estado.
+	Modelo::setInstance(&finalizoJuego,&cerrarServidor);
+	
+	//Comienza el juego...
+	Modelo::getInstance()->run();
+	
+	//Espera que finalice...
+	Modelo::getInstance()->join();
+	
+	//Deja de aceptar jugadores
+	this->terminarDeAceptarClientes();
+}
+/*----------------------------------------------------------------------------*/
+void Servidor::terminarDeAceptarClientes()
+{
+	Socket socket("127.0.0.1",Config::getInstance()->GetPort());
+}

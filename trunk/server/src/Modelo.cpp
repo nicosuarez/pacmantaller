@@ -48,7 +48,9 @@ Modelo::~Modelo(){
  * Coloca la operacion en la cola.
  */
 void Modelo::agregarOperacion(Operacion* operacion){
-
+	this->operaciones.push(operacion);
+	/* Avisa al modelo que llego una operacion */
+	this->getRecibiOperacionEvent().activar(); 
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -78,7 +80,7 @@ int Modelo::GetPuntuacion()const
 {
 	return puntuacion;
 }
-
+/*----------------------------------------------------------------------------*/
 /**
  * Ejecucion del hilo.
  */
@@ -90,8 +92,16 @@ void Modelo::main(){
 	{
 		//Obtener el mapa del nivel.
 		//this->mapa = XmlParser::getMapa(Mundo->nivel->mapaPath);
-		while(!this->seFinalizoElNivel())
+		//Crear mensaje init
+		
+		std::cout<<"Esperando comienzo de nivel..\n";
+		this->esperarMinJugadoresEvent.esperar();
+		
+		this->finalizoNivel=false;
+		while(!this->finalizoNivel)
 		{
+			
+			std::cout<<"Procesando operaciones..\n";
 			this->ejecutarOperaciones();
 			//Correr ActualizarEstado...
 		}
@@ -99,11 +109,43 @@ void Modelo::main(){
 	
 }
 /*----------------------------------------------------------------------------*/
+void Modelo::esperarRecibirOperaciones()
+{
+	if(operaciones.empty())
+	{
+		//Espera a recibir operaciones.
+		this->getRecibiOperacionEvent().esperar();
+	}
+}
+/*----------------------------------------------------------------------------*/
 /**
  * Desacola una operacion de la cola y la ejecuta.
  */
 void Modelo::ejecutarOperaciones(){
+	this->esperarRecibirOperaciones();
 	
+	while(!this->operaciones.empty())
+	{	
+		Operacion* operacion=getOperacion();	
+		operacion->ejecutar(this);
+		this->desacolar();
+		//Mutex());
+
+		/* Espera la proxima operacion */
+		this->esperarRecibirOperaciones();
+	}
+}
+/*----------------------------------------------------------------------------*/
+Operacion* Modelo::desacolar()
+{
+	Operacion* operacion=this->operaciones.front();
+	this->operaciones.pop();
+	return operacion;
+}
+/*----------------------------------------------------------------------------*/
+Operacion* Modelo::getOperacion()
+{
+	return this->operaciones.front();
 }
 /*----------------------------------------------------------------------------*/
 /**
