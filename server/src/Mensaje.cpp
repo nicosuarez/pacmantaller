@@ -8,12 +8,18 @@
 
 
 Mensaje::Mensaje(){
-
+	this->idJugador=BROADCAST;
 }
-
-
 
 Mensaje::~Mensaje(){
 
 }
 
+int Mensaje::GetIdJugador()
+{
+	return this->idJugador;
+}
+
+void Mensaje::SetIdJugador(int id){
+	this->idJugador=id;
+}

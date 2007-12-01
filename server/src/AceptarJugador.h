@@ -11,16 +11,18 @@
 #include "Modelo.h"
 #include "Thread.h"
 
+typedef bool* pBool;
+
 /**
  * Este thread se encarga de escuchar y aceptar los jugadores.
  */
 class AceptarJugador: public Thread
 {
 private:
-	bool* finalizoJuego;
+	pBool finalizoJuego;
 	Socket* skServer;
 public:
-	AceptarJugador(Socket* skServer,bool* finalizoJuego);
+	AceptarJugador(Socket* skServer,pBool finalizoJuego);
 	virtual ~AceptarJugador();
 
 	Socket* aceptarJugador();

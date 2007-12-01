@@ -8,8 +8,11 @@
 #define EA_14A2EC85_1217_49ba_9849_66D713CD39A6__INCLUDED_
 
 #include "Socket.h"
-#include "ComenzarJuego.h"
 #include "MonitorearEntrada.h"
+#include "Modelo.h"
+#include "AceptarJugador.h"
+#include "ConnectionManager.h"
+#include "Parser.h"
 #include <stdio.h>
 #include <string>
 
@@ -40,6 +43,13 @@ private:
 	 * Determina si hay que cerrar el servidor.
 	 */
 	bool cerrarServidor;
+	
+	/**
+	 * Se ejecuta el hilo principal del juego el del modelo.
+	 */
+	void comenzarJuego();
+
+	void terminarDeAceptarClientes();
 
 };
 #endif // !defined(EA_14A2EC85_1217_49ba_9849_66D713CD39A6__INCLUDED_)

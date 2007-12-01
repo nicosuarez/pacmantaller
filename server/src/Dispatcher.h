@@ -23,24 +23,30 @@ class Dispatcher
 private:
     tQueueMensajes mensajes;
     Evento recibiMensajeEvent;
-    Mutex * m_dispacher;
 
     /* Metodos */
     tListJugadores& getJugadoresList();
     void main();
+    /*
+	 * Envia un mensaje a todos los jugadores
+	*/
+	void enviarBroadCast(Mensaje* msg);
+	
+	/*
+	 * Envia un mensaje a un jugador en particular.
+	*/
+	void enviarMensajeParticular(Mensaje* msg);
 public:
-	Dispatcher();
-
 	/*Estos mensajes se acolan para que luego el hilo del 
 	* despachador vaya iterando sobre todas las conexiones activas enviando a 
 	* través del socket correspondiente los mensajes a cada cliente.
 	*/
-	void enviarMensaje(Mensaje* mensaje);
+	void enviarMensaje(Mensaje* mensaje,Jugador* jugador=NULL);
 	
 	/* Getters y Setters */
 	Evento& getRecibiMensajeEvent();
 
     /* Contructores y Destructores */
-    Dispatcher(Mutex* m_dispacher);
+    Dispatcher();
 };
 #endif // !defined(EA_15129548_CA1C_4143_A7FB_A6812DF62A1F__INCLUDED_)

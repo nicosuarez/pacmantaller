@@ -7,25 +7,23 @@
 #include "AgregarJugadorOp.h"
 
 
-AgregarJugadorOp::AgregarJugadorOp(){
-
+AgregarJugadorOp::AgregarJugadorOp(Jugador* jugador){
+	this->jugador=jugador;
 }
-
-
-
-AgregarJugadorOp::~AgregarJugadorOp(){
-
-}
-
-
-
-
 
 /**
  * Valida y aplica la operacion* retorna TRUE(exito),FALSE(error)
  */
 bool AgregarJugadorOp::ejecutar(Modelo* modelo){
 
+	//Enviar mensaje init
+	std::cout<<"Enviar mensaje init\n";
+	
+	//Se espera 5 segundos y se envia el mensaje start agregando el jugador 
+	//a la lista del modelo
+	Play play(this->jugador);
+	play.run();
+	
 	return false;
 }
 

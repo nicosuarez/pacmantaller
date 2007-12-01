@@ -16,6 +16,7 @@
 #include "AppSettings.h"
 #include "Mapa.h"
 #include "Thread.h"
+#include "Evento.h"
 
 using std::string;
 
@@ -50,11 +51,15 @@ public:
 	void SetMapa(Mapa* mapa);
 	void SetJugadores(tListJugadores jugadores);
 	void SetPuntuacion( int puntuacion );
-	void seFinalizoElNivel(bool finalizo){*finalizoNivel=finalizo;};
 	void seFinalizoElJuego(bool finalizo){*finalizoJuego=finalizo;};
-	bool seFinalizoElNivel(){return this->finalizoNivel;};
-	bool seFinalizoElJuego(){return this->finalizoJuego;};
-
+	bool seFinalizoElJuego(){return *finalizoJuego;};
+	Operacion* getOperacion();
+	Operacion* desacolar();
+	void esperarRecibirOperaciones();
+	
+	/* Eventos */
+	Evento& getRecibiOperacionEvent(){return this->recibiOperacionEvent;};
+	Evento& getEsperarMinJugadoresEvent(){return this->esperarMinJugadoresEvent;};
 protected:
 	Modelo();
 	Modelo(pBool finalizoJuego,pBool cerroServidor);
@@ -63,6 +68,14 @@ protected:
 	
 private:
 	static Modelo* pModelo;
+	/**
+	 * Evento que determina si hay que empezar el juego.
+	 */
+	Evento esperarMinJugadoresEvent;
+	/**
+	 * Evento que determina si recibio una operacion
+	 */
+	Evento recibiOperacionEvent;
 	/**
 	 * Desacola una operacion de la cola y la ejecuta.
 	 */
@@ -86,7 +99,7 @@ private:
 	/**
 	 * Indica si el nivel ha finalizado o no
 	 */
-	pBool finalizoNivel;
+	bool finalizoNivel;
 	/**
 	 * Indica si el juego ha finalizado o no
 	 */

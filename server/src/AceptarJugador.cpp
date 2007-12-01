@@ -6,9 +6,9 @@
 
 #include "AceptarJugador.h"
 
-AceptarJugador::AceptarJugador(Socket* skServer,bool* finalizoJuego){
+AceptarJugador::AceptarJugador(Socket* skServer,pBool finalizoJuego){
 	this->skServer=skServer;
-	*(this->finalizoJuego)=finalizoJuego;
+	this->finalizoJuego=finalizoJuego;
 }
 /*----------------------------------------------------------------------------*/
 AceptarJugador::~AceptarJugador(){
@@ -31,7 +31,9 @@ void AceptarJugador::main(){
     while(!this->seFinalizoElJuego())
     {	
         //Acepta conexiones nuevas
+    	std::cout<<"Aceptando Jugadores...\n";
     	Socket* scliente = this->aceptarJugador();
+    	std::cout<<"Acepto..\n";
         if(!this->seFinalizoElJuego())
         {
             //Si se pudo conectar el cliente
@@ -53,7 +55,8 @@ void AceptarJugador::agregarJugador(Socket* scliente){
 	
 	//Creo un nuevo jugador
     Jugador* jugador=new Jugador(scliente);
-    //Lo agrego a la lista de jugadores.
+    std::cout<<"Se conecto un Jugador Nuevo...\n";
+    //Agrega el jugador
     ConnectionManager::getInstance()->agregarJugador(jugador);
 }
 /*---------------------------------------------------------------------------*/

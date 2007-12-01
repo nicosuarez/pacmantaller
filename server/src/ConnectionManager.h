@@ -10,25 +10,37 @@
 #include "Pool.h"
 #include "Jugador.h"
 #include "Config.h"
+#include "AgregarJugadorOp.h"
 
 class ConnectionManager
 {
 
 public:
 	static ConnectionManager* getInstance();
-	int maxJugadores;
-	
+
 	void agregarJugador(Jugador* jugador);
 	void enviarMensaje();
 	Pool& GetPool();
 	void quitarJugador(int idJugador);
+	Jugador* getJugador(int idJugador);
+	//Cantidad de jugadores conectados.
+	int GetCantJugadores(){return this->cantJugadores;};
+	void asignarIdJugador(Jugador* jugador);
 	
+	bool validarMinJugadores();
+	bool validarMaxJugadores();
 private:
 	Pool pool;
     static ConnectionManager* pConnectionManager;
     //Asigna a los jugadores un id unico.
     int asignarId;
-
+    //Maxima cantidad de jugadores
+    int maxJugadores;
+    //Minima cantidad de jugadores
+    int minJugadores;
+    //Cantidad de jugadores conectados.
+    int cantJugadores;
+    
 protected:
 	ConnectionManager();
     ConnectionManager(const ConnectionManager&);

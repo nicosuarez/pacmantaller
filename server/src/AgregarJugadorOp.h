@@ -9,16 +9,18 @@
 
 #include "Thread.h"
 #include "Operacion.h"
+#include "Play.h"
 
 /**
  * Agrega un jugador a la lista de jugadores.
  */
 class AgregarJugadorOp : public Operacion
 {
-
+private:
+	Jugador* jugador;
+	
 public:
-	AgregarJugadorOp();
-	virtual ~AgregarJugadorOp();
+	AgregarJugadorOp(Jugador* jugador);
 
 	virtual bool ejecutar(Modelo* modelo);
 
