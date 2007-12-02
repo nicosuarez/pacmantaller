@@ -46,6 +46,10 @@ void Servidor::comenzarJuego(){
 	//finalizoJuego,cerrarServidor son flags de estado.
 	Modelo::setInstance(&finalizoJuego,&cerrarServidor);
 	
+	//El connectionManager le setea al modelo la lista de jugadores conectados
+	tListJugadores jugadores = ConnectionManager::getInstance()->GetPool().getJugadoresList();
+	Modelo::getInstance()->SetJugadores(jugadores);
+	
 	//Comienza el juego...
 	Modelo::getInstance()->run();
 	

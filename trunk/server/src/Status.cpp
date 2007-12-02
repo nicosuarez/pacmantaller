@@ -25,7 +25,7 @@ int Status::getTipo()
 char* Status::Serialize()
 {
 	Modelo *modelo = Modelo::getInstance();
-	int cantJugadores = modelo->GetJugadores()->size();
+	int cantJugadores = modelo->GetJugadores().size();
 	int cantElementos = elementos->size();
 	
 	int sizePktPosiciones = sizeof(uint32_t) + cantJugadores*sizeof(PktPosiciones);
@@ -47,10 +47,10 @@ char* Status::Serialize()
 
 	
 	//Seteo las posiciones
-	tListJugadores *jugadores = modelo->GetJugadores();
+	tListJugadores jugadores = modelo->GetJugadores();
 	itListJugadores itJugadores;
 	
-	for( itJugadores= jugadores->begin(); itJugadores!=jugadores->end(); itJugadores++ )
+	for( itJugadores= jugadores.begin(); itJugadores!=jugadores.end(); itJugadores++ )
 	{
 		PktPosiciones *posicion = (PktPosiciones*) ( buffer + delta );
 		Posicion *posicionJugador = (*itJugadores)->getPersonaje()->GetPosicion();
