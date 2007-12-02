@@ -16,6 +16,7 @@ Jugador::Jugador(Socket* sk,int idPersonaje,int idJugador){
 }
 /*----------------------------------------------------------------------------*/
 Jugador::~Jugador(){
+	this->escucharJugador->join();
 	delete this->socket;
 	delete this->personaje;
 	delete this->escucharJugador;

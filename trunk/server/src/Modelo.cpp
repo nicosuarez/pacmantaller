@@ -41,7 +41,15 @@ Modelo::Modelo(){
 }
 /*----------------------------------------------------------------------------*/
 Modelo::~Modelo(){
-
+	tListJugadores jugadores=this->GetJugadores();
+	itListJugadores it;
+	
+	for(it=jugadores.begin();it!=jugadores.end();it++)
+	{
+		Jugador* jugador = *it;
+		delete jugador;
+	}
+	jugadores.clear();
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -105,15 +113,23 @@ void Modelo::main(){
 			this->ejecutarOperaciones();
 			//Correr ActualizarEstado...
 		}
+		std::cout<<"Termino el nivel..\n";
 	}
+	std::cout<<"Termino el Juego..\n";
 	//Libera el thread que inserta los jugadores al juego.
+	this->liberarStartJugadores();
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::liberarStartJugadores()
+{
 	StartJugador::getInstance()->getRecibiStartEvent().activar();
-	
+	StartJugador::getInstance()->join();
+	delete StartJugador::getInstance();
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::esperarRecibirOperaciones()
 {
-	if(operaciones.empty())
+	if(operaciones.empty() && !seFinalizoElNivel())
 	{
 		//Espera a recibir operaciones.
 		this->getRecibiOperacionEvent().esperar();
@@ -150,6 +166,7 @@ void Modelo::ejecutarOperaciones(){
 Operacion* Modelo::desacolar()
 {
 	Operacion* operacion=this->operaciones.front();
+	delete operacion;
 	this->operaciones.pop();
 	return operacion;
 }

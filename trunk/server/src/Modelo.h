@@ -52,6 +52,11 @@ public:
 	void SetPuntuacion( int puntuacion );
 	void seFinalizoElJuego(bool finalizo){*finalizoJuego=finalizo;};
 	bool seFinalizoElJuego(){return *finalizoJuego;};
+	void liberarStartJugadores();
+	
+	bool seFinalizoElNivel(){return finalizoNivel;};
+	void seFinalizoElNivel(bool finalizo){finalizoNivel=finalizo;};
+	
 	Operacion* getOperacion();
 	Operacion* desacolar();
 	void esperarRecibirOperaciones();

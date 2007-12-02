@@ -26,9 +26,11 @@ public:
 	//Cantidad de jugadores conectados.
 	int GetCantJugadores(){return this->cantJugadores;};
 	void asignarIdJugador(Jugador* jugador);
-	
 	bool validarMinJugadores();
 	bool validarMaxJugadores();
+	
+	/* Destructor */
+	~ConnectionManager();
 private:
 	Pool pool;
     static ConnectionManager* pConnectionManager;

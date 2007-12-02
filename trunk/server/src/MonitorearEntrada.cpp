@@ -14,4 +14,6 @@ void MonitorearEntrada::main(){
 		cin >> entrada;	
     }
 	*cerrarServidor=true;
+	std::cout<<"Agregar operacion CerrarServidorOp\n";
+	Modelo::getInstance()->agregarOperacion(new CerrarServidorOp());
 }
