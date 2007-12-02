@@ -23,6 +23,8 @@ public:
 	tipoElemento getTipo()const;
 
 	virtual void renderizar();
+	
+	bool operator==( tipoElemento tipo) const;
 
 };
 #endif // !defined(EA_E5344A0D_5B2C_472e_A1CA_57D31E44805B__INCLUDED_)
