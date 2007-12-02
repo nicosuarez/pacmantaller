@@ -17,7 +17,6 @@
 #include <stdint.h>
 #include "Mensaje.h"
 #include "AppSettings.h"
-#define TIPO_INIT 0
 
 typedef struct PktInit
 {
@@ -31,6 +30,14 @@ typedef struct PktInit
 	uint8_t alto;
 };
 
+typedef struct PktElemento
+{
+	uint8_t tipo: 6;
+	uint8_t orientacion: 2;
+	uint16_t posicion;
+}__attribute__((__packed__));
+
+
 class Init : public Mensaje
 {
 private:
@@ -38,12 +45,12 @@ private:
 
 public:
 	
+	static const int INIT_TYPE = 0;
+	
 	Init( int rol);
 
 	virtual ~Init();
 	
-	int getTipo();
-
 	char* Serialize();
 
 }__attribute__((__packed__));

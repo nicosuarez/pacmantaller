@@ -13,18 +13,33 @@
 #include "Personaje.h"
 #include "Posicion.h"
 
-#define TIPO_STATUS 2
+typedef struct PktPosiciones
+{
+	uint16_t id;
+	uint32_t arista: 17;
+	uint8_t posicion: 6;
+	uint8_t direccion: 1;
+}__attribute__((__packed__));
+
+typedef struct PktElementoStatus
+{
+	uint8_t tipo: 4;
+	uint8_t orientacion: 2;
+	uint8_t estado: 2;
+	uint16_t posicion;
+}__attribute__((__packed__));
 
 class Status : public Mensaje
 {
 
 	tListaElemento *elementos;
 public:
+	
+	static const int STATUS_TYPE = 2;
+	
 	Status( tListaElemento *elementos);
 	
 	virtual ~Status();
-
-	int getTipo();
 	
 	char* Serialize();
 

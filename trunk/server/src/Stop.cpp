@@ -18,17 +18,13 @@ Stop::~Stop(){
 
 }
 
-int Stop::getTipo()
-{
-	return TIPO_STOP;
-}
 
 char* Stop::Serialize()
 {
 	char* buffer = new char[sizeof(PktStop)];
 	PktStop *pkt = (PktStop*) buffer;
 	pkt->version = 0;
-	pkt->tipo = TIPO_STOP;
+	pkt->tipo = Stop::STOP_TYPE;
 	pkt->aux = this->razon;
 	pkt->puntuacion = Modelo::getInstance()->GetPuntuacion();
 	return buffer;

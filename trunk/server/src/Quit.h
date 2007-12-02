@@ -14,7 +14,11 @@ class Quit : public Mensaje
 {
 
 public:
+	
+	static const int QUIT_TYPE = 4;
+	
 	Quit();
+	
 	virtual ~Quit();
 
 	char* Serialize();

@@ -8,7 +8,6 @@
 #define EA_1FD97E6C_758A_441c_BE3E_92C7917F7A84__INCLUDED_
 #include "AppSettings.h"
 #include "Mensaje.h"
-#define TIPO_START 1
 
 typedef struct PktStart: PktCabecera
 {
@@ -20,11 +19,12 @@ class Start : public Mensaje
 	int id;
 
 public:
+	
+	static const int START_TYPE = 1;
+	
 	Start( int id );
 	
 	virtual ~Start();
-
-	int getTipo();
 	
 	char* Serialize();
 
