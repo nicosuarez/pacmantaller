@@ -16,7 +16,7 @@ class Bonus : public Elemento
 {
 
 public:
-	Bonus();
+	Bonus( int posicion, Orientacion orientacion );
 	
 	virtual ~Bonus();
 	

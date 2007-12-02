@@ -6,9 +6,9 @@
 
 #include "Elemento.h"
 
-
-Elemento::Elemento( Orientacion orientacion):orientacion(orientacion), estado(Aparece)
+Elemento::Elemento( int posicion, Orientacion orientacion ): posicion(posicion), orientacion(orientacion), estado(Aparece) 
 {
+	
 }
 
 Elemento::~Elemento()

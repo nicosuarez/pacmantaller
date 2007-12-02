@@ -29,7 +29,8 @@ class Elemento
 {
 
 public:
-	Elemento( Orientacion orientacion = Norte );
+		
+	Elemento( int posicion, Orientacion orientacion );
 	
 	virtual ~Elemento();
 
@@ -53,8 +54,8 @@ public:
 
 private:
 	
-	Orientacion orientacion;
 	int posicion; //es el id del vertice donde se encuentra el elemento
+	Orientacion orientacion;
 	Estado estado;
 };
 #endif // !defined(EA_F887A8C4_26A7_4b56_9859_BC974BB6BA04__INCLUDED_)
