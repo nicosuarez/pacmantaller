@@ -7,7 +7,8 @@
 #include "Bonus.h"
 
 
-Bonus::Bonus(){
+Bonus::Bonus( int posicion, Orientacion orientacion = Norte ): Elemento( posicion, orientacion )
+{
 
 }
 

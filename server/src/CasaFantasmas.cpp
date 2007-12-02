@@ -7,7 +7,8 @@
 #include "CasaFantasmas.h"
 
 
-CasaFantasmas::CasaFantasmas(){
+CasaFantasmas::CasaFantasmas( int posicion, Orientacion orientacion = Norte ): Elemento( posicion, orientacion )
+{
 
 }
 

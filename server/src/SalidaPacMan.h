@@ -17,7 +17,8 @@ class SalidaPacMan : public Elemento
 {
 
 public:
-	SalidaPacMan();
+	
+	SalidaPacMan( int posicion, Orientacion orientacion = Norte );
 	
 	virtual ~SalidaPacMan();
 	

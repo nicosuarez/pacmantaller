@@ -17,11 +17,6 @@ Status::~Status(){
 
 }
 
-int Status::getTipo()
-{
-	return TIPO_STATUS;
-}
-
 char* Status::Serialize()
 {
 	Modelo *modelo = Modelo::getInstance();
@@ -36,7 +31,7 @@ char* Status::Serialize()
 	//Seteo la cabecera del paquete
 	PktCabecera *pktCabecera = (PktCabecera*)buffer;
 	pktCabecera->version = 0;
-	pktCabecera->tipo = TIPO_STATUS;
+	pktCabecera->tipo = Status::STATUS_TYPE;
 	pktCabecera->aux = cantJugadores;
 	int delta = sizeof(PktCabecera);
 
