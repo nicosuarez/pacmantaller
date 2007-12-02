@@ -24,12 +24,14 @@ tipoElemento Pastilla::getTipo()const
 	return tPastilla;
 }
 
-
-
-
 /**
  * Metodo que pertmite renderizar el objeto en la pantalla
  */
 void Pastilla::renderizar(){
 
+}
+
+bool Pastilla::operator==( tipoElemento tipo) const
+{
+	return tipo == tPastilla; 
 }
