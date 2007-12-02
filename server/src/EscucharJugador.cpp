@@ -25,5 +25,5 @@ void EscucharJugador::main(){
 
 void EscucharJugador::recibirMensaje(){
 	std::string msg="";
-	this->sk_jugador->recibir(msg,1000);
+	//this->sk_jugador->recibir(msg,1000);
 }

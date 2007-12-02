@@ -2,6 +2,7 @@
 #define MONITOREARENTRADA_H_
 
 #include "Thread.h"
+#include "CerrarServidorOp.h"
 #include <iostream>
 #include <string>
 

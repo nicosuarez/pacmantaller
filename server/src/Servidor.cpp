@@ -14,21 +14,24 @@ Servidor::Servidor(int maxcon){
 }
 /*----------------------------------------------------------------------------*/
 Servidor::~Servidor(){
-
+	delete skServer;
+	delete Config::getInstance();
+	delete ConnectionManager::getInstance();
+	delete Modelo::getInstance();
 }
 /*----------------------------------------------------------------------------*/
 int Servidor::ejecutar(){
 	
 	//Se pone a monitorear la entrada por teclado para poder cerrar el server.
 	MonitorearEntrada monitor(&cerrarServidor);
-	monitor.run();
-	
+	monitor.run();	
 	while(!this->cerrarServidor)
 	{
 		this->finalizoJuego=false;
 		//Comienza el juego.
 		this->comenzarJuego();
 	}
+	monitor.join();
 	return 0;
 }
 /*----------------------------------------------------------------------------*/
@@ -58,6 +61,7 @@ void Servidor::comenzarJuego(){
 	
 	//Deja de aceptar jugadores
 	this->terminarDeAceptarClientes();
+	aceptarJugador.join();
 }
 /*----------------------------------------------------------------------------*/
 void Servidor::terminarDeAceptarClientes()

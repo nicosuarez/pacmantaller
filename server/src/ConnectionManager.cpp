@@ -62,6 +62,20 @@ void ConnectionManager::enviarMensaje(){
 
 }
 /*----------------------------------------------------------------------------*/
+ConnectionManager::~ConnectionManager()
+{
+	/*tListJugadores jugadores=this->pool.getJugadoresList();
+	itListJugadores it;
+	
+	for(it=jugadores.begin();it!=jugadores.end();it++)
+	{
+		Jugador* jugador = *it;
+		delete jugador;
+	}
+	jugadores.clear();
+	*/
+}
+/*----------------------------------------------------------------------------*/
 Pool& ConnectionManager::GetPool(){
 	return pool;
 }

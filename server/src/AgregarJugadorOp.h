@@ -7,11 +7,8 @@
 #if !defined(EA_D3BA0CF4_509D_4018_9D76_9DE0FEAE4FB9__INCLUDED_)
 #define EA_D3BA0CF4_509D_4018_9D76_9DE0FEAE4FB9__INCLUDED_
 
-#include "Thread.h"
 #include "Operacion.h"
 #include "StartJugador.h"
-
-//class Modelo;
 
 /**
  * Agrega un jugador a la lista de jugadores.

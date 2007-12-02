@@ -12,5 +12,6 @@ int main(int argc,char* argv[])
 	
 	//Se instancia el servidor y se pone a correr.
 	Servidor server;
-	return server.ejecutar();
+	int exit=server.ejecutar();
+	return exit;
 }
