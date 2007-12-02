@@ -9,7 +9,6 @@
 
 #include "Mensaje.h"
 #include "Modelo.h"
-#define TIPO_STOP 3
 
 typedef struct PktStop: PktCabecera
 {
@@ -21,11 +20,12 @@ class Stop : public Mensaje
 {
 	int razon;
 public:
+	
+	static const int STOP_TYPE = 3;
+
 	Stop( int razon );
 	
 	virtual ~Stop();
-	
-	int getTipo();
 
 	char* Serialize();
 

@@ -17,19 +17,12 @@ Start::~Start(){
 
 }
 
-
-int Start::getTipo()
-{
-	return TIPO_START;
-}
-
-
 char* Start::Serialize()
 {
 	char* buffer = new char[sizeof(PktStart)];
 	PktStart *pkt = (PktStart*) buffer;
 	pkt->version = 0;
-	pkt->tipo = TIPO_START;
+	pkt->tipo = Start::START_TYPE;
 	pkt->aux = 0;
 	pkt->id = this->id;
 	return buffer;

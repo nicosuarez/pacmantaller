@@ -17,11 +17,6 @@ Init::~Init()
 {
 }
 
-int Init::getTipo()
-{
-	return TIPO_INIT;
-}
-
 tArco* getArco( tListaArco *arcos, Orientacion orientacion )
 {
 	tItArco it;
@@ -47,7 +42,7 @@ char* Init::Serialize()
 	//Inicializo la cabecera y parte del cuerpo del paquete 
 	PktInit *pktInit = (PktInit*)buffer;
 	pktInit->version = 0;
-	pktInit->tipo = TIPO_INIT;
+	pktInit->tipo = Init::INIT_TYPE;
 	pktInit->rol = rol;	
 	pktInit->padding = 0;
 	pktInit->alto = mapa->getAlto();

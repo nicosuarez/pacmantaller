@@ -8,18 +8,19 @@
 #define EA_9FBCDE46_16D5_4a67_B181_80E0C0785BF8__INCLUDED_
 
 #include "Mensaje.h"
-#define TIPO_KEY 5
+
 
 class Key : public Mensaje
 {
 	int key;
 
 public:
+	
+	static const int KEY_TYPE = 5;
+	
 	Key( int key );
 	
 	virtual ~Key();
-	
-	int getTipo();
 
 	char* Serialize();
 

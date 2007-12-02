@@ -34,12 +34,11 @@ private:
 	 */
 	int idJugador;
 public:
+	
 	Mensaje();
 	
 	virtual ~Mensaje();
-	
-	virtual int getTipo()=0;
- 
+	 
 	virtual char* Serialize()=0;
 	
 	int GetIdJugador();
