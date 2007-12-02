@@ -16,8 +16,11 @@ class Pastilla : public Elemento
 {
 
 public:
-	Pastilla();
+	Pastilla( int posicion, Orientacion orientacion );
+	
 	virtual ~Pastilla();
+	
+	tipoElemento getTipo()const;
 
 	virtual void renderizar();
 

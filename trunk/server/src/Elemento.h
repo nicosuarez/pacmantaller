@@ -9,7 +9,7 @@
 
 typedef enum tipoElemento
 {
-	tSalidaPacman, tCasaFantasmas, tPowerup, tBonus
+	tSalidaPacman, tCasaFantasmas, tPowerup, tBonus, tPastilla
 };
 
 typedef enum Orientacion
