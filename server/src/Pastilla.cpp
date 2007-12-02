@@ -7,16 +7,22 @@
 #include "Pastilla.h"
 
 
-Pastilla::Pastilla(){
+Pastilla::Pastilla( int posicion, Orientacion orientacion ):Elemento( posicion, orientacion )
+{
 
 }
 
 
-
-Pastilla::~Pastilla(){
+Pastilla::~Pastilla()
+{
 
 }
 
+
+tipoElemento Pastilla::getTipo()const
+{
+	return tPastilla;
+}
 
 
 

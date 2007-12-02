@@ -7,7 +7,7 @@
 #include "SalidaPacMan.h"
 
 
-SalidaPacMan::SalidaPacMan( int posicion, Orientacion orientacion = Norte ):Elemento( posicion, orientacion )
+SalidaPacMan::SalidaPacMan( int posicion, Orientacion orientacion ):Elemento( posicion, orientacion )
 {
 	
 }
