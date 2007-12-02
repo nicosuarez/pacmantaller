@@ -9,7 +9,9 @@
 
 #include "Thread.h"
 #include "Operacion.h"
-#include "Play.h"
+#include "StartJugador.h"
+
+//class Modelo;
 
 /**
  * Agrega un jugador a la lista de jugadores.
@@ -22,11 +24,11 @@ private:
 public:
 	AgregarJugadorOp(Jugador* jugador);
 
-	virtual bool ejecutar(Modelo* modelo);
+	bool ejecutar(Modelo* modelo);
 
 protected:
-	virtual void internalProcess();
-	virtual bool validarOperacion();
+	void internalProcess();
+	bool validarOperacion();
 
 };
 #endif // !defined(EA_D3BA0CF4_509D_4018_9D76_9DE0FEAE4FB9__INCLUDED_)

@@ -17,12 +17,13 @@ AgregarJugadorOp::AgregarJugadorOp(Jugador* jugador){
 bool AgregarJugadorOp::ejecutar(Modelo* modelo){
 
 	//Enviar mensaje init
-	std::cout<<"Enviar mensaje init\n";
+	std::cout<<"Enviar mensaje init al jugador: "<<this->jugador->GetIdJugador()<<"\n";
 	
 	//Se espera 5 segundos y se envia el mensaje start agregando el jugador 
 	//a la lista del modelo
-	Play play(this->jugador);
-	play.run();
+	Play* play = new Play(this->jugador);
+	play->run();
+	StartJugador::getInstance()->agregarStart(play);
 	
 	return false;
 }

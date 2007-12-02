@@ -15,8 +15,7 @@
 #include "Jugador.h"
 #include "AppSettings.h"
 #include "Mapa.h"
-#include "Thread.h"
-#include "Evento.h"
+#include "StartJugador.h"
 
 using std::string;
 
@@ -43,13 +42,13 @@ public:
 	void agregarOperacion(Operacion* operacion);
 	tListElementos* GetElementos();
 	Mapa* GetMapa();
-	tListJugadores* GetJugadores();
+	tListJugadores& GetJugadores();
 	int GetPuntuacion()const;
 	void main();
 	void notify();
-	void SetElementos(tListElementos elementos);
+	void SetElementos(tListElementos& elementos);
 	void SetMapa(Mapa* mapa);
-	void SetJugadores(tListJugadores jugadores);
+	void SetJugadores(tListJugadores& jugadores);
 	void SetPuntuacion( int puntuacion );
 	void seFinalizoElJuego(bool finalizo){*finalizoJuego=finalizo;};
 	bool seFinalizoElJuego(){return *finalizoJuego;};

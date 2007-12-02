@@ -72,8 +72,8 @@ Mapa* Modelo::GetMapa(){
 /**
  * Lista de jugadores puede ser PacMan o Fantasma
  */
-tListJugadores* Modelo::GetJugadores(){
-	return &jugadores;
+tListJugadores& Modelo::GetJugadores(){
+	return this->jugadores;
 }
 /*----------------------------------------------------------------------------*/
 int Modelo::GetPuntuacion()const
@@ -106,6 +106,8 @@ void Modelo::main(){
 			//Correr ActualizarEstado...
 		}
 	}
+	//Libera el thread que inserta los jugadores al juego.
+	StartJugador::getInstance()->getRecibiStartEvent().activar();
 	
 }
 /*----------------------------------------------------------------------------*/
@@ -126,8 +128,17 @@ void Modelo::ejecutarOperaciones(){
 	
 	while(!this->operaciones.empty())
 	{	
-		Operacion* operacion=getOperacion();	
+		Operacion* operacion=getOperacion();
 		operacion->ejecutar(this);
+		
+		/*tListJugadores jugadores;
+		itListJugadores it;
+		jugadores = this->GetJugadores();
+		for(it=jugadores.begin();it!=jugadores.end();it++)
+		{
+			std::cout<<"Esta jugando el jugador:"<<(*it)->GetIdJugador()<<"\n";
+		}*/
+		
 		this->desacolar();
 		//Mutex());
 
@@ -158,9 +169,17 @@ void Modelo::notify(){
 /**
  * Lista de elementos del mapa.
  */
-void Modelo::SetElementos(tListElementos elementos){
+void Modelo::SetElementos(tListElementos& elementos){
 
 	this->elementos = elementos;
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Lista de elementos del jugadores.
+ */
+void Modelo::SetJugadores(tListJugadores& jugadores){
+
+	this->jugadores = jugadores;
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -172,13 +191,8 @@ void Modelo::SetMapa(Mapa *mapa)
 }
 /*----------------------------------------------------------------------------*/
 /**
- * Lista de jugadores puede ser PacMan o Fantasma
+ * Puntuacion del pacman
  */
-void Modelo::SetJugadores(tListJugadores jugadores){
-
-	this->jugadores = jugadores;
-}
-
 void Modelo::SetPuntuacion( int puntuacion )
 {
 	this->puntuacion = puntuacion;
