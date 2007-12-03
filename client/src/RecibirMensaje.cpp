@@ -43,7 +43,7 @@ void RecibirMensaje::recibirMensaje()
 				//recibo la puntuacion del pacman
 				char puntuacion[sizeof(uint32_t)];
 				socket->recibir( puntuacion, sizeof(uint32_t) );
-				//FALTA VER QUE SE HACE CON LA "RAZON" DE PORQUE FINALIZO EL NIVEL
+				//TODO FALTA VER QUE SE HACE CON LA "RAZON" DE PORQUE FINALIZO EL NIVEL
 				modelo->setFinalizoNivel( true );
 				modelo->setPuntuacion( (int)(*puntuacion) );
 				break;
