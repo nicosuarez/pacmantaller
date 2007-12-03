@@ -8,7 +8,7 @@ MonitorearEntrada::MonitorearEntrada(pBool cerrarServidor)
 void MonitorearEntrada::main(){
 
 	string entrada="";
-	while(entrada!="x")
+	while(entrada!=EXIT_KEY_SERVER)
 	{
 		//El servidor se cierra cuando se presiona x.
 		cin >> entrada;	
