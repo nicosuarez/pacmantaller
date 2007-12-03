@@ -17,19 +17,6 @@ PacMan::~PacMan(){
 
 }
 
-
-
-
-
-/**
- * Puntos acumulados en el nivel por el pacman
- */
-int PacMan::GetPuntuacion(){
-
-	return puntuacion;
-}
-
-
 /**
  * Velocidad del personaje
  */
@@ -54,13 +41,4 @@ bool PacMan::IsPowerUp(){
 void PacMan::SetPowerUp(bool newVal){
 
 	isPowerUp = newVal;
-}
-
-
-/**
- * Puntos acumulados en el nivel por el pacman
- */
-void PacMan::SetPuntuacion(int newVal){
-
-	puntuacion = newVal;
 }

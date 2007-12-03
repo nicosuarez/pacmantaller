@@ -6,7 +6,6 @@
 
 #if !defined(EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_)
 #define EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_
-#include "AppSettings.h"
 
 /**
  * Clase que indentifica la posicion un elemento en el mapa
