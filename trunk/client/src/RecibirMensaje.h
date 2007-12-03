@@ -12,18 +12,27 @@
 #include "CasaFantasmas.h"
 #include "Pastilla.h"
 #include "Thread.h"
+#include "Posicion.h"
+#include "PacMan.h"
+#include "Fantasma.h"
+#include "Mapa.h"
 
 class RecibirMensaje : public Thread
 {
+private:
 	Socket *socket;
 	
 	void recibirElementos( int cantElementos );
 	
 	void recibirMapa(  int ancho, int alto  );
 	
-	void actualizarJugador( PktPosiciones *posicion );
+	void recibirPosiciones( int cantJugadores );
 	
-	void actualizarElemento( PktElementoStatus *elemento );
+	void recibirElementosStatus( int cantElementos );
+	
+	/* Constructor de copia y operator= ocultos (para prevenir descuidos) */
+	RecibirMensaje(const RecibirMensaje&);
+	RecibirMensaje& operator=(const RecibirMensaje&);
 	
 public:
 	RecibirMensaje( Socket *socket );
@@ -38,9 +47,6 @@ public:
 	
 	void recibirStatus( PktCabecera *cabecera );
 	
-	/* Constructor de copia y operator= ocultos (para prevenir descuidos) */
-	RecibirMensaje(const RecibirMensaje&);
-	RecibirMensaje& operator=(const RecibirMensaje&);
 };
 
 #endif /*RECIBIRMENSAJE_H_*/

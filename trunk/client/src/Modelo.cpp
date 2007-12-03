@@ -1,6 +1,15 @@
 #include "Modelo.h"
 
-Modelo* Modelo::pModelo = NULL;
+Modelo* Modelo:: pModelo = NULL;
+
+Modelo::Modelo()
+{
+	puntuacion = 0;
+	finalizoJuego = false;
+	finalizoNivel = false;
+	elementos = NULL;
+	mapa = NULL;
+}
 
 
 Modelo* Modelo::getInstance () 
@@ -12,16 +21,18 @@ Modelo* Modelo::getInstance ()
     return pModelo;
 }
 
-Modelo::Modelo()
-{
-	puntuacion = 0;
-	finalizoJuego = false;
-	finalizoNivel = false;
-}
-
 Modelo::~Modelo()
 {
+	eliminarPersonajes();
+	if( elementos != NULL)
+	{
+		eliminarElementos();
+		delete elementos;
+	}
+	if( mapa != NULL )
+		delete mapa;
 }
+
 
 void Modelo::setid( int newid)
 {
@@ -43,10 +54,16 @@ void Modelo::setFinalizoNivel( bool finalizo )
 	this->finalizoNivel = finalizo;
 }
 
-void Modelo::setMatrices( int **ph, int **pv )
+void Modelo::setMapa( Mapa *mapa )
 {
-	this->ph = ph;
-	this->pv = pv;
+	if( mapa != NULL)
+		delete mapa;
+	this->mapa = mapa;
+}
+
+void Modelo::setElementos( std::list<Elemento*> *elementos )
+{
+	this->elementos = elementos;
 }
 
 int Modelo::getid()const
@@ -69,22 +86,48 @@ bool Modelo::getFinalizoNivel()const
 	return this->finalizoNivel;
 }
 
-int** Modelo::getph()const
+Mapa* Modelo::getMapa()
 {
-	return this->ph;
-}
-
-int** Modelo::getpv()const
-{
-	return this->pv;
+	return mapa;
 }
 
 std::list<Elemento*>* Modelo::getElementos()
 {
-	return &elementos;
+	return elementos;
 }
 
 std::list<Personaje*>* Modelo::getPersonajes()
 {
 	return &personajes;
+}
+
+Personaje* Modelo::getPersonaje( int id )
+{
+	std::list<Personaje*>::iterator it;
+	for( it = personajes.begin(); it != personajes.end(); it++ )
+	{
+		if( (*it)->GetId() == id )
+			return (*it);
+	}
+	return NULL;
+}
+
+void Modelo:: eliminarElementos()
+{
+	std::list<Elemento*>::iterator it;
+	for( it = elementos->begin(); it != elementos->end(); it++ )
+	{
+		delete (*it);
+	}
+	elementos->clear();
+}
+
+void Modelo:: eliminarPersonajes()
+{
+	std::list<Personaje*>::iterator it;
+	for( it=personajes.begin(); it!=personajes.end(); it++ )
+	{
+		delete(*it);
+	}
+	personajes.clear();
 }
