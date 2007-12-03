@@ -115,12 +115,12 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 	socket->recibir( buffer, tamanio );
 	
 	//Aloco memoria para las matrices que representan las paredes verticales y horizontales del mapa
-	int **ph = new int*[alto];
+	int **ph = new int*[alto+1];
 	int **pv = new int*[alto];
 	for( int i=0; i<alto; i++ )
 	{
 		ph[i] = new int[ancho];
-		pv[i] = new int[ancho];
+		pv[i] = new int[ancho+1];
 	}
 	int contador = 0;
 	int numFila = 0;
@@ -145,6 +145,16 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 			contador++;
 		}
 		numFila++;
+	}
+	//seteo la pared horizontal de abajo
+	for( int i=0; i<ancho; i++ )
+	{
+		ph[alto][i] = ph[0][i];
+	}
+	//seteo la pared vertical de la izquierda
+	for( int i=0; i<alto; i++)
+	{
+		pv[i][ancho] = pv[i][ancho];
 	}
 	Modelo::getInstance()->setMapa( new Mapa(ph, pv, ancho, alto ) );
 }
