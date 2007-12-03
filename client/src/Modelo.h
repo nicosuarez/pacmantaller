@@ -5,6 +5,7 @@
 #include "Elemento.h"
 #include "Personaje.h"
 #include "Mapa.h"
+//#include "Thread.h"
 
 class Modelo
 {

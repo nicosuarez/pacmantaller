@@ -22,9 +22,9 @@ void LogResource::mostrarModoEjecucionServidor()
 	std::cerr<<MSG_MAL_EJECUTADO_SVR;
 }
 /*----------------------------------------------------------------------------*/
-void LogResource::mostrarSalirCliente()
+void LogResource::mostrarSalirServer()
 {
-   	std::cerr<<MSG_SALIR_CLIENTE;
+   	std::cout<<MSG_SALIR_SERVER;
 }
 /*----------------------------------------------------------------------------*/
 string LogResource::getMsgNroCliente(string id)
