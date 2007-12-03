@@ -31,7 +31,7 @@ bool AgregarJugadorOp::ejecutar(Modelo* modelo){
 	//Se le envia al cliente el paquete init
 	Init init(rol);
 	char *buffer = init.Serialize();
-	jugador->GetSocket()->enviar( buffer, init->getSize() );
+	jugador->GetSocket()->enviar( buffer, (size_t)init.getSize() );
 	//Se espera 5 segundos y se envia el mensaje start agregando el jugador 
 	//a la lista del modelo
 	Play* play = new Play(this->jugador);

@@ -114,9 +114,8 @@ int Socket::recibir(std::string& buf,size_t len){
     return bytes;
 }
 /*----------------------------------------------------------------------------*/
-int Socket::enviar(const char* buf){
+int Socket::enviar(const char* buf, size_t size){
 	size_t byteEnviados =0;
-	size_t size=sizeof(buf);
 	while(byteEnviados<size)
 	{
 		byteEnviados+=send(this->fd,buf + byteEnviados,size,0);
