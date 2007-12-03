@@ -11,9 +11,7 @@
 
 #include "StrToken.h"
 #include "Config.h"
-
-#define ERR_MAL_EJECUTADO 2
-
+#include "LogResource.h"
 
 class Parser
 {

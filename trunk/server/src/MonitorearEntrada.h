@@ -5,6 +5,7 @@
 #include "CerrarServidorOp.h"
 #include <iostream>
 #include <string>
+#include "LogResource.h"
 
 typedef bool* pBool;
 
