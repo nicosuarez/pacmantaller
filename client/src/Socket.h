@@ -33,7 +33,7 @@ public:
     explicit Socket(port_type port, int backlog=5);
     /* Envia datos por el socket */
     int enviar(const std::string& buf);
-    int enviar(const char* buf);
+    int enviar(const char* buf, size_t len);
     /* Recibe datos del socket */
     int recibir(std::string& buf, size_t len);
     int recibir(char* buf,size_t len);
