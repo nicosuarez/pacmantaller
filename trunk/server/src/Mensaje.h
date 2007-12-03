@@ -33,17 +33,24 @@ private:
 	 * Si idJugador=BROADCAST el mensaje se envia a todos los jugadores.
 	 */
 	int idJugador;
+protected:
+	int sizePkt;
 public:
 	
 	Mensaje();
 	
 	virtual ~Mensaje();
-	 
+	
+	//Metodo abstracto que deben implementar las clases hijas
+	//Debe devolver el paquete listo para enviar, y colocar el tamaño del paquete
+	//en la variable sizePkt
 	virtual char* Serialize()=0;
 	
 	int GetIdJugador();
 		
 	void SetIdJugador(int id);
+	
+	int getSize()const;
 
 };
 #endif // !defined(EA_00555EAD_A002_4386_8DDE_5962FC3B0BA9__INCLUDED_)

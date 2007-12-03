@@ -19,9 +19,11 @@ public:
 	Fantasma();
 	virtual ~Fantasma();
 
+	static const int FANTASMA_TYPE = 1;
 	virtual int GetVelocidad();
 	bool IsVisible();
 	void SetVisible(bool visible);
+	bool operator==( int tipo )const;
 
 private:
 	/**

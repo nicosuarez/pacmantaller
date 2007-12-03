@@ -19,7 +19,8 @@ Start::~Start(){
 
 char* Start::Serialize()
 {
-	char* buffer = new char[sizeof(PktStart)];
+	sizePkt = sizeof(PktStart);
+	char* buffer = new char[sizePkt];
 	PktStart *pkt = (PktStart*) buffer;
 	pkt->version = 0;
 	pkt->tipo = Start::START_TYPE;

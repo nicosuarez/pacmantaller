@@ -19,9 +19,11 @@ public:
 	PacMan();
 	virtual ~PacMan();
 
+	static const int PACMAN_TYPE = 0;
 	int GetVelocidad();
 	bool IsPowerUp();
 	void SetPowerUp(bool newVal);
+	bool operator==( int tipo )const;
 
 private:
 	/**

@@ -73,7 +73,7 @@ void Dispatcher::enviarBroadCast(Mensaje* msg)
 	for(it=jugadores.begin(); it!=jugadores.end(); it++ )
     {
         Socket* sk_jugador = (*it)->GetSocket();     
-        sk_jugador->enviar(msg->Serialize());
+        sk_jugador->enviar(msg->Serialize(), msg->getSize() );
     }
 }
 /*----------------------------------------------------------------------------*/
