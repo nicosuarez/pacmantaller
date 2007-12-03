@@ -89,6 +89,7 @@ void RecibirMensaje::recibirElementos( int cantElementos )
 	char buffer[tamanio];
 	socket->recibir( buffer, tamanio );
 	std::list<Elemento*> *elementos = new std::list<Elemento*>;
+	Modelo::getInstance()->setElementos(elementos);
 	int delta = 0;
 	for( int i=0; i<cantElementos; i++ )
 	{
@@ -122,6 +123,7 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 		ph[i] = new int[ancho];
 		pv[i] = new int[ancho+1];
 	}
+	ph[alto] = new int[ancho];
 	int contador = 0;
 	int numFila = 0;
 	while( contador < (ancho*alto*2) )
