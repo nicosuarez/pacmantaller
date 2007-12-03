@@ -19,21 +19,15 @@ public:
 	PacMan();
 	virtual ~PacMan();
 
-	int GetPuntuacion();
 	int GetVelocidad();
 	bool IsPowerUp();
 	void SetPowerUp(bool newVal);
-	void SetPuntuacion(int newVal);
 
 private:
 	/**
 	 * Determina si el pacman se encuentra en el estado powerUp
 	 */
 	bool isPowerUp;
-	/**
-	 * Puntos acumulados en el nivel por el pacman
-	 */
-	int puntuacion;
 	/**
 	 * Valor constante de la velocidad inicial del pacman
 	 */
