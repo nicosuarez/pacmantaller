@@ -17,38 +17,44 @@ void RecibirMensaje::recibirMensaje()
 {
 	Modelo *modelo = Modelo::getInstance();
 	char buffer[sizeof(PktCabecera)];
-	socket->recibir( buffer, sizeof(PktCabecera) );
-	PktCabecera *cabecera = (PktCabecera*)buffer;
-	switch( (int) cabecera->tipo )
+	//Mientras no haya finalizado el juego sigue recibiendo paquetes
+	while( !modelo->getFinalizoJuego() )
 	{
-		case Mensaje::INIT_TYPE: 
-			recibirInit( cabecera );
-			break;
-			
-		case Mensaje::START_TYPE:
-			char id[sizeof( uint16_t)];// = new char[ sizeof(uint16_t) ];
-			socket->recibir( id, sizeof(uint16_t) );
-			modelo->setid( (int)(*id) );
-			break;
-			
-		case Mensaje::STATUS_TYPE:
-			recibirStatus( cabecera );
-			break;
-			
-		case Mensaje::STOP_TYPE:
-			char puntuacion[sizeof(uint32_t)];// = new char[ sizeof(uint32_t) ];
-			socket->recibir( puntuacion, sizeof(uint32_t) );
-			//FALTA VER QUE SE HACE CON LA "RAZON" DE PORQUE FINALIZO EL NIVEL
-			modelo->setFinalizoNivel( true );
-			modelo->setPuntuacion( (int)(*puntuacion) );
-			break;
-			
-		case Mensaje::QUIT_TYPE:
-			modelo->setFinalizoJuego( true );
-			break;
-			
-		default: return;
-	} 
+		socket->recibir( buffer, sizeof(PktCabecera) );
+		PktCabecera *cabecera = (PktCabecera*)buffer;
+		switch( (int) cabecera->tipo )
+		{
+			case Mensaje::INIT_TYPE: 
+				recibirInit( cabecera );
+				break;
+				
+			case Mensaje::START_TYPE:
+				//Recibo el id
+				char id[sizeof( uint16_t)];
+				socket->recibir( id, sizeof(uint16_t) );
+				modelo->setid( (int)(*id) );
+				break;
+				
+			case Mensaje::STATUS_TYPE:
+				recibirStatus( cabecera );
+				break;
+				
+			case Mensaje::STOP_TYPE:
+				//recibo la puntuacion del pacman
+				char puntuacion[sizeof(uint32_t)];
+				socket->recibir( puntuacion, sizeof(uint32_t) );
+				//FALTA VER QUE SE HACE CON LA "RAZON" DE PORQUE FINALIZO EL NIVEL
+				modelo->setFinalizoNivel( true );
+				modelo->setPuntuacion( (int)(*puntuacion) );
+				break;
+				
+			case Mensaje::QUIT_TYPE:
+				modelo->setFinalizoJuego( true );
+				break;
+				
+			default: continue;
+		} 
+	}
 }
 
 void agregarElemento( std::list<Elemento*> *elementos, PktElemento *pktElemento )
@@ -90,7 +96,6 @@ void RecibirMensaje::recibirElementos( int cantElementos )
 		agregarElemento( elementos, pktElemento );
 		delta += sizeof(PktElemento);
 	}
-	delta += sizeof(PktElemento);
 }
 
 int getbit( int x, uint8_t byte )
@@ -141,7 +146,7 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 		}
 		numFila++;
 	}
-	Modelo::getInstance()->setMatrices( ph, pv );
+	Modelo::getInstance()->setMapa( new Mapa(ph, pv, ancho, alto ) );
 }
 
 void RecibirMensaje::recibirInit( PktCabecera *cabecera )
@@ -164,16 +169,59 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	recibirElementos( cantElementos );
 }
 
-void RecibirMensaje::actualizarElemento( PktElementoStatus *elemento )
+void RecibirMensaje::recibirElementosStatus( int cantElementos )
 {
-	
+	int tamanio = cantElementos*sizeof(PktElementoStatus);
+	char elementos[ tamanio ];
+	socket->recibir( elementos, tamanio );
+	std::list<Elemento*> *listElementos = new std::list<Elemento*>;
+	int delta = 0;
+	for( int i=0; i< cantElementos; i++ )
+	{
+		PktElementoStatus *elemento = (PktElementoStatus*)(elementos + delta);
+		if( elemento->estado == Aparece )
+		{
+			PktElemento pktElemento;
+			pktElemento.tipo = elemento->tipo;
+			pktElemento.orientacion = elemento->orientacion;
+			pktElemento.posicion = elemento->posicion;
+			agregarElemento( listElementos, &pktElemento );
+		}	
+		delta += sizeof(PktElementoStatus);
+	}
+	Modelo *modelo = Modelo::getInstance();
+	modelo->eliminarElementos();
+	Modelo::getInstance()->setElementos( listElementos );
 }
 
-void RecibirMensaje::actualizarJugador( PktPosiciones *posicion )
+void RecibirMensaje::recibirPosiciones( int cantJugadores )
 {
-	//int id = (int) posicion->id;
-	
-	 
+	int tamanio = cantJugadores*sizeof(PktPosiciones);
+	char posiciones[ tamanio ];
+	socket->recibir( posiciones, tamanio );
+	int delta = 0;
+	for( int i=0; i<cantJugadores; i++ )
+	{
+		PktPosiciones *pktPosicion = (PktPosiciones*)(posiciones + delta);
+		int idJugador = (int)pktPosicion->id;
+		int idArista = (int)pktPosicion->arista;
+		int posicionArista = (int)pktPosicion->posicion;
+		int direccion = (int)pktPosicion->direccion;
+		Posicion posicion( idArista, posicionArista, direccion );
+		Modelo *modelo = Modelo::getInstance();
+		Personaje *personaje = modelo->getPersonaje( idJugador);
+		//Si el jugador no existe, lo agrega. 
+		if( personaje == NULL )
+		{
+			if( idJugador == 0 )
+				personaje = new PacMan;
+			else
+				personaje = new Fantasma;
+		}
+		//Actualiza la posicion
+		personaje->SetPosicion( posicion );
+		delta += sizeof(PktPosiciones);
+	}
 }
 
 void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
@@ -185,32 +233,13 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	modelo->setPuntuacion( (int)(*puntuacion) );
 	
 	//Recibo las posiciones de los jugadores
-	int cantJugadores = (int)cabecera->aux;
-	int tamanio = cantJugadores*sizeof(PktPosiciones);
-	char posiciones[ tamanio ];
-	socket->recibir( posiciones, tamanio );
-	int delta = 0;
-	for( int i=0; i<cantJugadores; i++ )
-	{
-		PktPosiciones *posicion = (PktPosiciones*)(posiciones + delta);
-		actualizarJugador( posicion );
-		delta += sizeof(PktPosiciones);
-	}
+	recibirPosiciones( (int)cabecera->aux );
 	
 	//Recibo la cantidad de elementos
 	char buffer[sizeof(uint8_t)];
 	socket->recibir( buffer, sizeof(uint8_t) );
-	int cantElementos = (int)(*buffer);
 	
 	//Recibo los elementos
-	tamanio = cantElementos*sizeof(PktElementoStatus);
-	char elementos[ tamanio ];
-	socket->recibir( elementos, tamanio );
-	delta = 0;
-	for( int i=0; i< cantElementos; i++ )
-	{
-		PktElementoStatus *elemento = (PktElementoStatus*)(elementos + delta);
-		actualizarElemento( elemento );
-		delta += sizeof(PktElementoStatus);
-	}
+	recibirElementos( (int)(*buffer) );
+	
 }
