@@ -36,8 +36,8 @@ char* Init::Serialize()
 	//Creo el espacio de memoria para el paquete a enviar
 	int sizePktGrafo = ( (vertices->size()*2) + ((8-( vertices->size()*2 )%8)%8) )/8;
 	int sizePktElementos = sizeof(uint16_t) + sizeof(PktElemento)*elementos->size();
-	int size = sizeof(PktInit) + sizePktGrafo + sizePktElementos;
-	char *buffer = new char[ size ];
+	sizePkt = sizeof(PktInit) + sizePktGrafo + sizePktElementos;
+	char *buffer = new char[ sizePkt ];
 
 	//Inicializo la cabecera y parte del cuerpo del paquete 
 	PktInit *pktInit = (PktInit*)buffer;

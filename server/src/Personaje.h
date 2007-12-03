@@ -18,7 +18,6 @@ class Personaje
 public:
 	Personaje();
 	virtual ~Personaje();
-	Posicion *m_Posicion;
 
 	int GetId();
 	Posicion *GetPosicion();
@@ -26,7 +25,7 @@ public:
 	void SetId(int newVal);
 	void SetPosicion(Posicion newVal);
 	void SetVelocidad(int newVal);
-
+	virtual bool operator==( int tipo )const = 0;
 private:
 	/**
 	 * Identificador de personaje

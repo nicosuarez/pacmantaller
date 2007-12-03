@@ -25,8 +25,8 @@ char* Status::Serialize()
 	
 	int sizePktPosiciones = sizeof(uint32_t) + cantJugadores*sizeof(PktPosiciones);
 	int sizePktElementos = sizeof(uint8_t) + cantElementos*sizeof( PktElementoStatus); 
-	int size = sizeof(PktCabecera) + sizePktPosiciones + sizePktElementos; 
-	char* buffer = new char[ size ];
+	sizePkt = sizeof(PktCabecera) + sizePktPosiciones + sizePktElementos; 
+	char* buffer = new char[ sizePkt ];
 	
 	//Seteo la cabecera del paquete
 	PktCabecera *pktCabecera = (PktCabecera*)buffer;

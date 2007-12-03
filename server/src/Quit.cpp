@@ -20,7 +20,8 @@ Quit::~Quit(){
 
 char* Quit::Serialize()
 {
-	char* buffer = new char[sizeof(PktCabecera)];
+	sizePkt = sizeof(PktCabecera);
+	char* buffer = new char[sizePkt];
 	PktCabecera *pkt = (PktCabecera*) buffer;
 	pkt->version = 0;
 	pkt->tipo = Quit::QUIT_TYPE;

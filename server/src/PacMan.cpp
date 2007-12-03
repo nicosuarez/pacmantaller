@@ -42,3 +42,8 @@ void PacMan::SetPowerUp(bool newVal){
 
 	isPowerUp = newVal;
 }
+
+bool PacMan::operator==( int tipo )const
+{
+	return tipo == PACMAN_TYPE;
+}

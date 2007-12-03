@@ -9,6 +9,9 @@
 
 #include "Operacion.h"
 #include "StartJugador.h"
+#include "PacMan.h"
+#include "Fantasma.h"
+#include "Init.h"
 
 /**
  * Agrega un jugador a la lista de jugadores.

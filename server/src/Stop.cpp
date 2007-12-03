@@ -21,7 +21,8 @@ Stop::~Stop(){
 
 char* Stop::Serialize()
 {
-	char* buffer = new char[sizeof(PktStop)];
+	sizePkt = sizeof(PktStop);
+	char* buffer = new char[sizePkt];
 	PktStop *pkt = (PktStop*) buffer;
 	pkt->version = 0;
 	pkt->tipo = Stop::STOP_TYPE;

@@ -18,7 +18,20 @@ bool AgregarJugadorOp::ejecutar(Modelo* modelo){
 
 	//Enviar mensaje init
 	std::cout<<"Enviar mensaje init al jugador: "<<this->jugador->GetIdJugador()<<"\n";
-	
+	//Se le asigna un personaje al jugador
+	Personaje *personaje;
+	int rol = 1;
+	if( jugador->GetIdJugador() == 0 )
+	{
+		personaje = new PacMan;
+		rol = 0;
+	}
+	else personaje = new Fantasma;
+	jugador->SetPersonaje( personaje );
+	//Se le envia al cliente el paquete init
+	Init init(rol);
+	char *buffer = init.Serialize();
+	jugador->GetSocket()->enviar( buffer, init->getSize() );
 	//Se espera 5 segundos y se envia el mensaje start agregando el jugador 
 	//a la lista del modelo
 	Play* play = new Play(this->jugador);

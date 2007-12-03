@@ -23,3 +23,8 @@ int Mensaje::GetIdJugador()
 void Mensaje::SetIdJugador(int id){
 	this->idJugador=id;
 }
+
+int Mensaje::getSize()const
+{
+	return sizePkt;
+}

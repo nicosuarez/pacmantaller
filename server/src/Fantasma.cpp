@@ -50,3 +50,9 @@ void Fantasma::SetVisible(bool visible){
 
 	visible = visible;
 }
+
+bool Fantasma::operator==( int tipo )const
+{
+	return tipo == FANTASMA_TYPE;
+}
+
