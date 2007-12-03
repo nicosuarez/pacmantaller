@@ -8,6 +8,11 @@ RecibirMensaje::~RecibirMensaje()
 {
 }
 
+void RecibirMensaje:: main()
+{
+	this->recibirMensaje();
+}
+
 void RecibirMensaje::recibirMensaje()
 {
 	Modelo *modelo = Modelo::getInstance();
@@ -85,6 +90,7 @@ void RecibirMensaje::recibirElementos( int cantElementos )
 		agregarElemento( elementos, pktElemento );
 		delta += sizeof(PktElemento);
 	}
+	delta += sizeof(PktElemento);
 }
 
 int getbit( int x, uint8_t byte )

@@ -11,8 +11,9 @@
 #include "PowerUp.h"
 #include "CasaFantasmas.h"
 #include "Pastilla.h"
+#include "Thread.h"
 
-class RecibirMensaje
+class RecibirMensaje : public Thread
 {
 	Socket *socket;
 	
@@ -29,12 +30,17 @@ public:
 	
 	virtual ~RecibirMensaje();
 	
+	void main();
+	
 	void recibirMensaje();
 	
 	void recibirInit( PktCabecera *cabecera );
 	
 	void recibirStatus( PktCabecera *cabecera );
-
+	
+	/* Constructor de copia y operator= ocultos (para prevenir descuidos) */
+	RecibirMensaje(const RecibirMensaje&);
+	RecibirMensaje& operator=(const RecibirMensaje&);
 };
 
 #endif /*RECIBIRMENSAJE_H_*/
