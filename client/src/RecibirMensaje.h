@@ -20,6 +20,10 @@ class RecibirMensaje
 	
 	void recibirMapa(  int ancho, int alto  );
 	
+	void actualizarJugador( PktPosiciones *posicion );
+	
+	void actualizarElemento( PktElementoStatus *elemento );
+	
 public:
 	RecibirMensaje( Socket *socket );
 	
