@@ -17,19 +17,6 @@ Personaje::~Personaje(){
 
 }
 
-
-
-
-
-/**
- * Identificador de personaje
- */
-int Personaje::GetId(){
-
-	return idPersonaje;
-}
-
-
 /**
  * Posicion del personaje en el mapa
  */

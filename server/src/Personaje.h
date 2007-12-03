@@ -19,7 +19,7 @@ public:
 	Personaje();
 	virtual ~Personaje();
 
-	int GetId();
+	virtual int GetRol()const=0;
 	Posicion *GetPosicion();
 	virtual int GetVelocidad();
 	void SetId(int newVal);

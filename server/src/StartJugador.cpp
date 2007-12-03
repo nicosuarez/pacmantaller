@@ -46,7 +46,7 @@ void StartJugador::main(){
 /*----------------------------------------------------------------------------*/
 void StartJugador::esperarRecibirStart()
 {
-	if(startPlayers.empty())
+	if(startPlayers.empty() && !Modelo::getInstance()->seFinalizoElJuego())
 	{
 		//Espera a recibir operaciones.
 		this->getRecibiStartEvent().esperar();

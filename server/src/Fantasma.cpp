@@ -17,9 +17,13 @@ Fantasma::~Fantasma(){
 
 }
 
+/**
+ * Identificador del rol de personaje
+ */
+int Fantasma::GetRol()const{
 
-
-
+	return Fantasma::FANTASMA_TYPE;
+}
 
 /**
  * Velocidad del personaje

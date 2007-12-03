@@ -20,6 +20,7 @@ public:
 	virtual ~Fantasma();
 
 	static const int FANTASMA_TYPE = 1;
+	int GetRol()const;
 	virtual int GetVelocidad();
 	bool IsVisible();
 	void SetVisible(bool visible);
