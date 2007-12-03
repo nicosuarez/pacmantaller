@@ -11,7 +11,7 @@ RecibirMensaje::~RecibirMensaje()
 void RecibirMensaje::recibirMensaje()
 {
 	Modelo *modelo = Modelo::getInstance();
-	char buffer[sizeof(PktCabecera)];// = new char[ sizeof(PktCabecera) ];
+	char buffer[sizeof(PktCabecera)];
 	socket->recibir( buffer, sizeof(PktCabecera) );
 	PktCabecera *cabecera = (PktCabecera*)buffer;
 	switch( (int) cabecera->tipo )
@@ -83,7 +83,7 @@ void RecibirMensaje::recibirElementos( int cantElementos )
 	{
 		PktElemento *pktElemento = (PktElemento*) (buffer + delta);
 		agregarElemento( elementos, pktElemento );
-		
+		delta += sizeof(PktElemento);
 	}
 }
 
@@ -99,8 +99,10 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 	//Calculo la cantidad de bytes que hay que recibir
 	int tamanio = ( (ancho*alto*2)  + ( (8-(ancho*alto*2)%8) %8 ) )/8;
 	char buffer[ tamanio ];
+	
 	//Recibo los bytes con la informacion del mapa
 	socket->recibir( buffer, tamanio );
+	
 	//Aloco memoria para las matrices que representan las paredes verticales y horizontales del mapa
 	int **ph = new int*[alto];
 	int **pv = new int*[alto];
@@ -143,17 +145,66 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	socket->recibir( buffer, sizeof(uint16_t) );
 	int ancho = (uint8_t)(*buffer);
 	int alto = (uint8_t)(*(buffer + sizeof(uint8_t) ) );
+	
 	//Recibo el mapa
 	recibirMapa( ancho, alto );
+	
 	//Recibo la cantidad de elementos que hay en el mapa
 	char ptrCantElementos[sizeof(uint16_t)];
 	socket->recibir( ptrCantElementos, sizeof(uint16_t) );
 	int cantElementos = (int)(*ptrCantElementos);
+	
 	//Recibo los elementos del mapa
 	recibirElementos( cantElementos );
 }
 
+void RecibirMensaje::actualizarElemento( PktElementoStatus *elemento )
+{
+	
+}
+
+void RecibirMensaje::actualizarJugador( PktPosiciones *posicion )
+{
+	//int id = (int) posicion->id;
+	
+	 
+}
+
 void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 {
-	//ESTOY CON ESTE Metodo
+	Modelo *modelo = Modelo::getInstance();
+	//Recibo la puntuacion
+	char puntuacion[sizeof(uint32_t)];
+	socket->recibir( puntuacion, sizeof(uint32_t) );
+	modelo->setPuntuacion( (int)(*puntuacion) );
+	
+	//Recibo las posiciones de los jugadores
+	int cantJugadores = (int)cabecera->aux;
+	int tamanio = cantJugadores*sizeof(PktPosiciones);
+	char posiciones[ tamanio ];
+	socket->recibir( posiciones, tamanio );
+	int delta = 0;
+	for( int i=0; i<cantJugadores; i++ )
+	{
+		PktPosiciones *posicion = (PktPosiciones*)(posiciones + delta);
+		actualizarJugador( posicion );
+		delta += sizeof(PktPosiciones);
+	}
+	
+	//Recibo la cantidad de elementos
+	char buffer[sizeof(uint8_t)];
+	socket->recibir( buffer, sizeof(uint8_t) );
+	int cantElementos = (int)(*buffer);
+	
+	//Recibo los elementos
+	tamanio = cantElementos*sizeof(PktElementoStatus);
+	char elementos[ tamanio ];
+	socket->recibir( elementos, tamanio );
+	delta = 0;
+	for( int i=0; i< cantElementos; i++ )
+	{
+		PktElementoStatus *elemento = (PktElementoStatus*)(elementos + delta);
+		actualizarElemento( elemento );
+		delta += sizeof(PktElementoStatus);
+	}
 }

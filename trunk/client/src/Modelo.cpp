@@ -49,11 +49,6 @@ void Modelo::setMatrices( int **ph, int **pv )
 	this->pv = pv;
 }
 
-void Modelo::setElementos( std::list<Elemento*> *elementos )
-{
-	this->elementos = elementos; 
-}
-
 int Modelo::getid()const
 {
 	return this->id;
@@ -84,7 +79,12 @@ int** Modelo::getpv()const
 	return this->pv;
 }
 
-std::list<Elemento*>* Modelo::getElementos()const
+std::list<Elemento*>* Modelo::getElementos()
 {
-	return elementos;
+	return &elementos;
+}
+
+std::list<Personaje*>* Modelo::getPersonajes()
+{
+	return &personajes;
 }

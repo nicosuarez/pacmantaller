@@ -3,6 +3,7 @@
 #include <iostream>
 #include <list>
 #include "Elemento.h"
+#include "Personaje.h"
 
 class Modelo
 {
@@ -14,7 +15,8 @@ private:
 	bool finalizoNivel;
 	int **ph; //Matriz que representa las paredes horizontales del mapa
 	int **pv; //Matriz que representa las paredes verticales del mapa
-	std::list<Elemento*> *elementos;
+	std::list<Elemento*> elementos;
+	std::list<Personaje*> personajes;
 	Modelo();
 public:
 	
@@ -32,8 +34,6 @@ public:
 	
 	void setMatrices( int **ph, int **pv );
 	
-	void setElementos( std::list<Elemento*> *elementos );
-	
 	int getid()const;
 	
 	int getPuntuacion()const;
@@ -46,7 +46,9 @@ public:
 	
 	int** getpv()const;
 	
-	std::list<Elemento*>* getElementos()const;
+	std::list<Elemento*>* getElementos();
+	
+	std::list<Personaje*>* getPersonajes();
 };
 
 #endif /*MODELO_H_*/

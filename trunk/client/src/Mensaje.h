@@ -29,6 +29,22 @@ typedef struct PktElemento
 	uint16_t posicion;
 }__attribute__((__packed__));
 
+typedef struct PktPosiciones
+{
+	uint16_t id;
+	uint32_t arista: 17;
+	uint8_t posicion: 6;
+	uint8_t direccion: 1;
+}__attribute__((__packed__));
+
+typedef struct PktElementoStatus
+{
+	uint8_t tipo: 4;
+	uint8_t orientacion: 2;
+	uint8_t estado: 2;
+	uint16_t posicion;
+}__attribute__((__packed__));
+
 class Mensaje
 {
 
