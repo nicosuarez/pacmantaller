@@ -164,6 +164,11 @@ void displayEvent(void) {
 	glutSwapBuffers();
 }
 
+void finalizarJuego()
+{
+	exit(EXIT_SUCCESS);
+}
+
 void tecladoEvent( int key, int Xx, int Yy ) {
 		
 	switch ( key ) {
@@ -180,11 +185,10 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 		case GLUT_KEY_RIGHT: 
 			camara.incAng(2);			
 			camara.move();					
-			break;	
+			break;		
 	}
 	glutPostRedisplay();
 }
-
 
 void reshapeEvent(GLsizei width, GLsizei height) {
 	// establecer el área de visualizacion en la ventana
@@ -203,6 +207,16 @@ void reshapeEvent(GLsizei width, GLsizei height) {
 
 } 
 
+// Termina la ejecucion del programa cuando se presiona ESC
+void keyboard(unsigned char key, int x, int y)
+{
+	switch (key) 
+    {
+	 	case KEY_ESC: 
+			finalizarJuego();				
+			break;
+    }
+} 
 
 int comenzarJuego(Request* req)
 {
@@ -234,6 +248,7 @@ void iniciarGraficos(int argc, char** argv)
     glutReshapeFunc (reshapeEvent);
 	glutDisplayFunc( displayEvent );
 	glutSpecialFunc( tecladoEvent );
+	glutKeyboardFunc(keyboard);
 	glutIdleFunc( idleEvent );		
 	glutMainLoop();
 }

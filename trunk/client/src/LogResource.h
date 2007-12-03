@@ -11,6 +11,7 @@
 #define MSG_SERVER_FINISH "Servidor finalizado.\n"
 #define ERR_MAL_EJECUTADO 1
 #define ERR_CONEXION_SOCKET 2
+#define KEY_ESC 27
 #define MSG_MAL_EJECUTADO_SVR "Modo de uso: ./server <archivo_configuracion.ini>\n"
 #define BAJA_CLIENTE "BAJA_CLIENTE"
 #define MSG_MAL_EJECUTADO_CLI "Modo de uso: ./client <IP host> <nro_puerto>\n"
