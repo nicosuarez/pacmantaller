@@ -296,6 +296,7 @@ Cliente::~Cliente(){
 /*----------------------------------------------------------------------------*/
 int Cliente::ejecutar(int cantArg,char* argv[]){
 	
+	Modelo::getInstance()->setFinalizoJuego(false);
 	//El jugador establece conexion con el servidor.
 	this->recibirMensajes();
 	
