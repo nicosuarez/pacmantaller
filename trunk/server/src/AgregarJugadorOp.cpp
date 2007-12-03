@@ -19,19 +19,9 @@ bool AgregarJugadorOp::ejecutar(Modelo* modelo){
 	//Enviar mensaje init
 	std::cout<<"Enviar mensaje init al jugador: "<<this->jugador->GetIdJugador()<<"\n";
 	//Se le asigna un personaje al jugador
-	Personaje *personaje;
-	int rol = 1;
-	if( jugador->GetIdJugador() == 0 )
-	{
-		personaje = new PacMan;
-		rol = 0;
-	}
-	else personaje = new Fantasma;
-	jugador->SetPersonaje( personaje );
+	this->asignarPersonaje();
 	//Se le envia al cliente el paquete init
-	Init init(rol);
-	char *buffer = init.Serialize();
-	jugador->GetSocket()->enviar( buffer, (size_t)init.getSize() );
+	this->enviarMsgInit();
 	//Se espera 5 segundos y se envia el mensaje start agregando el jugador 
 	//a la lista del modelo
 	Play* play = new Play(this->jugador);
@@ -41,6 +31,30 @@ bool AgregarJugadorOp::ejecutar(Modelo* modelo){
 	return false;
 }
 
+void AgregarJugadorOp::enviarMsgInit()
+{
+	int rol=jugador->getPersonaje()->GetRol();
+	Init init(rol);
+	char *buffer = init.Serialize();
+	jugador->GetSocket()->enviar( buffer, (size_t)init.getSize() );
+}
+
+//Retorna el rol que se le asgino al jugador
+void AgregarJugadorOp::asignarPersonaje()
+{
+	Personaje *personaje;
+	if( jugador->GetIdJugador() == PacMan::PACMAN_TYPE )
+	{
+		personaje = new PacMan();
+		jugador->SetIdPersonaje(PacMan::PACMAN_TYPE);
+	}
+	else 
+	{
+		personaje = new Fantasma();
+		jugador->SetIdPersonaje(Fantasma::FANTASMA_TYPE);
+	}
+	jugador->SetPersonaje( personaje );
+}
 
 /**
  * Metodo que encapsula la logica de la operacion.

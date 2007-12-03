@@ -19,7 +19,9 @@ public:
 	PacMan();
 	virtual ~PacMan();
 
+	
 	static const int PACMAN_TYPE = 0;
+	int GetRol()const;
 	int GetVelocidad();
 	bool IsPowerUp();
 	void SetPowerUp(bool newVal);

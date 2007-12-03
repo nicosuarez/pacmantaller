@@ -54,7 +54,13 @@ public:
 	bool seFinalizoElJuego(){return *finalizoJuego;};
 	void liberarStartJugadores();
 	
+	/**
+	 * Determina se termino el nivel o no
+	 */
 	bool seFinalizoElNivel(){return finalizoNivel;};
+	/**
+	 * Setea el comiezo o el fin del nivel.
+	 */
 	void seFinalizoElNivel(bool finalizo){finalizoNivel=finalizo;};
 	
 	Operacion* getOperacion();

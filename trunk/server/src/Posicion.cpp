@@ -12,13 +12,15 @@ Posicion::Posicion()
 	this->idArista = 0;
 	this->posicionArista = 0;
 	this->direccion = 0;
+	this->idVertice=0;
 }
 
-Posicion::Posicion( int idArista, int posicionArista, int direccion )
+Posicion::Posicion(int idArista,int posicionArista,int direccion,int idVertice)
 {
 	this->idArista = idArista;
 	this->posicionArista = posicionArista;
 	this->direccion = direccion;
+	this->idVertice=idVertice;
 }
 
 Posicion::Posicion( const Posicion &posicion )
@@ -35,6 +37,11 @@ Posicion::~Posicion(){
 int Posicion::getArista()const
 {
 	return idArista;
+}
+
+int Posicion::getVertice()const
+{
+	return idVertice;
 }
 
 int Posicion::getPosicionArista()const

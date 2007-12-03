@@ -18,6 +18,14 @@ PacMan::~PacMan(){
 }
 
 /**
+ * Identificador del rol de personaje
+ */
+int PacMan::GetRol()const{
+
+	return PacMan::PACMAN_TYPE;
+}
+
+/**
  * Velocidad del personaje
  */
 int PacMan::GetVelocidad(){

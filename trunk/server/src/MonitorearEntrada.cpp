@@ -16,4 +16,5 @@ void MonitorearEntrada::main(){
 	*cerrarServidor=true;
 	std::cout<<"Agregar operacion CerrarServidorOp\n";
 	Modelo::getInstance()->agregarOperacion(new CerrarServidorOp());
+	Modelo::getInstance()->getEsperarMinJugadoresEvent().activar();
 }
