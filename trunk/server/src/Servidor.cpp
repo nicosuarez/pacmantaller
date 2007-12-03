@@ -40,14 +40,15 @@ int Servidor::ejecutar(){
  */
 void Servidor::comenzarJuego(){
 
+	//Se instancia el modelo. Singleton
+	//finalizoJuego,cerrarServidor son flags de estado.
+	Modelo::setInstance(&finalizoJuego,&cerrarServidor);
+	
 	//Se empieza aceptar jugadores a traves del socket del servidor, hasta que
 	//finalice el juego.
 	AceptarJugador aceptarJugador(skServer,&finalizoJuego);
 	aceptarJugador.run();
-	
-	//Se instancia el modelo. Singleton
-	//finalizoJuego,cerrarServidor son flags de estado.
-	Modelo::setInstance(&finalizoJuego,&cerrarServidor);
+
 	
 	//El connectionManager le setea al modelo la lista de jugadores conectados
 	tListJugadores jugadores = ConnectionManager::getInstance()->GetPool().getJugadoresList();

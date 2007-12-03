@@ -5,6 +5,8 @@
 ///////////////////////////////////////////////////////////
 
 #include "Modelo.h"
+#include "CasaFantasmas.h"
+#include "Bonus.h"
 
 Modelo* Modelo::pModelo = NULL;
 
@@ -101,6 +103,38 @@ void Modelo::main(){
 		//Obtener el mapa del nivel.
 		//this->mapa = XmlParser::getMapa(Mundo->nivel->mapaPath);
 		//Crear mensaje init
+		
+		tGrafo grafo;
+		int ancho = 5;
+		int alto = 2;
+		for(int i=1; i<=10; i++)
+			grafo.agregarVertice( i, NULL );
+		for(int i=1; i<5; i++)
+		{
+			tVertice *origen = grafo.getVertice( i );
+			tVertice *destino = grafo.getVertice( i + 1 );
+			grafo.agregarArco( origen, destino, i, new Orientacion(Este) );
+		}	
+		for( int i=6; i<10; i++ )
+		{
+			tVertice *origen = grafo.getVertice( i );
+			tVertice *destino = grafo.getVertice( i + 1 );
+			tVertice *destinoNorte = grafo.getVertice( i-ancho);
+			grafo.agregarArco( origen, destino, i, new Orientacion(Este) );
+			if( destinoNorte != NULL )
+				grafo.agregarArco( origen, destinoNorte, i, new Orientacion(Norte) );
+		}
+		Mapa *mapa = new Mapa( &grafo, ancho, alto );
+		
+		Modelo *modelo = Modelo::getInstance();
+		modelo->SetPuntuacion( 666 );
+		modelo->SetMapa( mapa );
+		
+		CasaFantasmas casa(0, Norte);
+		modelo->GetElementos()->push_back(&casa);
+		
+		Bonus bonus(3,Norte);
+		modelo->GetElementos()->push_back(&bonus);
 		
 		std::cout<<"Esperando comienzo de nivel..\n";
 		this->esperarMinJugadoresEvent.esperar();
