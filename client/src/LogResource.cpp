@@ -1,0 +1,36 @@
+#include "LogResource.h"
+
+/******************************************************************************/
+/* Implementacion */
+/*------------------------------*/
+
+void LogResource::mostrarServerStatus(bool on)
+{
+	if(on)
+		std::cout<< MSG_SERVER_RUNNING;
+	else
+		std::cout<< MSG_SERVER_FINISH;
+}
+/*----------------------------------------------------------------------------*/
+void LogResource::mostrarModoEjecucionCliente()
+{
+	std::cout<<MSG_MAL_EJECUTADO_CLI;
+}
+/*----------------------------------------------------------------------------*/
+void LogResource::mostrarModoEjecucionServidor()
+{
+	std::cerr<<MSG_MAL_EJECUTADO_SVR;
+}
+/*----------------------------------------------------------------------------*/
+void LogResource::mostrarSalirCliente()
+{
+   	std::cerr<<MSG_SALIR_CLIENTE;
+}
+/*----------------------------------------------------------------------------*/
+string LogResource::getMsgNroCliente(string id)
+{
+	string mensaje="";
+	mensaje= MSG_NRO_CLIENTE + id + "\n";
+	return mensaje;
+}
+

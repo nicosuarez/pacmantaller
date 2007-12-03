@@ -4,6 +4,8 @@
 #include <iostream>
 #include "textura.h"
 #include "camara.h"
+#include "Parser.h"
+#include "Request.h"
 
 #define ANCHOL 6
 #define LARGOL 10
@@ -202,8 +204,15 @@ void reshapeEvent(GLsizei width, GLsizei height) {
 } 
 
 
-int main(int argc, char** argv) {
-	
+int comenzarJuego(Request* req)
+{
+	int err=0;
+	err = req->play();
+	return err;
+}
+
+void iniciarGraficos(int argc, char** argv)
+{
 	glutInit( &argc, argv );	
 	glutInitWindowSize( 500, 400 );
 	glutInitWindowPosition( 100, 100 );
@@ -227,7 +236,27 @@ int main(int argc, char** argv) {
 	glutSpecialFunc( tecladoEvent );
 	glutIdleFunc( idleEvent );		
 	glutMainLoop();
+}
 
-	return 0;
+
+int main(int argc, char** argv) {
+	int port=0,err=0;
+	std::string host="";
+	
+	Parser::validarArgumentos(argc,argv,&host,&port);
+	
+	/* Genera la conexion */
+	Request* req = new Request(host,port);
+	
+	/* Comienza a jugar. */
+	iniciarGraficos(argc, argv);
+	err = comenzarJuego(req);
+
+    /* Libera la conexion */
+	delete req;
+    
+	/* Sale con el codigo de retorno correspondiente */
+	return err;	
 } 
+
 
