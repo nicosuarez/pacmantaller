@@ -52,6 +52,8 @@ Modelo::~Modelo(){
 		delete jugador;
 	}
 	jugadores.clear();
+	
+	delete mapa;
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -114,6 +116,7 @@ void Modelo::main(){
 			tVertice *origen = grafo.getVertice( i );
 			tVertice *destino = grafo.getVertice( i + 1 );
 			grafo.agregarArco( origen, destino, i, new Orientacion(Este) );
+			grafo.agregarArco( destino, origen, i, new Orientacion(Oeste) );
 		}	
 		for( int i=6; i<10; i++ )
 		{
@@ -121,8 +124,12 @@ void Modelo::main(){
 			tVertice *destino = grafo.getVertice( i + 1 );
 			tVertice *destinoNorte = grafo.getVertice( i-ancho);
 			grafo.agregarArco( origen, destino, i, new Orientacion(Este) );
+			grafo.agregarArco( destino, origen, i, new Orientacion(Oeste) );
 			if( destinoNorte != NULL )
+			{
 				grafo.agregarArco( origen, destinoNorte, i, new Orientacion(Norte) );
+				grafo.agregarArco( destinoNorte, origen, i, new Orientacion(Sur) );
+			}
 		}
 		Mapa *mapa = new Mapa( &grafo, ancho, alto );
 		

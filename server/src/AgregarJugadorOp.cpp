@@ -37,6 +37,7 @@ void AgregarJugadorOp::enviarMsgInit()
 	Init init(rol);
 	char *buffer = init.Serialize();
 	jugador->GetSocket()->enviar( buffer, (size_t)init.getSize() );
+	delete[] buffer;
 }
 
 //Retorna el rol que se le asgino al jugador
