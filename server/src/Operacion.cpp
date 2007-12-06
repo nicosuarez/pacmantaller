@@ -18,18 +18,6 @@ Operacion::~Operacion(){
 }
 
 
-
-
-
-/**
- * Valida y aplica la operacion* retorna TRUE(exito),FALSE(error)
- */
-bool Operacion::ejecutar(Modelo* modelo){
-
-	return false;
-}
-
-
 /**
  * Metodo que encapsula la logica de la operacion.
  */

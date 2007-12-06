@@ -14,7 +14,8 @@ AgregarJugadorOp::AgregarJugadorOp(Jugador* jugador){
 /**
  * Valida y aplica la operacion* retorna TRUE(exito),FALSE(error)
  */
-bool AgregarJugadorOp::ejecutar(Modelo* modelo){
+bool AgregarJugadorOp::ejecutar()
+{
 
 	//Enviar mensaje init
 	std::cout<<"Enviar mensaje init al jugador: "<<this->jugador->GetIdJugador()<<"\n";
