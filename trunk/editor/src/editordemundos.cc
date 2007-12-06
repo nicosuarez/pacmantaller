@@ -30,7 +30,7 @@ int main(int argc, char **argv)
    Gtk::Main m(&argc, &argv);
 
    Glib::RefPtr<Gnome::Glade::Xml> refXml;
-   //refXml = Gnome::Glade::Xml::create("/home/maxi/Editor de Mundos/DisenioEditorMundos/disenioeditormundos.glade");
+   refXml = Gnome::Glade::Xml::create("Glade/disenioeditormundos.glade");
 
    Editor E(refXml);
 
