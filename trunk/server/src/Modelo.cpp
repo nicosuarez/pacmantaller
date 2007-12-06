@@ -115,22 +115,25 @@ void Modelo::main(){
 		{
 			tVertice *origen = grafo.getVertice( i );
 			tVertice *destino = grafo.getVertice( i + 1 );
-			grafo.agregarArco( origen, destino, i, new Orientacion(Este) );
-			grafo.agregarArco( destino, origen, i, new Orientacion(Oeste) );
+			grafo.agregarArco( origen, destino, i, Este );
+			grafo.agregarArco( destino, origen, i, Oeste );
 		}	
 		for( int i=6; i<10; i++ )
 		{
 			tVertice *origen = grafo.getVertice( i );
 			tVertice *destino = grafo.getVertice( i + 1 );
 			tVertice *destinoNorte = grafo.getVertice( i-ancho);
-			grafo.agregarArco( origen, destino, i, new Orientacion(Este) );
-			grafo.agregarArco( destino, origen, i, new Orientacion(Oeste) );
+			grafo.agregarArco( origen, destino, i, Este );
+			grafo.agregarArco( destino, origen, i, Oeste );
 			if( destinoNorte != NULL )
 			{
-				grafo.agregarArco( origen, destinoNorte, i, new Orientacion(Norte) );
-				grafo.agregarArco( destinoNorte, origen, i, new Orientacion(Sur) );
+				grafo.agregarArco( origen, destinoNorte, i, Norte );
+				grafo.agregarArco( destinoNorte, origen, i, Sur );
 			}
 		}
+		tVertice *destinoNorte = grafo.getVertice( 10-ancho);
+		tVertice *origen = grafo.getVertice( 10 );
+		grafo.agregarArco( origen, destinoNorte, 10, Norte );
 		Mapa *mapa = new Mapa( &grafo, ancho, alto );
 		
 		Modelo *modelo = Modelo::getInstance();
@@ -186,8 +189,7 @@ void Modelo::ejecutarOperaciones(){
 	while(!this->operaciones.empty())
 	{	
 		Operacion* operacion=getOperacion();
-		operacion->ejecutar(this);
-		
+		operacion->ejecutar();
 		/*tListJugadores jugadores;
 		itListJugadores it;
 		jugadores = this->GetJugadores();
@@ -216,6 +218,7 @@ Operacion* Modelo::getOperacion()
 {
 	return this->operaciones.front();
 }
+
 /*----------------------------------------------------------------------------*/
 /**
  * Notifica que los jugadores deben actualizar el estado

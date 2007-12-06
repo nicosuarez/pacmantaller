@@ -19,8 +19,6 @@
 
 using std::string;
 
-class Operacion;
-
 typedef std::list<Elemento*> tListElementos; 
 typedef std::queue<Operacion*> tQueueOperacion;
 typedef std::list<Jugador*> tListJugadores;
@@ -53,7 +51,6 @@ public:
 	void seFinalizoElJuego(bool finalizo){*finalizoJuego=finalizo;};
 	bool seFinalizoElJuego(){return *finalizoJuego;};
 	void liberarStartJugadores();
-	
 	/**
 	 * Determina se termino el nivel o no
 	 */
@@ -66,7 +63,6 @@ public:
 	Operacion* getOperacion();
 	Operacion* desacolar();
 	void esperarRecibirOperaciones();
-	
 	/* Eventos */
 	Evento& getRecibiOperacionEvent(){return this->recibiOperacionEvent;};
 	Evento& getEsperarMinJugadoresEvent(){return this->esperarMinJugadoresEvent;};
@@ -122,6 +118,6 @@ private:
 	 * Puntuacion del pacman
 	 */
 	int puntuacion;
-
+	
 };
 #endif // !defined(EA_C452893E_00CB_470e_BB7D_F33E91B1347A__INCLUDED_)

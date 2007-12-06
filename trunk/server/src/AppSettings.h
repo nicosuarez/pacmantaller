@@ -6,12 +6,6 @@
 #ifndef __APP_SETTINGS_H__
 #define __APP_SETTINGS_H__
 
-#ifdef __GNUC__
-#define PACKED __attribute__((__packed__))
-#else
-#error Debe compilar con GCC
-#endif
-
 #include "Elemento.h"
 #include "Arco.h"
 #include "Vertice.h"

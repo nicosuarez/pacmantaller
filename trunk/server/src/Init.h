@@ -16,7 +16,7 @@
 
 #include <stdint.h>
 #include "Mensaje.h"
-#include "AppSettings.h"
+#include "Modelo.h"
 
 typedef struct PktInit
 {
