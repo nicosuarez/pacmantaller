@@ -3,6 +3,8 @@
 
 #include "Thread.h"
 #include "Modelo.h"
+#include "Start.h"
+#include "Status.h"
 
 class Play : public Thread
 {

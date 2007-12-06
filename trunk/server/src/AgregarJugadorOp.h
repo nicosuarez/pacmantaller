@@ -24,7 +24,7 @@ private:
 public:
 	AgregarJugadorOp(Jugador* jugador);
 
-	bool ejecutar(Modelo* modelo);
+	bool ejecutar();
 	void enviarMsgInit();
 	//Retorna el rol que se le asgino al jugador
 	void asignarPersonaje();

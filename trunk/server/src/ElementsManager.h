@@ -8,7 +8,7 @@
 #define EA_BC2323FF_9B32_4b02_BDD4_D4E228A2C27D__INCLUDED_
 
 #include "Operacion.h"
-
+#include <iostream>
 /**
  * Clase encargada de generar las operaciones que agregan en el mapa los bonus y
  * powersUp
