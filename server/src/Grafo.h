@@ -106,7 +106,7 @@ public:
     post : agrega un arco a la lista de arcos del vertice origen.
     */
     tArco* agregarArco( tVertice *verticeOrigen, tVertice *verticeDestino, 
-        TipoIdArco idArco, TipoDatoArco *elemenArco )
+        TipoIdArco idArco, TipoDatoArco elemenArco )
     {
         tArco *nuevoArco=new tArco(idArco,elemenArco,verticeOrigen,
             verticeDestino);

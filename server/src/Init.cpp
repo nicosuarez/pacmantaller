@@ -21,7 +21,7 @@ tArco* getArco( tListaArco *arcos, Orientacion orientacion )
 {
 	tItArco it;
 	for( it = arcos->begin(); it != arcos->end(); it++ )
-		if( ( *(*it)->getElemento() ) == orientacion )
+		if( ( (*it)->getElemento() ) == orientacion )
 			return *it;
 	return NULL;
 }

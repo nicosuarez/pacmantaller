@@ -22,7 +22,7 @@ public:
 private:
     tVertice *vOrigen, *vDestino;
     TipoIdArco idArco;
-    TipoDatoArco *elemento;
+    TipoDatoArco elemento;
 
 public:
     //Contructores y Destructores
@@ -33,13 +33,13 @@ public:
         this->elemento = NULL;
     }
 
-    Arco(TipoIdArco id,TipoDatoArco *elemento)
+    Arco(TipoIdArco id,TipoDatoArco elemento)
     {
         this->idArco = id;
         this->elemento = elemento;
     }
 
-    Arco(TipoIdArco id,TipoDatoArco *elemento,tVertice *vOrigen, 
+    Arco(TipoIdArco id,TipoDatoArco elemento,tVertice *vOrigen, 
         tVertice *vDestino)
     {
         this->idArco = id;
@@ -50,7 +50,7 @@ public:
 
     ~Arco()
     {
-        delete(elemento);
+        //delete(elemento);
     }
     /*----------------------------------------------------------------------------*/
     //Getters y Setters
@@ -59,10 +59,10 @@ public:
     /*----------------------------------------------------------------------------*/
     TipoIdArco getid()const{return idArco;}
     /*----------------------------------------------------------------------------*/
-    void setElemento( TipoDatoArco *elemento ){this->elemento = elemento;}
+    void setElemento( TipoDatoArco elemento ){this->elemento = elemento;}
     /*----------------------------------------------------------------------------*/
     /*Devuelve el elemento contenido*/
-    TipoDatoArco* getElemento(){return elemento;}
+    TipoDatoArco getElemento(){return elemento;}
     /*----------------------------------------------------------------------------*/
     void setVerticeOrigen(tVertice *vOrigen){this->vOrigen= vOrigen;}
     /*----------------------------------------------------------------------------*/

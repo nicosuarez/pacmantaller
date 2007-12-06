@@ -14,7 +14,6 @@
 #endif
 
 #include <string>
-#include "Modelo.h"
 
 #define BROADCAST -1
 
