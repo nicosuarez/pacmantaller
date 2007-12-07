@@ -7,8 +7,16 @@ Mapa::Mapa( tGrafo *grafo, int ancho, int alto )
 	this->alto = alto;
 }
 
+Mapa::Mapa()
+{
+	this->grafo = new tGrafo;
+	this->ancho = 0;
+	this->alto = 0;
+}
+
 Mapa::~Mapa()
 {
+	delete grafo;
 }
 
 tGrafo* Mapa::getGrafo()

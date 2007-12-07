@@ -11,6 +11,8 @@ private:
 public:
 	Mapa( tGrafo *grafo, int ancho, int alto );
 	
+	Mapa();
+		
 	virtual ~Mapa();
 	
 	tGrafo* getGrafo();

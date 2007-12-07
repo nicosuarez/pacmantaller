@@ -15,14 +15,23 @@
 #include "Jugador.h"
 #include "AppSettings.h"
 #include "Mapa.h"
+#include "Mundo.h"
+#include "Config.h"
 #include "StartJugador.h"
+#include "XmlParser.h"
+#include "CasaFantasmas.h"
+#include "Bonus.h"
+#include "SalidaPacMan.h"
 
 using std::string;
+
+class Operacion;
 
 typedef std::list<Elemento*> tListElementos; 
 typedef std::queue<Operacion*> tQueueOperacion;
 typedef std::list<Jugador*> tListJugadores;
 typedef std::list<Jugador*>::iterator itListJugadores;
+typedef std::list<Elemento*>::iterator itListElementos;
 typedef bool* pBool;
 
 /**
@@ -40,17 +49,22 @@ public:
 	void agregarOperacion(Operacion* operacion);
 	tListElementos* GetElementos();
 	Mapa* GetMapa();
+	Mundo* GetMundo();
 	tListJugadores& GetJugadores();
 	int GetPuntuacion()const;
 	void main();
 	void notify();
 	void SetElementos(tListElementos& elementos);
 	void SetMapa(Mapa* mapa);
+	void SetMundo(Mundo* mundo);
 	void SetJugadores(tListJugadores& jugadores);
 	void SetPuntuacion( int puntuacion );
 	void seFinalizoElJuego(bool finalizo){*finalizoJuego=finalizo;};
 	bool seFinalizoElJuego(){return *finalizoJuego;};
 	void liberarStartJugadores();
+	void liberarNivel();
+	void SetSalidaPacMan(SalidaPacMan& salidaPacMan);
+	void SetCasaFantasmas(CasaFantasmas& casaFantasmas);
 	/**
 	 * Determina se termino el nivel o no
 	 */
@@ -63,6 +77,7 @@ public:
 	Operacion* getOperacion();
 	Operacion* desacolar();
 	void esperarRecibirOperaciones();
+	
 	/* Eventos */
 	Evento& getRecibiOperacionEvent(){return this->recibiOperacionEvent;};
 	Evento& getEsperarMinJugadoresEvent(){return this->esperarMinJugadoresEvent;};
@@ -74,6 +89,14 @@ protected:
 	
 private:
 	static Modelo* pModelo;
+	/**
+	 * Salida del pacman.
+	 */
+	SalidaPacMan salidaPacMan;
+	/**
+	 * Casa de los fantasmas posicion
+	 */
+	CasaFantasmas casa;
 	/**
 	 * Evento que determina si hay que empezar el juego.
 	 */
@@ -90,6 +113,10 @@ private:
 	 * Lista de elementos del mapa.
 	 */
 	tListElementos elementos;
+	/**
+	 * Mundo que se esta jugando actualmente.
+	 */
+	Mundo *mundo;
 	/**
 	 * Nivel que se esta jugando actualmente.
 	 */
@@ -118,6 +145,6 @@ private:
 	 * Puntuacion del pacman
 	 */
 	int puntuacion;
-	
+
 };
 #endif // !defined(EA_C452893E_00CB_470e_BB7D_F33E91B1347A__INCLUDED_)

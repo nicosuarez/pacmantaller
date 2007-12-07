@@ -18,7 +18,7 @@ class CasaFantasmas : public Elemento
 {
 
 public:
-	CasaFantasmas( int posicion, Orientacion orientacion);
+	CasaFantasmas( int posicion = -1, Orientacion orientacion=Norte);
 	
 	virtual ~CasaFantasmas();
 	

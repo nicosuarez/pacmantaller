@@ -19,9 +19,30 @@
 #define MSG_SALIR_SERVER "Presione 'x' para salir..\n"
 #define EXIT_KEY_SERVER "x"
 #define MSG_NRO_CLIENTE "Jugador Nro: "
-#define ERR_CARGANDO_TEXTURA "Error cargando textura\n"
-#define TEX_PATH_PISO "piso.tga"
-#define TEX_PATH_PARED "ladri.tga"
+#define POWER_UP "PowerUp"
+#define ELEMENTOS "Elementos"
+#define ELEMENTO "Elemento"
+#define ANCHO "Ancho"
+#define ALTO "Alto"
+#define ARISTA "Arista"
+#define GRAFO "Grafo"
+#define VERTICE "Vertice"
+#define ATRIB_ID "id"
+#define ATRIB_VALOR "valor"
+#define PASTILLAS "Pastillas"
+#define CASA_FANTASMAS "CasaFantasmas"
+#define SALIDA_PACMAN "PacMan"
+#define ATRIB_ORIENTACION "orientacion"
+#define BONUS "Bonus"
+#define ATRIB_TIPO "tipo"
+#define ATRIB_ID_VERTICE "idv"
+#define MAPA "Mapa" 
+#define ATRIB_PATH "path"
+
+#define OESTE "OESTE"
+#define SUR "SUR"
+#define NORTE "NORTE"
+#define ESTE "ESTE"
 
 #include <string>
 #include <iostream>
@@ -41,6 +62,8 @@ public:
     static void mostrarSalirServer();
     
     static string getMsgNroCliente(string id);
+    
+    static string getOrientacionContraria(string orientacion);
     
 };
 

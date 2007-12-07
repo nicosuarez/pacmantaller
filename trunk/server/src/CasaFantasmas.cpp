@@ -7,11 +7,10 @@
 #include "CasaFantasmas.h"
 
 
-CasaFantasmas::CasaFantasmas( int posicion, Orientacion orientacion = Norte ): Elemento( posicion, orientacion )
+CasaFantasmas::CasaFantasmas( int posicion, Orientacion orientacion): Elemento( posicion, orientacion )
 {
 
 }
-
 
 
 CasaFantasmas::~CasaFantasmas(){

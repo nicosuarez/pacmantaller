@@ -30,7 +30,7 @@ public:
     Arco(TipoIdArco id)
     {
         this->idArco = id;
-        this->elemento = NULL;
+        this->elemento = Norte;
     }
 
     Arco(TipoIdArco id,TipoDatoArco elemento)

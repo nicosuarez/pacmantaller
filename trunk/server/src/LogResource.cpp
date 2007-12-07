@@ -33,4 +33,17 @@ string LogResource::getMsgNroCliente(string id)
 	mensaje= MSG_NRO_CLIENTE + id + "\n";
 	return mensaje;
 }
+/*----------------------------------------------------------------------------*/
+string LogResource::getOrientacionContraria(string orientacion)
+{
+	if(orientacion == OESTE)
+		return ESTE;
+	if(orientacion == SUR)
+		return NORTE;
+	if(orientacion == NORTE)
+		return SUR;
+	if(orientacion == ESTE)
+		return OESTE;
+	return NORTE;
+}
 

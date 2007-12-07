@@ -16,7 +16,7 @@ class Pastilla : public Elemento
 {
 
 public:
-	Pastilla( int posicion, Orientacion orientacion );
+	Pastilla( int posicion=-1, Orientacion orientacion=Norte );
 	
 	virtual ~Pastilla();
 	
