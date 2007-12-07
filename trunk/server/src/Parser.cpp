@@ -13,41 +13,64 @@
 /*------------------------------*/
 
 using namespace std;
+
+string Parser::strip(string s)
+{
+	return s.substr(s.find_first_not_of(' '), s.find_last_not_of(' ')+1);
+}
 /*----------------------------------------------------------------------------*/
 void Parser::cargarConfiguracion(char* pathConfig)
 {
     ifstream fileConfig;
-    string linea = "";
+    string s = "";
   
     fileConfig.open(pathConfig);
     if(!fileConfig.fail())
-    {
-        while(!fileConfig.eof())
-        {
-            std::getline(fileConfig,linea);         
-            //Se ignoran las lineas vacias.
-            if(linea!=EMPTY)
-            {
-            	std::cout<<linea;
-                tVecStr strTok=StrToken::getStrTokens(linea,";");
-                cargarConfiguracion(strTok);
-            }
-            linea=EMPTY;
-        }
+    {          
+    	  cout << CONFIGURACION << "\n";
+    	  tConf conf;
+		  while (getline(fileConfig, s))
+		  {
+		      if (s == EMPTY) // vacío
+		              continue;
+		      if (s[0] == '#') // comentario
+		              continue;
+		      if (s.find('=') == string::npos)
+		      {
+		    	  cerr << ERR_PARSER_CONIFG << "\n";
+		    	  fileConfig.close();
+		    	  exit(2);
+		      }
+		      string key = s.substr(0, s.find('='));
+		      string val = s.substr(s.find('=')+1, string::npos);
+		      conf[strip(key)] = strip(val);
+		      cout<< strip(key)<<": "<< strip(val) << "\n";
+		  }
+		  cargarConfiguracion(conf);
     }
+    else
+    {
+	    cerr << ERR_PARSER_CONFIG_FILE_NOT_FOUND << " " << pathConfig <<"\n";
+	    fileConfig.close();
+	    exit(3);
+    }    	
     fileConfig.close();
 }
 
 /*----------------------------------------------------------------------------*/
-void Parser::cargarConfiguracion(tVecStr strTok)
+void Parser::cargarConfiguracion(tConf config)
 {
     string mundoXmlPath=EMPTY,archivoLog=EMPTY;
     int port=0,minJugadores=2,maxJugadores=5,vidas=1;
     bool com_fantasmas=false;
 
-    StrToken::setTokensParams(strTok,"siiibis",&mundoXmlPath,&port,
-        &minJugadores,&maxJugadores,&com_fantasmas,
-        &vidas,&archivoLog);
+    mundoXmlPath=config[CFG_MUNDO];
+    StrToken::stringTo<int>(port,config[CFG_PUERTO]);
+    StrToken::stringTo<int>(minJugadores,config[CFG_MIN_JUGADORES]);
+    StrToken::stringTo<int>(maxJugadores,config[CFG_MAX_JUGADORES]);
+    StrToken::stringTo<int>(vidas,config[CFG_VIDAS]);
+    StrToken::stringTo<bool>(com_fantasmas,config[CFG_COM_FANTASMAS]);
+    archivoLog=config[CFG_LOG_FILE];
     
     //Se setea el objecto singleton de configuracion.
     Config::setInstance(mundoXmlPath,port,minJugadores,
