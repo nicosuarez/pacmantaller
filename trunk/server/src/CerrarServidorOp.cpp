@@ -15,10 +15,14 @@ bool CerrarServidorOp::ejecutar()
 	Modelo *modelo = Modelo::getInstance();
 	tListJugadores jugadores =  modelo->GetJugadores();
 	tListJugadores::iterator it;
+	
+	char* buffer = quit->Serialize();
+	int size = quit->getSize();
 	for( it=jugadores.begin(); it != jugadores.end() ; it++ )
 	{
-		(*it)->GetSocket()->enviar( quit->Serialize(), quit->getSize() );
+		(*it)->GetSocket()->enviar( buffer, size );
 	}
+	delete []buffer;
 	//Finalizar el juego.
 	modelo->seFinalizoElJuego(true);
 	modelo->seFinalizoElNivel(true);

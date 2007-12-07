@@ -37,7 +37,7 @@ char* Status::Serialize()
 
 	//Seteo la puntuacion
 	uint32_t *puntuacion = (uint32_t*) ( buffer + delta );
-	*puntuacion = modelo->GetPuntuacion(); 
+	*puntuacion = htonl( modelo->GetPuntuacion() ); 
 	delta += sizeof(uint32_t);
 
 	

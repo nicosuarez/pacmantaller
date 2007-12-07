@@ -25,6 +25,6 @@ char* Start::Serialize()
 	pkt->version = 0;
 	pkt->tipo = Start::START_TYPE;
 	pkt->aux = 0;
-	pkt->id = this->id;
+	pkt->id = htons(this->id);
 	return buffer;
 }
