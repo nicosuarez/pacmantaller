@@ -1,5 +1,7 @@
 #include "RecibirMensaje.h"
 
+using namespace std;
+
 RecibirMensaje::RecibirMensaje( Socket *socket ):socket(socket)
 {
 }
@@ -21,25 +23,32 @@ void RecibirMensaje::recibirMensaje()
 	while( !modelo->getFinalizoJuego() )
 	{
 		socket->recibir( buffer, sizeof(PktCabecera) );
+		std::cout << "Recibi Paquete ";
 		PktCabecera *cabecera = (PktCabecera*)buffer;
 		switch( (int) cabecera->tipo )
 		{
-			case Mensaje::INIT_TYPE: 
+			case Mensaje::INIT_TYPE:
+				std::cout<< "Init\n";
 				recibirInit( cabecera );
 				break;
 				
 			case Mensaje::START_TYPE:
+				std::cout<< "Start\n";
 				//Recibo el id
-				char id[sizeof( uint16_t)];
-				socket->recibir( id, sizeof(uint16_t) );
-				modelo->setid( (int)(*id) );
+				uint16_t id;
+				socket->recibir( (char*)(&id), sizeof(uint16_t) );
+				id = ntohs(id);
+				std::cout << "ID: " << (int)id << std::endl;
+				modelo->setid( (int)(id) );
 				break;
 				
 			case Mensaje::STATUS_TYPE:
+				std::cout<< "Status\n";
 				recibirStatus( cabecera );
 				break;
 				
 			case Mensaje::STOP_TYPE:
+				std::cout<< "Stop\n";
 				//recibo la puntuacion del pacman
 				char puntuacion[sizeof(uint32_t)];
 				socket->recibir( puntuacion, sizeof(uint32_t) );
@@ -49,10 +58,12 @@ void RecibirMensaje::recibirMensaje()
 				break;
 				
 			case Mensaje::QUIT_TYPE:
+				std::cout<< "Quit\n";
 				modelo->setFinalizoJuego( true );
 				break;
 				
-			default: continue;
+			default: std::cout << "No se reconoce el tipo\n"; 
+				continue;
 		} 
 	}
 }
@@ -99,10 +110,21 @@ void RecibirMensaje::recibirElementos( int cantElementos )
 	}
 }
 
+void imprimir( int **mat, int alto, int ancho)
+{
+	for( int i=0; i<alto; i++ )
+	{
+		for( int j=0; j<ancho; j++ )
+			std::cout << mat[i][j] << " ";
+		std::cout << " \n";
+	}
+}
+
 int getbit( int x, uint8_t byte )
 {
 	byte = byte << 7-x;
 	byte = byte >> 7;
+	std::cout<< (int)byte;
 	return byte;
 }
 
@@ -111,13 +133,11 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 	//Calculo la cantidad de bytes que hay que recibir
 	int tamanio = ( (ancho*alto*2)  + ( (8-(ancho*alto*2)%8) %8 ) )/8;
 	char buffer[ tamanio ];
-	
 	//Recibo los bytes con la informacion del mapa
 	socket->recibir( buffer, tamanio );
-	
 	//Aloco memoria para las matrices que representan las paredes verticales y horizontales del mapa
-	int **ph = new int*[alto+1];
-	int **pv = new int*[alto];
+	int **ph = new int*[alto+1]; //Matriz que representa las paredes horizontales
+	int **pv = new int*[alto]; //Matriz que representa las paredes verticales
 	for( int i=0; i<alto; i++ )
 	{
 		ph[i] = new int[ancho];
@@ -128,26 +148,25 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 	int numFila = 0;
 	while( contador < (ancho*alto*2) )
 	{
+		//Veo el rango de bits que representa los arcos este
 		for( int i=0; i< ancho; i++)
 		{
 			uint8_t *byte = (uint8_t*)(buffer + contador/8);
-			if( getbit( 7 - (i%8), *byte ) == 0 )
-				ph[numFila][i] = 1;
-			else 
-				ph[numFila][i] = 0;
+			//Si no hay arco (bit = 0 ) entonces hay pared
+			pv[numFila][i+1] = 1 - getbit( 7 - (i%8), *byte );
 			contador++;
 		}
+		//Veo el rango de bits que representa los arcos norte
 		for( int i=0; i< ancho; i++ )
 		{
 			uint8_t *byte = (uint8_t*)(buffer + contador/8);
-			if( getbit( 7 - (i%8), *byte ) == 0 )
-				pv[numFila][i] = 1;
-			else 
-				pv[numFila][i] = 0;
+			//Si no hay arco (bit = 0 ) entonces hay pared
+			ph[numFila][i] = 1 - getbit( 7 - (i%8), *byte );
 			contador++;
 		}
 		numFila++;
 	}
+	std::cout<< std::endl;
 	//seteo la pared horizontal de abajo
 	for( int i=0; i<ancho; i++ )
 	{
@@ -156,7 +175,7 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 	//seteo la pared vertical de la izquierda
 	for( int i=0; i<alto; i++)
 	{
-		pv[i][ancho] = pv[i][ancho];
+		pv[i][0] = pv[i][ancho];
 	}
 	Modelo::getInstance()->setMapa( new Mapa(ph, pv, ancho, alto ) );
 }
@@ -240,10 +259,11 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 {
 	Modelo *modelo = Modelo::getInstance();
 	//Recibo la puntuacion
-	char puntuacion[sizeof(uint32_t)];
-	socket->recibir( puntuacion, sizeof(uint32_t) );
-	modelo->setPuntuacion( (int)(*puntuacion) );
-	
+	int puntuacion;
+	socket->recibir( (char*)&puntuacion, sizeof(uint32_t) );
+	puntuacion = ntohl(puntuacion);
+	modelo->setPuntuacion( puntuacion );
+		
 	//Recibo las posiciones de los jugadores
 	recibirPosiciones( (int)cabecera->aux );
 	

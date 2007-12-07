@@ -45,6 +45,7 @@ void AgregarJugadorOp::enviarMsgInit()
 void AgregarJugadorOp::asignarPersonaje()
 {
 	Personaje *personaje;
+	Posicion posicion(1,2,0,4);
 	if( jugador->GetIdJugador() == PacMan::PACMAN_TYPE )
 	{
 		personaje = new PacMan();
@@ -55,6 +56,7 @@ void AgregarJugadorOp::asignarPersonaje()
 		personaje = new Fantasma();
 		jugador->SetIdPersonaje(Fantasma::FANTASMA_TYPE);
 	}
+	personaje->SetPosicion(posicion);
 	jugador->SetPersonaje( personaje );
 }
 

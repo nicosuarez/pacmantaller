@@ -97,7 +97,7 @@ int Socket::enviar(const std::string& buf){
 	size_t byteEnviados =0;
 	while(byteEnviados<buf.size())
 	{
-		byteEnviados+=send(this->fd,buf.c_str()+byteEnviados,buf.size(),0);
+		byteEnviados+=send(this->fd,buf.c_str()+byteEnviados,buf.size()-byteEnviados,0);
 	}
     return byteEnviados;
 }
@@ -107,7 +107,7 @@ int Socket::recibir(std::string& buf,size_t len){
     size_t bytes=0;
     while(bytes<len)
     {
-    	bytes += recv(this->fd,rec+bytes,len,0);
+    	bytes += recv(this->fd,rec+bytes,len-bytes,0);
     }
     buf = rec;
     delete[] rec;
@@ -118,7 +118,7 @@ int Socket::enviar(const char* buf, size_t size){
 	size_t byteEnviados =0;
 	while(byteEnviados<size)
 	{
-		byteEnviados+=send(this->fd,buf + byteEnviados,size,0);
+		byteEnviados+=send(this->fd, buf + byteEnviados, size-byteEnviados, 0);
 	}
     return byteEnviados;
 }
@@ -127,7 +127,7 @@ int Socket::recibir(char* buf,size_t len){
     size_t bytes=0;
     while(bytes<len)
     {
-    	bytes += recv(this->fd,buf+bytes,len,0);
+    	bytes += recv(this->fd,buf+bytes,len-bytes,0);
     }
     return bytes;
 }

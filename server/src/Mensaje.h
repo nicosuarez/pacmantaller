@@ -14,6 +14,7 @@
 #endif
 
 #include <string>
+#include "Socket.h"
 
 #define BROADCAST -1
 

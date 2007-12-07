@@ -22,7 +22,7 @@ Mapa::~Mapa()
 	if( ph != NULL )
 	{
 		//Elimino la memoria alocada de las columnas
-		for(int i=0; i<alto; i++ )
+		for(int i=0; i<alto+1; i++ )
 			delete []ph[i];
 		//Elimino la memoria alocada para las filas
 		delete []ph;

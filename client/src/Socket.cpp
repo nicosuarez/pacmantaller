@@ -107,7 +107,7 @@ int Socket::recibir(std::string& buf,size_t len){
     size_t bytes=0;
     while(bytes<len)
     {
-    	bytes += recv(this->fd,rec+bytes,len,0);
+    	bytes += recv(this->fd,rec+bytes,len-bytes,0);
     }
     buf = rec;
     delete[] rec;
