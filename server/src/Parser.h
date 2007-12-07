@@ -12,12 +12,16 @@
 #include "StrToken.h"
 #include "Config.h"
 #include "LogResource.h"
+#include <map>
+
+typedef std::map<std::string,std::string> tConf;
 
 class Parser
 {
 private:
     /* Atributos */
-    static void cargarConfiguracion(tVecStr strTok);
+    static void cargarConfiguracion(tConf config);
+    static std::string strip(string s);
     
 public:
 
