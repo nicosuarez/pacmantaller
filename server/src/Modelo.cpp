@@ -5,8 +5,7 @@
 ///////////////////////////////////////////////////////////
 
 #include "Modelo.h"
-#include "CasaFantasmas.h"
-#include "Bonus.h"
+
 
 Modelo* Modelo::pModelo = NULL;
 
@@ -53,7 +52,7 @@ Modelo::~Modelo(){
 	}
 	jugadores.clear();
 	
-	delete mapa;
+	delete mundo;
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -63,6 +62,23 @@ void Modelo::agregarOperacion(Operacion* operacion){
 	this->operaciones.push(operacion);
 	/* Avisa al modelo que llego una operacion */
 	this->getRecibiOperacionEvent().activar(); 
+}
+
+/*----------------------------------------------------------------------------*/
+/**
+ * Posicion de salida del PacMan
+ */
+void Modelo::SetSalidaPacMan(SalidaPacMan& salidaPacMan)
+{
+	this->salidaPacMan=salidaPacMan;
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Casa de los fantasmas, posicion de salida de los mismos
+ */
+void Modelo::SetCasaFantasmas(CasaFantasmas& casaFantasmas)
+{
+	this->casa=casaFantasmas;
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -82,6 +98,14 @@ Mapa* Modelo::GetMapa(){
 }
 /*----------------------------------------------------------------------------*/
 /**
+ *  Retorna el mundo que se esta jugando actualmente
+ */
+Mundo* Modelo::GetMundo()
+{
+	return this->mundo;
+}
+/*----------------------------------------------------------------------------*/
+/**
  * Lista de jugadores puede ser PacMan o Fantasma
  */
 tListJugadores& Modelo::GetJugadores(){
@@ -98,53 +122,14 @@ int Modelo::GetPuntuacion()const
  */
 void Modelo::main(){
 	//Obtener el mundo.
-	//this->mundo = XmlParser::getMundo(Config::getInstance()->GetMundoXmlPath());
+	this->mundo = XmlParser::getMundo(Config::getInstance()->GetMundoXmlPath());
 	
 	while(!this->seFinalizoElJuego())
 	{
 		//Obtener el mapa del nivel.
-		//this->mapa = XmlParser::getMapa(Mundo->nivel->mapaPath);
+		string mapaPath = this->mundo->getNiveles()->front();
+		this->mapa = XmlParser::getMapa(mapaPath);
 		//Crear mensaje init
-		
-		tGrafo grafo;
-		int ancho = 5;
-		int alto = 2;
-		for(int i=1; i<=10; i++)
-			grafo.agregarVertice( i, NULL );
-		for(int i=1; i<5; i++)
-		{
-			tVertice *origen = grafo.getVertice( i );
-			tVertice *destino = grafo.getVertice( i + 1 );
-			grafo.agregarArco( origen, destino, i, Este );
-			grafo.agregarArco( destino, origen, i, Oeste );
-		}	
-		for( int i=6; i<10; i++ )
-		{
-			tVertice *origen = grafo.getVertice( i );
-			tVertice *destino = grafo.getVertice( i + 1 );
-			tVertice *destinoNorte = grafo.getVertice( i-ancho);
-			grafo.agregarArco( origen, destino, i, Este );
-			grafo.agregarArco( destino, origen, i, Oeste );
-			if( destinoNorte != NULL )
-			{
-				grafo.agregarArco( origen, destinoNorte, i, Norte );
-				grafo.agregarArco( destinoNorte, origen, i, Sur );
-			}
-		}
-		tVertice *destinoNorte = grafo.getVertice( 10-ancho);
-		tVertice *origen = grafo.getVertice( 10 );
-		grafo.agregarArco( origen, destinoNorte, 10, Norte );
-		Mapa *mapa = new Mapa( &grafo, ancho, alto );
-		
-		Modelo *modelo = Modelo::getInstance();
-		modelo->SetPuntuacion( 666 );
-		modelo->SetMapa( mapa );
-		
-		CasaFantasmas casa(0, Norte);
-		modelo->GetElementos()->push_back(&casa);
-		
-		Bonus bonus(3,Norte);
-		modelo->GetElementos()->push_back(&bonus);
 		
 		std::cout<<"Esperando comienzo de nivel..\n";
 		this->esperarMinJugadoresEvent.esperar();
@@ -157,11 +142,26 @@ void Modelo::main(){
 			this->ejecutarOperaciones();
 			//Correr ActualizarEstado...
 		}
+		this->mundo->getNiveles()->pop();
+		liberarNivel();
 		std::cout<<"Termino el nivel..\n";
 	}
 	std::cout<<"Termino el Juego..\n";
 	//Libera el thread que inserta los jugadores al juego.
 	this->liberarStartJugadores();
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::liberarNivel()
+{
+	tListElementos* elementos;
+	itListElementos it;
+	elementos = this->GetElementos();
+	for(it=elementos->begin();it!=elementos->end();it++)
+	{
+		std::cout<<"Elimina elemento:"<<(*it)->getPosicion()<<"\n";
+		delete (*it);
+	}
+	delete mapa;
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::liberarStartJugadores()
@@ -249,6 +249,14 @@ void Modelo::SetJugadores(tListJugadores& jugadores){
 void Modelo::SetMapa(Mapa *mapa)
 {
 	this->mapa = mapa;
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Mundo que se esta jugando actualmente
+ */
+void Modelo::SetMundo(Mundo *mundo)
+{
+	this->mundo = mundo;
 }
 /*----------------------------------------------------------------------------*/
 /**

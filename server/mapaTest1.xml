@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mapa>       
+	<Ancho valor="10"/>   
+	
+	       
+	<Alto valor="10"/>
+	<Grafo><Arista id="10" orientacion="ESTE"><Vertice id="0"/><Vertice id="1"/></Arista><Arista id="11" orientacion="ESTE"><Vertice id="3"/><Vertice id="4"/></Arista><Arista id="12" orientacion="ESTE"><Vertice id="5"/><Vertice id="6"/></Arista><Arista id="13" orientacion="ESTE"><Vertice id="3"/><Vertice id="4"/></Arista><Arista id="14" orientacion="ESTE"><Vertice id="4"/><Vertice id="5"/></Arista><Arista id="149" orientacion="NORTE"><Vertice id="79"/>
+	<Vertice id="69"/></Arista>
+	</Grafo>
+	<Elementos>
+		<Elemento tipo="PacMan" idv="65"/><Elemento tipo="Bonus" idv="69"/><Elemento tipo="PowerUp" idv="0"/><Elemento tipo="PowerUp" idv="9"/><Elemento tipo="PowerUp" idv="60"/><Elemento tipo="PowerUp" idv="90"/><Elemento tipo="PowerUp" idv="99"/><Elemento tipo="CasaFantasmas" idv="46" idv1="25" idv2="26" idv3="27" idv4="35" idv5="36" idv6="37"/></Elementos></Mapa>

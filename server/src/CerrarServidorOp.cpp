@@ -26,6 +26,7 @@ bool CerrarServidorOp::ejecutar()
 	//Finalizar el juego.
 	modelo->seFinalizoElJuego(true);
 	modelo->seFinalizoElNivel(true);
+	delete quit;
 	
 	return false;
 }
