@@ -38,23 +38,7 @@ void AgregarJugadorOp::enviarMsgInit()
 	int rol=jugador->getPersonaje()->GetRol();
 	Init init(rol);
 	char *buffer = init.Serialize();
-	
-	//Envio la cabecera del paquete, el ancho y alto del mapa
-	socket->enviar( buffer, sizeof(PktInit) );
-	
-	//Envio los bits que representan las aristas, de a un byte
-	int cantAristas = Modelo::getInstance()->GetMapa()->getGrafo()->getVertices()->size();
-	int sizePktGrafo = ( (cantAristas*2) + ( (8-(cantAristas*2)%8)%8 ) )/8;
-	int delta = sizeof(PktInit);
-	for( int i=0; i<sizePktGrafo; i++ )
-	{
-		socket->enviar( buffer+delta, 1 );
-		delta ++;
-	}
-	
-	//Envio los elementos
-	int sizePktElementos = sizeof(uint16_t) + sizeof(PktElemento)*Modelo::getInstance()->GetElementos()->size();
-	socket->enviar( buffer+delta, sizePktElementos );
+	socket->enviar( buffer, init.getSize());
 	delete[] buffer;
 }
 

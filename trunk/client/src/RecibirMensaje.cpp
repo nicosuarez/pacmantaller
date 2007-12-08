@@ -133,7 +133,8 @@ int getbit( int x, uint8_t byte )
 void RecibirMensaje::recibirMapa( int ancho, int alto )
 {
 	//Calculo la cantidad de bytes que hay que recibir
-	int tamanio = ( (ancho*alto*2)  + ( (8-(ancho*alto*2)%8) %8 ) )/8;
+	int sizePadding = (8-(ancho*alto*2 )%8) %8; 
+	int tamanio = ( (ancho*alto*2)  + sizePadding  )/8;
 	char buffer[ tamanio ];
 	//Recibo los bytes con la informacion del mapa
 	socket->recibir( buffer, tamanio );
@@ -170,12 +171,14 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 		}
 		numFila++;
 	}
-	for(int i=j%8; i<8; i++)
+	if( sizePadding > 0)
 	{
-		uint8_t *byte = (uint8_t*)(buffer + j/8);
-		std::cout << getbit( 7 - (i%8), *byte );
+		for(int i=j%8; i<8; i++)
+		{
+			uint8_t *byte = (uint8_t*)(buffer + j/8);
+			std::cout << getbit( 7 - (i%8), *byte );
+		}
 	}
-		
 	std::cout<< std::endl;
 	//seteo la pared horizontal de abajo
 	for( int i=0; i<ancho; i++ )
