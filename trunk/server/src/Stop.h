@@ -10,12 +10,6 @@
 #include "Mensaje.h"
 #include "Modelo.h"
 
-typedef struct PktStop: PktCabecera
-{
-	uint32_t puntuacion;
-}__attribute__((__packed__));
-
-
 class Stop : public Mensaje
 {
 	int razon;

@@ -34,10 +34,27 @@ bool AgregarJugadorOp::ejecutar()
 
 void AgregarJugadorOp::enviarMsgInit()
 {
+	Socket *socket = jugador->GetSocket();
 	int rol=jugador->getPersonaje()->GetRol();
 	Init init(rol);
 	char *buffer = init.Serialize();
-	jugador->GetSocket()->enviar( buffer, (size_t)init.getSize() );
+	
+	//Envio la cabecera del paquete, el ancho y alto del mapa
+	socket->enviar( buffer, sizeof(PktInit) );
+	
+	//Envio los bits que representan las aristas, de a un byte
+	int cantAristas = Modelo::getInstance()->GetMapa()->getGrafo()->getVertices()->size();
+	int sizePktGrafo = ( (cantAristas*2) + ( (8-(cantAristas*2)%8)%8 ) )/8;
+	int delta = sizeof(PktInit);
+	for( int i=0; i<sizePktGrafo; i++ )
+	{
+		socket->enviar( buffer+delta, 1 );
+		delta ++;
+	}
+	
+	//Envio los elementos
+	int sizePktElementos = sizeof(uint16_t) + sizeof(PktElemento)*Modelo::getInstance()->GetElementos()->size();
+	socket->enviar( buffer+delta, sizePktElementos );
 	delete[] buffer;
 }
 
@@ -45,7 +62,7 @@ void AgregarJugadorOp::enviarMsgInit()
 void AgregarJugadorOp::asignarPersonaje()
 {
 	Personaje *personaje;
-	Posicion posicion(1,2,0,4);
+	Posicion posicion(1,2,0,4);//TODO Asignar la posicion correcta al personaje
 	if( jugador->GetIdJugador() == PacMan::PACMAN_TYPE )
 	{
 		personaje = new PacMan();
