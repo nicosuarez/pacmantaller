@@ -11,7 +11,9 @@ Personaje::Personaje(){
 
 }
 
-
+Personaje::Personaje(Posicion& posicion){
+	this->posicion=posicion;
+}
 
 Personaje::~Personaje(){
 
@@ -38,9 +40,9 @@ int Personaje::GetVelocidad(){
 /**
  * Identificador de personaje
  */
-void Personaje::SetId(int newVal){
+void Personaje::SetId(int id){
 
-	idPersonaje = newVal;
+	idPersonaje = id;
 }
 
 

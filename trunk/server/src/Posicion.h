@@ -9,6 +9,10 @@
 
 #include <iostream>
 
+//Se definen las direcciones en las aristas.
+#define N_E 0  //Direccion Norte/Este
+#define S_O 1  //Direccion Sur/Oeste
+
 /**
  * Clase que indentifica la posicion un elemento en el mapa
  */
@@ -24,9 +28,11 @@ public:
 	
 	Posicion();
 	
-	Posicion( const Posicion & posicion);
+	Posicion(int idVertice);
 	
-	Posicion(int idArista,int posicionArista,int direccion,int idVertice);
+	Posicion(const Posicion & posicion);
+	
+	Posicion(int idVertice,int idArista,int posicionArista,int direccion);
 	
 	virtual ~Posicion();
 	
@@ -44,12 +50,17 @@ public:
 	
 	void setDireccion( int direccion );
 	
+	void setVertice( int idVertice );
+	
 	void operator=( const Posicion &posicion );
 	
 	friend std::ostream& operator <<( std::ostream& os, const Posicion &p) 
- 	{ 
-     	os << "("<< p.idVertice << "," << p.idArista << "," << p.posicionArista << "," << p.direccion << ")"; 
-     	// return ostream object 
+ 	{
+		if(p.direccion==N_E)
+			os << "Pos("<< p.idVertice << "," << p.idArista << "," << p.posicionArista << "," << "N_E" << ")"; 
+		else
+			os << "Pos("<< p.idVertice << "," << p.idArista << "," << p.posicionArista << "," << "S_O" << ")"; 
+      
      	return os; 
  	}
 

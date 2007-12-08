@@ -278,6 +278,17 @@ Mapa* XmlParser::getMapa(string mapaPath)
 		  agregarElementos(mapa,reader);  
     }	
 	reader.close();
+	
+	
+	/*tListaVertice* vertices;
+	tItVertice it;
+	vertices = mapa->getGrafo()->getVertices();
+	for(it=vertices->begin();it!=vertices->end();it++)
+	{
+		std::cout<<"Vertice:"<<(*it)->getid()<<"\n";
+		//delete (*it);
+	}*/
+	
 	return mapa;
 }
 /*----------------------------------------------------------------------------*/
@@ -311,4 +322,6 @@ Mundo* XmlParser::getMundo(string mundoPath)
 	return mundo;
 }
 /*----------------------------------------------------------------------------*/
+
+
 

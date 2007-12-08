@@ -16,7 +16,6 @@ AgregarJugadorOp::AgregarJugadorOp(Jugador* jugador){
  */
 bool AgregarJugadorOp::ejecutar()
 {
-
 	//Enviar mensaje init
 	std::cout<<"Enviar mensaje init al jugador: "<<this->jugador->GetIdJugador()<<"\n";
 	//Se le asigna un personaje al jugador
@@ -64,20 +63,50 @@ void AgregarJugadorOp::enviarMsgInit()
 //Retorna el rol que se le asgino al jugador
 void AgregarJugadorOp::asignarPersonaje()
 {
-	Personaje *personaje;
-	Posicion posicion(1,2,0,4);//TODO Asignar la posicion correcta al personaje
-	if( jugador->GetIdJugador() == PacMan::PACMAN_TYPE )
+	if(jugador->GetIdJugador() == PacMan::PACMAN_TYPE)
 	{
-		personaje = new PacMan();
-		jugador->SetIdPersonaje(PacMan::PACMAN_TYPE);
+		//Setea la posicion incial de los personajes en el mapa 
+		this->initPacMan();
 	}
 	else 
 	{
-		personaje = new Fantasma();
-		jugador->SetIdPersonaje(Fantasma::FANTASMA_TYPE);
+		//Setea la posicion incial de los personajes en el mapa 
+		this->initFantasma();
 	}
-	personaje->SetPosicion(posicion);
+}
+
+void AgregarJugadorOp::initPacMan()
+{
+	int idVertice = -1;
+
+	//Obtener la posicion de salida del pacman
+	idVertice = Modelo::getInstance()->getSalidaPacMan()->getPosicion();
+	Posicion posicion(idVertice);
+
+	//Se setea el personaje al jugador
+	Personaje* personaje = new PacMan(posicion);
+	jugador->SetIdPersonaje(PacMan::PACMAN_TYPE);
 	jugador->SetPersonaje( personaje );
+	
+	std::cout<<"Entra PacMan al juego. ID:"<< jugador->GetIdJugador()<<"\n";
+	std::cout<<"ID:"<< jugador->GetIdJugador()<< " " << posicion <<"\n";
+}
+
+void AgregarJugadorOp::initFantasma()
+{
+	int idVertice=-1;
+	
+	//Obtener la posicion de salida del fantasmas (casa)
+	idVertice = Modelo::getInstance()->getCasaFantasmas()->getPosicion();
+	Posicion posicion(idVertice);
+
+	//Se setea el personaje al jugador
+	Personaje* personaje = new Fantasma(posicion);
+	jugador->SetIdPersonaje(Fantasma::FANTASMA_TYPE);
+	jugador->SetPersonaje( personaje );
+	
+	std::cout<<"Entra Fantasma al juego. ID:"<< jugador->GetIdJugador()<<"\n";
+	std::cout<<"ID:"<< jugador->GetIdJugador()<< " " << posicion <<"\n";
 }
 
 /**
@@ -87,7 +116,6 @@ void AgregarJugadorOp::internalProcess(){
 
 }
 
-
 /**
  * Metodo que valida la operacion. TRUE(exito),
  * * FALSE(error)
@@ -96,3 +124,4 @@ bool AgregarJugadorOp::validarOperacion(){
 
 	return false;
 }
+

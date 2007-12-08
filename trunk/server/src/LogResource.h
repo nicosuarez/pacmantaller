@@ -75,6 +75,12 @@ public:
     
     static string getOrientacionContraria(string orientacion);
     
+    static void mostrarSeccion(string titulo);
+  
+    static void mostrarKeyDesc(string keyDesc,string key,string desc);
+    
+    static void mostrarKeyDesc(string keyDesc,int key,string desc);
+
 };
 
 #endif

@@ -27,6 +27,21 @@ void LogResource::mostrarSalirServer()
    	std::cout<<MSG_SALIR_SERVER;
 }
 /*----------------------------------------------------------------------------*/
+void LogResource::mostrarSeccion(string titulo)
+{
+	std::cout << "--- "<<titulo<<" ---" << std::endl;
+}
+/*----------------------------------------------------------------------------*/
+void LogResource::mostrarKeyDesc(string keyDesc,string key,string desc)
+{
+	std::cout<<keyDesc<<":"<<key<<" "<< desc<< std::endl;;
+}
+/*----------------------------------------------------------------------------*/
+void LogResource::mostrarKeyDesc(string keyDesc,int key,string desc)
+{
+	std::cout<<keyDesc<<":"<<key<<" "<< desc<< std::endl;;
+}
+/*----------------------------------------------------------------------------*/
 string LogResource::getMsgNroCliente(string id)
 {
 	string mensaje="";
