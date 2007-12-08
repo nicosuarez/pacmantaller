@@ -71,8 +71,11 @@ void RecibirMensaje::recibirMensaje()
 void agregarElemento( std::list<Elemento*> *elementos, PktElemento *pktElemento )
 {
 	int tipo = (int)pktElemento->tipo;
+	std::cout <<  "Tipo elemento: " << tipo << std::endl;
 	Orientacion orientacion = (Orientacion)pktElemento->orientacion;
+	std::cout <<  "	Orientacion: " << orientacion << std::endl;
 	int posicion = (int)pktElemento->posicion;
+	std::cout <<  "	Posicion: " << posicion << std::endl;
 	switch( tipo )
 	{
 		case (int)tSalidaPacman:
@@ -124,7 +127,6 @@ int getbit( int x, uint8_t byte )
 {
 	byte = byte << 7-x;
 	byte = byte >> 7;
-	std::cout<< (int)byte;
 	return byte;
 }
 
@@ -144,28 +146,36 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 		pv[i] = new int[ancho+1];
 	}
 	ph[alto] = new int[ancho];
-	int contador = 0;
+	int j = 0;
 	int numFila = 0;
-	while( contador < (ancho*alto*2) )
+	while( j < (ancho*alto*2) )
 	{
 		//Veo el rango de bits que representa los arcos este
 		for( int i=0; i< ancho; i++)
 		{
-			uint8_t *byte = (uint8_t*)(buffer + contador/8);
+			uint8_t *byte = (uint8_t*)(buffer + j/8);
 			//Si no hay arco (bit = 0 ) entonces hay pared
 			pv[numFila][i+1] = 1 - getbit( 7 - (i%8), *byte );
-			contador++;
+			std::cout << getbit( 7 - (i%8), *byte );
+			j++;
 		}
 		//Veo el rango de bits que representa los arcos norte
 		for( int i=0; i< ancho; i++ )
 		{
-			uint8_t *byte = (uint8_t*)(buffer + contador/8);
+			uint8_t *byte = (uint8_t*)(buffer + j/8);
 			//Si no hay arco (bit = 0 ) entonces hay pared
 			ph[numFila][i] = 1 - getbit( 7 - (i%8), *byte );
-			contador++;
+			std::cout << getbit( 7 - (i%8), *byte );
+			j++;
 		}
 		numFila++;
 	}
+	for(int i=j%8; i<8; i++)
+	{
+		uint8_t *byte = (uint8_t*)(buffer + j/8);
+		std::cout << getbit( 7 - (i%8), *byte );
+	}
+		
 	std::cout<< std::endl;
 	//seteo la pared horizontal de abajo
 	for( int i=0; i<ancho; i++ )
@@ -187,7 +197,8 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	socket->recibir( buffer, sizeof(uint16_t) );
 	int ancho = (uint8_t)(*buffer);
 	int alto = (uint8_t)(*(buffer + sizeof(uint8_t) ) );
-	
+	std::cout << "Ancho: " << ancho << std::endl;
+	std::cout << "Alto: " << alto << std::endl;
 	//Recibo el mapa
 	recibirMapa( ancho, alto );
 	
@@ -195,7 +206,7 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	char ptrCantElementos[sizeof(uint16_t)];
 	socket->recibir( ptrCantElementos, sizeof(uint16_t) );
 	int cantElementos = (int)(*ptrCantElementos);
-	
+	std::cout << "Cant elementos: " << cantElementos << std::endl;
 	//Recibo los elementos del mapa
 	recibirElementos( cantElementos );
 }

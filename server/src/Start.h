@@ -7,18 +7,7 @@
 #if !defined(EA_1FD97E6C_758A_441c_BE3E_92C7917F7A84__INCLUDED_)
 #define EA_1FD97E6C_758A_441c_BE3E_92C7917F7A84__INCLUDED_
 
-#ifdef __GNUC__
-#define PACKED __attribute__((__packed__))
-#else
-#error Debe compilar con GCC
-#endif
-
 #include "Mensaje.h"
-
-typedef struct PktStart: PktCabecera
-{
-	uint16_t id;
-}__attribute__((__packed__));
 
 class Start: public Mensaje
 {

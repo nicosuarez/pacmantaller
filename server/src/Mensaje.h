@@ -7,23 +7,11 @@
 #if !defined(EA_00555EAD_A002_4386_8DDE_5962FC3B0BA9__INCLUDED_)
 #define EA_00555EAD_A002_4386_8DDE_5962FC3B0BA9__INCLUDED_
 
-#ifdef __GNUC__
-#define PACKED __attribute__((__packed__))
-#else
-#error Debe compilar con GCC
-#endif
-
 #include <string>
 #include "Socket.h"
+#include "Paquetes.h"
 
 #define BROADCAST -1
-
-typedef struct PktCabecera
-{
-	uint8_t version: 2;
-	uint8_t tipo: 3;
-	uint8_t aux: 3;
-}__attribute__((__packed__));
 
 class Mensaje
 {
