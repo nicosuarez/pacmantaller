@@ -195,7 +195,7 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 
 void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 {
-	//Recibo el ancho y alto del mapab
+	//Recibo el ancho y alto del mapa
 	char buffer[sizeof(uint16_t)];
 	socket->recibir( buffer, sizeof(uint16_t) );
 	int ancho = (uint8_t)(*buffer);

@@ -64,5 +64,6 @@ public:
      	return os; 
  	}
 
+	void cambiarDireccion();
 };
 #endif // !defined(EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_)

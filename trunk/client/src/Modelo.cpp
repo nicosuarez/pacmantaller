@@ -106,7 +106,7 @@ Personaje* Modelo::getPersonaje( int id )
 	std::list<Personaje*>::iterator it;
 	for( it = personajes.begin(); it != personajes.end(); it++ )
 	{
-		if( (*it)->GetId() == id )
+		if( (*it)->GetRol() == id )
 			return (*it);
 	}
 	return NULL;
