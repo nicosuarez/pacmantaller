@@ -30,6 +30,8 @@ private:
 	
 	void recibirElementosStatus( int cantElementos );
 	
+	int getIdVertice( int idArista);
+	
 	/* Constructor de copia y operator= ocultos (para prevenir descuidos) */
 	RecibirMensaje(const RecibirMensaje&);
 	RecibirMensaje& operator=(const RecibirMensaje&);

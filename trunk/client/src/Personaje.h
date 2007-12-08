@@ -23,6 +23,7 @@ public:
 	virtual int GetRol()const=0;
 	Posicion *GetPosicion();
 	virtual int GetVelocidad();
+	int GetId()const;
 	void SetId(int id);
 	void SetPosicion(Posicion posicion);
 	void SetVelocidad(int velocidad);

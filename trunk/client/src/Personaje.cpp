@@ -36,6 +36,14 @@ int Personaje::GetVelocidad(){
 	return velocidad;
 }
 
+/**
+ * Retorna el Identificador de personaje
+ */
+int Personaje::GetId()const
+{
+	return idPersonaje;
+}
+
 
 /**
  * Identificador de personaje

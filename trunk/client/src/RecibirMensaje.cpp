@@ -71,11 +71,11 @@ void RecibirMensaje::recibirMensaje()
 void agregarElemento( std::list<Elemento*> *elementos, PktElemento *pktElemento )
 {
 	int tipo = (int)pktElemento->tipo;
-	std::cout <<  "Tipo elemento: " << tipo << std::endl;
+	//std::cout <<  "Tipo elemento: " << tipo << std::endl;
 	Orientacion orientacion = (Orientacion)pktElemento->orientacion;
-	std::cout <<  "	Orientacion: " << orientacion << std::endl;
+	//std::cout <<  "	Orientacion: " << orientacion << std::endl;
 	int posicion = (int)pktElemento->posicion;
-	std::cout <<  "	Posicion: " << posicion << std::endl;
+	//std::cout <<  "	Posicion: " << posicion << std::endl;
 	switch( tipo )
 	{
 		case (int)tSalidaPacman:
@@ -195,7 +195,7 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 
 void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 {
-	//Recibo el ancho y alto del mapa
+	//Recibo el ancho y alto del mapab
 	char buffer[sizeof(uint16_t)];
 	socket->recibir( buffer, sizeof(uint16_t) );
 	int ancho = (uint8_t)(*buffer);
@@ -208,7 +208,7 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	//Recibo la cantidad de elementos que hay en el mapa
 	char ptrCantElementos[sizeof(uint16_t)];
 	socket->recibir( ptrCantElementos, sizeof(uint16_t) );
-	int cantElementos = (int)(*ptrCantElementos);
+	int cantElementos = ntohs( (*ptrCantElementos) );
 	std::cout << "Cant elementos: " << cantElementos << std::endl;
 	//Recibo los elementos del mapa
 	recibirElementos( cantElementos );
@@ -239,6 +239,23 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 	Modelo::getInstance()->setElementos( listElementos );
 }
 
+int RecibirMensaje::getIdVertice( int idArista)
+{
+	int ancho = Modelo::getInstance()->getMapa()->getAncho();
+	int alto = Modelo::getInstance()->getMapa()->getAlto();
+	int idVertice = 0;
+	for(int i=0; i<alto; i++)
+	{
+		for( int j=0; j<ancho; j++)
+		{
+			if( (idArista == idVertice + i*ancho) || (idArista ==idVertice + (i+1)*ancho) )
+				return idVertice;
+			idVertice++;
+		}
+	}
+	return -1;
+}
+
 void RecibirMensaje::recibirPosiciones( int cantJugadores )
 {
 	int tamanio = cantJugadores*sizeof(PktPosiciones);
@@ -252,7 +269,7 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 		int idArista = (int)pktPosicion->arista;
 		int posicionArista = (int)pktPosicion->posicion;
 		int direccion = (int)pktPosicion->direccion;
-		Posicion posicion( idArista, posicionArista, direccion );
+		Posicion posicion( getIdVertice(idArista), idArista, posicionArista, direccion );
 		Modelo *modelo = Modelo::getInstance();
 		Personaje *personaje = modelo->getPersonaje( idJugador);
 		//Si el jugador no existe, lo agrega. 
