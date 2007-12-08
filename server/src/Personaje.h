@@ -17,14 +17,15 @@ class Personaje
 
 public:
 	Personaje();
+	Personaje(Posicion& posicion);
 	virtual ~Personaje();
 
 	virtual int GetRol()const=0;
 	Posicion *GetPosicion();
 	virtual int GetVelocidad();
-	void SetId(int newVal);
-	void SetPosicion(Posicion newVal);
-	void SetVelocidad(int newVal);
+	void SetId(int id);
+	void SetPosicion(Posicion posicion);
+	void SetVelocidad(int velocidad);
 	virtual bool operator==( int tipo )const = 0;
 private:
 	/**

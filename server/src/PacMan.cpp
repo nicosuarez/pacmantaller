@@ -8,10 +8,12 @@
 
 
 PacMan::PacMan(){
-
+	this->isPowerUp=false;
 }
 
-
+PacMan::PacMan(Posicion& posicion):Personaje(posicion){
+	this->isPowerUp=false;
+}
 
 PacMan::~PacMan(){
 
@@ -30,7 +32,7 @@ int PacMan::GetRol()const{
  */
 int PacMan::GetVelocidad(){
 
-	return velocidad;
+	return velocidadInicial;
 }
 
 
@@ -46,9 +48,9 @@ bool PacMan::IsPowerUp(){
 /**
  * Determina si el pacman se encuentra en el estado powerUp
  */
-void PacMan::SetPowerUp(bool newVal){
+void PacMan::SetPowerUp(bool powerUp){
 
-	isPowerUp = newVal;
+	isPowerUp = powerUp;
 }
 
 bool PacMan::operator==( int tipo )const

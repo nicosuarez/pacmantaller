@@ -65,6 +65,9 @@ public:
 	void liberarNivel();
 	void SetSalidaPacMan(SalidaPacMan& salidaPacMan);
 	void SetCasaFantasmas(CasaFantasmas& casaFantasmas);
+	SalidaPacMan* getSalidaPacMan(){return &salidaPacMan;} 
+	CasaFantasmas* getCasaFantasmas(){return &casa;}
+	
 	/**
 	 * Determina se termino el nivel o no
 	 */

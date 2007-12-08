@@ -21,6 +21,9 @@ class AgregarJugadorOp : public Operacion
 private:
 	Jugador* jugador;
 	
+	void initPacMan();
+	void initFantasma();
+	
 public:
 	AgregarJugadorOp(Jugador* jugador);
 

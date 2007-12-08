@@ -8,10 +8,12 @@
 
 
 Fantasma::Fantasma(){
-
+	this->visible=true;
 }
 
-
+Fantasma::Fantasma(Posicion& posicion):Personaje(posicion){
+	this->visible=true;
+}
 
 Fantasma::~Fantasma(){
 
@@ -30,7 +32,7 @@ int Fantasma::GetRol()const{
  */
 int Fantasma::GetVelocidad(){
 
-	return velocidad;
+	return velocidadInicial;
 }
 
 
