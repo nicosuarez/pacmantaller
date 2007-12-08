@@ -9,6 +9,11 @@
 
 #include "Mensaje.h"
 
+#define KEY_ARRIBA 0
+#define KEY_ABAJO 1
+#define KEY_IZQUIERDA 2
+#define KEY_DERECHA 3
+#define KEY_ESC 4
 
 class Key : public Mensaje
 {

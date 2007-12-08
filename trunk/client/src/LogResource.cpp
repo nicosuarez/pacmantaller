@@ -33,4 +33,19 @@ string LogResource::getMsgNroCliente(string id)
 	mensaje= MSG_NRO_CLIENTE + id + "\n";
 	return mensaje;
 }
+/*----------------------------------------------------------------------------*/
+void LogResource::mostrarSeccion(string titulo)
+{
+	std::cout << "--- "<<titulo<<" ---" << std::endl;
+}
+/*----------------------------------------------------------------------------*/
+void LogResource::mostrarKeyDesc(string keyDesc,string key,string desc)
+{
+	std::cout<<keyDesc<<":"<<key<<" "<< desc<< std::endl;;
+}
+/*----------------------------------------------------------------------------*/
+void LogResource::mostrarKeyDesc(string keyDesc,int key,string desc)
+{
+	std::cout<<keyDesc<<":"<<key<<" "<< desc<< std::endl;;
+}
 

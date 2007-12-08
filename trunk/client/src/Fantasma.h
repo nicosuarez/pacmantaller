@@ -17,9 +17,11 @@ class Fantasma : public Personaje
 
 public:
 	Fantasma();
+	Fantasma(Posicion& posicion);
 	virtual ~Fantasma();
 
 	static const int FANTASMA_TYPE = 1;
+	int GetRol()const;
 	virtual int GetVelocidad();
 	bool IsVisible();
 	void SetVisible(bool visible);
@@ -29,7 +31,7 @@ private:
 	/**
 	 * Velocidad inicial constante del fantasma
 	 */
-	static const int velocidadInicial=0;
+	static const int velocidadInicial=20;
 	/**
 	 * Determina si el fantasma esta en estado invisible que ocurre cuando un pacman
 	 * en estado powerUp como el fantasma. Cuando el mismo se encuentra invisible no

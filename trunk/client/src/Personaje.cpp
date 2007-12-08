@@ -11,24 +11,13 @@ Personaje::Personaje(){
 
 }
 
-
+Personaje::Personaje(Posicion& posicion){
+	this->posicion=posicion;
+}
 
 Personaje::~Personaje(){
 
 }
-
-
-
-
-
-/**
- * Identificador de personaje
- */
-int Personaje::GetId(){
-
-	return idPersonaje;
-}
-
 
 /**
  * Posicion del personaje en el mapa
@@ -51,9 +40,9 @@ int Personaje::GetVelocidad(){
 /**
  * Identificador de personaje
  */
-void Personaje::SetId(int newVal){
+void Personaje::SetId(int id){
 
-	idPersonaje = newVal;
+	idPersonaje = id;
 }
 
 
