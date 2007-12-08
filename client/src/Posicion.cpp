@@ -92,3 +92,11 @@ void Posicion::operator=( const Posicion &posicion )
 	this->posicionArista = posicion.getPosicionArista();
 	this->direccion = posicion.getDireccion();
 }
+
+void Posicion::cambiarDireccion()
+{
+	if(this->direccion==N_E)
+		this->direccion=S_O;
+	else
+		this->direccion = N_E;
+}
