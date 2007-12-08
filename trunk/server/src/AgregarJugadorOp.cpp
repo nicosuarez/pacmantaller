@@ -38,7 +38,26 @@ void AgregarJugadorOp::enviarMsgInit()
 	int rol=jugador->getPersonaje()->GetRol();
 	Init init(rol);
 	char *buffer = init.Serialize();
-	socket->enviar( buffer, init.getSize());
+	//socket->enviar( buffer, init.getSize());
+	
+	socket->enviar( buffer, sizeof(PktInit) );
+	int delta = sizeof(PktInit);
+	
+	Mapa *mapa = Modelo::getInstance()->GetMapa();
+	int cantAristas = mapa->getAlto()*mapa->getAncho()*2;
+	int sizeGrafo = (  cantAristas + ( 8 - cantAristas%8 )%8  )/8;
+	
+	for(int i=0; i< sizeGrafo; i++ )
+	{
+		socket->enviar( buffer+delta, 1 );
+		delta ++;
+	}
+	int cantElementos = *(buffer + delta);
+	socket->enviar( (char*)(&cantElementos), sizeof(uint16_t) );
+	delta += sizeof(uint16_t);
+	
+	int sizeElementos =cantElementos*sizeof(PktElemento);
+	socket->enviar( buffer+delta, sizeElementos );
 	delete[] buffer;
 }
 
