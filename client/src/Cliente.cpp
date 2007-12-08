@@ -263,11 +263,11 @@ void iniciarGraficos(int argc, char** argv)
     glutCreateWindow( "PACMAN 3D" );
 
 	glEnable(GL_TEXTURE_2D);
-	if(!texPiso.cargarTGA("piso.tga")) {
+	if(!texPiso.cargarTGA("Imagenes/piso.tga")) {
 		printf("Error cargando textura\n");
 		exit(-1);
 	}
-	if(!texPared.cargarTGA("ladri.tga")) { 
+	if(!texPared.cargarTGA("Imagenes/ladri.tga")) { 
 		printf("Error cargando textura\n");
 		exit(-1);
 	}

@@ -8,25 +8,31 @@
 
 
 Fantasma::Fantasma(){
-
+	this->visible=true;
 }
 
-
+Fantasma::Fantasma(Posicion& posicion):Personaje(posicion){
+	this->visible=true;
+}
 
 Fantasma::~Fantasma(){
 
 }
 
+/**
+ * Identificador del rol de personaje
+ */
+int Fantasma::GetRol()const{
 
-
-
+	return Fantasma::FANTASMA_TYPE;
+}
 
 /**
  * Velocidad del personaje
  */
 int Fantasma::GetVelocidad(){
 
-	return velocidad;
+	return velocidadInicial;
 }
 
 

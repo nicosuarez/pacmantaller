@@ -17,12 +17,15 @@ class PacMan : public Personaje
 
 public:
 	PacMan();
+	PacMan(Posicion& posicion);
 	virtual ~PacMan();
 
+	
 	static const int PACMAN_TYPE = 0;
+	int GetRol()const;
 	int GetVelocidad();
 	bool IsPowerUp();
-	void SetPowerUp(bool newVal);
+	void SetPowerUp(bool powerUp);
 	bool operator==( int tipo )const;
 
 private:
@@ -33,7 +36,7 @@ private:
 	/**
 	 * Valor constante de la velocidad inicial del pacman
 	 */
-	static const int velocidadInicial=0;
+	static const int velocidadInicial=15;
 
 };
 #endif // !defined(EA_B035D27E_31A5_4b0f_B082_3F7AF1A2C886__INCLUDED_)
