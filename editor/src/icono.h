@@ -14,8 +14,8 @@ class Icono: public Gtk::Image
 		Gtk::Image Imagen;
 		std::string pathImagen;
 		std::string pathImagenSel;
-		int cantRotaciones;
 		int idImagen;
+		int cantRotaciones;
 		int rotacion;
 		static int ultimoClick;
 		static int clickAnterior;
