@@ -51,11 +51,12 @@ void AgregarJugadorOp::enviarMsgInit()
 		socket->enviar( buffer+delta, 1 );
 		delta ++;
 	}
-	int cantElementos = *(buffer + delta);
-	socket->enviar( (char*)(&cantElementos), sizeof(uint16_t) );
+	uint16_t cantElementos = (uint16_t) ( *(buffer + delta) );
+	cantElementos = htons( cantElementos );
+	socket->enviar( (char*) &cantElementos, sizeof(uint16_t) );
 	delta += sizeof(uint16_t);
-	
-	int sizeElementos =cantElementos*sizeof(PktElemento);
+	cantElementos = ntohs( cantElementos );
+	int sizeElementos = ( (int)cantElementos )*sizeof(PktElemento);
 	socket->enviar( buffer+delta, sizeElementos );
 	delete[] buffer;
 }

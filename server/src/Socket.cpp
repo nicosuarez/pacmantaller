@@ -94,42 +94,42 @@ Socket* Socket::aceptar(){
 }
 /*----------------------------------------------------------------------------*/
 int Socket::enviar(const std::string& buf){
-	size_t byteEnviados =0;
-	while(byteEnviados<buf.size())
+	size_t bytesEnviados = 0;
+	while( bytesEnviados < buf.size() )
 	{
-		byteEnviados+=send(this->fd,buf.c_str()+byteEnviados,buf.size()-byteEnviados,0);
+		bytesEnviados += send( this->fd, buf.c_str() + bytesEnviados, buf.size()-bytesEnviados,0);
 	}
-    return byteEnviados;
+    return bytesEnviados;
 }
 /*----------------------------------------------------------------------------*/
-int Socket::recibir(std::string& buf,size_t len){
-    char* rec = new char[len+1];
-    size_t bytes=0;
-    while(bytes<len)
+int Socket::recibir( std::string& buf, size_t size ){
+    char* rec = new char[size+1];
+    size_t bytesRecibidos=0;
+    while( bytesRecibidos < size )
     {
-    	bytes += recv(this->fd,rec+bytes,len-bytes,0);
+    	bytesRecibidos += recv( this->fd, rec + bytesRecibidos,size-bytesRecibidos, 0 );
     }
     buf = rec;
     delete[] rec;
-    return bytes;
+    return bytesRecibidos;
 }
 /*----------------------------------------------------------------------------*/
 int Socket::enviar(const char* buf, size_t size){
-	size_t byteEnviados =0;
-	while(byteEnviados<size)
+	size_t bytesEnviados = 0;
+	while( bytesEnviados < size )
 	{
-		byteEnviados+=send(this->fd, buf + byteEnviados, size-byteEnviados, 0);
+		bytesEnviados += send( this->fd, buf + bytesEnviados , size-bytesEnviados , 0 );
 	}
-    return byteEnviados;
+    return bytesEnviados;
 }
 /*----------------------------------------------------------------------------*/
-int Socket::recibir(char* buf,size_t len){
-    size_t bytes=0;
-    while(bytes<len)
+int Socket::recibir(char* buf,size_t size){
+    size_t bytesRecibidos = 0;
+    while( bytesRecibidos < size )
     {
-    	bytes += recv(this->fd,buf+bytes,len-bytes,0);
+    	bytesRecibidos += recv( this->fd, buf + bytesRecibidos, size-bytesRecibidos, 0 );
     }
-    return bytes;
+    return bytesRecibidos;
 }
 /*----------------------------------------------------------------------------*/
 Socket::operator bool() const{

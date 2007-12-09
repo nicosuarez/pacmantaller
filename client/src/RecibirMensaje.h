@@ -30,7 +30,7 @@ private:
 	
 	void recibirElementosStatus( int cantElementos );
 	
-	int getIdVertice( int idArista);
+	int getIdVertice( int idArista, int direccion, int anchoMapa );
 	
 	/* Constructor de copia y operator= ocultos (para prevenir descuidos) */
 	RecibirMensaje(const RecibirMensaje&);

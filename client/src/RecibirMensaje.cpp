@@ -206,10 +206,11 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	recibirMapa( ancho, alto );
 	
 	//Recibo la cantidad de elementos que hay en el mapa
-	char ptrCantElementos[sizeof(uint16_t)];
-	socket->recibir( ptrCantElementos, sizeof(uint16_t) );
-	int cantElementos = ntohs( (*ptrCantElementos) );
-	std::cout << "Cant elementos: " << cantElementos << std::endl;
+	uint16_t cantElementos;
+	socket->recibir( (char*)(&cantElementos), sizeof(uint16_t) );
+	cantElementos = ntohs(cantElementos);
+	std::cout << "Cant elementos: " << (int)cantElementos << std::endl;
+	
 	//Recibo los elementos del mapa
 	recibirElementos( cantElementos );
 }
@@ -239,7 +240,7 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 	Modelo::getInstance()->setElementos( listElementos );
 }
 
-int RecibirMensaje::getIdVertice( int idArista)
+int RecibirMensaje::getIdVertice( int idArista, int direccion, int anchoMapa )
 {
 	int ancho = Modelo::getInstance()->getMapa()->getAncho();
 	int alto = Modelo::getInstance()->getMapa()->getAlto();
@@ -248,8 +249,22 @@ int RecibirMensaje::getIdVertice( int idArista)
 	{
 		for( int j=0; j<ancho; j++)
 		{
-			if( (idArista == idVertice + i*ancho) || (idArista ==idVertice + (i+1)*ancho) )
+			//Chequeo para el caso de que sea arista Norte
+			if( idArista == idVertice + i*ancho  )
+			{
+				//Si la direccion es sur entonces el vertice origen es idVertice-anchoMapa
+				if( direccion == 0 )
+					idVertice -= anchoMapa;
 				return idVertice;
+			}
+			//Chequeo para el caso de que sea arista Este
+			if( idArista == idVertice + (i+1)*ancho )
+			{
+				//Si la direccion es oeste entonces el vertice origen es el siguiente
+				if( direccion == 0 )
+					idVertice++;
+				return idVertice;
+			}
 			idVertice++;
 		}
 	}
@@ -264,13 +279,15 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 	int delta = 0;
 	for( int i=0; i<cantJugadores; i++ )
 	{
+		Modelo *modelo = Modelo::getInstance();
 		PktPosiciones *pktPosicion = (PktPosiciones*)(posiciones + delta);
 		int idJugador = (int)pktPosicion->id;
 		int idArista = (int)pktPosicion->arista;
 		int posicionArista = (int)pktPosicion->posicion;
 		int direccion = (int)pktPosicion->direccion;
-		Posicion posicion( getIdVertice(idArista), idArista, posicionArista, direccion );
-		Modelo *modelo = Modelo::getInstance();
+		int idVertice = getIdVertice( idArista, direccion, modelo->getMapa()->getAncho() );
+		Posicion posicion( idVertice, idArista, posicionArista, direccion );
+		
 		Personaje *personaje = modelo->getPersonaje( idJugador);
 		//Si el jugador no existe, lo agrega. 
 		if( personaje == NULL )
@@ -288,6 +305,7 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 
 void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 {
+	
 	Modelo *modelo = Modelo::getInstance();
 	//Recibo la puntuacion
 	int puntuacion;
@@ -296,12 +314,12 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	modelo->setPuntuacion( puntuacion );
 		
 	//Recibo las posiciones de los jugadores
-	recibirPosiciones( (int)cabecera->aux );
+	recibirPosiciones( ((int)cabecera->aux)+1 );
 	
 	//Recibo la cantidad de elementos
 	char buffer[sizeof(uint8_t)];
 	socket->recibir( buffer, sizeof(uint8_t) );
-	
+ 
 	//Recibo los elementos
 	recibirElementos( (int)(*buffer) );
 	
