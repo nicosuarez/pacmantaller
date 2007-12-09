@@ -72,8 +72,8 @@ typedef enum {NADA,MODO_INSERTAR,MODO_ELIMINAR} TipoModo;
 #define ERROR                          -1
 
 //Defines para el Parser
-#define PATH_NIVELES                    "/home/maxi/Desktop/Niveles.xml"
-#define PATH_MAPA                       "/home/maxi/Desktop/Mapa"
+#define PATH_NIVELES                    "../server/maps/Mundo.xml"
+#define PATH_MAPA                       "../server/maps/Mapa"
 #define PATH_CONFIGURACION              "Archivos_Editor/Configuracion.xml"
 #define PATH_MAPA_EDITOR                "Archivos_Editor/MapaEditor"
 
