@@ -81,7 +81,7 @@ public:
 
     TipoDatoVertice* getElemento()const{return elemento;}
 
-    void setid(TipoIdVertice *id){this->idVertice = id;}
+    void setid(TipoIdVertice id){this->idVertice = id;}
 
     TipoIdVertice getid()const{return idVertice;}
 
@@ -100,6 +100,20 @@ public:
             if( arco == (*(*it)) )
                 return *it;
         return NULL;
+    }
+    /*----------------------------------------------------------------------------*/
+    /*
+    pre : ninguna
+    post : Busca el arco que tenga el elemento pasado por parametro. Si lo 
+    encuentra retorna un puntero al arco, sino retorna NULL.
+    */
+    tArco* getArco( TipoDatoArco datoArco )
+    {
+    	tIterator it;
+    	for( it = listaArcos.begin(); it != listaArcos.end(); it++ )
+    		if( ( (*it)->getElemento() ) == datoArco )
+    			return *it;
+    	return NULL;
     }
     /*----------------------------------------------------------------------------*/
     /*

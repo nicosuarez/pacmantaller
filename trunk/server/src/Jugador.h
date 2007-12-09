@@ -29,10 +29,12 @@ public:
 	int GetIdPersonaje();
 	Personaje* getPersonaje();
 	Socket* GetSocket();
+	int GetKeyPressed();
 	void SetIdJugador(int idJugador);
 	void SetSocket(Socket* socket);
 	void SetIdPersonaje(int idPersonaje);
 	void SetPersonaje(Personaje* personaje);
+	void SetKeyPressed(int keyPressed);
 	
 private:
 	/**
@@ -51,6 +53,10 @@ private:
 	 * Identificador de personaje
 	 */
 	Personaje* personaje;
+	/**
+	 * Tecla presionada por el jugador
+	 */
+	int keyPressed;
 
 };
 #endif // !defined(EA_7A23278A_58F2_4d8e_BC8B_EFD82299567B__INCLUDED_)
