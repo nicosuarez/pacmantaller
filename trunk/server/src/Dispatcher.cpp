@@ -6,27 +6,32 @@
 
 #include "Dispatcher.h"
 
+Dispatcher::Dispatcher( tListJugadores *jugadores, bool *terminoJuego, Mutex *m_jugadores )
+{
+	this->jugadores = jugadores;
+	this->terminoJuego = terminoJuego;
+	this->m_jugadores = m_jugadores;
+}
 
-Dispatcher::Dispatcher()
+Dispatcher::~Dispatcher()
 {
 }
-/*----------------------------------------------------------------------------*/
-tListJugadores& Dispatcher::getJugadoresList()
+
+Jugador* Dispatcher::getJugador(int idJugador)
 {
-	Pool pool=ConnectionManager::getInstance()->GetPool();
-	return pool.getJugadoresList();
+	tListJugadores::iterator it;
+	for( it = jugadores->begin(); it != jugadores->end(); it++ )
+		if((*it)->GetIdJugador() == idJugador )
+			return (*it);
+	return NULL;
 }
-/*----------------------------------------------------------------------------*/
-void Dispatcher::enviarMensaje(Mensaje* mensaje,Jugador* jugador)
+
+void Dispatcher::enviarMensaje( Mensaje* mensaje, int idJugador )
 {
-	/*Si el jugador es nulo se acola el mensaje para enviar un broadcast a todos
-	*los jugadores de la lista.
-	* Si no es NULL se envia un BROADCAST del mensaje a todos los jugadores.
-	*/
-	if(jugador!=NULL)
-		mensaje->SetIdJugador(jugador->GetIdJugador());
-		
+	mensaje->SetIdJugador( idJugador );
+    m_mensajes.lock();
 	mensajes.push(mensaje);
+    m_mensajes.unlock();
     //Le avisa al hilo del Dispatcher que hay un mensaje que procesar.
     recibiMensajeEvent.activar();
 }
@@ -42,47 +47,47 @@ Evento& Dispatcher::getRecibiMensajeEvent()
  */
 void Dispatcher::main()
 {
-    Mutex m_dispacher;
-    this->getRecibiMensajeEvent().esperar();
-    while(!mensajes.empty())
+    while( !(*terminoJuego)  )
     {	
-        m_dispacher.lock();
-        
+    	if( mensajes.empty() )
+    		this->getRecibiMensajeEvent().esperar();
+    	m_mensajes.lock();
         Mensaje* msg = mensajes.front();
-        if(msg->GetIdJugador()==BROADCAST)
-        {
+        if( msg->GetIdJugador() == BROADCAST )
         	this->enviarBroadCast(msg);
-        }
         else
-        {
         	this->enviarMensajeParticular(msg);
-        }
-        
-        m_dispacher.unlock();
         mensajes.pop();
-        if( mensajes.empty() )
-            this->getRecibiMensajeEvent().esperar();
+        m_mensajes.unlock();
+        delete msg;
     }
-
+    std::cout << "Sale del dispatcher\n";
 }
 /*----------------------------------------------------------------------------*/
-void Dispatcher::enviarBroadCast(Mensaje* msg)
+void Dispatcher::enviarBroadCast( Mensaje* msg )
 {
-	tListJugadores& jugadores = getJugadoresList();
-	itListJugadores it;
-	for(it=jugadores.begin(); it!=jugadores.end(); it++ )
+	tListJugadores::iterator it;
+	char *buffer = msg->Serialize();
+	m_jugadores->lock();
+	for( it = jugadores->begin(); it != jugadores->end(); it++ )
     {
-        Socket* sk_jugador = (*it)->GetSocket();     
-        sk_jugador->enviar(msg->Serialize(), msg->getSize() );
+        Socket* sk_jugador = (*it)->GetSocket();
+        sk_jugador->enviar( buffer, msg->getSize() );
     }
+	m_jugadores->unlock();
+	delete []buffer;
 }
 /*----------------------------------------------------------------------------*/
-void Dispatcher::enviarMensajeParticular(Mensaje* msg)
+void Dispatcher::enviarMensajeParticular( Mensaje* msg )
 {
 	//Se envia el mensaje a un jugador en particular.
-	int idJugador=msg->GetIdJugador();
-	Jugador* jugador = ConnectionManager::getInstance()->getJugador(idJugador);
-	Socket* sk_jugador = jugador->GetSocket();            
-    sk_jugador->enviar(msg->Serialize());
+	Jugador* jugador = getJugador( msg->GetIdJugador() );
+	if( jugador != NULL )
+	{
+		Socket* sk_jugador = jugador->GetSocket();
+		char *buffer = msg->Serialize();
+		sk_jugador->enviar( buffer, msg->getSize() );
+		delete []buffer;
+	}
 }
 /*----------------------------------------------------------------------------*/

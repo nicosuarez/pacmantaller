@@ -5,7 +5,6 @@
 #include "Modelo.h"
 #include "Quit.h"
 #include "ConnectionManager.h"
-#include "Dispatcher.h"
 
 class CerrarServidorOp : public Operacion
 {

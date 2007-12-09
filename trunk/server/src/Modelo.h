@@ -10,6 +10,7 @@
 #include <list>
 #include <queue>
 #include <string>
+#include "Mutex.h"
 #include "Elemento.h"
 #include "Operacion.h"
 #include "Jugador.h"
@@ -22,6 +23,7 @@
 #include "CasaFantasmas.h"
 #include "Bonus.h"
 #include "SalidaPacMan.h"
+#include "Dispatcher.h"
 
 using std::string;
 
@@ -43,27 +45,61 @@ class Modelo: public Thread
 
 public:
 	static Modelo* getInstance();
+	
 	static void setInstance(pBool finalizoJuego,pBool cerroServidor);
-	virtual ~Modelo();
-
+	
+	//Agrega una operacion a la cola de operaciones
 	void agregarOperacion(Operacion* operacion);
+	
+	//Agrega un jugador a la lista de jugadores
+	void agregarJugador( Jugador *jugador );
+	
+	//Retorna la lista de elementos
 	tListElementos* GetElementos();
+	
+	//Retorna un puntero al mapa
 	Mapa* GetMapa();
+	
+	//Retorna un puntero al mundo
 	Mundo* GetMundo();
+	
+	//Retorna un puntero al dispatcher
+	Dispatcher* getDispatcher();
+	
+	//Retorna una referencia a la lista de jugadores
 	tListJugadores& GetJugadores();
+	
+	//Retorna una referencia al mutex que protege la lista de jugadores
+	Mutex& getMutexJugadores();
+	
+	//Retorna la puntuacion del Pacman
 	int GetPuntuacion()const;
+	
+	//Ejecuta las operaciones
 	void main();
+	
 	void notify();
+	
 	void SetElementos(tListElementos& elementos);
+	
 	void SetMapa(Mapa* mapa);
+	
 	void SetMundo(Mundo* mundo);
+	
 	void SetJugadores(tListJugadores& jugadores);
+	
 	void SetPuntuacion( int puntuacion );
+	
 	void seFinalizoElJuego(bool finalizo){*finalizoJuego=finalizo;};
+	
 	bool seFinalizoElJuego(){return *finalizoJuego;};
+	
 	void liberarStartJugadores();
+	
 	void liberarNivel();
+	
 	void SetSalidaPacMan(SalidaPacMan& salidaPacMan);
+	
 	void SetCasaFantasmas(CasaFantasmas& casaFantasmas);
 	SalidaPacMan* getSalidaPacMan(){return &salidaPacMan;} 
 	CasaFantasmas* getCasaFantasmas(){return &casa;}
@@ -72,14 +108,19 @@ public:
 	 * Determina se termino el nivel o no
 	 */
 	bool seFinalizoElNivel(){return finalizoNivel;};
-	/**
-	 * Setea el comiezo o el fin del nivel.
-	 */
+	
+	//Setea el comiezo o el fin del nivel.
 	void seFinalizoElNivel(bool finalizo){finalizoNivel=finalizo;};
 	
 	Operacion* getOperacion();
+	
 	Operacion* desacolar();
+	
+	//Pone a esperar el evento RecibiOperaciones
 	void esperarRecibirOperaciones();
+	
+	//Destructor
+	virtual ~Modelo();
 	
 	/* Eventos */
 	Evento& getRecibiOperacionEvent(){return this->recibiOperacionEvent;};
@@ -92,62 +133,52 @@ protected:
 	
 private:
 	static Modelo* pModelo;
-	/**
-	 * Salida del pacman.
-	 */
+	
+	//Mutex que protege la lista de jugadores
+	Mutex m_jugadores;
+	
+	//Salida del pacman.
 	SalidaPacMan salidaPacMan;
-	/**
-	 * Casa de los fantasmas posicion
-	 */
+	
+	//Casa de los fantasmas posicion
 	CasaFantasmas casa;
-	/**
-	 * Evento que determina si hay que empezar el juego.
-	 */
+	
+	//Evento que determina si hay que empezar el juego.
 	Evento esperarMinJugadoresEvent;
-	/**
-	 * Evento que determina si recibio una operacion
-	 */
+	
+	//Evento que determina si recibio una operacion
 	Evento recibiOperacionEvent;
-	/**
-	 * Desacola una operacion de la cola y la ejecuta.
-	 */
-	void ejecutarOperaciones();
-	/**
-	 * Lista de elementos del mapa.
-	 */
+	
+	//Lista de elementos del mapa.
 	tListElementos elementos;
-	/**
-	 * Mundo que se esta jugando actualmente.
-	 */
+	
+	//Mundo que se esta jugando actualmente.
 	Mundo *mundo;
-	/**
-	 * Nivel que se esta jugando actualmente.
-	 */
+	
+	// Nivel que se esta jugando actualmente.
 	Mapa *mapa;
-	/**
-	 * Lista de operacion que se ejecutan sobre el modelo
-	 */
+	
+	//Lista de operacion que se ejecutan sobre el modelo
 	tQueueOperacion operaciones;
-	/**
-	 * Lista de jugadores pueden ser PacMan o Fantasma
-	 */
+	
+	//Lista de jugadores pueden ser PacMan o Fantasma
 	tListJugadores jugadores;
-	/**
-	 * Indica si el nivel ha finalizado o no
-	 */
+	
+	//Indica si el nivel ha finalizado o no
 	bool finalizoNivel;
-	/**
-	 * Indica si el juego ha finalizado o no
-	 */
+	
+	//Indica si el juego ha finalizado o no
 	pBool finalizoJuego;
-	/**
-	 * Indica si el servidor termino o no.
-	 */
+	
+	//Indica si el servidor termino o no.
 	pBool cerroServidor;
-	/**
-	 * Puntuacion del pacman
-	 */
+	 
+	//Puntuacion del pacman
 	int puntuacion;
-
+	
+	Dispatcher dispatcher;
+	
+	//Desacola una operacion de la cola y la ejecuta.
+	void ejecutarOperaciones();
 };
 #endif // !defined(EA_C452893E_00CB_470e_BB7D_F33E91B1347A__INCLUDED_)

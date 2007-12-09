@@ -156,7 +156,7 @@ char* Init::Serialize()
 	}
 	//Seteo la cantidad de elementos
 	uint16_t *cantElementos = (uint16_t *)( buffer + (sizeof(PktInit) + i/8) );
-	*cantElementos = (uint16_t)( modelo->GetElementos()->size() );
+	*cantElementos = (uint16_t)( modelo->GetElementos()->size() ) ;
 
 	//Seteo los elementos
 	tListElementos::iterator it;
