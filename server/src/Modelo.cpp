@@ -29,16 +29,18 @@ void Modelo::setInstance(pBool finalizoJuego,pBool cerroServidor)
     }
 }
 /*----------------------------------------------------------------------------*/
-Modelo::Modelo(pBool finalizoJuego,pBool cerroServidor){
+Modelo::Modelo(pBool finalizoJuego,pBool cerroServidor):dispatcher(&jugadores, finalizoJuego, &m_jugadores){
 	this->finalizoJuego=finalizoJuego;
 	this->cerroServidor=cerroServidor;
 	this->puntuacion = 0;
+	this->dispatcher.run();
 }
 /*----------------------------------------------------------------------------*/
-Modelo::Modelo(){
+Modelo::Modelo():dispatcher(&jugadores, finalizoJuego, &m_jugadores){
 	this->finalizoJuego=NULL;
 	this->cerroServidor=NULL;
 	this->puntuacion = 0;
+	this->dispatcher.run();
 }
 /*----------------------------------------------------------------------------*/
 Modelo::~Modelo(){
@@ -62,6 +64,14 @@ void Modelo::agregarOperacion(Operacion* operacion){
 	this->operaciones.push(operacion);
 	/* Avisa al modelo que llego una operacion */
 	this->getRecibiOperacionEvent().activar(); 
+}
+
+/*----------------------------------------------------------------------------*/
+void Modelo::agregarJugador( Jugador *jugador )
+{
+	m_jugadores.lock();
+	jugadores.push_back(jugador);
+	m_jugadores.unlock();
 }
 
 /*----------------------------------------------------------------------------*/
@@ -116,7 +126,21 @@ int Modelo::GetPuntuacion()const
 {
 	return puntuacion;
 }
+
 /*----------------------------------------------------------------------------*/
+
+Dispatcher* Modelo::getDispatcher()
+{
+	return &dispatcher;
+}
+
+/*----------------------------------------------------------------------------*/
+
+Mutex& Modelo::getMutexJugadores()
+{
+	return m_jugadores;
+}
+
 /**
  * Ejecucion del hilo.
  */

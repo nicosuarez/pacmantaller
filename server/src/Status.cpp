@@ -32,7 +32,7 @@ char* Status::Serialize()
 	PktCabecera *pktCabecera = (PktCabecera*)buffer;
 	pktCabecera->version = 0;
 	pktCabecera->tipo = Status::STATUS_TYPE;
-	pktCabecera->aux = cantJugadores;
+	pktCabecera->aux = cantJugadores-1;
 	int delta = sizeof(PktCabecera);
 
 	//Seteo la puntuacion

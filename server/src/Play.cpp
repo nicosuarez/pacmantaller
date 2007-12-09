@@ -12,16 +12,14 @@ void Play::main()
 	sleep(1000);
 	int idJugador = jugador->GetIdJugador();
 	//Enviar mensaje start
-	std::cout<<"Envia el mensaje start al jugador: "<< this->jugador->GetIdJugador()<<"\n";
+	std::cout<<"Envia el mensaje start al jugador: "<< idJugador<<"\n";
 	Start start(idJugador);
-	char *buffer = start.Serialize();
+	char* buffer = start.Serialize();
 	jugador->GetSocket()->enviar( buffer, start.getSize() );
 	delete []buffer;
-	//Status status( Modelo::getInstance()->GetElementos());
-	//buffer = status.Serialize();
-	//jugador->GetSocket()->enviar( buffer, status.getSize() );
-	//delete []buffer;
 	//Agregar el jugador al juego.
-	std::cout<<"Agrega el jugador "<< this->jugador->GetIdJugador() << " al juego\n";
-	Modelo::getInstance()->GetJugadores().push_back(this->jugador);
+	std::cout<<"Agrega el jugador "<< idJugador << " al juego\n";
+	Modelo::getInstance()->agregarJugador( jugador );
+	Status *status = new Status( Modelo::getInstance()->GetElementos());
+	Modelo::getInstance()->getDispatcher()->enviarMensaje( status, idJugador );
 }

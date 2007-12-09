@@ -11,6 +11,9 @@
 #include "Jugador.h"
 #include "Config.h"
 #include "AgregarJugadorOp.h"
+#include "Modelo.h"
+
+class Modelo;
 
 class ConnectionManager
 {
