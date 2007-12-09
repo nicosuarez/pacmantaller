@@ -24,9 +24,10 @@ public:
 	Posicion *GetPosicion();
 	virtual int GetVelocidad();
 	void SetId(int id);
-	void SetPosicion(Posicion posicion);
+	void SetPosicion(Posicion& posicion);
 	void SetVelocidad(int velocidad);
 	virtual bool operator==( int tipo )const = 0;
+	
 private:
 	/**
 	 * Identificador de personaje

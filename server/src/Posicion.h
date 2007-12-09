@@ -13,6 +13,19 @@
 #define N_E 0  //Direccion Norte/Este
 #define S_O 1  //Direccion Sur/Oeste
 
+//Se definen el rango de posiciones dentro de las aristas.
+#define INICIO_ARISTA 0  //Posicion inicial del arista si el personaje viene de N o E
+#define FIN_ARISTA 63  //Posicion inicial del arista si el personaje viene de S o O
+
+/*
+ * NOTA: La posicion relativa a la arista se mantiene teniendo en cuenta que 
+ * a la hora de tener que agarrar una arista N/E se setea la posicion en 
+ * INICIO_ARISTA y si la arista es S/O se setea la posicion del personaje 
+ * en FIN_ARISTA.
+ */
+ 
+
+
 /**
  * Clase que indentifica la posicion un elemento en el mapa
  */
@@ -64,5 +77,21 @@ public:
      	return os; 
  	}
 
+	void cambiarDireccion();
+	
+	static int getPosAristaInicial(int orientacion);
+	
+	bool estaEnUnVertice();
+	
+	/**
+	 * Posicion del personaje en el mapa
+	 */
+	void SetPosicion(int idVertice,int idArista,int posicionArista,int direccion);
+	
+	/**
+	 * Posicion en un vertice, sin ninguna arista asignada, no puede avanzar hasta que no se
+	 * realice un cambio de direccion
+	 */
+	void SetPosicion(int idVertice,int direccion);
 };
 #endif // !defined(EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_)

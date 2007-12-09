@@ -9,6 +9,7 @@
 
 #include "Mensaje.h"
 
+#define NONE -1
 #define KEY_ARRIBA 0
 #define KEY_ABAJO 1
 #define KEY_IZQUIERDA 2

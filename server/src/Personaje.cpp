@@ -6,6 +6,7 @@
 
 #include "Personaje.h"
 
+class Modelo;
 
 Personaje::Personaje(){
 
@@ -49,18 +50,15 @@ void Personaje::SetId(int id){
 /**
  * Posicion del personaje en el mapa
  */
-void Personaje::SetPosicion(Posicion newVal){
+void Personaje::SetPosicion(Posicion& posicion){
 
-	posicion.setArista( newVal.getArista() );
-	posicion.setPosicionArista( newVal.getPosicionArista() );
-	posicion.setDireccion( newVal.getDireccion() );
+	this->posicion=posicion;
 }
-
 
 /**
  * Velocidad del personaje
  */
-void Personaje::SetVelocidad(int newVal){
+void Personaje::SetVelocidad(int velocidad){
 
-	velocidad = newVal;
+	velocidad = velocidad;
 }

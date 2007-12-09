@@ -65,6 +65,43 @@ int Posicion::getDireccion()const
 	return direccion;
 }
 
+/**
+ * Posicion del personaje en el mapa
+ */
+void Posicion::SetPosicion(int idVertice,int idArista,int posicionArista,int direccion){
+
+	this->idVertice=idVertice;
+	this->idArista=idArista;
+	this->direccion=direccion;
+	this->posicionArista=posicionArista;
+}
+
+/**
+ * Posicion en un vertice, sin ninguna arista asignada, no puede avanzar hasta que no se
+ * realice un cambio de direccion
+ */
+void Posicion::SetPosicion(int idVertice,int direccion){
+
+	this->idVertice=idVertice;
+	this->idArista=0;
+	this->direccion=direccion;
+	this->posicionArista=0;
+}
+
+bool Posicion::estaEnUnVertice()
+{
+	if(this->idArista==0 && this->posicionArista==0)
+		return true;
+	
+	if(this->direccion==N_E && this->posicionArista > FIN_ARISTA)
+		return true;
+		
+	if(this->direccion==S_O && this->posicionArista < INICIO_ARISTA)
+		return true;
+	
+	return false;
+}
+
 void Posicion::setArista( int idArista )
 {
 	this->idArista = idArista;
@@ -92,3 +129,22 @@ void Posicion::operator=( const Posicion &posicion )
 	this->posicionArista = posicion.getPosicionArista();
 	this->direccion = posicion.getDireccion();
 }
+
+void Posicion::cambiarDireccion()
+{
+	if(this->direccion==N_E)
+		this->direccion=S_O;
+	else
+		this->direccion = N_E;
+}
+
+int Posicion::getPosAristaInicial(int orientacion){
+	if(S_O==orientacion)
+		return FIN_ARISTA;
+	else
+		return INICIO_ARISTA;
+}
+
+
+
+

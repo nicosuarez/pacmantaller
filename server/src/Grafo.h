@@ -23,7 +23,7 @@ public:
 private:
     std::list< tVertice* > listaVertices;
     tVertice* verticeFuente;
-
+   
 public:
     //Constructor       
     Grafo(){verticeFuente = NULL;}

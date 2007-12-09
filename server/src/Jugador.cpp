@@ -13,6 +13,7 @@ Jugador::Jugador(Socket* sk,int idPersonaje,int idJugador){
 	this->idPersonaje=idPersonaje;
 	this->personaje=NULL;
 	this->escucharJugador = new EscucharJugador(sk);
+	this->keyPressed=-1;
 }
 /*----------------------------------------------------------------------------*/
 Jugador::~Jugador(){
@@ -90,3 +91,13 @@ void Jugador::SetSocket(Socket* socket){
 
 	socket = socket;
 }
+/*----------------------------------------------------------------------------*/
+int Jugador::GetKeyPressed(){
+	return this->keyPressed;
+}
+/*----------------------------------------------------------------------------*/
+void Jugador::SetKeyPressed(int keyPressed){
+	this->keyPressed=keyPressed;
+}
+
+

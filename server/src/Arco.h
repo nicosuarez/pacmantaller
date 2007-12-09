@@ -23,6 +23,7 @@ private:
     tVertice *vOrigen, *vDestino;
     TipoIdArco idArco;
     TipoDatoArco elemento;
+    TipoIdVertice vDestinoId;
 
 public:
     //Contructores y Destructores
@@ -46,6 +47,7 @@ public:
         this->elemento = elemento;
         this->vOrigen = vOrigen;
         this->vDestino = vDestino;
+        this->vDestinoId = vDestino->getid();
     }        
 
     ~Arco()
@@ -58,6 +60,10 @@ public:
     void setid( TipoIdArco id){this->idArco = id;}
     /*----------------------------------------------------------------------------*/
     TipoIdArco getid()const{return idArco;}
+    /*----------------------------------------------------------------------------*/
+    TipoIdVertice setDestinoId( TipoIdVertice id){this->vDestinoId = id;}
+    /*----------------------------------------------------------------------------*/
+    TipoIdVertice getDestinoId()const{return vDestinoId;}
     /*----------------------------------------------------------------------------*/
     void setElemento( TipoDatoArco elemento ){this->elemento = elemento;}
     /*----------------------------------------------------------------------------*/
