@@ -28,7 +28,7 @@
 <listOptionValue builtIn="false" value="/usr/include/gtkmm-2.4"/>
 <listOptionValue builtIn="false" value="/usr/include/libglademm-2.4"/>
 </option>
-<option id="gnu.cpp.compiler.option.other.other.2100024306" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 `pkg-config --cflags gtkmm-2.4`" valueType="string"/>
+<option id="gnu.cpp.compiler.option.other.other.2100024306" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 `pkg-config --cflags gtkmm-2.4` `pkg-config --cflags libxml++-2.6`" valueType="string"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1758405457" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.358353275" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -40,7 +40,7 @@
 <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.209061093" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.388703893" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 <option id="gnu.cpp.link.option.libs.1695488524" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs"/>
-<option id="gnu.cpp.link.option.flags.7876331" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`pkg-config --libs gtkmm-2.4` `pkg-config --libs libglademm-2.4`" valueType="string"/>
+<option id="gnu.cpp.link.option.flags.7876331" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`pkg-config --libs gtkmm-2.4` `pkg-config --libs libxml++-2.6` `pkg-config --libs libglademm-2.4`" valueType="string"/>
 <option id="gnu.cpp.link.option.other.1706854287" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1646510501" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
