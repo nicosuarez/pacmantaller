@@ -25,11 +25,11 @@ Posicion::Posicion(int idVertice,int idArista,int posicionArista,int direccion)
 }
 
 //Posiciona en un vertice
-Posicion::Posicion(int idVertice)
+Posicion::Posicion(int idVertice,int direccion)
 {
 	this->idArista = 0;
 	this->posicionArista = 0;
-	this->direccion = N_E;
+	this->direccion = direccion;
 	this->idVertice=idVertice;
 }
 
@@ -143,6 +143,13 @@ int Posicion::getPosAristaInicial(int orientacion){
 		return FIN_ARISTA;
 	else
 		return INICIO_ARISTA;
+}
+
+int Posicion::getDireccionInicial(Orientacion orientacion){
+	if(orientacion==Norte || orientacion==Este)
+		return N_E;
+	else
+		return S_O;
 }
 
 

@@ -27,7 +27,7 @@
 --><Arista id="143" orientacion="NORTE"><Vertice id="73"/><Vertice id="63"/></Arista><!--
 --><Arista id="132" orientacion="ESTE"><Vertice id="63"/><Vertice id="62"/></Arista><!--
 --><Arista id="133" orientacion="ESTE"><Vertice id="63"/><Vertice id="64"/></Arista><!--
---><Arista id="134" orientacion="ESTE"><Vertice id="65"/><Vertice id="64"/></Arista><!--
+--><Arista id="134" orientacion="ESTE"><Vertice id="64"/><Vertice id="65"/></Arista><!--
 --><Arista id="63" orientacion="NORTE"><Vertice id="23"/><Vertice id="33"/></Arista><!--
 --><Arista id="83" orientacion="NORTE"><Vertice id="33"/><Vertice id="43"/></Arista><!--
 --><Arista id="103" orientacion="NORTE"><Vertice id="53"/><Vertice id="43"/></Arista><!--

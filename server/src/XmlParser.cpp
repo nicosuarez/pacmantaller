@@ -185,18 +185,22 @@ void XmlParser::agregarCasaFantasmas(Mapa* mapa,xmlpp::TextReader& reader)
 {
 	int idVertice=0;
 	int idPuerta = getAtributoInt(reader,ATRIB_ID_VERTICE);
+	tVecVerticeId vertices; 
 	elementosNoPastillas.push_back(idPuerta);
+
 	//tVertice* vPuertaCasa = mapa->getGrafo()->getVertice(idPuerta);
 	std::cout << CASA_FANTASMAS << " " << "Entrada" << ": " << idPuerta << "\n";
 	for(int i=1;i<7;i++)
 	{
 		idVertice=getAtributoInt(reader,ATRIB_ID_VERTICE+StrToken::intToString(i));
 		elementosNoPastillas.push_back(idVertice);
+		vertices.push_back(idVertice);
 		std::cout << CASA_FANTASMAS << " " << ATRIB_ID << ": " << idVertice << "\n";
 	}	
 	string orientacion=reader.get_attribute(ATRIB_ORIENTACION);
 	std::cout << ATRIB_ORIENTACION << ": " << orientacion << "\n";
 	CasaFantasmas casaFantasmas(idPuerta,orientacionParser(orientacion));
+	casaFantasmas.setVerticesId(vertices);
 	Modelo::getInstance()->SetCasaFantasmas(casaFantasmas);
 }
 /*----------------------------------------------------------------------------*/

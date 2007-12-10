@@ -82,7 +82,8 @@ void AgregarJugadorOp::initPacMan()
 
 	//Obtener la posicion de salida del pacman
 	idVertice = Modelo::getInstance()->getSalidaPacMan()->getPosicion();
-	Posicion posicion(idVertice);
+	
+	Posicion posicion = this->getPosicionInicialPacman();
 
 	//Se setea el personaje al jugador
 	Personaje* personaje = new PacMan(posicion);
@@ -93,13 +94,52 @@ void AgregarJugadorOp::initPacMan()
 	std::cout<<"ID:"<< jugador->GetIdJugador()<< " " << posicion <<"\n";
 }
 
+Posicion AgregarJugadorOp::getPosicionInicialPacman()
+{
+	Modelo* modelo = Modelo::getInstance();
+	int idVertice = modelo->getSalidaPacMan()->getPosicion();
+	
+	tVertice* vSalida = modelo->GetMapa()->getGrafo()->getVertice(idVertice);
+	
+	//Toma el primer arco
+	tArco* aristaSalida = vSalida->getArcos()->front();
+    
+	int aristaId = aristaSalida->getid();
+	Orientacion orientacion = aristaSalida->getElemento();
+	int direccion=Posicion::getDireccionInicial(orientacion);
+	int posArista = Posicion::getPosAristaInicial(direccion);
+    
+	Posicion posicion(idVertice,aristaId,posArista,direccion);
+	return posicion;
+}
+
+Posicion AgregarJugadorOp::getPosicionInicialFantasmas()
+{
+	Modelo* modelo = Modelo::getInstance();
+	int idVertice = modelo->getCasaFantasmas()->getPosicion();
+	Orientacion orientacion = modelo->getCasaFantasmas()->getOrientacion();
+	
+	tVertice* vSalida = modelo->GetMapa()->getGrafo()->getVertice(idVertice);
+	
+	//Toma el primer arco
+	tArco* aristaSalida = vSalida->getArco(orientacion);
+    
+	int aristaId = aristaSalida->getid();
+	int direccion=Posicion::getDireccionInicial(orientacion);
+	int posArista = Posicion::getPosAristaInicial(direccion);
+    
+	Posicion posicion(idVertice,aristaId,posArista,direccion);
+	return posicion;
+}
+
+
 void AgregarJugadorOp::initFantasma()
 {
 	int idVertice=-1;
 	
 	//Obtener la posicion de salida del fantasmas (casa)
 	idVertice = Modelo::getInstance()->getCasaFantasmas()->getPosicion();
-	Posicion posicion(idVertice);
+	Posicion posicion = this->getPosicionInicialFantasmas();
 
 	//Se setea el personaje al jugador
 	Personaje* personaje = new Fantasma(posicion);

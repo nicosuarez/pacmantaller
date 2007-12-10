@@ -33,3 +33,16 @@ bool CasaFantasmas::operator==( tipoElemento tipo) const
 {
 	return tipo == tCasaFantasmas;
 }
+
+//Vector con los id de los vertice que compone la casa, menos la entrada
+tVecVerticeId* CasaFantasmas::getVerticesId()
+{
+	return &vertices;
+}
+	
+void CasaFantasmas::setVerticesId(tVecVerticeId& vertices)
+{
+	this->vertices=vertices;
+}
+
+

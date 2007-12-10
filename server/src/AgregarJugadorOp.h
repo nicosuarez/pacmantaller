@@ -23,6 +23,8 @@ private:
 	
 	void initPacMan();
 	void initFantasma();
+	Posicion getPosicionInicialPacman();
+	Posicion getPosicionInicialFantasmas();
 	
 public:
 	AgregarJugadorOp(Jugador* jugador);

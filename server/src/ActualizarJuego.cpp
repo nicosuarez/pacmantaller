@@ -1,5 +1,22 @@
 #include "ActualizarJuego.h"
 
+ActualizarJuego* ActualizarJuego::pActualizarJuego = NULL;
+
+ActualizarJuego* ActualizarJuego::getInstance () 
+{
+    if (pActualizarJuego == NULL)
+    {  
+    	pActualizarJuego = new ActualizarJuego(); 
+    }
+    return pActualizarJuego;
+}
+
+ActualizarJuego::ActualizarJuego()
+{
+	this->finalizoNivel=Modelo::getInstance()->getFinalizoNivel();
+	std::cout<<"Construyo ActualizarJuego\n";
+}
+
 ActualizarJuego::ActualizarJuego(pBool finalizoNivel)
 {
 	this->updateTime=100;
@@ -7,9 +24,11 @@ ActualizarJuego::ActualizarJuego(pBool finalizoNivel)
 
 void ActualizarJuego::main()
 {
+	std::cout<<"Corre ActualizarJuego\n";
 	while(!seFinalizoElNivel())
 	{
-		
+		this->actualizar();
+		sleep(updateTime);
 		//Armar mensaje status
 	}
 }
@@ -214,7 +233,7 @@ void ActualizarJuego::salirDelJuego(){
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::noPresionoKey(Jugador* jugador){
-	
+	this->avanzar(jugador);
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::avanzar(Jugador* jugador){
