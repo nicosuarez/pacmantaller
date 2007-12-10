@@ -8,6 +8,7 @@
 #define EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_
 
 #include <iostream>
+#include "Elemento.h"
 
 //Se definen las direcciones en las aristas.
 #define N_E 0  //Direccion Norte/Este
@@ -32,20 +33,20 @@
 class Posicion
 {
 private:
+	int idVertice; //Vertice desde donde partio
 	int idArista; //Identificador de la arista
 	int posicionArista; //Posicion dentro de la arista 0-63
 	int direccion; //Direccion sobre la arista NORTE/SUR ESTE/OESTE
-	int idVertice; //Vertice desde donde partio
-
+	
 public:
 	
 	Posicion();
 	
-	Posicion(int idVertice);
-	
-	Posicion(const Posicion & posicion);
+	Posicion(int idVertice,int direccion);
 	
 	Posicion(int idVertice,int idArista,int posicionArista,int direccion);
+	
+	Posicion( const Posicion &posicion );
 	
 	virtual ~Posicion();
 	
@@ -93,5 +94,10 @@ public:
 	 * realice un cambio de direccion
 	 */
 	void SetPosicion(int idVertice,int direccion);
+	
+	/**
+	 * Obtiene la direccion inicial del personaje dependiendo de la orientacion de la arista.
+	 */
+	static int getDireccionInicial(Orientacion orientacion);
 };
 #endif // !defined(EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_)

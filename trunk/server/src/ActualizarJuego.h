@@ -5,6 +5,8 @@
 #include "Modelo.h"
 #include "Key.h"
 
+typedef bool* pBool;
+
 class ActualizarJuego : public Thread
 {
 private:
@@ -13,7 +15,10 @@ private:
 	//Determina si termino el nivel o no
 	pBool finalizoNivel;
 	
+	static ActualizarJuego* pActualizarJuego;
+	
 public:
+	static ActualizarJuego* getInstance();
 	ActualizarJuego(pBool finalizoNivel);
 	void main();
 	/**
@@ -46,6 +51,12 @@ public:
 	
 	
 	Mensaje* armarMensajeStatus();
+
+protected:
+	ActualizarJuego();
+	ActualizarJuego(const ActualizarJuego&);
+	ActualizarJuego& operator= (const ActualizarJuego&);
+
 };
 
 #endif /*ACTUALIZARJUEGO_H_*/

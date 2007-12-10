@@ -158,13 +158,12 @@ void Modelo::main(){
 		std::cout<<"Esperando comienzo de nivel..\n";
 		this->esperarMinJugadoresEvent.esperar();
 		
-		this->finalizoNivel=false;
-		while(!this->finalizoNivel)
+		this->seFinalizoElNivel(false);
+		while(!this->seFinalizoElNivel())
 		{
-			
 			std::cout<<"Procesando operaciones..\n";
 			this->ejecutarOperaciones();
-			//Correr ActualizarEstado...
+			ActualizarJuego::getInstance()->run();
 		}
 		this->mundo->getNiveles()->pop();
 		liberarNivel();
@@ -177,6 +176,9 @@ void Modelo::main(){
 /*----------------------------------------------------------------------------*/
 void Modelo::liberarNivel()
 {
+	ActualizarJuego::getInstance()->join();
+	delete ActualizarJuego::getInstance();
+	
 	tListElementos* elementos;
 	itListElementos it;
 	elementos = this->GetElementos();
@@ -185,6 +187,7 @@ void Modelo::liberarNivel()
 		std::cout<<"Elimina elemento:"<<(*it)->getPosicion()<<"\n";
 		delete (*it);
 	}
+	
 	delete mapa;
 }
 /*----------------------------------------------------------------------------*/

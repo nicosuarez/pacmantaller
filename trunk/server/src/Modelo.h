@@ -24,6 +24,7 @@
 #include "Bonus.h"
 #include "SalidaPacMan.h"
 #include "Dispatcher.h"
+#include "ActualizarJuego.h"
 
 using std::string;
 
@@ -111,6 +112,12 @@ public:
 	
 	//Setea el comiezo o el fin del nivel.
 	void seFinalizoElNivel(bool finalizo){finalizoNivel=finalizo;};
+	
+	//Indica si el nivel ha finalizado o no
+	pBool getFinalizoNivel(){return &finalizoNivel;};
+	
+	//Indica si el juego ha finalizado o no
+	pBool getFinalizoJuego(){return finalizoJuego;};
 	
 	Operacion* getOperacion();
 	
