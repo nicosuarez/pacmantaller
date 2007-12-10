@@ -55,6 +55,9 @@ public:
 	//Agrega un jugador a la lista de jugadores
 	void agregarJugador( Jugador *jugador );
 	
+	//Elimina el jugador del id pasado por parametro de la lista
+	void quitarJugador( int idJugador );
+	
 	//Retorna la lista de elementos
 	tListElementos* GetElementos();
 	
@@ -69,6 +72,10 @@ public:
 	
 	//Retorna una referencia a la lista de jugadores
 	tListJugadores& GetJugadores();
+	
+	//Retorna un puntero al jugador buscado, si no lo encuentra
+	//retorna NULL
+	Jugador* getJugador( int idJugador );
 	
 	//Retorna una referencia al mutex que protege la lista de jugadores
 	Mutex& getMutexJugadores();

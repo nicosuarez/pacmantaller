@@ -75,6 +75,23 @@ void Modelo::agregarJugador( Jugador *jugador )
 }
 
 /*----------------------------------------------------------------------------*/
+void Modelo::quitarJugador( int idJugador )
+{
+	tListJugadores::iterator it;
+	m_jugadores.lock();
+	for( it = jugadores.begin(); it != jugadores.end(); it++ )
+	{
+		if( (*it)->GetIdJugador() == idJugador )
+		{
+			delete (*it);
+			jugadores.erase( it );
+			return;
+		}
+	}
+	m_jugadores.unlock();
+}
+
+/*----------------------------------------------------------------------------*/
 /**
  * Posicion de salida del PacMan
  */
@@ -121,6 +138,25 @@ Mundo* Modelo::GetMundo()
 tListJugadores& Modelo::GetJugadores(){
 	return this->jugadores;
 }
+
+/*----------------------------------------------------------------------------*/
+
+Jugador* Modelo::getJugador( int idJugador )
+{
+	itListJugadores it;
+	Jugador* jugador = NULL;
+	for(it=jugadores.begin();it!=jugadores.end();it++)
+	{
+		if( (*it)->GetIdJugador() == idJugador )
+		{
+			jugador=(*it);
+			break;
+		}
+	}
+	return jugador;
+	
+}
+
 /*----------------------------------------------------------------------------*/
 int Modelo::GetPuntuacion()const
 {

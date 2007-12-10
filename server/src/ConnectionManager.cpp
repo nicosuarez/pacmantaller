@@ -38,7 +38,9 @@ void ConnectionManager::agregarJugador(Jugador* jugador){
 	std::cout<<"Jugador nuevo id: "<<jugador->GetIdJugador()<<"\n";
 
 	//Se pone a escuchar el socket del jugador
-	jugador->escucharJugador->run();
+	EscucharJugador *escuchar = new EscucharJugador( jugador->GetIdJugador(), jugador->GetSocket() );
+	escuchar->run();
+	listEscuchar.push_back( escuchar );
 	std::cout<<"escuchar jugador...\n";
 	
 	//AgregarJugadorOp Operacion
@@ -64,16 +66,13 @@ void ConnectionManager::enviarMensaje(){
 /*----------------------------------------------------------------------------*/
 ConnectionManager::~ConnectionManager()
 {
-	/*tListJugadores jugadores=this->pool.getJugadoresList();
-	itListJugadores it;
-	
-	for(it=jugadores.begin();it!=jugadores.end();it++)
+	tListEscuchar::iterator it;
+	for( it = listEscuchar.begin(); it != listEscuchar.end(); it++ )
 	{
-		Jugador* jugador = *it;
-		delete jugador;
+		(*it)->join();
+		delete (*it);
 	}
-	jugadores.clear();
-	*/
+	listEscuchar.clear();
 }
 /*----------------------------------------------------------------------------*/
 Pool& ConnectionManager::GetPool(){

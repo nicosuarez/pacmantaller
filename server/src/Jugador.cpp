@@ -12,15 +12,12 @@ Jugador::Jugador(Socket* sk,int idPersonaje,int idJugador){
 	this->idJugador=idJugador;
 	this->idPersonaje=idPersonaje;
 	this->personaje=NULL;
-	this->escucharJugador = new EscucharJugador(sk);
 	this->keyPressed=-1;
 }
 /*----------------------------------------------------------------------------*/
 Jugador::~Jugador(){
-	this->escucharJugador->join();
 	delete this->socket;
 	delete this->personaje;
-	delete this->escucharJugador;
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -50,15 +47,7 @@ int Jugador::GetIdPersonaje(){
 Personaje* Jugador::getPersonaje(){
 	return this->personaje;
 }
-/*----------------------------------------------------------------------------*/
-/**
- * pone a corres el thread escucharJugador, el mismo se pone a recibir los
- * mesnajes del server
- * 
- */
-void Jugador::escuchar(){
-	this->escucharJugador->run();
-}
+
 /*----------------------------------------------------------------------------*/
 /**
  * Identificador de jugador
