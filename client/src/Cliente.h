@@ -12,9 +12,12 @@
 #include "RecibirMensaje.h"
 #include "LogResource.h"
 #include <string>
+#include "EnviarMensaje.h"
+#include "Key.h"
 
 typedef unsigned short port_type;
 using std::string;
+
 
 /**
  * Clase que modela el cliente.
@@ -26,6 +29,7 @@ public:
 	Cliente(const string& host,Socket::port_type puerto);
 	virtual ~Cliente();
 	int ejecutar(int cantArg,char* argv[]);
+	EnviarMensaje* enviarMensaje;
 	
 private:
 	/**
@@ -45,6 +49,8 @@ private:
 	 * de mensajes
 	 */
 	RecibirMensaje* thrRecibirMensajes;
+	
+public:
 	/**
 	 * Se ejecuta el hilo principal del juego el del modelo.
 	 */
@@ -53,6 +59,6 @@ private:
 	 * Establece conexion con el servidor y permite el intercambio de mensajes
 	 */
 	void recibirMensajes();
-
+	
 };
 #endif // !defined(EA_14A2EC85_1217_49ba_9849_66D713CD39A6__INCLUDED_)

@@ -66,6 +66,16 @@ void Modelo::setElementos( std::list<Elemento*> *elementos )
 	this->elementos = elementos;
 }
 
+void Modelo::setEnviarMensaje( EnviarMensaje *enviarMensaje )
+{
+	this->enviarMensaje = enviarMensaje;
+}
+
+EnviarMensaje* Modelo::getEnviarMensaje()
+{
+	return enviarMensaje;
+}
+
 int Modelo::getid()const
 {
 	return this->id;

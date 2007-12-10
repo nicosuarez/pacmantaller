@@ -5,7 +5,10 @@
 #include "Elemento.h"
 #include "Personaje.h"
 #include "Mapa.h"
+#include "EnviarMensaje.h"
 //#include "Thread.h"
+
+class EnviarMensaje;
 
 class Modelo
 {
@@ -18,6 +21,7 @@ private:
 	Mapa *mapa;
 	std::list<Elemento*> *elementos;
 	std::list<Personaje*> personajes;
+	EnviarMensaje *enviarMensaje;
 	Modelo();
 public:
 	
@@ -36,6 +40,10 @@ public:
 	void setMapa( Mapa *mapa );
 	
 	void setElementos( std::list<Elemento*> *elementos );
+	
+	void setEnviarMensaje( EnviarMensaje *enviarMensaje );
+	
+	EnviarMensaje* getEnviarMensaje();
 	
 	int getid()const;
 	

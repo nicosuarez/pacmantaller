@@ -60,6 +60,7 @@ void RecibirMensaje::recibirMensaje()
 			case Mensaje::QUIT_TYPE:
 				std::cout<< "Quit\n";
 				modelo->setFinalizoJuego( true );
+				modelo->getEnviarMensaje()->enviarMensaje( new Key(4) );
 				break;
 				
 			default: std::cout << "No se reconoce el tipo\n"; 
