@@ -6,7 +6,7 @@
 
 #include "Dispatcher.h"
 
-Dispatcher::Dispatcher( tListJugadores *jugadores, bool *terminoJuego, Mutex *m_jugadores )
+Dispatcher::Dispatcher( listJugadores *jugadores, bool *terminoJuego, Mutex *m_jugadores )
 {
 	this->jugadores = jugadores;
 	this->terminoJuego = terminoJuego;
@@ -19,7 +19,7 @@ Dispatcher::~Dispatcher()
 
 Jugador* Dispatcher::getJugador(int idJugador)
 {
-	tListJugadores::iterator it;
+	listJugadores::iterator it;
 	for( it = jugadores->begin(); it != jugadores->end(); it++ )
 		if((*it)->GetIdJugador() == idJugador )
 			return (*it);
@@ -66,7 +66,7 @@ void Dispatcher::main()
 /*----------------------------------------------------------------------------*/
 void Dispatcher::enviarBroadCast( Mensaje* msg )
 {
-	tListJugadores::iterator it;
+	listJugadores::iterator it;
 	char *buffer = msg->Serialize();
 	m_jugadores->lock();
 	for( it = jugadores->begin(); it != jugadores->end(); it++ )

@@ -7,16 +7,16 @@
 #if !defined(EA_15129548_CA1C_4143_A7FB_A6812DF62A1F__INCLUDED_)
 #define EA_15129548_CA1C_4143_A7FB_A6812DF62A1F__INCLUDED_
 
-#include "Evento.h"
-#include "Mensaje.h"
-#include "Mutex.h"
-#include "Jugador.h"
 #include <queue>
 #include <list>
 #include "Thread.h"
+#include "Evento.h"
+#include "Mutex.h"
+#include "Mensaje.h"
+#include "Jugador.h"
 
 typedef  std::queue<Mensaje*> tQueueMensajes;
-typedef std::list<Jugador*> tListJugadores;
+typedef std::list<Jugador*> listJugadores;
 
 
 /**
@@ -29,7 +29,7 @@ private:
 	tQueueMensajes mensajes;
    
 	//Lista de Jugadores a los que se les envia los mensajes
-    tListJugadores *jugadores;
+    listJugadores *jugadores;
 
     Evento recibiMensajeEvent;
     
@@ -67,7 +67,7 @@ public:
 	Evento& getRecibiMensajeEvent();
 
     /* Contructores y Destructores */
-    Dispatcher( tListJugadores *jugadores, bool *terminoJuego, Mutex *m_jugadores );
+    Dispatcher( listJugadores *jugadores, bool *terminoJuego, Mutex *m_jugadores );
     
     ~Dispatcher();
 };

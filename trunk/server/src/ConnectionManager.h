@@ -11,9 +11,11 @@
 #include "Jugador.h"
 #include "Config.h"
 #include "AgregarJugadorOp.h"
+#include "EscucharJugador.h"
 #include "Modelo.h"
+#include <list>
 
-class Modelo;
+typedef std::list<EscucharJugador*> tListEscuchar;
 
 class ConnectionManager
 {
@@ -35,16 +37,25 @@ public:
 	/* Destructor */
 	~ConnectionManager();
 private:
+	
 	Pool pool;
-    static ConnectionManager* pConnectionManager;
-    //Asigna a los jugadores un id unico.
+    
+	static ConnectionManager* pConnectionManager;
+    
+	//Asigna a los jugadores un id unico.
     int asignarId;
+    
     //Maxima cantidad de jugadores
     int maxJugadores;
+    
     //Minima cantidad de jugadores
     int minJugadores;
+    
     //Cantidad de jugadores conectados.
     int cantJugadores;
+    
+    //Lista de EscucharJugador
+    tListEscuchar listEscuchar;
     
 protected:
 	ConnectionManager();

@@ -7,23 +7,44 @@
 #include "EscucharJugador.h"
 
 
-EscucharJugador::EscucharJugador(Socket* sk_jugador){
-	this->sk_jugador=sk_jugador;
+EscucharJugador::EscucharJugador( int idJugador, Socket* socket )
+{
+	this->idJugador = idJugador;
+	this->socket = socket;	
+	this->terminoJuego = false;
 }
 
-EscucharJugador::~EscucharJugador(){
-
+EscucharJugador::~EscucharJugador()
+{
 }
 
 /**
  * Hilo que se encarga de escuchar los mensajes que el jugador recibe del servidor
  */
-void EscucharJugador::main(){
-	this->recibirMensaje();
+void EscucharJugador::main()
+{
+	while( !terminoJuego )
+	{
+		int tecla = recibirMensaje();
+		if( tecla == KEY_ESC )
+		{
+			QuitarJugadorOp *quitarJugador = new QuitarJugadorOp( idJugador );
+			Modelo::getInstance()->agregarOperacion( quitarJugador );
+			return;
+		}
+		else
+			Modelo::getInstance()->getJugador( idJugador )->SetKeyPressed( tecla );
+	}
 }
 
+int EscucharJugador::recibirMensaje()
+{
+	PktCabecera buffer;
+	socket->recibir( (char*)(&buffer), sizeof(PktCabecera) );
+	return (int)buffer.aux;
+}
 
-void EscucharJugador::recibirMensaje(){
-	std::string msg="";
-	//this->sk_jugador->recibir(msg,1000);
+void EscucharJugador::setTerminoJuego( bool terminoJuego )
+{
+	this->terminoJuego = terminoJuego;	
 }
