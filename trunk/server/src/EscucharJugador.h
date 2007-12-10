@@ -26,7 +26,7 @@ private:
 	Socket* socket;
 	
 	//Indica si finalizo el juego para saber si sigue escuchando al jugador
-	bool terminoJuego;
+	bool *terminoJuego;
 	
 	//Recibe los mensajes del cliente
 	int recibirMensaje();
@@ -40,8 +40,6 @@ public:
 	
 	//Recibe los mensajes que envia el cliente
 	void main();
-	
-	void setTerminoJuego( bool terminoJuego );
 	
 
 };

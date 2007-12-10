@@ -16,6 +16,7 @@
 #include "PacMan.h"
 #include "Fantasma.h"
 #include "Mapa.h"
+#include "Key.h"
 
 class RecibirMensaje : public Thread
 {
@@ -32,6 +33,10 @@ private:
 	
 	int getIdVertice( int idArista, int direccion, int anchoMapa );
 	
+	void recibirInit( PktCabecera *cabecera );
+	
+	void recibirStatus( PktCabecera *cabecera );
+	
 	/* Constructor de copia y operator= ocultos (para prevenir descuidos) */
 	RecibirMensaje(const RecibirMensaje&);
 	RecibirMensaje& operator=(const RecibirMensaje&);
@@ -44,11 +49,7 @@ public:
 	void main();
 	
 	void recibirMensaje();
-	
-	void recibirInit( PktCabecera *cabecera );
-	
-	void recibirStatus( PktCabecera *cabecera );
-	
+		
 };
 
 #endif /*RECIBIRMENSAJE_H_*/

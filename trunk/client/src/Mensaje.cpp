@@ -17,3 +17,7 @@ Mensaje::~Mensaje(){
 
 }
 
+int Mensaje::getSize()const
+{
+	return sizePkt;
+}

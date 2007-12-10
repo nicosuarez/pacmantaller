@@ -12,7 +12,10 @@
 
 class Mensaje
 {
-
+	
+protected:
+	int sizePkt;
+	
 public:
 	
 	static const int INIT_TYPE = 0;
@@ -27,5 +30,6 @@ public:
 	 
 	virtual char* Serialize()=0;
 
+	int getSize()const;
 };
 #endif // !defined(EA_00555EAD_A002_4386_8DDE_5962FC3B0BA9__INCLUDED_)

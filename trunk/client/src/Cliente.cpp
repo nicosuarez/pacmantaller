@@ -21,6 +21,7 @@
 
 using namespace std;
 
+EnviarMensaje *ptrEnviar = NULL;
 
 Textura	texPiso;
 Textura	texPared;
@@ -162,10 +163,10 @@ void displayEvent(void) {
 	for (i = 0; i < LARGOL; i++ ) {
 		for (j = 0; j < ANCHOL; j++ ) {
 			glBegin( GL_QUADS );
-				glTexCoord2f(0,0); glVertex3f( j, 0, -i );
-				glTexCoord2f(1,0); glVertex3f( j+1, 0, -i );
-				glTexCoord2f(1,1); glVertex3f( j+1, 0, -i-1 );
-				glTexCoord2f(0,1); glVertex3f( j, 0, -i-1 );
+			glTexCoord2f(0,0); glVertex3f( j, 0, -i );
+			glTexCoord2f(1,0); glVertex3f( j+1, 0, -i );
+			glTexCoord2f(1,1); glVertex3f( j+1, 0, -i-1 );
+			glTexCoord2f(0,1); glVertex3f( j, 0, -i-1 );
 			glEnd();
 		}
 	}
@@ -203,17 +204,21 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 	switch ( key ) {
 		case GLUT_KEY_UP:    
 			camara.ChkWall(camara.getX()-camara.getDtx(),camara.getZ()+camara.getDtz());
+			ptrEnviar->enviarMensaje( new Key(KEY_ARRIBA) );
 			break;
 		case GLUT_KEY_DOWN:  
-			camara.ChkWall(camara.getX()+camara.getDtx(),camara.getZ()-camara.getDtz()); 
+			camara.ChkWall(camara.getX()+camara.getDtx(),camara.getZ()-camara.getDtz());
+			ptrEnviar->enviarMensaje( new Key(KEY_ABAJO) );
 			break;
 		case GLUT_KEY_LEFT:
 			camara.decAng(2);			
-			camara.move();							
+			camara.move();
+			ptrEnviar->enviarMensaje( new Key(KEY_IZQUIERDA) );
 			break;
 		case GLUT_KEY_RIGHT: 
 			camara.incAng(2);			
 			camara.move();					
+			ptrEnviar->enviarMensaje( new Key(KEY_DERECHA) );
 			break;		
 	}
 	glutPostRedisplay();
@@ -241,8 +246,9 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch (key) 
     {
-	 	case KEY_ESC: 
-			finalizarJuego();				
+	 	case KEY_ESC:
+	 		ptrEnviar->enviarMensaje( new Key(KEY_ESCAPE) );
+			//finalizarJuego();				
 			break;
     }
 } 
@@ -254,7 +260,7 @@ int comenzarJuego(Request* req)
 	return err;
 }
 
-void iniciarGraficos(int argc, char** argv)
+void  iniciarGraficos(int argc, char** argv)
 {
 	glutInit( &argc, argv );	
 	glutInitWindowSize( 500, 400 );
@@ -277,26 +283,31 @@ void iniciarGraficos(int argc, char** argv)
     glutReshapeFunc (reshapeEvent);
 	glutDisplayFunc( displayEvent );
 	glutSpecialFunc( tecladoEvent );
-	glutKeyboardFunc(keyboard);
+	glutKeyboardFunc( keyboard );
 	glutIdleFunc( idleEvent );		
 	glutMainLoop();
 }
 
 
 
-Cliente::Cliente(const string& host,Socket::port_type puerto){
+Cliente::Cliente(const string& host,Socket::port_type puerto)
+{
 	  this->skCliente = new Socket(host,puerto);
 	  this->finalizoJuego = false;
 	  this->cerrarServidor=false;
+	  enviarMensaje = new EnviarMensaje( skCliente );
 }
 /*----------------------------------------------------------------------------*/
 Cliente::~Cliente(){
 	delete skCliente;
+	delete enviarMensaje;
 }
 /*----------------------------------------------------------------------------*/
 int Cliente::ejecutar(int cantArg,char* argv[]){
 	
 	Modelo::getInstance()->setFinalizoJuego(false);
+	Modelo::getInstance()->setEnviarMensaje( enviarMensaje );
+	
 	//El jugador establece conexion con el servidor.
 	this->recibirMensajes();
 	
@@ -334,8 +345,11 @@ void Cliente::comenzarJuego(int cantArg,char* argv[]){
 	
 	//Espera que finalice...
 	//Modelo::getInstance()->join();
-	
+	enviarMensaje->run();
+	ptrEnviar = enviarMensaje;
 	iniciarGraficos(cantArg,argv);
+	Modelo::getInstance()->setFinalizoJuego( true );
+	enviarMensaje->join();
 }
 
 

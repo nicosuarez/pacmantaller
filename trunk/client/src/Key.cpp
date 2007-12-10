@@ -25,5 +25,6 @@ char* Key::Serialize()
 	pkt->version = 0;
 	pkt->tipo = Key::KEY_TYPE;
 	pkt->aux = this->key;
+	sizePkt = sizeof( PktCabecera);
 	return buffer;
 }

@@ -316,7 +316,7 @@ void ActualizarJuego::actualizar()
 			case KEY_DERECHA:
 				presionoKeyDerecha(jugador);
 				break;
-			case KEY_ESC:
+			case KEY_ESCAPE:
 				salirDelJuego();
 				break;
 				
