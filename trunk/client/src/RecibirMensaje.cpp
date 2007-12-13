@@ -18,7 +18,7 @@ void RecibirMensaje:: main()
 void RecibirMensaje::recibirMensaje()
 {
 	Modelo *modelo = Modelo::getInstance();
-	char buffer[sizeof(PktCabecera)];
+	char *buffer = new char[sizeof(PktCabecera)];
 	//Mientras no haya finalizado el juego sigue recibiendo paquetes
 	while( !modelo->getFinalizoJuego() )
 	{
@@ -30,6 +30,9 @@ void RecibirMensaje::recibirMensaje()
 			case Mensaje::INIT_TYPE:
 				std::cout<< "Init\n";
 				recibirInit( cabecera );
+				//Comienza el cliente a dibijar el mapa...
+				modelo->getRecibiMensajeInitEvent().activar();
+				
 				break;
 				
 			case Mensaje::START_TYPE:
@@ -67,16 +70,14 @@ void RecibirMensaje::recibirMensaje()
 				continue;
 		} 
 	}
+	delete []buffer;
 }
 
 void agregarElemento( std::list<Elemento*> *elementos, PktElemento *pktElemento )
 {
 	int tipo = (int)pktElemento->tipo;
-	//std::cout <<  "Tipo elemento: " << tipo << std::endl;
 	Orientacion orientacion = (Orientacion)pktElemento->orientacion;
-	//std::cout <<  "	Orientacion: " << orientacion << std::endl;
 	int posicion = (int)pktElemento->posicion;
-	//std::cout <<  "	Posicion: " << posicion << std::endl;
 	switch( tipo )
 	{
 		case (int)tSalidaPacman:
@@ -101,7 +102,7 @@ void agregarElemento( std::list<Elemento*> *elementos, PktElemento *pktElemento 
 void RecibirMensaje::recibirElementos( int cantElementos )
 {
 	int tamanio = cantElementos*sizeof(PktElemento);
-	char buffer[tamanio];
+	char *buffer = new char[tamanio];
 	socket->recibir( buffer, tamanio );
 	std::list<Elemento*> *elementos = new std::list<Elemento*>;
 	Modelo::getInstance()->setElementos(elementos);
@@ -112,6 +113,7 @@ void RecibirMensaje::recibirElementos( int cantElementos )
 		agregarElemento( elementos, pktElemento );
 		delta += sizeof(PktElemento);
 	}
+	delete []buffer;
 }
 
 void imprimir( int **mat, int alto, int ancho)
@@ -124,19 +126,22 @@ void imprimir( int **mat, int alto, int ancho)
 	}
 }
 
-int getbit( int x, uint8_t byte )
+int getbit( int x, char* buffer )
 {
-	byte = byte << 7-x;
-	byte = byte >> 7;
-	return byte;
+	uint8_t *byte = (uint8_t*)buffer;
+	byte = byte + x / 8;
+	unsigned mask = 1 << (7 - x % 8);
+	if (*byte & mask)
+		return 1;
+	return 0;
 }
 
 void RecibirMensaje::recibirMapa( int ancho, int alto )
-{
+{	
 	//Calculo la cantidad de bytes que hay que recibir
 	int sizePadding = (8-(ancho*alto*2 )%8) %8; 
 	int tamanio = ( (ancho*alto*2)  + sizePadding  )/8;
-	char buffer[ tamanio ];
+	char *buffer = new char[ tamanio ];
 	//Recibo los bytes con la informacion del mapa
 	socket->recibir( buffer, tamanio );
 	//Aloco memoria para las matrices que representan las paredes verticales y horizontales del mapa
@@ -148,36 +153,38 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 		pv[i] = new int[ancho+1];
 	}
 	ph[alto] = new int[ancho];
+
 	int j = 0;
 	int numFila = 0;
 	while( j < (ancho*alto*2) )
 	{
-		//Veo el rango de bits que representa los arcos este
+		//Veo el rango de bits que representa los arcos norte
 		for( int i=0; i< ancho; i++)
 		{
-			uint8_t *byte = (uint8_t*)(buffer + j/8);
 			//Si no hay arco (bit = 0 ) entonces hay pared
-			pv[numFila][i+1] = 1 - getbit( 7 - (i%8), *byte );
-			std::cout << getbit( 7 - (i%8), *byte );
+			ph[numFila][i] = 1 - getbit( j, buffer );
+			std::cout << getbit(j, buffer );
 			j++;
 		}
-		//Veo el rango de bits que representa los arcos norte
+		//Veo el rango de bits que representa los arcos este
 		for( int i=0; i< ancho; i++ )
 		{
-			uint8_t *byte = (uint8_t*)(buffer + j/8);
 			//Si no hay arco (bit = 0 ) entonces hay pared
-			ph[numFila][i] = 1 - getbit( 7 - (i%8), *byte );
-			std::cout << getbit( 7 - (i%8), *byte );
+			
+			pv[numFila][i+1] = 1 - getbit(j, buffer );
+			std::cout << getbit( j, buffer );
 			j++;
 		}
 		numFila++;
 	}
+	imprimir( ph, alto+1,ancho);
+	std::cout << std::endl;
+	imprimir( pv, alto, ancho+1);
 	if( sizePadding > 0)
 	{
 		for(int i=j%8; i<8; i++)
 		{
-			uint8_t *byte = (uint8_t*)(buffer + j/8);
-			std::cout << getbit( 7 - (i%8), *byte );
+			std::cout << getbit( j, buffer );
 		}
 	}
 	std::cout<< std::endl;
@@ -191,20 +198,24 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 	{
 		pv[i][0] = pv[i][ancho];
 	}
-	Modelo::getInstance()->setMapa( new Mapa(ph, pv, ancho, alto ) );
+	Mapa* mapa = new Mapa(ph, pv, ancho, alto ); 
+	Modelo::getInstance()->setMapa( mapa );
+	imprimir( ph,alto+1, ancho );
+	std::cout << std::endl;
+	imprimir( pv, alto, ancho+1);
+	delete []buffer;
 }
 
 void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 {
 	//Recibo el ancho y alto del mapa
-	char buffer[sizeof(uint16_t)];
+	char *buffer = new char[sizeof(uint16_t)];
 	socket->recibir( buffer, sizeof(uint16_t) );
 	int ancho = (uint8_t)(*buffer);
 	int alto = (uint8_t)(*(buffer + sizeof(uint8_t) ) );
-	std::cout << "Ancho: " << ancho << std::endl;
-	std::cout << "Alto: " << alto << std::endl;
 	//Recibo el mapa
 	recibirMapa( ancho, alto );
+	
 	
 	//Recibo la cantidad de elementos que hay en el mapa
 	uint16_t cantElementos;
@@ -214,12 +225,13 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	
 	//Recibo los elementos del mapa
 	recibirElementos( cantElementos );
+	delete []buffer;
 }
 
 void RecibirMensaje::recibirElementosStatus( int cantElementos )
 {
 	int tamanio = cantElementos*sizeof(PktElementoStatus);
-	char elementos[ tamanio ];
+	char *elementos = new char[ tamanio ];
 	socket->recibir( elementos, tamanio );
 	std::list<Elemento*> *listElementos = new std::list<Elemento*>;
 	int delta = 0;
@@ -239,6 +251,7 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 	Modelo *modelo = Modelo::getInstance();
 	modelo->eliminarElementos();
 	Modelo::getInstance()->setElementos( listElementos );
+	delete []elementos;
 }
 
 int RecibirMensaje::getIdVertice( int idArista, int direccion, int anchoMapa )
@@ -275,7 +288,7 @@ int RecibirMensaje::getIdVertice( int idArista, int direccion, int anchoMapa )
 void RecibirMensaje::recibirPosiciones( int cantJugadores )
 {
 	int tamanio = cantJugadores*sizeof(PktPosiciones);
-	char posiciones[ tamanio ];
+	char *posiciones = new char[ tamanio ];
 	socket->recibir( posiciones, tamanio );
 	int delta = 0;
 	for( int i=0; i<cantJugadores; i++ )
@@ -302,6 +315,7 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 		personaje->SetPosicion( posicion );
 		delta += sizeof(PktPosiciones);
 	}
+	delete []posiciones;
 }
 
 void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
@@ -318,10 +332,10 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	recibirPosiciones( ((int)cabecera->aux)+1 );
 	
 	//Recibo la cantidad de elementos
-	char buffer[sizeof(uint8_t)];
+	char *buffer = new char[sizeof(uint8_t)];
 	socket->recibir( buffer, sizeof(uint8_t) );
  
 	//Recibo los elementos
 	recibirElementos( (int)(*buffer) );
-	
+	delete []buffer;
 }

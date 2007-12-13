@@ -56,7 +56,7 @@ void Modelo::setFinalizoNivel( bool finalizo )
 
 void Modelo::setMapa( Mapa *mapa )
 {
-	if( mapa != NULL)
+	if( this->mapa != NULL)
 		delete mapa;
 	this->mapa = mapa;
 }
@@ -99,6 +99,11 @@ bool Modelo::getFinalizoNivel()const
 Mapa* Modelo::getMapa()
 {
 	return mapa;
+}
+
+Evento& Modelo::getRecibiMensajeInitEvent()
+{
+	return this->recibiMensajeInitEvent;
 }
 
 std::list<Elemento*>* Modelo::getElementos()

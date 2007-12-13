@@ -8,7 +8,7 @@ private:
 	int **ph; //Matriz que representa las paredes horizontales del mapa
 	int **pv; //Matriz que representa las paredes verticales del mapa
 	int ancho, alto;
-
+	
 public:
 	
 	Mapa( int ancho, int alto );
