@@ -12,85 +12,152 @@
 #include <GL/glut.h>
 #include <iostream>
 #include "textura.h"
-#include "camara.h"
+#include "Camara.h"
 #include "Parser.h"
 #include "Request.h"
-
-#define ANCHOL 6
-#define LARGOL 10
+#include "Vertice.h"
+#include <vector>
 
 using namespace std;
 
 EnviarMensaje *ptrEnviar = NULL;
 
+#define LONGVERTICE 2
+#define MAXPOSARISTA 64
+#define ALTURAPACMAN 0.57
+#define ALTURAITEMS 0.5
+#define cantBonus 3
+#define cantPower 2
+
 Textura	texPiso;
 Textura	texPared;
-/*	
- x = -3;//corro el escenario a la izquierda 3 posiciones ya que dibuja la tabla desde izq-abajo
- y = -0.5;//bajo el escenario 0.5 en eje y. Este valor sera fijo
- z = 0.5;
-*/
-Camara camara(-3,-0.5,0.5);
-GLfloat angcuad=0;
-//PARED HORIZONTAL
-	int PH[LARGOL+1][ANCHOL] = {
-	{    1,   1,   1,   1,   1,   1 },
 
-	{    0,   0,   0,   0,   0,   0 },
+vector<Vertice> vecVertices;
+vector<Vertice> vecPastillas;
 
-	{    0,   0,   0,   0,   0,   0 },
+Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
 
-	{    0,   0,   0,   0,   0,   0 },
-
-	{    0,   0,   0,   0,   0,   0 },
-
-	{    0,   0,   0,   0,   0,   0 },
-
-	{    1,   1,   0,   0,   1,   1 },
-
-	{    0,   0,   1,   1,   0,   0 },
-
-	{    0,   0,   0,   0,   0,   1 },
-
-	{    0,   1,   1,   0,   1,   0 },
-
-	{    1,   1,   1,   1,   1,   1 },
+/*int ph[filas+1][cols] = {
+	{ 1,   1,   1, },
+	{ 0,   0,   0, },
+	{ 1,   0,   0, },
+	{ 1,   1,   1, },
 };
 
-//PARED VERTICAL
-	int PV[LARGOL][ANCHOL+1] = {
-	{    1,   0,   1,   0,   1,   0,   1 },
+int pv[filas][cols+1] = {
+	{ 1,   0,   0,  1 },
+	{ 1,   1,   0,  1 },
+	{ 1,   0,   1,  1 },
+};*/
 
-	{    1,   0,   1,   0,   1,   0,   1 },
-
-	{    1,   0,   1,   0,   1,   0,   1 },
-
-	{    1,   0,   1,   0,   1,   0,   1 },
-
-	{    1,   0,   1,   0,   1,   0,   1 },
-
-	{    1,   0,   1,   0,   1,   0,   1 },
-
-	{    1,   0,   0,   0,   0,   1,   1 },
-
-	{    1,   0,   0,   1,   0,   0,   1 },
-
-	{    1,   0,   1,   0,   1,   0,   1 },
-
-	{    1,   0,   0,   0,   1,   0,   1 },
-	};
-
-
+GLfloat angcuad=0;
 
 void idleEvent() {
 	angcuad += 1;
+	
 	glutPostRedisplay();
 }
 
 
+void crearVerticesMapa() {//proviene de leer ALTO y ANCHO de init
+
+	Coordenada pos;
+	int filas=Modelo::getInstance()->getMapa()->getAlto();
+	int cols =Modelo::getInstance()->getMapa()->getAncho();
+	
+	int id;
+	for (int i=0; i<filas; i++) {
+		for (int j=0; j<cols; j++) {
+			
+			pos.x= j*LONGVERTICE+1;
+			pos.y= 0;
+			pos.z= -(i*LONGVERTICE+1); 
+			//cout<<"---->xyz = "<<pos.x<<" "<<pos.y<<" "<<pos.z<<endl;			
+			//int id= i*cols + j;
+			id = ((filas-1)-i)*cols+j;
+			//cout<<"---->id = "<<id<<endl;
+			Vertice vert(id,pos);
+			vecVertices.push_back(vert);
+		}
+	}
+}
+
+Coordenada buscarCoordenada(int idVert) {
+
+	Coordenada coord;
+	int id;
+	size_t i=0;
+	bool encontrado=false;
+	while (!encontrado && i<vecVertices.size()) {
+		id = vecVertices[i].getIdVertice();	
+		if (id==idVert) {
+			coord= vecVertices[i].getCoordenada();
+			encontrado=true;
+		}
+		else {
+			i++;
+		}
+	}
+	return coord;
+}
+
+void sim_leerElementos() {
+	Elemento* elem;
+	std::list<Elemento*>* elementos = Modelo::getInstance()->getElementos();
+	//tSalidaPacman, tCasaFantasmas, tPowerup, tBonus, tPastilla
+	while (!elementos->empty()) {
+		elem= elementos->front();
+		switch ((int)elem->getTipo()) {
+			case (int)tPastilla:  
+			{	
+				Coordenada coord = buscarCoordenada(elem->getPosicion());
+				coord.y=ALTURAITEMS;
+				Vertice verticePastilla(elem->getPosicion(),coord);
+				vecPastillas.push_back(verticePastilla);
+				break;
+				/*cout<<"posPacman: "<<elem.posicion<<endl;
+				
+				Posicion posPacman=buscarPos(elem.posicion);
+				posPacman.y=ALTURAPACMAN;
+				cout<<"posPacman coord: "<<posPacman.x<<" "<<posPacman.y<<" "<<posPacman.z<<endl;
+				Vertice verticePacman(elem.posicion,posPacman);
+				initPacman.setVertice(verticePacman);
+				initPacman.setOrientacion(elem.orientacion);
+				cout<<"orientacion: "<<elem.orientacion<<endl;
+				break;*/
+			}
+			/*case 1: {
+				Posicion posFantasma=buscarPos(elem.posicion);
+				posFantasma.y=ALTURAPACMAN;
+				Vertice verticeFantasma(elem.posicion,posFantasma);
+				initFantasma.setVertice(verticeFantasma);
+				initFantasma.setOrientacion(elem.orientacion);
+				break;
+			}
+			case 2: {								
+				Posicion pos=buscarPos(elem.posicion);
+				Vertice vert(elem.posicion,pos);
+				vecPower.push_back(vert);
+				break;
+			}
+			case 3: {
+				Posicion pos=buscarPos(elem.posicion);
+				Vertice vert(elem.posicion,pos);
+				vecBonus.push_back(vert);
+				break;
+			}*/
+		}
+		elementos->pop_front();
+	}
+}
 
 
-void displayEvent(void) {
+//Pacman initPacman;//salida del pacman
+//Fantasma initFantasma;//salida del fantasma
+vector<Vertice> vecBonus;
+vector<Vertice> vecPower;
+
+/*void displayEvent(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
@@ -193,6 +260,168 @@ void displayEvent(void) {
 	// muestra la escena
 	glutSwapBuffers();
 }
+*/
+
+//*******************************************************************//
+//				METODOS PARA DIBUJAR EN PANTALLA						
+//*******************************************************************//
+void transformarParedes(Mapa* mapa) {
+	int filas= mapa->getAlto();
+	int cols= mapa->getAncho();
+	int** ph=mapa->getph();
+	int** pv=mapa->getpv();
+	
+	int phaux[filas+1][cols];  
+	int pvaux[filas][cols+1];  
+	for (int i = filas; i >= 0; i-- ) {
+		for (int j = 0; j < cols; j++ ) {
+			phaux[filas-i][j]=ph[i][j];			
+		}
+	
+	}
+	for (int i = filas-1; i >= 0; i-- ) {
+		for (int j = 0; j < cols+1; j++ ) {
+			pvaux[filas-1-i][j]=pv[i][j];			
+		}	
+	}
+
+
+	for (int i = 0; i < filas+1; i++ ) {
+		for (int j = 0; j < cols; j++ ) {
+			ph[i][j]=phaux[i][j];			
+		}
+	
+	}
+	for (int i = 0; i <filas; i++ ) {
+		for (int j = 0; j < cols+1; j++ ) {
+			pv[i][j]=pvaux[i][j];			
+		}	
+	}
+	
+}
+
+void dibujarParedH(Mapa* mapa) {
+	int iaux,jaux;
+	int filas= mapa->getAlto();
+	int cols= mapa->getAncho();
+	int** ph=mapa->getph();
+	
+	glBindTexture(GL_TEXTURE_2D, texPared.getId());
+	for (int i = 0; i < filas+1; i++ ) {//en z de 0 a 10 (11 puntos en z)
+		for (int j = 0; j < cols; j++ ) {//me muevo en x
+	
+			if ( ph[i][j] == 1 ) {					
+				iaux=2*i;
+				jaux=2*j;				
+				glBegin( GL_QUADS );				 
+					glTexCoord2f(0,0); glVertex3f( jaux, 0, -iaux );
+					glTexCoord2f(1,0); glVertex3f( jaux+2, 0, -iaux);
+					glTexCoord2f(1,1); glVertex3f( jaux+2, 1, -iaux);
+					glTexCoord2f(0,1); glVertex3f( jaux, 1, -iaux);
+				glEnd();						
+			}
+		}
+	}
+}
+
+void dibujarParedV(Mapa* mapa) {
+	int iaux,jaux;
+	int filas= mapa->getAlto();
+	int cols= mapa->getAncho();
+	int** pv=mapa->getpv();
+	
+	glBindTexture(GL_TEXTURE_2D, texPared.getId());
+	for (int i = 0; i <filas; i++ ) {
+		for (int j = 0; j < cols+1; j++ ) {	
+			if ( pv[i][j] == 1 ) {	
+				iaux=2*i;
+				jaux=2*j;					            
+				glBegin( GL_QUADS );				    
+					glTexCoord2f(0,0); glVertex3f( jaux, 0,-iaux-2 );
+					glTexCoord2f(1,0); glVertex3f( jaux, 0, -iaux);
+					glTexCoord2f(1,1); glVertex3f( jaux, 1, -iaux);
+					glTexCoord2f(0,1); glVertex3f( jaux, 1,-iaux-2 );
+				glEnd();
+			}
+		}
+	}
+	
+}
+
+void dibujarSuelo(Mapa* mapa) {
+	int iaux,jaux;
+	int filas= mapa->getAlto();
+	int cols= mapa->getAncho();
+	
+	glBindTexture(GL_TEXTURE_2D,texPiso.getId());
+	for (int i = 0; i < filas; i++ ) {
+		for (int j = 0; j < cols; j++ ) {
+			iaux=2*i;
+			jaux=2*j;				
+			glBegin( GL_QUADS );
+				glTexCoord2f(0,0); glVertex3f( jaux, 0, -iaux );
+				glTexCoord2f(1,0); glVertex3f( jaux+2, 0, -iaux );
+				glTexCoord2f(1,1); glVertex3f( jaux+2, 0, -iaux-2 );
+				glTexCoord2f(0,1); glVertex3f( jaux, 0, -iaux-2 );
+			glEnd();
+		}
+	}
+}
+
+void dibujarBonus() {
+
+	/*Coordenadas pos;
+	for (int i=0;i<vecBonus.size();i++) {
+		glPushMatrix();	
+		pos=vecBonus[i].getPosicion();
+		pos.y=ALTURAITEMS;
+		glTranslatef(pos.x , pos.y, pos.z);
+		glRotatef( angcuad, 1,1,1 );
+		glColor3f(0,0,1);
+		glutSolidSphere( 0.07, 18, 15 );
+		glPopMatrix();	
+	}*/
+}
+
+void dibujarPastillas() {
+	glColor3f(1,1,1);
+	Coordenada pos;
+	for (size_t i=0;i<vecPastillas.size();i++) {
+		glPushMatrix();	
+		pos=vecPastillas[i].getCoordenada();
+		glTranslatef(pos.x , pos.y, pos.z);
+		glRotatef( angcuad, 1,1,1 );
+		glColor3f(1,1,0);
+		glutSolidSphere( 0.06, 10, 10 );
+		glPopMatrix();	
+	}
+	
+}
+
+void render(void) {
+	Mapa* mapa=Modelo::getInstance()->getMapa();
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	
+	camara.update(); 
+	
+	glEnable(GL_TEXTURE_2D);
+	glColor3f(1,1,1);//Selecciona el color actual con el que dibujar
+
+	dibujarParedH(mapa);	
+	dibujarParedV(mapa);
+	dibujarSuelo(mapa); 	
+	
+	
+	glDisable( GL_TEXTURE_2D );		
+
+	dibujarBonus();
+	dibujarPastillas();
+
+	glutSwapBuffers();
+}
+
 
 void finalizarJuego()
 {
@@ -203,23 +432,24 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 		
 	switch ( key ) {
 		case GLUT_KEY_UP:    
-			camara.ChkWall(camara.getX()-camara.getDtx(),camara.getZ()+camara.getDtz());
+			camara.moverAdelante(); 
 			ptrEnviar->enviarMensaje( new Key(KEY_ARRIBA) );
 			break;
 		case GLUT_KEY_DOWN:  
-			camara.ChkWall(camara.getX()+camara.getDtx(),camara.getZ()-camara.getDtz());
+			camara.move(-1); 
 			ptrEnviar->enviarMensaje( new Key(KEY_ABAJO) );
 			break;
 		case GLUT_KEY_LEFT:
-			camara.decAng(2);			
-			camara.move();
+			camara.moverIzq(); 
 			ptrEnviar->enviarMensaje( new Key(KEY_IZQUIERDA) );
 			break;
 		case GLUT_KEY_RIGHT: 
-			camara.incAng(2);			
-			camara.move();					
+			camara.moverDer(); 
 			ptrEnviar->enviarMensaje( new Key(KEY_DERECHA) );
 			break;		
+		case GLUT_KEY_HOME://sube la camara= baja el escenario			
+			camara.strafeUp(1);
+			break;
 	}
 	glutPostRedisplay();
 }
@@ -241,6 +471,18 @@ void reshapeEvent(GLsizei width, GLsizei height) {
 
 } 
 
+void initTexturas () {
+
+	if(!texPiso.cargarTGA("Imagenes/suelo.tga")) {
+		printf("Error cargando textura\n");
+		exit(-1);
+	}
+	if(!texPared.cargarTGA("Imagenes/pared.tga")) { 
+		printf("Error cargando textura\n");
+		exit(-1);
+	}
+}
+
 // Termina la ejecucion del programa cuando se presiona ESC
 void keyboard(unsigned char key, int x, int y)
 {
@@ -260,31 +502,65 @@ int comenzarJuego(Request* req)
 	return err;
 }
 
+/*void setearCamaraInit() {
+	
+	camara.setSpeed(2/8.0);//no se usará
+	//Coordenada pos = (initPacman.getVertice()).getCoordenada();
+	//cout<<"CamaraInit--> pos ojo= "<<pos.x<<" "<<pos.y<<" "<<pos.z<<endl;
+	camara.setOjo(pos);
+	//cout<<"CamaraInit--> Orientacion "<<initPacman.getOrientacion()<<endl;
+	switch (initPacman.getOrientacion()) {
+		case 0: {
+			pos.z -= 1;
+			break;
+		}
+		case 1: {
+			pos.z += 1;
+			break;
+		}
+		case 2: {
+			pos.x += 1;
+			break;
+		}
+		case 3: {
+			pos.x -= 1;
+			break;
+		}
+	}
+	camara.setCentro(pos);
+	//cout<<"CamaraInit--> pos centro= "<<pos.x<<" "<<pos.y<<" "<<pos.z<<endl;
+}*/
+
 void  iniciarGraficos(int argc, char** argv)
 {
+	Mapa* mapa=Modelo::getInstance()->getMapa();
+	
 	glutInit( &argc, argv );	
 	glutInitWindowSize( 500, 400 );
 	glutInitWindowPosition( 100, 100 );
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
-    glutCreateWindow( "PACMAN 3D" );
-
+    glutCreateWindow( "PACMAN 3D" );	
 	glEnable(GL_TEXTURE_2D);
-	if(!texPiso.cargarTGA("Imagenes/piso.tga")) {
-		printf("Error cargando textura\n");
-		exit(-1);
-	}
-	if(!texPared.cargarTGA("Imagenes/ladri.tga")) { 
-		printf("Error cargando textura\n");
-		exit(-1);
-	}
-		
-	glEnable( GL_DEPTH_TEST );
+
 	
+	initTexturas();		
+	transformarParedes(mapa);
+	crearVerticesMapa();//del INIT
+	//crearVecPastillas();// no se usará
+	//sim_llenarElementos();//del INIT
+	sim_leerElementos();//del INIT
+	//setearCamaraInit();	
+	//initPacman.setIdPlayer(idPlayer);//del STATUS
+	//sim_llenarPlayer(); 
+	//sim_llenarElementoStatus(); 
+	//sim_leerPlayer(); 
+	glEnable( GL_DEPTH_TEST );	
+
     glutReshapeFunc (reshapeEvent);
-	glutDisplayFunc( displayEvent );
+	glutDisplayFunc( render );
 	glutSpecialFunc( tecladoEvent );
-	glutKeyboardFunc( keyboard );
 	glutIdleFunc( idleEvent );		
+	glutKeyboardFunc( keyboard );
 	glutMainLoop();
 }
 
@@ -304,12 +580,15 @@ Cliente::~Cliente(){
 }
 /*----------------------------------------------------------------------------*/
 int Cliente::ejecutar(int cantArg,char* argv[]){
-	
-	Modelo::getInstance()->setFinalizoJuego(false);
-	Modelo::getInstance()->setEnviarMensaje( enviarMensaje );
+	Modelo* modelo = Modelo::getInstance();
+	modelo->setFinalizoJuego(false);
+	modelo->setEnviarMensaje( enviarMensaje );
 	
 	//El jugador establece conexion con el servidor.
 	this->recibirMensajes();
+	
+	//Esperar a recibir el mesaje init
+	modelo->getRecibiMensajeInitEvent().esperar();
 	
 	//Comienza el juego.
 	this->comenzarJuego(cantArg,argv);
@@ -345,11 +624,11 @@ void Cliente::comenzarJuego(int cantArg,char* argv[]){
 	
 	//Espera que finalice...
 	//Modelo::getInstance()->join();
-	enviarMensaje->run();
-	ptrEnviar = enviarMensaje;
+	this->enviarMensaje->run();
+	ptrEnviar = this->enviarMensaje;
 	iniciarGraficos(cantArg,argv);
 	Modelo::getInstance()->setFinalizoJuego( true );
-	enviarMensaje->join();
+	this->enviarMensaje->join();
 }
 
 

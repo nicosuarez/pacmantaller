@@ -23,7 +23,11 @@ private:
 	std::list<Personaje*> personajes;
 	EnviarMensaje *enviarMensaje;
 	Modelo();
+
+    Evento recibiMensajeInitEvent;
+    
 public:
+	Evento& getRecibiMensajeInitEvent();
 	
 	virtual ~Modelo();
 	
