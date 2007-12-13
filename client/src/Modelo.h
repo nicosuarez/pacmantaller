@@ -2,13 +2,20 @@
 #define MODELO_H_
 #include <iostream>
 #include <list>
-#include "Elemento.h"
 #include "Personaje.h"
 #include "Mapa.h"
 #include "EnviarMensaje.h"
-//#include "Thread.h"
+#include "Pastilla.h"
+#include "Bonus.h"
+#include "PowerUp.h"
+#include "CasaFantasmas.h"
+#include "SalidaPacMan.h"
 
 class EnviarMensaje;
+typedef std::list<Pastilla*> tListPastilla;
+typedef std::list<Bonus*> tListBonus;
+typedef std::list<PowerUp*> tListPower;
+typedef std::list<Personaje*> tListPersonaje;
 
 class Modelo
 {
@@ -19,8 +26,12 @@ private:
 	bool finalizoJuego;
 	bool finalizoNivel;
 	Mapa *mapa;
-	std::list<Elemento*> *elementos;
-	std::list<Personaje*> personajes;
+	tListPastilla pastillas;
+	tListBonus bonus;
+	tListPower powers;
+	tListPersonaje personajes;
+	CasaFantasmas* casaFantasmas;
+	SalidaPacMan* salidaPacMan;
 	EnviarMensaje *enviarMensaje;
 	Modelo();
 
@@ -43,7 +54,9 @@ public:
 	
 	void setMapa( Mapa *mapa );
 	
-	void setElementos( std::list<Elemento*> *elementos );
+	void setCasaFantasmas( CasaFantasmas* casaFantasmas );
+	
+	void setSalidaPacMan( SalidaPacMan* salidaPacman );
 	
 	void setEnviarMensaje( EnviarMensaje *enviarMensaje );
 	
@@ -58,16 +71,35 @@ public:
 	bool getFinalizoNivel()const;
 	
 	Mapa* getMapa();
+		
+	//Devuelve el elemento que esta ubicado en la posicion
+	Elemento* getElemento( tipoElemento tipo, int posicion );
 	
-	std::list<Elemento*>* getElementos();
+	//Devuelve una referencia a la lista de pastillas
+	tListPastilla& getPastillas();
 	
-	std::list<Personaje*>* getPersonajes();
+	//Devuelve una referencia a la lista de Bonus
+	tListBonus& getBonus();
+	
+	//Devuelve una referencia a la lista de PowerUps
+	tListPower& getPowers();
+	
+	//Devuelve una referencia a la lista de personajes
+	tListPersonaje& getPersonajes();
 	
 	Personaje* getPersonaje( int id );
 	
-	void eliminarElementos();
+	CasaFantasmas* getCasaFantasmas();
 	
+	SalidaPacMan* getSalidaPacMan();
+		
 	void eliminarPersonajes();
+	
+	void eliminarPastillas();
+	
+	void eliminarBonus();
+	
+	void eliminarPowers();
 };
 
 #endif /*MODELO_H_*/

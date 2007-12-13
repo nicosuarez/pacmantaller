@@ -31,8 +31,7 @@ void RecibirMensaje::recibirMensaje()
 				std::cout<< "Init\n";
 				recibirInit( cabecera );
 				//Comienza el cliente a dibijar el mapa...
-				modelo->getRecibiMensajeInitEvent().activar();
-				
+				modelo->getRecibiMensajeInitEvent().activar();		
 				break;
 				
 			case Mensaje::START_TYPE:
@@ -73,7 +72,7 @@ void RecibirMensaje::recibirMensaje()
 	delete []buffer;
 }
 
-void agregarElemento( std::list<Elemento*> *elementos, PktElemento *pktElemento )
+void agregarElemento( PktElemento *pktElemento )
 {
 	int tipo = (int)pktElemento->tipo;
 	Orientacion orientacion = (Orientacion)pktElemento->orientacion;
@@ -81,19 +80,19 @@ void agregarElemento( std::list<Elemento*> *elementos, PktElemento *pktElemento 
 	switch( tipo )
 	{
 		case (int)tSalidaPacman:
-			Modelo::getInstance()->getElementos()->push_back(new SalidaPacMan(posicion, orientacion));
+			Modelo::getInstance()->setSalidaPacMan( new SalidaPacMan(posicion, orientacion) );
 			break;
 		case (int)tCasaFantasmas:
-			Modelo::getInstance()->getElementos()->push_back( new CasaFantasmas( posicion, orientacion) );
+			Modelo::getInstance()->setCasaFantasmas(  new CasaFantasmas( posicion, orientacion) );
 			break;
 		case (int)tPowerup:
-			Modelo::getInstance()->getElementos()->push_back( new PowerUp( posicion, orientacion) );
+			Modelo::getInstance()->getPowers().push_back( new PowerUp( posicion, orientacion) );
 			break;
 		case (int)tBonus:
-			Modelo::getInstance()->getElementos()->push_back( new Bonus( posicion, orientacion) );
+			Modelo::getInstance()->getBonus().push_back( new Bonus( posicion, orientacion) );
 			break;			
 		case (int)tPastilla:
-			Modelo::getInstance()->getElementos()->push_back( new Pastilla( posicion, orientacion) );
+			Modelo::getInstance()->getPastillas().push_back( new Pastilla( posicion, orientacion) );
 			break;
 		default: return;
 	}
@@ -104,27 +103,25 @@ void RecibirMensaje::recibirElementos( int cantElementos )
 	int tamanio = cantElementos*sizeof(PktElemento);
 	char *buffer = new char[tamanio];
 	socket->recibir( buffer, tamanio );
-	std::list<Elemento*> *elementos = new std::list<Elemento*>;
-	Modelo::getInstance()->setElementos(elementos);
 	int delta = 0;
 	for( int i=0; i<cantElementos; i++ )
 	{
 		PktElemento *pktElemento = (PktElemento*) (buffer + delta);
-		agregarElemento( elementos, pktElemento );
+		agregarElemento( pktElemento );
 		delta += sizeof(PktElemento);
 	}
 	delete []buffer;
 }
 
-void imprimir( int **mat, int alto, int ancho)
-{
-	for( int i=0; i<alto; i++ )
-	{
-		for( int j=0; j<ancho; j++ )
-			std::cout << mat[i][j] << " ";
-		std::cout << " \n";
-	}
-}
+//void imprimir( int **mat, int alto, int ancho)
+//{
+//	for( int i=0; i<alto; i++ )
+//	{
+//		for( int j=0; j<ancho; j++ )
+//			std::cout << mat[i][j] << " ";
+//		std::cout << " \n";
+//	}
+//}
 
 int getbit( int x, char* buffer )
 {
@@ -163,31 +160,18 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 		{
 			//Si no hay arco (bit = 0 ) entonces hay pared
 			ph[numFila][i] = 1 - getbit( j, buffer );
-			std::cout << getbit(j, buffer );
 			j++;
 		}
 		//Veo el rango de bits que representa los arcos este
 		for( int i=0; i< ancho; i++ )
 		{
 			//Si no hay arco (bit = 0 ) entonces hay pared
-			
 			pv[numFila][i+1] = 1 - getbit(j, buffer );
-			std::cout << getbit( j, buffer );
 			j++;
 		}
 		numFila++;
 	}
-	imprimir( ph, alto+1,ancho);
-	std::cout << std::endl;
-	imprimir( pv, alto, ancho+1);
-	if( sizePadding > 0)
-	{
-		for(int i=j%8; i<8; i++)
-		{
-			std::cout << getbit( j, buffer );
-		}
-	}
-	std::cout<< std::endl;
+	
 	//seteo la pared horizontal de abajo
 	for( int i=0; i<ancho; i++ )
 	{
@@ -200,9 +184,6 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 	}
 	Mapa* mapa = new Mapa(ph, pv, ancho, alto ); 
 	Modelo::getInstance()->setMapa( mapa );
-	imprimir( ph,alto+1, ancho );
-	std::cout << std::endl;
-	imprimir( pv, alto, ancho+1);
 	delete []buffer;
 }
 
@@ -213,9 +194,9 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	socket->recibir( buffer, sizeof(uint16_t) );
 	int ancho = (uint8_t)(*buffer);
 	int alto = (uint8_t)(*(buffer + sizeof(uint8_t) ) );
+	
 	//Recibo el mapa
 	recibirMapa( ancho, alto );
-	
 	
 	//Recibo la cantidad de elementos que hay en el mapa
 	uint16_t cantElementos;
@@ -230,27 +211,29 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 
 void RecibirMensaje::recibirElementosStatus( int cantElementos )
 {
+	Modelo* modelo = Modelo::getInstance();
 	int tamanio = cantElementos*sizeof(PktElementoStatus);
 	char *elementos = new char[ tamanio ];
 	socket->recibir( elementos, tamanio );
-	std::list<Elemento*> *listElementos = new std::list<Elemento*>;
 	int delta = 0;
 	for( int i=0; i< cantElementos; i++ )
 	{
-		PktElementoStatus *elemento = (PktElementoStatus*)(elementos + delta);
-		if( elemento->estado == Aparece )
+		PktElementoStatus *elementoStatus = (PktElementoStatus*)(elementos + delta);
+		if( elementoStatus->estado == Aparece )
 		{
 			PktElemento pktElemento;
-			pktElemento.tipo = elemento->tipo;
-			pktElemento.orientacion = elemento->orientacion;
-			pktElemento.posicion = elemento->posicion;
-			agregarElemento( listElementos, &pktElemento );
-		}	
+			pktElemento.tipo = elementoStatus->tipo;
+			pktElemento.orientacion = elementoStatus->orientacion;
+			pktElemento.posicion = elementoStatus->posicion;
+			agregarElemento( &pktElemento );
+		}
+		else //estado == Desaparece
+		{
+			Elemento* elemento = modelo->getElemento( (tipoElemento)elementoStatus->tipo, elementoStatus->posicion );
+			elemento->setEstado( Desaparece );
+		}
 		delta += sizeof(PktElementoStatus);
 	}
-	Modelo *modelo = Modelo::getInstance();
-	modelo->eliminarElementos();
-	Modelo::getInstance()->setElementos( listElementos );
 	delete []elementos;
 }
 
@@ -336,6 +319,6 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	socket->recibir( buffer, sizeof(uint8_t) );
  
 	//Recibo los elementos
-	recibirElementos( (int)(*buffer) );
+	recibirElementosStatus( (int)(*buffer) );
 	delete []buffer;
 }
