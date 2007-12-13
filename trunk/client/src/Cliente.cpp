@@ -101,10 +101,20 @@ Coordenada buscarCoordenada(int idVert) {
 	return coord;
 }
 
-void sim_leerElementos() {
-	Elemento* elem;
-	std::list<Elemento*>* elementos = Modelo::getInstance()->getElementos();
+void sim_leerElementos() 
+{
+	tListPastilla pastillas = Modelo::getInstance()->getPastillas();
+	tListPastilla::iterator itPastilla;
+	for( itPastilla = pastillas.begin(); itPastilla != pastillas.end(); itPastilla++ )
+	{
+		Coordenada coord = buscarCoordenada( (*itPastilla)->getPosicion() );
+		coord.y=ALTURAITEMS;
+		Vertice verticePastilla( (*itPastilla)->getPosicion(),coord );
+		vecPastillas.push_back(verticePastilla);
+	}
+	/*
 	//tSalidaPacman, tCasaFantasmas, tPowerup, tBonus, tPastilla
+	Elemento* elem;
 	while (!elementos->empty()) {
 		elem= elementos->front();
 		switch ((int)elem->getTipo()) {
@@ -115,7 +125,7 @@ void sim_leerElementos() {
 				Vertice verticePastilla(elem->getPosicion(),coord);
 				vecPastillas.push_back(verticePastilla);
 				break;
-				/*cout<<"posPacman: "<<elem.posicion<<endl;
+				cout<<"posPacman: "<<elem.posicion<<endl;
 				
 				Posicion posPacman=buscarPos(elem.posicion);
 				posPacman.y=ALTURAPACMAN;
@@ -124,9 +134,9 @@ void sim_leerElementos() {
 				initPacman.setVertice(verticePacman);
 				initPacman.setOrientacion(elem.orientacion);
 				cout<<"orientacion: "<<elem.orientacion<<endl;
-				break;*/
+				break;
 			}
-			/*case 1: {
+			case 1: {
 				Posicion posFantasma=buscarPos(elem.posicion);
 				posFantasma.y=ALTURAPACMAN;
 				Vertice verticeFantasma(elem.posicion,posFantasma);
@@ -145,10 +155,10 @@ void sim_leerElementos() {
 				Vertice vert(elem.posicion,pos);
 				vecBonus.push_back(vert);
 				break;
-			}*/
+			}
 		}
 		elementos->pop_front();
-	}
+	}*/
 }
 
 

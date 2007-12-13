@@ -7,7 +7,8 @@ Modelo::Modelo()
 	puntuacion = 0;
 	finalizoJuego = false;
 	finalizoNivel = false;
-	elementos = NULL;
+	salidaPacMan = NULL;
+	casaFantasmas = NULL;
 	mapa = NULL;
 }
 
@@ -24,13 +25,15 @@ Modelo* Modelo::getInstance ()
 Modelo::~Modelo()
 {
 	eliminarPersonajes();
-	if( elementos != NULL)
-	{
-		eliminarElementos();
-		delete elementos;
-	}
+	eliminarPastillas();
+	eliminarBonus();
+	eliminarPowers();
 	if( mapa != NULL )
 		delete mapa;
+	if( salidaPacMan != NULL )
+		delete salidaPacMan;
+	if( casaFantasmas != NULL )
+		delete casaFantasmas;
 }
 
 
@@ -61,9 +64,14 @@ void Modelo::setMapa( Mapa *mapa )
 	this->mapa = mapa;
 }
 
-void Modelo::setElementos( std::list<Elemento*> *elementos )
+void Modelo::setCasaFantasmas( CasaFantasmas* casaFantasmas )
 {
-	this->elementos = elementos;
+	this->casaFantasmas = casaFantasmas;
+}
+
+void Modelo::setSalidaPacMan( SalidaPacMan* salidaPacMan )
+{
+	this->salidaPacMan = salidaPacMan;
 }
 
 void Modelo::setEnviarMensaje( EnviarMensaje *enviarMensaje )
@@ -106,19 +114,29 @@ Evento& Modelo::getRecibiMensajeInitEvent()
 	return this->recibiMensajeInitEvent;
 }
 
-std::list<Elemento*>* Modelo::getElementos()
+tListPastilla& Modelo::getPastillas()
 {
-	return elementos;
+	return pastillas;
 }
 
-std::list<Personaje*>* Modelo::getPersonajes()
+tListBonus& Modelo::getBonus()
 {
-	return &personajes;
+	return bonus;
+}
+
+tListPower& Modelo::getPowers()
+{
+	return powers;
+}
+
+tListPersonaje& Modelo::getPersonajes()
+{
+	return personajes;
 }
 
 Personaje* Modelo::getPersonaje( int id )
 {
-	std::list<Personaje*>::iterator it;
+	tListPersonaje::iterator it;
 	for( it = personajes.begin(); it != personajes.end(); it++ )
 	{
 		if( (*it)->GetRol() == id )
@@ -127,22 +145,90 @@ Personaje* Modelo::getPersonaje( int id )
 	return NULL;
 }
 
-void Modelo:: eliminarElementos()
+Elemento* Modelo:: getElemento( tipoElemento tipo, int posicion )
 {
-	std::list<Elemento*>::iterator it;
-	for( it = elementos->begin(); it != elementos->end(); it++ )
+	switch( (int)tipo )
 	{
-		delete (*it);
+		case tPastilla:
+		{
+			tListPastilla::iterator it;
+			for( it = pastillas.begin(); it != pastillas.end(); it++ )
+			{
+				if( (*it)->getPosicion() == posicion )
+					return (*it);
+			}
+			break;
+		}
+		case tBonus:
+		{
+			tListBonus::iterator it;
+			for( it = bonus.begin(); it != bonus.end(); it++ )
+			{
+				if( (*it)->getPosicion() == posicion )
+					return (*it);
+			}
+			break;
+		}
+		case tPowerup:
+		{
+			tListPower::iterator it;
+			for( it = powers.begin(); it != powers.end(); it++ )
+			{
+				if( (*it)->getPosicion() == posicion )
+					return (*it);
+			}
+			break;
+		}
 	}
-	elementos->clear();
+	return NULL;
+}
+
+CasaFantasmas* Modelo::getCasaFantasmas()
+{
+	return casaFantasmas;
+}
+
+SalidaPacMan* Modelo::getSalidaPacMan()
+{
+	return salidaPacMan;
 }
 
 void Modelo:: eliminarPersonajes()
 {
-	std::list<Personaje*>::iterator it;
+	tListPersonaje::iterator it;
 	for( it=personajes.begin(); it!=personajes.end(); it++ )
 	{
 		delete(*it);
 	}
 	personajes.clear();
+}
+
+void Modelo:: eliminarPastillas()
+{
+	tListPastilla::iterator it;
+	for( it = pastillas.begin(); it != pastillas.end(); it++ )
+	{
+		delete(*it);
+	}
+	pastillas.clear();
+}
+
+void Modelo:: eliminarBonus()
+{
+	tListBonus::iterator it;
+	for( it= bonus.begin(); it != bonus.end(); it++ )
+	{
+		delete(*it);
+	}
+	bonus.clear();
+}
+
+void Modelo:: eliminarPowers()
+{
+	tListPower::iterator it;
+	for( it= powers.begin(); it != powers.end(); it++ )
+	{
+		delete(*it);
+	}
+	powers.clear();
 }
