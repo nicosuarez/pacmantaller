@@ -81,7 +81,7 @@ public:
 	void cambiarDireccion();
 	
 	static int getPosAristaInicial(int orientacion);
-	
+		
 	bool estaEnUnVertice();
 	
 	/**
