@@ -199,7 +199,6 @@ void Modelo::main(){
 		{
 			std::cout<<"Procesando operaciones..\n";
 			this->ejecutarOperaciones();
-			ActualizarJuego::getInstance()->run();
 		}
 		this->mundo->getNiveles()->pop();
 		liberarNivel();
@@ -264,6 +263,9 @@ void Modelo::ejecutarOperaciones(){
 		this->desacolar();
 		//Mutex());
 
+		//Empieza actualizar el juego
+		ActualizarJuego::getInstance()->run();
+		
 		/* Espera la proxima operacion */
 		this->esperarRecibirOperaciones();
 	}
@@ -328,4 +330,21 @@ void Modelo::SetMundo(Mundo *mundo)
 void Modelo::SetPuntuacion( int puntuacion )
 {
 	this->puntuacion = puntuacion;
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Obtiene de la lista de jugadores el personaje pacman.
+ */
+Personaje* Modelo::getPacMan()
+{
+	tListJugadores jugadores=this->GetJugadores();
+	itListJugadores it;
+	
+	for(it=jugadores.begin();it!=jugadores.end();it++)
+	{
+		Jugador* jugador = *it;
+		if(jugador->GetIdPersonaje()==PacMan::PACMAN_TYPE)
+			return jugador->getPersonaje();
+	}
+	return NULL;
 }

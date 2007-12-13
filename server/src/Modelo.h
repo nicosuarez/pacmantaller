@@ -108,8 +108,12 @@ public:
 	
 	void SetSalidaPacMan(SalidaPacMan& salidaPacMan);
 	
+	Personaje* getPacMan();
+	
 	void SetCasaFantasmas(CasaFantasmas& casaFantasmas);
+	
 	SalidaPacMan* getSalidaPacMan(){return &salidaPacMan;} 
+	
 	CasaFantasmas* getCasaFantasmas(){return &casa;}
 	
 	/**

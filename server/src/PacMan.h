@@ -36,7 +36,7 @@ private:
 	/**
 	 * Valor constante de la velocidad inicial del pacman
 	 */
-	static const int velocidadInicial=15;
+	static const int velocidadInicial=16;
 
 };
 #endif // !defined(EA_B035D27E_31A5_4b0f_B082_3F7AF1A2C886__INCLUDED_)

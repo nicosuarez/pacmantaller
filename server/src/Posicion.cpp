@@ -90,13 +90,7 @@ void Posicion::SetPosicion(int idVertice,int direccion){
 
 bool Posicion::estaEnUnVertice()
 {
-	if(this->idArista==0 && this->posicionArista==0)
-		return true;
-	
-	if(this->direccion==N_E && this->posicionArista > FIN_ARISTA)
-		return true;
-		
-	if(this->direccion==S_O && this->posicionArista < INICIO_ARISTA)
+	if(this->posicionArista==FIN_ARISTA || this->posicionArista==INICIO_ARISTA)
 		return true;
 	
 	return false;
@@ -139,7 +133,7 @@ void Posicion::cambiarDireccion()
 }
 
 int Posicion::getPosAristaInicial(int orientacion){
-	if(S_O==orientacion)
+	if(orientacion==S_O)
 		return FIN_ARISTA;
 	else
 		return INICIO_ARISTA;

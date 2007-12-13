@@ -3,6 +3,7 @@
 
 #include "Thread.h"
 #include "Modelo.h"
+#include "PacMan.h"
 #include "Key.h"
 
 typedef bool* pBool;
@@ -14,13 +15,24 @@ private:
 	int updateTime;
 	//Determina si termino el nivel o no
 	pBool finalizoNivel;
+	//Rango de impacto entre las posiciones del los personajes
+	int margenDeColicion;
 	
 	static ActualizarJuego* pActualizarJuego;
 	
 public:
 	static ActualizarJuego* getInstance();
-	ActualizarJuego(pBool finalizoNivel);
+
 	void main();
+	
+	/**
+	 * Verifica si hay coliciones o no.
+	 */
+	void detectarColiciones();
+	/**
+	 * Valida si el pacman y el fantasma estan dentro del rango de colision.
+	 */
+	bool estaDentroDelMargen(Posicion* posPacman,Posicion* posFantasma);
 	/**
 	 * Determina si el pacman colisiono con algun fantasma
 	 */
@@ -48,12 +60,13 @@ public:
 	void presionoKeyDerecha(Jugador* jugador);
 	void salirDelJuego();
 	void noPresionoKey(Jugador* jugador);
-	
+	tVertice* getVeticeDestino(Posicion* posicion);
+	tArco* getAristaActual(Posicion* posicion);
 	
 	Mensaje* armarMensajeStatus();
 
 protected:
-	ActualizarJuego();
+	ActualizarJuego(unsigned int updateTime=5000);
 	ActualizarJuego(const ActualizarJuego&);
 	ActualizarJuego& operator= (const ActualizarJuego&);
 
