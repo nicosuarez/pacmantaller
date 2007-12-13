@@ -60,15 +60,7 @@ void ActualizarJuego::presionoKeyAbajo(Jugador* jugador){
 	//Cambio de vertice origen
 	tVertice* vDest = this->getVeticeDestino(posicion);
 	posicion->setVertice(vDest->getid());
-	
-	/*if(posicion->getPosicionArista()==FIN_ARISTA)
-	{
-		posicion->setPosicionArista(INICIO_ARISTA);
-	}
-	else if(posicion->getPosicionArista()==INICIO_ARISTA)
-	{
-		posicion->setPosicionArista(FIN_ARISTA);
-	}*/
+	jugador->getPersonaje()->chocoConPared(false);
 	
 	jugador->SetKeyPressed(NONE);
 	
@@ -99,130 +91,46 @@ tArco* ActualizarJuego::getAristaActual(Posicion* posicion)
 	return arcoActual;
 }
 /*----------------------------------------------------------------------------*/
+//Si es pared se recuerda la tecla presionada, hasta gestionar el giro o 
+//anular el movimiento con la flecha para arriba siguiendo en la misma 
+//direccion, o hasta presionar otra tecla.
+
 void ActualizarJuego::presionoKeyIzquierda(Jugador* jugador){
-	Posicion* posicion = jugador->getPersonaje()->GetPosicion();
+	this->doblarJugador(jugador,true);
+}
+/*----------------------------------------------------------------------------*/
+/*Si es pared se recuerda la tecla presionada, hasta gestionar el giro o
+ *anular el movimiento con la flecha para arriba siguiendo en la misma 
+ *direccion, o hasta presionar otra tecla.
+*/
+void ActualizarJuego::doblarJugador(Jugador* jugador,bool izq)
+{
+	Personaje* personaje = jugador->getPersonaje();
+	Posicion* posicion = personaje->GetPosicion();
+	Modelo* modelo = Modelo::getInstance();
 	bool giro=false;
 	int vOrigId = posicion->getVertice();
-	Modelo* modelo = Modelo::getInstance();
 	int aristaActualId =posicion->getArista();
-		
-	//Obtener la arista y vertice actual
-	tVertice* vOrig = modelo->GetMapa()->getGrafo()->getVertice(vOrigId);
-	tArco* arcoActual=NULL;
-	/*if(aristaActualId!=0)
-	{*/
-		arcoActual = vOrig->getArco(aristaActualId);
-//	}
-	/*else
-	{
-		if(posicion->getDireccion()==S_O)
-		{
-			if(vOrig->getArco(Sur)!=NULL)
-			{
-				arcoActual=vOrig->getArco(Sur);
-			}
-			else if (vOrig->getArco(Oeste)!=NULL)
-			{
-				arcoActual=vOrig->getArco(Oeste);
-			}
-		}
-		else if(posicion->getDireccion()==N_E)
-		{
-			if(vOrig->getArco(Norte)!=NULL)
-			{
-				arcoActual=vOrig->getArco(Norte);
-			}
-			else if (vOrig->getArco(Este)!=NULL)
-			{
-				arcoActual=vOrig->getArco(Este);
-			}
-		}
-	}
-*/
+	
+	//Obtener orientacion actual
+	tVertice* vOrig = modelo->GetMapa()->getGrafo()->getVertice(vOrigId);	
+	Orientacion oriActual = vOrig->getArco(aristaActualId)->getElemento();
 
-	 
 	//Solo si el personaje esta en un vertice se permite realizar un giro.
-	if(posicion->estaEnUnVertice() /*&& arcoActual!=NULL*/)
-	{
-		std::cout<<"Esta en un vertice\n";
-		
-		//En caso de venir por el Este, se obtiene la arista norte del vertice
-		//destino
-		if(arcoActual->getElemento()==Este)
+	if(posicion->estaEnUnVertice())
+	{	
+		if(personaje->chocoConPared())
 		{
-			tArco* arcoNuevo = vOrig->getArco(Norte);
-			//Si no es pared (es decir tiene arista norte)
-			//Si es pared se recuerda la tecla presionada, hasta gestionar el giro o 
-			//anular el movimiento con la flecha para arriba siguiendo en la misma 
-			//direccion, o hasta presionar otra tecla.
-			if(arcoNuevo != NULL)
-			{
-				std::cout<<"Viene por el Este y gira hacia el Norte\n";
-				//Actualizar Posicion
-				girar(jugador,arcoNuevo,vOrigId,N_E);
-				giro=true;
-			}
-			else
-			{
-				std::cout<<"Viene por el Este y hay PARED al Norte\n";
-			}
+			//Tomo el vertice Destino
+			tVertice* vDest = this->getVeticeDestino(posicion); 
+			giro = this->girar(jugador,vDest,oriActual,izq);
 		}
-		//En caso de venir por el Norte, se obtiene la arista Oeste del vertice
-		//destino
-		else if(arcoActual->getElemento()==Norte)
+		else
 		{
-			tArco* arcoNuevo = vOrig->getArco(Oeste);
-			if(arcoNuevo != NULL)
-			{
-				std::cout<<"Viene por el Norte y gira hacia el Oeste\n";
-				//Actualizar Posicion
-				girar(jugador,arcoNuevo,vOrigId,S_O);
-				giro=true;
-			}
-			else
-			{
-				std::cout<<"Viene por el Norte y hay PARED al Oeste\n";
-			}
+			//Tomo el vertice actual
+			giro = this->girar(jugador,vOrig,oriActual,izq);
 		}
-	
-		//En caso de venir por el Oeste, se obtiene la arista Sur del vertice
-		//destino
-		else if(arcoActual->getElemento()==Oeste)
-		{
-			tArco* arcoNuevo = vOrig->getArco(Sur);
-			if(arcoNuevo != NULL)
-			{
-				std::cout<<"Viene por el Oeste y gira hacia el Sur\n";
-				//Actualizar Posicion
-				girar(jugador,arcoNuevo,vOrigId,S_O);
-				giro=true;
-				
-			}
-			else
-			{
-				std::cout<<"Viene por el Oeste y hay PARED al Sur\n";
-			}
-		}
-		//En caso de venir por el Sur, se obtiene la arista Este del vertice
-		//destino
-		else if(arcoActual->getElemento()==Sur)
-		{
-			tArco* arcoNuevo = vOrig->getArco(Este);
-			if(arcoNuevo != NULL)
-			{
-				std::cout<<"Viene por el Sur y gira hacia el Este\n";
-				//Actualizar Posicion
-				girar(jugador,arcoNuevo,vOrigId,N_E);
-				giro=true;
-			}
-			else
-			{
-				std::cout<<"Viene por el Sur y hay PARED al Este\n";
-			}
-		}
-		
 	}
-	
 	if(!giro)
 	{
 		std::cout<<"No puede doblar no llego al vertice o hay una pared\n";
@@ -233,94 +141,46 @@ void ActualizarJuego::presionoKeyIzquierda(Jugador* jugador){
 		//Limpio el key presionado
 		jugador->SetKeyPressed(NONE);
 	}
-		
 }
 /*----------------------------------------------------------------------------*/
-/*Si es pared se recuerda la tecla presionada, hasta gestionar el giro o
- *anular el movimiento con la flecha para arriba siguiendo en la misma 
- *direccion, o hasta presionar otra tecla.
-*/
 void ActualizarJuego::presionoKeyDerecha(Jugador* jugador){
-	Posicion* posicion = jugador->getPersonaje()->GetPosicion();
-	tArco* arcoActual=this->getAristaActual(posicion);
-	
-	//Obtengo el vertice destino
-	tVertice* vDest = this->getVeticeDestino(posicion); 
-	int vDestId = vDest->getid();
-	
-	//Cuando llega al final de la arista se posiciona en el vertice 
-	//destino. 
-	if(posicion->estaEnUnVertice())
-	{
-		//En caso de venir por el Este, se obtiene la arista Sur del vertice
-		//destino
-		if(arcoActual->getElemento()==Este)
-		{
-			tArco* arcoNuevo = vDest->getArco(Sur);
-			if(arcoNuevo != NULL)
-			{
-				//Actualizar Posicion (Cambio de vertice)
-				girar(jugador,arcoNuevo,vDestId,S_O);
-				
-			}
-		}
-		//En caso de venir por el Norte, se obtiene la arista Este del vertice
-		//destino
-		else if(arcoActual->getElemento()==Norte)
-		{
-			tArco* arcoNuevo = vDest->getArco(Este);
-			if(arcoNuevo != NULL)
-			{
-				//Actualizar Posicion (Cambio de vertice)
-				girar(jugador,arcoNuevo,vDestId,N_E);
-			}
-		}
-		//En caso de venir por el Oeste, se obtiene la arista Norte del vertice
-		//destino
-		else if(arcoActual->getElemento()==Oeste)
-		{
-			tArco* arcoNuevo = vDest->getArco(Norte);
-			if(arcoNuevo != NULL)
-			{
-				//Actualizar Posicion (Cambio de vertice)
-				girar(jugador,arcoNuevo,vDestId,N_E);
-				
-			}
-		}
-		//En caso de venir por el Sur, se obtiene la arista Este del vertice
-		//destino
-		else if(arcoActual->getElemento()==Sur)
-		{
-			tArco* arcoNuevo = vDest->getArco(Oeste);
-			if(arcoNuevo != NULL)
-			{
-				//Actualizar Posicion (Cambio de vertice)
-				girar(jugador,arcoNuevo,vDestId,S_O);
-				
-			}
-		}
-		
-	}
-		
+	this->doblarJugador(jugador,false);	
 }
 /*----------------------------------------------------------------------------*/
-void ActualizarJuego::girar(Jugador* jugador,tArco* arcoNuevo,
-										int idVertice, int direccion)
+bool ActualizarJuego::girar(Jugador* jugador,tVertice* vertice
+							,Orientacion oriActual,bool izq)
 {
-	Posicion* posicion = jugador->getPersonaje()->GetPosicion();
-	posicion->setVertice(idVertice);
-	posicion->setArista(arcoNuevo->getid());
-	posicion->setDireccion(direccion);
-	
-	if(direccion == N_E)
-	{
-		posicion->setPosicionArista(INICIO_ARISTA);
-	}
-	else if(direccion == S_O)
-	{
-		posicion->setPosicionArista(FIN_ARISTA);
-	}
+	bool giro=false;
 
+	Personaje* personaje = jugador->getPersonaje();
+	Posicion* posicion = personaje->GetPosicion();
+
+	//Tomo el arcoNuevo
+	Orientacion ori = Posicion::rotarDireccion(oriActual,izq);
+	tArco* arcoNuevo = vertice->getArco(ori);
+
+	if(arcoNuevo != NULL)
+	{
+		std::cout<<"Viene por el " << oriActual
+				<<" y gira hacia el "<< ori <<"\n";
+		//Actualizar Posicion
+		posicion->setVertice(vertice->getid());
+		posicion->setArista(arcoNuevo->getid());
+		
+		int direccion = Posicion::getDireccionInicial(ori);
+		posicion->setDireccion(direccion);
+		posicion->setPosicionArista(Posicion::getPosAristaInicial(direccion));
+
+		giro=true;
+		personaje->chocoConPared(false);
+	}
+	else
+	{
+		std::cout<<"Viene por el " << oriActual
+				<< " y hay PARED al "<< ori <<"\n";
+	}
+		
+	return giro;
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::salirDelJuego(){
@@ -332,14 +192,16 @@ void ActualizarJuego::noPresionoKey(Jugador* jugador){
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::avanzar(Jugador* jugador){
-	Posicion* posicion = jugador->getPersonaje()->GetPosicion();
+	Personaje* personaje = jugador->getPersonaje();
+	Posicion* posicion = personaje->GetPosicion();
 	tArco* arcoActual=this->getAristaActual(posicion);
-	Posicion posicionInicial = *posicion;  
+	
+	//Posicion posicionInicial = *posicion;  
 	
 	std::cout<<"Inicial: " << *posicion;
 	
 	//Si choco con una pared, no avanza mas y espera un giro.
-	if(posicion->getArista()!=0)
+	if(!personaje->chocoConPared())
 	{	
 		Personaje* personaje = jugador->getPersonaje();
 		
@@ -378,8 +240,9 @@ void ActualizarJuego::avanzar(Jugador* jugador){
 			else
 			{
 				//Si hay una pared. Se queda en el vertice esperando a girar.
-
-				*posicion = posicionInicial;
+				int posArista = Posicion::getPosAristaFinal(posicion->getDireccion());
+				posicion->setPosicionArista(posArista);
+				personaje->chocoConPared(true);
 			}
 			
 		}

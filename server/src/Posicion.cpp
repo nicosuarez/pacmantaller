@@ -139,6 +139,13 @@ int Posicion::getPosAristaInicial(int orientacion){
 		return INICIO_ARISTA;
 }
 
+int Posicion::getPosAristaFinal(int orientacion){
+	if(orientacion==S_O)
+		return INICIO_ARISTA;
+	else
+		return FIN_ARISTA;
+}
+
 int Posicion::getDireccionInicial(Orientacion orientacion){
 	if(orientacion==Norte || orientacion==Este)
 		return N_E;
@@ -146,6 +153,32 @@ int Posicion::getDireccionInicial(Orientacion orientacion){
 		return S_O;
 }
 
+Orientacion Posicion::rotarDireccion(Orientacion orientacion,bool izq)
+{
+	int orient=orientacion;
+	
+	if(izq)
+		orient = ( (orient + 3) % 4 );
+	else
+		orient = ( (orient + 1) % 4 );
 
+	switch (orient)
+	{
+		case Norte:
+			return Norte;
+		
+		case Este:
+			return Este;
+			
+		case Sur:
+			return Sur;
+		
+		case Oeste:
+			return Oeste;
+		
+		default: 
+			return Norte;
+	}
+};
 
 

@@ -50,8 +50,7 @@ public:
 	 */
 	void actualizar();
 	
-	void girar(Jugador* jugador,tArco* arcoNuevo,
-							int idVertice, int direccion);
+	bool girar(Jugador* jugador,tVertice* vertice, Orientacion orientacion,bool izq);
 	
 	void avanzar(Jugador* jugador);
 	void presionoKeyArriba(Jugador* jugador);
@@ -62,6 +61,7 @@ public:
 	void noPresionoKey(Jugador* jugador);
 	tVertice* getVeticeDestino(Posicion* posicion);
 	tArco* getAristaActual(Posicion* posicion);
+	void doblarJugador(Jugador* jugador,bool izq);
 	
 	Mensaje* armarMensajeStatus();
 

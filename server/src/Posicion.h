@@ -68,6 +68,8 @@ public:
 	
 	void operator=( const Posicion &posicion );
 	
+	static Orientacion rotarDireccion(Orientacion orientacion,bool izq=true);
+	
 	friend std::ostream& operator <<( std::ostream& os, const Posicion &p) 
  	{
 		if(p.direccion==N_E)
@@ -99,5 +101,10 @@ public:
 	 * Obtiene la direccion inicial del personaje dependiendo de la orientacion de la arista.
 	 */
 	static int getDireccionInicial(Orientacion orientacion);
+	
+	/**
+	 * Obtiene posicion de Arista final del personaje dependiendo de la orientacion de la misma.
+	 */
+	static int getPosAristaFinal(int orientacion);
 };
 #endif // !defined(EA_A9FE7C93_BFCB_4344_8489_32A4092889A9__INCLUDED_)
