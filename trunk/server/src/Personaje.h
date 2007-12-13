@@ -21,12 +21,22 @@ public:
 	virtual ~Personaje();
 
 	virtual int GetRol()const=0;
+	
 	Posicion *GetPosicion();
+	
 	virtual int GetVelocidad();
+	
 	void SetId(int id);
+	
 	void SetPosicion(Posicion& posicion);
+	
 	void SetVelocidad(int velocidad);
+	
 	virtual bool operator==( int tipo )const = 0;
+	
+	void chocoConPared(bool choco){this->seChocoConPared=choco;};
+	
+	bool chocoConPared(){return this->seChocoConPared;};
 	
 private:
 	/**
@@ -37,6 +47,10 @@ private:
 	 * Posicion del personaje en el mapa
 	 */
 	Posicion posicion;
+	/**
+	 * Determina si el personaje a chocado con una pared.
+	 */
+	bool seChocoConPared;
 	
 protected:
 	/**

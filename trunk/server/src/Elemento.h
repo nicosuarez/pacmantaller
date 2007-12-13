@@ -14,7 +14,7 @@ typedef enum tipoElemento
 
 typedef enum Orientacion
 {
-	Norte, Sur, Este, Oeste
+	Norte=0, Este=1, Sur=2, Oeste=3
 };
 
 typedef enum Estado

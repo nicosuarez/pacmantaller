@@ -14,6 +14,7 @@ Personaje::Personaje(){
 
 Personaje::Personaje(Posicion& posicion){
 	this->posicion=posicion;
+	this->seChocoConPared=false;
 }
 
 Personaje::~Personaje(){
