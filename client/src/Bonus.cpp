@@ -12,7 +12,10 @@ Bonus::Bonus( int posicion, Orientacion orientacion): Elemento( posicion, orient
 
 }
 
-
+Bonus::Bonus( int posicion, Coordenada coord, Orientacion orientacion ): Elemento( posicion, coord, orientacion )
+{
+	
+}
 
 Bonus::~Bonus(){
 

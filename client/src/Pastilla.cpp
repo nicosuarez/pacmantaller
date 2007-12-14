@@ -12,6 +12,10 @@ Pastilla::Pastilla( int posicion, Orientacion orientacion ):Elemento( posicion, 
 
 }
 
+Pastilla::Pastilla( int posicion, Coordenada coord, Orientacion orientacion ): Elemento( posicion, coord, orientacion )
+{
+	
+}
 
 Pastilla::~Pastilla()
 {

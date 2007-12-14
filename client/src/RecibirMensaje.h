@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <list>
+#include <vector>
 #include "Socket.h"
 #include "Mensaje.h"
 #include "Modelo.h"
@@ -17,11 +18,15 @@
 #include "Fantasma.h"
 #include "Mapa.h"
 #include "Key.h"
+#include "Coordenada.h"
+#include "Vertice.h"
 
 class RecibirMensaje : public Thread
 {
 private:
 	Socket *socket;
+	
+	std::vector<Vertice> vecVertices;
 	
 	void recibirElementos( int cantElementos );
 	
@@ -36,6 +41,12 @@ private:
 	void recibirInit( PktCabecera *cabecera );
 	
 	void recibirStatus( PktCabecera *cabecera );
+	
+	void agregarElemento( PktElemento *pktElemento );
+	
+	void crearVerticesMapa();
+	
+	Coordenada buscarCoordenada(int idVert); 
 	
 	/* Constructor de copia y operator= ocultos (para prevenir descuidos) */
 	RecibirMensaje(const RecibirMensaje&);

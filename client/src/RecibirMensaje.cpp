@@ -1,5 +1,6 @@
 #include "RecibirMensaje.h"
 
+#define LONGVERTICE 2
 using namespace std;
 
 RecibirMensaje::RecibirMensaje( Socket *socket ):socket(socket)
@@ -28,13 +29,15 @@ void RecibirMensaje::recibirMensaje()
 		switch( (int) cabecera->tipo )
 		{
 			case Mensaje::INIT_TYPE:
+			{
 				std::cout<< "Init\n";
 				recibirInit( cabecera );
 				//Comienza el cliente a dibijar el mapa...
-				modelo->getRecibiMensajeInitEvent().activar();		
+				modelo->getRecibiMensajeInitEvent().activar();
 				break;
-				
+			}
 			case Mensaje::START_TYPE:
+			{
 				std::cout<< "Start\n";
 				//Recibo el id
 				uint16_t id;
@@ -43,13 +46,15 @@ void RecibirMensaje::recibirMensaje()
 				std::cout << "ID: " << (int)id << std::endl;
 				modelo->setid( (int)(id) );
 				break;
-				
+			}	
 			case Mensaje::STATUS_TYPE:
+			{
 				std::cout<< "Status\n";
 				recibirStatus( cabecera );
 				break;
-				
+			}	
 			case Mensaje::STOP_TYPE:
+			{
 				std::cout<< "Stop\n";
 				//recibo la puntuacion del pacman
 				char puntuacion[sizeof(uint32_t)];
@@ -58,44 +63,58 @@ void RecibirMensaje::recibirMensaje()
 				modelo->setFinalizoNivel( true );
 				modelo->setPuntuacion( (int)(*puntuacion) );
 				break;
-				
+			}	
 			case Mensaje::QUIT_TYPE:
+			{
 				std::cout<< "Quit\n";
 				modelo->setFinalizoJuego( true );
 				modelo->getEnviarMensaje()->enviarMensaje( new Key(4) );
 				break;
-				
-			default: std::cout << "No se reconoce el tipo\n"; 
+			}	
+			default: 
+			{
+				std::cout << "No se reconoce el tipo\n";
 				continue;
+			}
 		} 
 	}
 	delete []buffer;
 }
 
-void agregarElemento( PktElemento *pktElemento )
+void RecibirMensaje::agregarElemento( PktElemento *pktElemento )
 {
 	int tipo = (int)pktElemento->tipo;
 	Orientacion orientacion = (Orientacion)pktElemento->orientacion;
 	int posicion = (int)pktElemento->posicion;
+	Coordenada coord = this->buscarCoordenada( posicion );
 	switch( tipo )
 	{
 		case (int)tSalidaPacman:
-			Modelo::getInstance()->setSalidaPacMan( new SalidaPacMan(posicion, orientacion) );
+		{
+			Modelo::getInstance()->setSalidaPacMan( new SalidaPacMan(posicion, coord, orientacion) );
 			break;
+		}
 		case (int)tCasaFantasmas:
-			Modelo::getInstance()->setCasaFantasmas(  new CasaFantasmas( posicion, orientacion) );
+		{
+			Modelo::getInstance()->setCasaFantasmas(  new CasaFantasmas( posicion, coord, orientacion) );
 			break;
-		case (int)tPowerup:	
-			Modelo::getInstance()->getPowers().push_back( new PowerUp( posicion, orientacion) );			
-			break;	
-		case (int)tBonus: {
-			cout<<"bonus"<<endl;
-			Modelo::getInstance()->getBonus().push_back( new Bonus( posicion, orientacion) );
-			break;			}
+		}
+		case (int)tPowerup:
+		{
+			Modelo::getInstance()->getPowers().push_back( new PowerUp( posicion, coord, orientacion) );			
+			break;
+		}
+		case (int)tBonus: 
+		{
+			Modelo::getInstance()->getBonus().push_back( new Bonus( posicion, coord, orientacion) );
+			break;			
+		}
 		case (int)tPastilla:
-			Modelo::getInstance()->getPastillas().push_back( new Pastilla( posicion, orientacion) );
+		{
+			Modelo::getInstance()->getPastillas().push_back( new Pastilla( posicion, coord, orientacion) );
 			break;
-		default: return;
+		}
+		default: {return;}
 	}
 }
 
@@ -199,6 +218,7 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	//Recibo el mapa
 	recibirMapa( ancho, alto );
 	
+	crearVerticesMapa();
 	//Recibo la cantidad de elementos que hay en el mapa
 	uint16_t cantElementos;
 	socket->recibir( (char*)(&cantElementos), sizeof(uint16_t) );
@@ -322,4 +342,48 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	//Recibo los elementos
 	recibirElementosStatus( (int)(*buffer) );
 	delete []buffer;
+}
+
+void RecibirMensaje::crearVerticesMapa()
+{
+	Coordenada pos;
+	int filas=Modelo::getInstance()->getMapa()->getAlto();
+	int cols =Modelo::getInstance()->getMapa()->getAncho();
+	
+	int id;
+	for( int i=0; i<filas; i++ )
+	{
+		for( int j=0; j<cols; j++ )
+		{
+			
+			pos.x= j*LONGVERTICE+1;
+			pos.y= 0;
+			pos.z= -(i*LONGVERTICE+1); 
+			id = ((filas-1)-i)*cols+j;
+			Vertice vert(id,pos);
+			vecVertices.push_back(vert);
+		}
+	}
+}
+
+Coordenada RecibirMensaje::buscarCoordenada(int idVert) 
+{
+	Coordenada coord;
+	int id;
+	size_t i = 0;
+	bool encontrado = false;
+	while( !encontrado && i<vecVertices.size() )
+	{
+		id = vecVertices[i].getIdVertice();	
+		if ( id == idVert ) 
+		{
+			coord = vecVertices[i].getCoordenada();
+			encontrado = true;
+		}
+		else 
+		{
+			i++;
+		}
+	}
+	return coord;
 }
