@@ -89,6 +89,7 @@ void RecibirMensaje::agregarElemento( PktElemento *pktElemento )
 	Orientacion orientacion = (Orientacion)pktElemento->orientacion;
 	int posicion = (int)pktElemento->posicion;
 	Coordenada coord = this->buscarCoordenada( posicion );
+
 	switch( tipo )
 	{
 		case (int)tSalidaPacman:
@@ -97,7 +98,7 @@ void RecibirMensaje::agregarElemento( PktElemento *pktElemento )
 			break;
 		}
 		case (int)tCasaFantasmas:
-		{
+		{			
 			Modelo::getInstance()->setCasaFantasmas(  new CasaFantasmas( posicion, coord, orientacion) );
 			break;
 		}

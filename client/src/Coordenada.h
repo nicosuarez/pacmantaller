@@ -26,6 +26,7 @@ class Coordenada {
 		const Coordenada& operator= (const Coordenada &coord); 
 		Coordenada operator +(const Coordenada& coord); 
 		Coordenada operator -(const Coordenada& coord);
+		Coordenada operator *(const float& a);
 	
 };
 

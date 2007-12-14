@@ -352,7 +352,7 @@ void dibujarBonus() {
 	tListBonus bonus = Modelo::getInstance()->getBonus();
 	tListBonus::iterator itBonus;
 	for( itBonus = bonus.begin(); itBonus != bonus.end(); itBonus++ )
-	{			
+	{		
 		(*itBonus)->renderizar();	
 		
 	}	
@@ -361,25 +361,52 @@ void dibujarBonus() {
 
 void dibujarPowerUp() {
 
-	tListPower power = Modelo::getInstance()->getPowers();
-	tListPower::iterator itPower;
-	int i=0;
-	for( itPower = power.begin(); itPower != power.end(); itPower++ )
-	{		i++;	
-		(*itPower)->renderizar();		
+	tListPower powers = Modelo::getInstance()->getPowers();
+	tListPower::iterator itPowers;
+	
+	for( itPowers = powers.begin(); itPowers != powers.end(); itPowers++ )
+	{	
+		(*itPowers)->renderizar();		
 	}	
 	
 }
 
 void dibujarPastillas() {	
 	tListPastilla pastillas = Modelo::getInstance()->getPastillas();
-	tListPastilla::iterator itPastilla;
-	for( itPastilla = pastillas.begin(); itPastilla != pastillas.end(); itPastilla++ )
+	tListPastilla::iterator itPastillas;
+	for( itPastillas = pastillas.begin(); itPastillas != pastillas.end(); itPastillas++ )
 	{			
-		(*itPastilla)->renderizar();		
+		(*itPastillas)->renderizar();		
 	}	
 	
 }
+
+void temp_setPosicionFantasma() {
+
+	Coordenada coord;
+	coord.x=5;
+	coord.y=2;
+	coord.z=-5;
+	Posicion posicion;
+	Modelo::getInstance()->getPersonajes().push_back(new Fantasma( posicion, coord));
+
+}
+
+void dibujarPersonajes() {
+	
+	/*idArista; //Identificador de la arista
+	int posicionArista; //Posicion dentro de la arista 0-63
+	int direccion; //Direccion sobre la arista NORTE/SUR ESTE/OESTE
+	int idVertice; //Vertice*/
+	tListPersonaje personajes;
+	tListPersonaje::iterator itPersonajes;
+	for( itPersonajes = personajes.begin(); itPersonajes != personajes.end(); itPersonajes++ )
+	{			
+		(*itPersonajes)->renderizar();		
+	}
+	
+}
+
 
 void render(void) {
 	Mapa* mapa=Modelo::getInstance()->getMapa();
@@ -538,6 +565,8 @@ void  iniciarGraficos(int argc, char** argv)
 	
 	initTexturas();		
 	transformarParedes(mapa);
+	temp_setPosicionFantasma(); 
+
 	//crearVerticesMapa();//del INIT
 	//crearVecPastillas();// no se usará
 	//sim_llenarElementos();//del INIT

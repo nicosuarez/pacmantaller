@@ -30,6 +30,7 @@ tipoElemento CasaFantasmas:: getTipo()const
  * Metodo que pertmite renderizar el objeto en la pantalla
  */
 void CasaFantasmas::renderizar(){
+	
 
 }
 

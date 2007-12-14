@@ -18,6 +18,7 @@ class Fantasma : public Personaje
 public:
 	Fantasma();
 	Fantasma(Posicion& posicion);
+	Fantasma(Posicion& posicion, Coordenada coord);
 	virtual ~Fantasma();
 
 	static const int FANTASMA_TYPE = 1;
@@ -26,7 +27,8 @@ public:
 	bool IsVisible();
 	void SetVisible(bool visible);
 	bool operator==( int tipo )const;
-
+	
+	
 private:
 	/**
 	 * Velocidad inicial constante del fantasma

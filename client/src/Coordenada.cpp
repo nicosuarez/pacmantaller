@@ -48,3 +48,12 @@ Coordenada Coordenada::operator -(const Coordenada& coord) {
 
 }
 
+
+Coordenada Coordenada::operator* (const float& dato) {
+
+	Coordenada coord_aux;
+	coord_aux.x = x * dato;
+	coord_aux.y = y * dato;
+	coord_aux.z = z * dato;	
+	return coord_aux;
+}
