@@ -34,6 +34,8 @@ Textura	texPared;
 
 vector<Vertice> vecVertices;
 vector<Vertice> vecPastillas;
+vector<Vertice> vecBonus;
+vector<Vertice> vecPower;
 
 Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
 
@@ -101,17 +103,41 @@ Coordenada buscarCoordenada(int idVert) {
 	return coord;
 }
 
-void sim_leerElementos() 
+void setearCoordenadasElementos() 
 {
 	tListPastilla pastillas = Modelo::getInstance()->getPastillas();
 	tListPastilla::iterator itPastilla;
 	for( itPastilla = pastillas.begin(); itPastilla != pastillas.end(); itPastilla++ )
 	{
-		Coordenada coord = buscarCoordenada( (*itPastilla)->getPosicion() );
+		Coordenada coord = buscarCoordenada( (*itPastilla)->getPosicion() );		
 		coord.y=ALTURAITEMS;
-		Vertice verticePastilla( (*itPastilla)->getPosicion(),coord );
-		vecPastillas.push_back(verticePastilla);
+		(*itPastilla)->setCoordenada(coord);		
+		//Vertice verticePastilla( (*itPastilla)->getPosicion(),coord );
+		//vecPastillas.push_back(verticePastilla);
 	}
+	
+	//********************//
+	tListBonus bonus = Modelo::getInstance()->getBonus();
+	tListBonus::iterator itBonus;
+	for( itBonus = bonus.begin(); itBonus != bonus.end(); itBonus++ )
+	{
+		Coordenada coord = buscarCoordenada( (*itBonus)->getPosicion() );
+		coord.y=ALTURAITEMS;
+		Vertice verticeBonus( (*itBonus)->getPosicion(),coord );
+		vecBonus.push_back(verticeBonus);
+	}
+
+	//********************//
+	tListPower power = Modelo::getInstance()->getPowers();
+	tListPower::iterator itPower;
+	for( itPower = power.begin(); itPower != power.end(); itPower++ )
+	{
+		Coordenada coord = buscarCoordenada( (*itPower)->getPosicion() );
+		coord.y=ALTURAITEMS;
+		Vertice verticePower( (*itPower)->getPosicion(),coord );
+		vecPower.push_back(verticePower);
+	}
+
 	/*
 	//tSalidaPacman, tCasaFantasmas, tPowerup, tBonus, tPastilla
 	Elemento* elem;
@@ -164,8 +190,6 @@ void sim_leerElementos()
 
 //Pacman initPacman;//salida del pacman
 //Fantasma initFantasma;//salida del fantasma
-vector<Vertice> vecBonus;
-vector<Vertice> vecPower;
 
 /*void displayEvent(void) {
 
@@ -379,11 +403,11 @@ void dibujarSuelo(Mapa* mapa) {
 }
 
 void dibujarBonus() {
-
-	/*Coordenadas pos;
-	for (int i=0;i<vecBonus.size();i++) {
+/*
+	Coordenada pos;
+	for (size_t i=0;i<vecBonus.size();i++) {
 		glPushMatrix();	
-		pos=vecBonus[i].getPosicion();
+		pos=vecBonus[i].getCoordenada();
 		pos.y=ALTURAITEMS;
 		glTranslatef(pos.x , pos.y, pos.z);
 		glRotatef( angcuad, 1,1,1 );
@@ -391,20 +415,32 @@ void dibujarBonus() {
 		glutSolidSphere( 0.07, 18, 15 );
 		glPopMatrix();	
 	}*/
+	
 }
 
-void dibujarPastillas() {
-	glColor3f(1,1,1);
+void dibujarPowerUp() {
+
 	Coordenada pos;
-	for (size_t i=0;i<vecPastillas.size();i++) {
+	for (size_t i=0;i<vecPower.size();i++) {
 		glPushMatrix();	
-		pos=vecPastillas[i].getCoordenada();
+		pos=vecPower[i].getCoordenada();
+		pos.y=ALTURAITEMS;
 		glTranslatef(pos.x , pos.y, pos.z);
 		glRotatef( angcuad, 1,1,1 );
-		glColor3f(1,1,0);
-		glutSolidSphere( 0.06, 10, 10 );
+		glColor3f(0,0,1);
+		glutSolidSphere( 0.07, 18, 15 );
 		glPopMatrix();	
 	}
+	
+}
+
+void dibujarPastillas() {	
+	tListPastilla pastillas = Modelo::getInstance()->getPastillas();
+	tListPastilla::iterator itPastilla;
+	for( itPastilla = pastillas.begin(); itPastilla != pastillas.end(); itPastilla++ )
+	{			
+		(*itPastilla)->renderizar();		
+	}	
 	
 }
 
@@ -428,6 +464,7 @@ void render(void) {
 
 	dibujarBonus();
 	dibujarPastillas();
+	dibujarPowerUp();
 
 	glutSwapBuffers();
 }
@@ -459,6 +496,13 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 			break;		
 		case GLUT_KEY_HOME://sube la camara= baja el escenario			
 			camara.strafeUp(1);
+			break;
+		case GLUT_KEY_END:			
+			camara.strafeUp(-1);
+			break;
+		case GLUT_KEY_F1: 
+			cout<<"camara aerea"<<endl;
+			camara.vistaAerea();
 			break;
 	}
 	glutPostRedisplay();
@@ -558,12 +602,13 @@ void  iniciarGraficos(int argc, char** argv)
 	crearVerticesMapa();//del INIT
 	//crearVecPastillas();// no se usará
 	//sim_llenarElementos();//del INIT
-	sim_leerElementos();//del INIT
+	setearCoordenadasElementos();//del INIT
 	//setearCamaraInit();	
 	//initPacman.setIdPlayer(idPlayer);//del STATUS
 	//sim_llenarPlayer(); 
 	//sim_llenarElementoStatus(); 
 	//sim_leerPlayer(); 
+	
 	glEnable( GL_DEPTH_TEST );	
 
     glutReshapeFunc (reshapeEvent);

@@ -156,3 +156,16 @@ void Camara::update() {
 
 }
 
+void Camara::vistaAerea() {	
+	posOjo.x=5;
+	posOjo.y=15;
+	posOjo.z=-5;
+	posCentro.x=5;
+	posCentro.y=4;
+	posCentro.z=-5;
+	dirArriba.x=1;
+	dirArriba.y=0;
+	dirArriba.z=0;
+		
+}
+

@@ -33,7 +33,7 @@ class Camara {
 	 	int moverAdelante(); 
 		void moverIzq(); 
 		void moverDer(); 
-
+		void vistaAerea();
 		
 		void update();  // actualiza glutLookAt(..) Con los parametros de la camara
 		void setSpeed(float speed);

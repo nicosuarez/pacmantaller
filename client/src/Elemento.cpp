@@ -53,3 +53,12 @@ void Elemento::SetPosicion(int newVal){
 
 	posicion = newVal;
 }
+
+
+
+//**************//
+void Elemento::setCoordenada( Coordenada coord) {
+	//cout<<"
+	this->coord=coord;
+}
+

@@ -85,12 +85,13 @@ void agregarElemento( PktElemento *pktElemento )
 		case (int)tCasaFantasmas:
 			Modelo::getInstance()->setCasaFantasmas(  new CasaFantasmas( posicion, orientacion) );
 			break;
-		case (int)tPowerup:
-			Modelo::getInstance()->getPowers().push_back( new PowerUp( posicion, orientacion) );
-			break;
-		case (int)tBonus:
+		case (int)tPowerup:	
+			Modelo::getInstance()->getPowers().push_back( new PowerUp( posicion, orientacion) );			
+			break;	
+		case (int)tBonus: {
+			cout<<"bonus"<<endl;
 			Modelo::getInstance()->getBonus().push_back( new Bonus( posicion, orientacion) );
-			break;			
+			break;			}
 		case (int)tPastilla:
 			Modelo::getInstance()->getPastillas().push_back( new Pastilla( posicion, orientacion) );
 			break;
