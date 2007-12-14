@@ -57,3 +57,10 @@ bool PacMan::operator==( int tipo )const
 {
 	return tipo == PACMAN_TYPE;
 }
+
+
+void PacMan::renderizar(){	
+
+
+}
+

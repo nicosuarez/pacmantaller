@@ -7,7 +7,11 @@
 #if !defined(EA_93129EDB_E1C4_4602_9934_5696451996BE__INCLUDED_)
 #define EA_93129EDB_E1C4_4602_9934_5696451996BE__INCLUDED_
 
+#include <GL/glut.h>
 #include "Posicion.h"
+#include "Coordenada.h"
+#include "Model.h"
+
 
 /**
  * Clase que modela los personajes del juego
@@ -18,6 +22,10 @@ class Personaje
 public:
 	Personaje();
 	Personaje(Posicion& posicion);
+	
+	//****************//
+	Personaje(Posicion& posicion, Coordenada cTranslate);
+	
 	virtual ~Personaje();
 
 	virtual int GetRol()const=0;
@@ -28,6 +36,10 @@ public:
 	void SetPosicion(Posicion posicion);
 	void SetVelocidad(int velocidad);
 	virtual bool operator==( int tipo )const = 0;
+	
+	//***********************//
+	virtual void renderizar();
+	
 private:
 	/**
 	 * Identificador de personaje
@@ -43,6 +55,13 @@ protected:
 	 * Velocidad del personaje
 	 */
 	int velocidad;
+	
+	//***************//
+	Coordenada cTranslate;
+	Model *model;
+	/*Coordenada cTranslate;//Translate
+	Coordenada cRotate;//Rotate
+	Coordenada cScale;//Scale*/
 
 };
 #endif // !defined(EA_93129EDB_E1C4_4602_9934_5696451996BE__INCLUDED_)

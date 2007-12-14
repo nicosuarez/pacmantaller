@@ -15,6 +15,11 @@ Fantasma::Fantasma(Posicion& posicion):Personaje(posicion){
 	this->visible=true;
 }
 
+Fantasma::Fantasma(Posicion& posicion, Coordenada cTranslate):Personaje(posicion,cTranslate) {
+	
+
+}
+
 Fantasma::~Fantasma(){
 
 }
