@@ -1,6 +1,8 @@
 #include "RecibirMensaje.h"
 
 #define LONGVERTICE 2
+#define ALTURAITEMS 0.5
+
 using namespace std;
 
 RecibirMensaje::RecibirMensaje( Socket *socket ):socket(socket)
@@ -357,7 +359,7 @@ void RecibirMensaje::crearVerticesMapa()
 		{
 			
 			pos.x= j*LONGVERTICE+1;
-			pos.y= 0;
+			pos.y= ALTURAITEMS;
 			pos.z= -(i*LONGVERTICE+1); 
 			id = ((filas-1)-i)*cols+j;
 			Vertice vert(id,pos);
