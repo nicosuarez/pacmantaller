@@ -44,17 +44,38 @@ Modelo::Modelo():dispatcher(&jugadores, finalizoJuego, &m_jugadores){
 }
 /*----------------------------------------------------------------------------*/
 Modelo::~Modelo(){
-	tListJugadores jugadores=this->GetJugadores();
+
+	this->eliminarListaJugadores();
+	this->eliminarListaBonus();
+	this->eliminarListaElementos();
+	delete mundo;
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::eliminarListaJugadores()
+{
 	itListJugadores it;
 	
 	for(it=jugadores.begin();it!=jugadores.end();it++)
-	{
-		Jugador* jugador = *it;
-		delete jugador;
-	}
+		delete *it;
 	jugadores.clear();
-	
-	delete mundo;
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::eliminarListaBonus()
+{
+	tListElementos::iterator it;
+	for( it = bonus.begin(); it != bonus.end(); it++ )
+		delete (*it);
+
+	bonus.clear();
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::eliminarListaElementos()
+{
+	tListElementos::iterator it;
+	for( it = elementos.begin(); it != elementos.end(); it++ )
+		delete (*it);
+
+	elementos.clear();
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -90,7 +111,68 @@ void Modelo::quitarJugador( int idJugador )
 	}
 	m_jugadores.unlock();
 }
+/*----------------------------------------------------------------------------*/
+void Modelo::agregarElemento( Elemento * elemento )
+{
+	m_elemento.lock();
+	this->elementos.push_back(elemento);
+	m_elemento.unlock();
+}
 
+/*----------------------------------------------------------------------------*/
+void Modelo::quitarElemento( int idPosicion )
+{
+	tListElementos::iterator it;
+	m_elemento.lock();
+	for( it = elementos.begin(); it != elementos.end(); it++ )
+	{
+		if( (*it)->getPosicion() == idPosicion )
+		{
+			delete (*it);
+			elementos.erase( it );
+			return;
+		}
+	}
+	m_elemento.unlock();
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::agregarBonus( Elemento * bonus )
+{
+	m_bonus.lock();
+	this->bonus.push_back(bonus);
+	m_bonus.unlock();
+}
+/*----------------------------------------------------------------------------*/
+Elemento* Modelo::getBonus( int idPosicion )
+{
+	tListElementos::iterator it;
+	m_bonus.lock();
+	for( it = bonus.begin(); it != bonus.end(); it++ )
+	{
+		if( (*it)->getPosicion() == idPosicion )
+		{
+			return *it;
+		}
+	}
+	m_bonus.unlock();
+	return NULL;
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::quitarBonus( int idPosicion )
+{
+	tListElementos::iterator it;
+	m_bonus.lock();
+	for( it = bonus.begin(); it != bonus.end(); it++ )
+	{
+		if( (*it)->getPosicion() == idPosicion )
+		{
+			delete (*it);
+			bonus.erase( it );
+			return;
+		}
+	}
+	m_bonus.unlock();
+}
 /*----------------------------------------------------------------------------*/
 /**
  * Posicion de salida del PacMan
@@ -117,6 +199,14 @@ tListElementos* Modelo::GetElementos(){
 }
 /*----------------------------------------------------------------------------*/
 /**
+ * Lista de bonus
+ */
+tListElementos* Modelo::GetBonus(){
+
+	return &bonus;
+}
+/*----------------------------------------------------------------------------*/
+/**
  * Nivel que se esta jugando actualmente.
  */
 Mapa* Modelo::GetMapa(){
@@ -138,13 +228,31 @@ Mundo* Modelo::GetMundo()
 tListJugadores& Modelo::GetJugadores(){
 	return this->jugadores;
 }
-
+/*----------------------------------------------------------------------------*/
+Elemento* Modelo::getElemento( int posicion )
+{
+	itListElementos it;
+	Elemento* elemento = NULL;
+	m_elemento.lock();
+	for(it=elementos.begin();it!=elementos.end();it++)
+	{
+		Estado estado = (*it)->getEstado();
+		if((*it)->getPosicion() == posicion && estado!=Eliminado)
+		{
+			elemento=(*it);
+			break;
+		}
+	}
+	m_elemento.unlock();
+	return elemento;
+}
 /*----------------------------------------------------------------------------*/
 
 Jugador* Modelo::getJugador( int idJugador )
 {
 	itListJugadores it;
 	Jugador* jugador = NULL;
+	m_jugadores.lock();
 	for(it=jugadores.begin();it!=jugadores.end();it++)
 	{
 		if( (*it)->GetIdJugador() == idJugador )
@@ -153,14 +261,14 @@ Jugador* Modelo::getJugador( int idJugador )
 			break;
 		}
 	}
+	m_jugadores.unlock();
 	return jugador;
-	
 }
 
 /*----------------------------------------------------------------------------*/
-int Modelo::GetPuntuacion()const
+int Modelo::GetPuntuacion()
 {
-	return puntuacion;
+	return getPacMan()->getPuntaje();
 }
 
 /*----------------------------------------------------------------------------*/
@@ -301,6 +409,14 @@ void Modelo::SetElementos(tListElementos& elementos){
 }
 /*----------------------------------------------------------------------------*/
 /**
+ * Lista de bonus
+ */
+void Modelo::SetBonus(tListElementos& bonus){
+
+	this->bonus = bonus;
+}
+/*----------------------------------------------------------------------------*/
+/**
  * Lista de elementos del jugadores.
  */
 void Modelo::SetJugadores(tListJugadores& jugadores){
@@ -325,17 +441,9 @@ void Modelo::SetMundo(Mundo *mundo)
 }
 /*----------------------------------------------------------------------------*/
 /**
- * Puntuacion del pacman
- */
-void Modelo::SetPuntuacion( int puntuacion )
-{
-	this->puntuacion = puntuacion;
-}
-/*----------------------------------------------------------------------------*/
-/**
  * Obtiene de la lista de jugadores el personaje pacman.
  */
-Personaje* Modelo::getPacMan()
+PacMan* Modelo::getPacMan()
 {
 	tListJugadores jugadores=this->GetJugadores();
 	itListJugadores it;
@@ -344,7 +452,30 @@ Personaje* Modelo::getPacMan()
 	{
 		Jugador* jugador = *it;
 		if(jugador->GetIdPersonaje()==PacMan::PACMAN_TYPE)
-			return jugador->getPersonaje();
+		{
+			PacMan* pacman = (PacMan*)jugador->getPersonaje();
+			return pacman;
+		}
 	}
 	return NULL;
 }
+/*----------------------------------------------------------------------------*/
+void Modelo::comerElementoDelVertice(tVertice* vertice)
+{
+	PacMan* pacMan = this->getPacMan();
+	//Busco pastillas
+	Elemento* elemento = this->getElemento(vertice->getid());
+	if(elemento == NULL)
+	{
+		//Si no encontro busca en bonus.
+		elemento = this->getBonus(vertice->getid());
+	}
+	if(elemento != NULL)
+	{
+		//Si encontro incrementa el puntaje y marca el estado FueComido
+		pacMan->incPuntaje(elemento->getPuntaje());
+		elemento->setEstado(FueComido);
+	}
+}
+
+

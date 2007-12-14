@@ -26,18 +26,29 @@ public:
 	bool IsVisible();
 	void SetVisible(bool visible);
 	bool operator==( int tipo )const;
-
+	int getRadio()const;
+	int getPuntaje(){return puntaje;};
+	
 private:
 	/**
 	 * Velocidad inicial constante del fantasma
 	 */
 	static const int velocidadInicial=20;
+	
+	
+	/**
+	 * Radio constante del fantasma
+	 */
+	static const int radio=32;
+	
 	/**
 	 * Determina si el fantasma esta en estado invisible que ocurre cuando un pacman
 	 * en estado powerUp como el fantasma. Cuando el mismo se encuentra invisible no
 	 * puede volver entrar en juego hasta que no haya pasado por la casa.
 	 */
 	bool visible;
+
+	static const int puntaje=10;
 
 };
 #endif // !defined(EA_E4309321_8E59_4003_BC67_09BA7FB5090B__INCLUDED_)

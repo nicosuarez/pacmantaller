@@ -88,6 +88,7 @@ void AgregarJugadorOp::initPacMan()
 	//Se setea el personaje al jugador
 	Personaje* personaje = new PacMan(posicion);
 	jugador->SetIdPersonaje(PacMan::PACMAN_TYPE);
+	
 	jugador->SetPersonaje( personaje );
 	
 	std::cout<<"Entra PacMan al juego. ID:"<< jugador->GetIdJugador()<<"\n";

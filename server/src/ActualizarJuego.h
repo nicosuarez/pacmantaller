@@ -28,7 +28,7 @@ public:
 	/**
 	 * Verifica si hay coliciones o no.
 	 */
-	void detectarColiciones();
+	void detectarColisiones();
 	/**
 	 * Valida si el pacman y el fantasma estan dentro del rango de colision.
 	 */
@@ -49,6 +49,9 @@ public:
 	 * Actualizar el juego analizando, reglas del juego y recalculando posiciones
 	 */
 	void actualizar();
+	void actualizarPosiciones();
+	void actualizarElementos();
+	
 	
 	bool girar(Jugador* jugador,tVertice* vertice, Orientacion orientacion,bool izq);
 	
@@ -59,9 +62,10 @@ public:
 	void presionoKeyDerecha(Jugador* jugador);
 	void salirDelJuego();
 	void noPresionoKey(Jugador* jugador);
-	tVertice* getVeticeDestino(Posicion* posicion);
-	tArco* getAristaActual(Posicion* posicion);
+	static tVertice* getVeticeDestino(Posicion* posicion);
+	static tArco* getAristaActual(Posicion* posicion);
 	void doblarJugador(Jugador* jugador,bool izq);
+	
 	
 	Mensaje* armarMensajeStatus();
 

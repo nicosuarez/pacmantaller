@@ -158,7 +158,7 @@ void XmlParser::agregarPowerUp(Mapa* mapa,xmlpp::TextReader& reader)
 {
 	int idVertice = getAtributoInt(reader,ATRIB_ID_VERTICE);
 	PowerUp* powerUp=new PowerUp(idVertice);
-	Modelo::getInstance()->GetElementos()->push_back(powerUp);
+	Modelo::getInstance()->agregarElemento(powerUp);
 	elementosNoPastillas.push_back(idVertice);
 	std::cout << POWER_UP << " " << ATRIB_ID << ": " << idVertice << "\n";
 }
@@ -167,7 +167,7 @@ void XmlParser::agregarBonus(Mapa* mapa,xmlpp::TextReader& reader)
 {
 	int idVertice = getAtributoInt(reader,ATRIB_ID_VERTICE);
 	Bonus* bonus=new Bonus(idVertice);
-	Modelo::getInstance()->GetElementos()->push_back(bonus);
+	Modelo::getInstance()->agregarBonus(bonus);
 	elementosNoPastillas.push_back(idVertice);
 	std::cout << BONUS << " " << ATRIB_ID << ": " << idVertice << "\n";
 }
@@ -230,7 +230,7 @@ void XmlParser::agregarPastillas(Mapa* mapa)
 		if(agregarPastilla(idVertice))
 		{
 			Pastilla* pastilla = new Pastilla(idVertice);
-			Modelo::getInstance()->GetElementos()->push_back(pastilla);
+			Modelo::getInstance()->agregarElemento(pastilla);
 			std::cout << PASTILLAS << " " << ATRIB_ID << ": " << idVertice << "\n";
 		}
 	}

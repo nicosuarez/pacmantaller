@@ -9,7 +9,7 @@
 class Modelo;
 
 Personaje::Personaje(){
-
+	this->seChocoConPared=false;
 }
 
 Personaje::Personaje(Posicion& posicion){
@@ -19,6 +19,16 @@ Personaje::Personaje(Posicion& posicion){
 
 Personaje::~Personaje(){
 
+}
+
+void Personaje::chocoConPared(bool choco)
+{
+	this->seChocoConPared=choco;
+}
+
+bool Personaje::chocoConPared()
+{
+	return this->seChocoConPared;
 }
 
 /**

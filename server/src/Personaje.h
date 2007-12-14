@@ -34,9 +34,11 @@ public:
 	
 	virtual bool operator==( int tipo )const = 0;
 	
-	void chocoConPared(bool choco){this->seChocoConPared=choco;};
+	void chocoConPared(bool choco);
 	
-	bool chocoConPared(){return this->seChocoConPared;};
+	bool chocoConPared();
+	
+	virtual int getRadio()const=0;
 	
 private:
 	/**
@@ -51,6 +53,7 @@ private:
 	 * Determina si el personaje a chocado con una pared.
 	 */
 	bool seChocoConPared;
+	
 	
 protected:
 	/**

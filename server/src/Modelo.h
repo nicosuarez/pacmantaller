@@ -14,6 +14,7 @@
 #include "Elemento.h"
 #include "Operacion.h"
 #include "Jugador.h"
+#include "PacMan.h"
 #include "AppSettings.h"
 #include "Mapa.h"
 #include "Mundo.h"
@@ -29,6 +30,7 @@
 using std::string;
 
 class Operacion;
+class PacMan;
 
 typedef std::list<Elemento*> tListElementos; 
 typedef std::queue<Operacion*> tQueueOperacion;
@@ -58,8 +60,23 @@ public:
 	//Elimina el jugador del id pasado por parametro de la lista
 	void quitarJugador( int idJugador );
 	
-	//Retorna la lista de elementos
+	//Agrega un elemento a la lista de elementos.
+	void agregarElemento( Elemento * elemento );
+	
+	//Elimina el elemento del id pasado por parametro
+	void quitarElemento( int idPosicion );
+
+	//Agrega un bonus a la lista de bonus.
+	void agregarBonus( Elemento * bonus );
+	
+	//Elimina el bonus del id.
+	void quitarBonus( int idPosicion );
+	
+	//Retorna la lista de elementos Pastillas y PowerUps
 	tListElementos* GetElementos();
+	
+	//Retorna la lista de bonus
+	tListElementos* GetBonus();
 	
 	//Retorna un puntero al mapa
 	Mapa* GetMapa();
@@ -81,10 +98,13 @@ public:
 	Mutex& getMutexJugadores();
 	
 	//Retorna la puntuacion del Pacman
-	int GetPuntuacion()const;
+	int GetPuntuacion();
 	
 	//Ejecuta las operaciones
 	void main();
+	
+	// Lista de bonus
+	void SetBonus(tListElementos& bonus);
 	
 	void notify();
 	
@@ -96,8 +116,6 @@ public:
 	
 	void SetJugadores(tListJugadores& jugadores);
 	
-	void SetPuntuacion( int puntuacion );
-	
 	void seFinalizoElJuego(bool finalizo){*finalizoJuego=finalizo;};
 	
 	bool seFinalizoElJuego(){return *finalizoJuego;};
@@ -108,7 +126,7 @@ public:
 	
 	void SetSalidaPacMan(SalidaPacMan& salidaPacMan);
 	
-	Personaje* getPacMan();
+	PacMan* getPacMan();
 	
 	void SetCasaFantasmas(CasaFantasmas& casaFantasmas);
 	
@@ -134,13 +152,29 @@ public:
 	
 	Operacion* desacolar();
 	
+	//Retorna el elemento de la posicion. NULL sino encuentra.
+	Elemento* getElemento( int posicion );
+	
 	//Pone a esperar el evento RecibiOperaciones
 	void esperarRecibirOperaciones();
 	
 	//Destructor
 	virtual ~Modelo();
 	
+	//Liberar lista de jugadores
+	void eliminarListaJugadores();
+	//Liberar lista de bonus
+	void eliminarListaBonus();
+	//Liberar lista de elementos
+	void eliminarListaElementos();
+	
+	void comerElementoDelVertice(tVertice* vertice);
+	
+	Elemento* getBonus( int idPosicion );
+	
+	
 	/* Eventos */
+	Evento& getEsperarAgregarJugadores(){return this->agregarJugadoresEvent;};
 	Evento& getRecibiOperacionEvent(){return this->recibiOperacionEvent;};
 	Evento& getEsperarMinJugadoresEvent(){return this->esperarMinJugadoresEvent;};
 protected:
@@ -155,6 +189,12 @@ private:
 	//Mutex que protege la lista de jugadores
 	Mutex m_jugadores;
 	
+	//Mutex que protege la lista de bonus
+	Mutex m_bonus;
+		
+	//Mutex que protege la lista de elementos
+	Mutex m_elemento;
+	
 	//Salida del pacman.
 	SalidaPacMan salidaPacMan;
 	
@@ -164,11 +204,17 @@ private:
 	//Evento que determina si hay que empezar el juego.
 	Evento esperarMinJugadoresEvent;
 	
+	//Evento que determina si se agregaron los jugadores a la lista.
+	Evento agregarJugadoresEvent;
+	
 	//Evento que determina si recibio una operacion
 	Evento recibiOperacionEvent;
 	
 	//Lista de elementos del mapa.
 	tListElementos elementos;
+	
+	//Lista de bonus.
+	tListElementos bonus;
 	
 	//Mundo que se esta jugando actualmente.
 	Mundo *mundo;
