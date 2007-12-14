@@ -20,8 +20,14 @@
 #define EXIT_KEY_SERVER "x"
 #define MSG_NRO_CLIENTE "Jugador Nro: "
 #define ERR_CARGANDO_TEXTURA "Error cargando textura\n"
-#define TEX_PATH_PISO "piso.tga"
-#define TEX_PATH_PARED "ladri.tga"
+
+#define TEX_PATH_SUELO "Imagenes/suelo.tga"
+#define TEX_PATH_PARED "Imagenes/pared.tga"
+#define TEX_PATH_PACMAN "Imagenes/pacman.tga"
+#define TEX_PATH_FANTASMA "Imagenes/fantasma.tga"
+#define OBJ_PATH_PACMAN "Obj/pacman.obj"
+#define OBJ_PATH_FANTASMA "Obj/fantasma.obj"
+
 
 #include <string>
 #include <iostream>

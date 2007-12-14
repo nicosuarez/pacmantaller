@@ -18,7 +18,7 @@ class Fantasma : public Personaje
 public:
 	Fantasma();
 	Fantasma(Posicion& posicion);
-	Fantasma(Posicion& posicion, Coordenada coord);
+	Fantasma(Posicion& posicion, Coordenada coord,Model* model);
 	virtual ~Fantasma();
 
 	static const int FANTASMA_TYPE = 1;

@@ -24,7 +24,7 @@ public:
 	Personaje(Posicion& posicion);
 	
 	//****************//
-	Personaje(Posicion& posicion, Coordenada cTranslate);
+	Personaje(Posicion& posicion, Coordenada cTranslate,Model* model);
 	
 	virtual ~Personaje();
 
