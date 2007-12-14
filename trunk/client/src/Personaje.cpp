@@ -15,8 +15,8 @@ Personaje::Personaje(Posicion& posicion){
 	this->posicion=posicion;
 }
 
-Personaje::Personaje(Posicion& posicion, Coordenada cTranslate):posicion(posicion),
-cTranslate(cTranslate),model(NULL) {
+Personaje::Personaje(Posicion& posicion, Coordenada cTranslate, Model* model):posicion(posicion),
+cTranslate(cTranslate),model(model) {
 
 	/*cTranslate = Coordenada(0.0f, 0.0f, 0.0f);
 	cRotate = Coordenada(0.0f, 0.0f, 0.0f);
