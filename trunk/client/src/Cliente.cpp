@@ -32,25 +32,12 @@ EnviarMensaje *ptrEnviar = NULL;
 Textura	texPiso;
 Textura	texPared;
 
-vector<Vertice> vecVertices;
+//vector<Vertice> vecVertices;
 vector<Vertice> vecPastillas;
 vector<Vertice> vecBonus;
 vector<Vertice> vecPower;
 
 Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
-
-/*int ph[filas+1][cols] = {
-	{ 1,   1,   1, },
-	{ 0,   0,   0, },
-	{ 1,   0,   0, },
-	{ 1,   1,   1, },
-};
-
-int pv[filas][cols+1] = {
-	{ 1,   0,   0,  1 },
-	{ 1,   1,   0,  1 },
-	{ 1,   0,   1,  1 },
-};*/
 
 GLfloat angcuad=0;
 
@@ -61,240 +48,199 @@ void idleEvent() {
 }
 
 
-void crearVerticesMapa() {//proviene de leer ALTO y ANCHO de init
 
-	Coordenada pos;
-	int filas=Modelo::getInstance()->getMapa()->getAlto();
-	int cols =Modelo::getInstance()->getMapa()->getAncho();
-	
-	int id;
-	for (int i=0; i<filas; i++) {
-		for (int j=0; j<cols; j++) {
-			
-			pos.x= j*LONGVERTICE+1;
-			pos.y= 0;
-			pos.z= -(i*LONGVERTICE+1); 
-			//cout<<"---->xyz = "<<pos.x<<" "<<pos.y<<" "<<pos.z<<endl;			
-			//int id= i*cols + j;
-			id = ((filas-1)-i)*cols+j;
-			//cout<<"---->id = "<<id<<endl;
-			Vertice vert(id,pos);
-			vecVertices.push_back(vert);
-		}
-	}
-}
+//void setearCoordenadasElementos() 
+//{
+//	tListPastilla pastillas = Modelo::getInstance()->getPastillas();
+//	tListPastilla::iterator itPastilla;
+//	for( itPastilla = pastillas.begin(); itPastilla != pastillas.end(); itPastilla++ )
+//	{
+//		Coordenada coord = buscarCoordenada( (*itPastilla)->getPosicion() );		
+//		coord.y=ALTURAITEMS;
+//		(*itPastilla)->setCoordenada(coord);		
+//		//Vertice verticePastilla( (*itPastilla)->getPosicion(),coord );
+//		//vecPastillas.push_back(verticePastilla);
+//	}
+//	
+//	//********************//
+//	tListBonus bonus = Modelo::getInstance()->getBonus();
+//	tListBonus::iterator itBonus;
+//	for( itBonus = bonus.begin(); itBonus != bonus.end(); itBonus++ )
+//	{
+//		Coordenada coord = buscarCoordenada( (*itBonus)->getPosicion() );
+//		coord.y=ALTURAITEMS;
+//		Vertice verticeBonus( (*itBonus)->getPosicion(),coord );
+//		vecBonus.push_back(verticeBonus);
+//	}
+//
+//	//********************//
+//	tListPower power = Modelo::getInstance()->getPowers();
+//	tListPower::iterator itPower;
+//	for( itPower = power.begin(); itPower != power.end(); itPower++ )
+//	{
+//		Coordenada coord = buscarCoordenada( (*itPower)->getPosicion() );
+//		coord.y=ALTURAITEMS;
+//		Vertice verticePower( (*itPower)->getPosicion(),coord );
+//		vecPower.push_back(verticePower);
+//	}
+//
+//	/*
+//	//tSalidaPacman, tCasaFantasmas, tPowerup, tBonus, tPastilla
+//	Elemento* elem;
+//	while (!elementos->empty()) {
+//		elem= elementos->front();
+//		switch ((int)elem->getTipo()) {
+//			case (int)tPastilla:  
+//			{	
+//				Coordenada coord = buscarCoordenada(elem->getPosicion());
+//				coord.y=ALTURAITEMS;
+//				Vertice verticePastilla(elem->getPosicion(),coord);
+//				vecPastillas.push_back(verticePastilla);
+//				break;
+//				cout<<"posPacman: "<<elem.posicion<<endl;
+//				
+//				Posicion posPacman=buscarPos(elem.posicion);
+//				posPacman.y=ALTURAPACMAN;
+//				cout<<"posPacman coord: "<<posPacman.x<<" "<<posPacman.y<<" "<<posPacman.z<<endl;
+//				Vertice verticePacman(elem.posicion,posPacman);
+//				initPacman.setVertice(verticePacman);
+//				initPacman.setOrientacion(elem.orientacion);
+//				cout<<"orientacion: "<<elem.orientacion<<endl;
+//				break;
+//			}
+//			case 1: {
+//				Posicion posFantasma=buscarPos(elem.posicion);
+//				posFantasma.y=ALTURAPACMAN;
+//				Vertice verticeFantasma(elem.posicion,posFantasma);
+//				initFantasma.setVertice(verticeFantasma);
+//				initFantasma.setOrientacion(elem.orientacion);
+//				break;
+//			}
+//			case 2: {								
+//				Posicion pos=buscarPos(elem.posicion);
+//				Vertice vert(elem.posicion,pos);
+//				vecPower.push_back(vert);
+//				break;
+//			}
+//			case 3: {
+//				Posicion pos=buscarPos(elem.posicion);
+//				Vertice vert(elem.posicion,pos);
+//				vecBonus.push_back(vert);
+//				break;
+//			}
+//		}
+//		elementos->pop_front();
+//	}*/
+//}
+//
+//
+////Pacman initPacman;//salida del pacman
+////Fantasma initFantasma;//salida del fantasma
+//
+///*void displayEvent(void) {
+//
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//	glLoadIdentity();
+//
+//	camara.update();
+//	
+//	// dibujo del laberinto
+//	
+//	int i, j;
+//
+//	glColor3f(1,1,1);
+//	glEnable(GL_TEXTURE_2D);
+//
+//
+//	//paredes de frente y de atras
+//	for (i = 0; i < LARGOL+1; i++ ) {
+//		for (j = 0; j < ANCHOL; j++ ) {
+//			if ( PH[i][j] != 0 ) {				
+//				if ( camara.getZ() <= i ) {
+//	               glBindTexture(GL_TEXTURE_2D, texPared.getId());
+//				   glBegin( GL_QUADS );
+//				     glTexCoord2f(0,0); glVertex3f( j, 0, -i );
+//				     glTexCoord2f(1,0); glVertex3f( j+1, 0, -i );
+//				     glTexCoord2f(1,1); glVertex3f( j+1, 1, -i );
+//				     glTexCoord2f(0,1); glVertex3f( j, 1, -i );
+//				   glEnd();
+//				}
+//				else {  
+//	               glBindTexture(GL_TEXTURE_2D, texPared.getId());
+//				   glBegin( GL_QUADS );
+//				     glTexCoord2f(0,0); glVertex3f( j+1, 0, -i );
+//				     glTexCoord2f(1,0); glVertex3f( j, 0, -i );
+//				     glTexCoord2f(1,1); glVertex3f( j, 1, -i );
+//				     glTexCoord2f(0,1); glVertex3f( j+1, 1, -i );
+//				   glEnd();
+//				}
+//			}
+//		}
+//	}
+//	//paredes de los costados derecho e izquierdo
+//	glColor3f(1,1,1);
+//	for (i = 0; i < LARGOL; i++ ) {
+//		for (j = 0; j < ANCHOL+1; j++ ) {
+//			if ( PV[i][j] != 0 ) {
+//				if ( -camara.getX() <= j ) {
+//	               glBindTexture(GL_TEXTURE_2D, texPared.getId());
+//				   glBegin( GL_QUADS );
+//				     glTexCoord2f(0,0); glVertex3f( j, 0, -i-1 );
+//				     glTexCoord2f(1,0); glVertex3f( j, 0, -i );
+//				     glTexCoord2f(1,1); glVertex3f( j, 1, -i );
+//				     glTexCoord2f(0,1); glVertex3f( j, 1, -i-1 );
+//				   glEnd();
+//				}
+//				else {
+//	               glBindTexture(GL_TEXTURE_2D, texPared.getId());
+//				   glBegin( GL_QUADS );
+//				     glTexCoord2f(0,0); glVertex3f( j, 0, -i );
+//				     glTexCoord2f(1,0); glVertex3f( j, 0, -i-1 );
+//				     glTexCoord2f(1,1); glVertex3f( j, 1, -i-1 );
+//				     glTexCoord2f(0,1); glVertex3f( j, 1, -i );
+//				   glEnd();
+//				}
+//			}
+//		}
+//	}
+//
+//	// piso
+//    glBindTexture(GL_TEXTURE_2D,texPiso.getId());
+//	glColor3f(0.7,0.7,0.7 );
+//	for (i = 0; i < LARGOL; i++ ) {
+//		for (j = 0; j < ANCHOL; j++ ) {
+//			glBegin( GL_QUADS );
+//			glTexCoord2f(0,0); glVertex3f( j, 0, -i );
+//			glTexCoord2f(1,0); glVertex3f( j+1, 0, -i );
+//			glTexCoord2f(1,1); glVertex3f( j+1, 0, -i-1 );
+//			glTexCoord2f(0,1); glVertex3f( j, 0, -i-1 );
+//			glEnd();
+//		}
+//	}
+//
+//	glDisable( GL_TEXTURE_2D );
+//
+//	glPushMatrix();
+//	// al centro de la cuadrícula (0,7) del laberinto
+//	glTranslatef( 0+0.5, 0.5, -7-0.5);
+//	glRotatef( angcuad, 1,1,1 );
+//	glColor3f(0,0,1);
+//	glutWireSphere( 0.1, 10, 10 );
+//	glPopMatrix();
+//
+//
+//	glPushMatrix();
+//	// al centro de la cuadrícula (2,9) del laberinto
+//	glTranslatef( 2+0.5, 0.5, -9-0.5);
+//	glRotatef( -angcuad, 1,1,1 );
+//	glColor3f(0,1,1);
+//	glutWireSphere( 0.1, 10, 10 );
+//	glPopMatrix();
+//
+//	// muestra la escena
+//	glutSwapBuffers();
+//}
 
-Coordenada buscarCoordenada(int idVert) {
-
-	Coordenada coord;
-	int id;
-	size_t i=0;
-	bool encontrado=false;
-	while (!encontrado && i<vecVertices.size()) {
-		id = vecVertices[i].getIdVertice();	
-		if (id==idVert) {
-			coord= vecVertices[i].getCoordenada();
-			encontrado=true;
-		}
-		else {
-			i++;
-		}
-	}
-	return coord;
-}
-
-void setearCoordenadasElementos() 
-{
-	tListPastilla pastillas = Modelo::getInstance()->getPastillas();
-	tListPastilla::iterator itPastilla;
-	for( itPastilla = pastillas.begin(); itPastilla != pastillas.end(); itPastilla++ )
-	{
-		Coordenada coord = buscarCoordenada( (*itPastilla)->getPosicion() );		
-		coord.y=ALTURAITEMS;
-		(*itPastilla)->setCoordenada(coord);		
-		//Vertice verticePastilla( (*itPastilla)->getPosicion(),coord );
-		//vecPastillas.push_back(verticePastilla);
-	}
-	
-	//********************//
-	tListBonus bonus = Modelo::getInstance()->getBonus();
-	tListBonus::iterator itBonus;
-	for( itBonus = bonus.begin(); itBonus != bonus.end(); itBonus++ )
-	{
-		Coordenada coord = buscarCoordenada( (*itBonus)->getPosicion() );
-		coord.y=ALTURAITEMS;
-		Vertice verticeBonus( (*itBonus)->getPosicion(),coord );
-		vecBonus.push_back(verticeBonus);
-	}
-
-	//********************//
-	tListPower power = Modelo::getInstance()->getPowers();
-	tListPower::iterator itPower;
-	for( itPower = power.begin(); itPower != power.end(); itPower++ )
-	{
-		Coordenada coord = buscarCoordenada( (*itPower)->getPosicion() );
-		coord.y=ALTURAITEMS;
-		Vertice verticePower( (*itPower)->getPosicion(),coord );
-		vecPower.push_back(verticePower);
-	}
-
-	/*
-	//tSalidaPacman, tCasaFantasmas, tPowerup, tBonus, tPastilla
-	Elemento* elem;
-	while (!elementos->empty()) {
-		elem= elementos->front();
-		switch ((int)elem->getTipo()) {
-			case (int)tPastilla:  
-			{	
-				Coordenada coord = buscarCoordenada(elem->getPosicion());
-				coord.y=ALTURAITEMS;
-				Vertice verticePastilla(elem->getPosicion(),coord);
-				vecPastillas.push_back(verticePastilla);
-				break;
-				cout<<"posPacman: "<<elem.posicion<<endl;
-				
-				Posicion posPacman=buscarPos(elem.posicion);
-				posPacman.y=ALTURAPACMAN;
-				cout<<"posPacman coord: "<<posPacman.x<<" "<<posPacman.y<<" "<<posPacman.z<<endl;
-				Vertice verticePacman(elem.posicion,posPacman);
-				initPacman.setVertice(verticePacman);
-				initPacman.setOrientacion(elem.orientacion);
-				cout<<"orientacion: "<<elem.orientacion<<endl;
-				break;
-			}
-			case 1: {
-				Posicion posFantasma=buscarPos(elem.posicion);
-				posFantasma.y=ALTURAPACMAN;
-				Vertice verticeFantasma(elem.posicion,posFantasma);
-				initFantasma.setVertice(verticeFantasma);
-				initFantasma.setOrientacion(elem.orientacion);
-				break;
-			}
-			case 2: {								
-				Posicion pos=buscarPos(elem.posicion);
-				Vertice vert(elem.posicion,pos);
-				vecPower.push_back(vert);
-				break;
-			}
-			case 3: {
-				Posicion pos=buscarPos(elem.posicion);
-				Vertice vert(elem.posicion,pos);
-				vecBonus.push_back(vert);
-				break;
-			}
-		}
-		elementos->pop_front();
-	}*/
-}
-
-
-//Pacman initPacman;//salida del pacman
-//Fantasma initFantasma;//salida del fantasma
-
-/*void displayEvent(void) {
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-
-	camara.update();
-	
-	// dibujo del laberinto
-	
-	int i, j;
-
-	glColor3f(1,1,1);
-	glEnable(GL_TEXTURE_2D);
-
-
-	//paredes de frente y de atras
-	for (i = 0; i < LARGOL+1; i++ ) {
-		for (j = 0; j < ANCHOL; j++ ) {
-			if ( PH[i][j] != 0 ) {				
-				if ( camara.getZ() <= i ) {
-	               glBindTexture(GL_TEXTURE_2D, texPared.getId());
-				   glBegin( GL_QUADS );
-				     glTexCoord2f(0,0); glVertex3f( j, 0, -i );
-				     glTexCoord2f(1,0); glVertex3f( j+1, 0, -i );
-				     glTexCoord2f(1,1); glVertex3f( j+1, 1, -i );
-				     glTexCoord2f(0,1); glVertex3f( j, 1, -i );
-				   glEnd();
-				}
-				else {  
-	               glBindTexture(GL_TEXTURE_2D, texPared.getId());
-				   glBegin( GL_QUADS );
-				     glTexCoord2f(0,0); glVertex3f( j+1, 0, -i );
-				     glTexCoord2f(1,0); glVertex3f( j, 0, -i );
-				     glTexCoord2f(1,1); glVertex3f( j, 1, -i );
-				     glTexCoord2f(0,1); glVertex3f( j+1, 1, -i );
-				   glEnd();
-				}
-			}
-		}
-	}
-	//paredes de los costados derecho e izquierdo
-	glColor3f(1,1,1);
-	for (i = 0; i < LARGOL; i++ ) {
-		for (j = 0; j < ANCHOL+1; j++ ) {
-			if ( PV[i][j] != 0 ) {
-				if ( -camara.getX() <= j ) {
-	               glBindTexture(GL_TEXTURE_2D, texPared.getId());
-				   glBegin( GL_QUADS );
-				     glTexCoord2f(0,0); glVertex3f( j, 0, -i-1 );
-				     glTexCoord2f(1,0); glVertex3f( j, 0, -i );
-				     glTexCoord2f(1,1); glVertex3f( j, 1, -i );
-				     glTexCoord2f(0,1); glVertex3f( j, 1, -i-1 );
-				   glEnd();
-				}
-				else {
-	               glBindTexture(GL_TEXTURE_2D, texPared.getId());
-				   glBegin( GL_QUADS );
-				     glTexCoord2f(0,0); glVertex3f( j, 0, -i );
-				     glTexCoord2f(1,0); glVertex3f( j, 0, -i-1 );
-				     glTexCoord2f(1,1); glVertex3f( j, 1, -i-1 );
-				     glTexCoord2f(0,1); glVertex3f( j, 1, -i );
-				   glEnd();
-				}
-			}
-		}
-	}
-
-	// piso
-    glBindTexture(GL_TEXTURE_2D,texPiso.getId());
-	glColor3f(0.7,0.7,0.7 );
-	for (i = 0; i < LARGOL; i++ ) {
-		for (j = 0; j < ANCHOL; j++ ) {
-			glBegin( GL_QUADS );
-			glTexCoord2f(0,0); glVertex3f( j, 0, -i );
-			glTexCoord2f(1,0); glVertex3f( j+1, 0, -i );
-			glTexCoord2f(1,1); glVertex3f( j+1, 0, -i-1 );
-			glTexCoord2f(0,1); glVertex3f( j, 0, -i-1 );
-			glEnd();
-		}
-	}
-
-	glDisable( GL_TEXTURE_2D );
-
-	glPushMatrix();
-	// al centro de la cuadrícula (0,7) del laberinto
-	glTranslatef( 0+0.5, 0.5, -7-0.5);
-	glRotatef( angcuad, 1,1,1 );
-	glColor3f(0,0,1);
-	glutWireSphere( 0.1, 10, 10 );
-	glPopMatrix();
-
-
-	glPushMatrix();
-	// al centro de la cuadrícula (2,9) del laberinto
-	glTranslatef( 2+0.5, 0.5, -9-0.5);
-	glRotatef( -angcuad, 1,1,1 );
-	glColor3f(0,1,1);
-	glutWireSphere( 0.1, 10, 10 );
-	glPopMatrix();
-
-	// muestra la escena
-	glutSwapBuffers();
-}
-*/
 
 //*******************************************************************//
 //				METODOS PARA DIBUJAR EN PANTALLA						
@@ -599,10 +545,10 @@ void  iniciarGraficos(int argc, char** argv)
 	
 	initTexturas();		
 	transformarParedes(mapa);
-	crearVerticesMapa();//del INIT
+	//crearVerticesMapa();//del INIT
 	//crearVecPastillas();// no se usará
 	//sim_llenarElementos();//del INIT
-	setearCoordenadasElementos();//del INIT
+	//setearCoordenadasElementos();//del INIT
 	//setearCamaraInit();	
 	//initPacman.setIdPlayer(idPlayer);//del STATUS
 	//sim_llenarPlayer(); 

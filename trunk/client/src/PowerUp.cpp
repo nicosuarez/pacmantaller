@@ -7,11 +7,15 @@
 #include "PowerUp.h"
 
 
-PowerUp::PowerUp( int posicion, Orientacion orientacion = Norte ):Elemento( posicion, orientacion )
+PowerUp::PowerUp( int posicion, Orientacion orientacion ):Elemento( posicion, orientacion )
 {
 	
 }
 
+PowerUp::PowerUp( int posicion, Coordenada coord, Orientacion orientacion ):Elemento( posicion, coord, orientacion )
+{
+	
+}
 
 PowerUp::~PowerUp(){
 

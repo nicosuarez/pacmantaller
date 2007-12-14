@@ -17,7 +17,9 @@ class PowerUp : public Elemento
 {
 
 public:
-	PowerUp( int posicion, Orientacion orientacion );
+	PowerUp( int posicion, Orientacion orientacion= Norte );
+	
+	PowerUp( int posicion, Coordenada coord, Orientacion orientacion = Norte );
 	
 	virtual ~PowerUp();
 	

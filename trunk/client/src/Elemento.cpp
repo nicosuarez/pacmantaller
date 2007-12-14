@@ -11,6 +11,11 @@ Elemento::Elemento( int posicion, Orientacion orientacion ): posicion(posicion),
 	
 }
 
+Elemento::Elemento( int posicion, Coordenada coord, Orientacion orientacion ): posicion(posicion), orientacion(orientacion), estado(Aparece), coord(coord)
+{
+	
+}
+
 Elemento::~Elemento()
 {
 }
@@ -54,11 +59,8 @@ void Elemento::SetPosicion(int newVal){
 	posicion = newVal;
 }
 
-
-
-//**************//
-void Elemento::setCoordenada( Coordenada coord) {
-	//cout<<"
-	this->coord=coord;
+void Elemento::setCoordenada( Coordenada coord) 
+{
+	this->coord = coord;
 }
 

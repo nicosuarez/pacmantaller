@@ -37,6 +37,8 @@ public:
 		
 	Elemento( int posicion, Orientacion orientacion );
 	
+	Elemento( int posicion, Coordenada coord, Orientacion orientacion );
+	
 	virtual ~Elemento();
 
 	int getPosicion();
@@ -57,7 +59,6 @@ public:
 	
 	virtual bool operator==( tipoElemento tipo) const = 0;
 	
-	//************/
 	void setCoordenada( Coordenada coord);
 
 private:
@@ -66,7 +67,6 @@ private:
 	Orientacion orientacion;
 	Estado estado;
 	
-	//***************//
 protected:
 	Coordenada coord;
 	

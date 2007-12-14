@@ -18,6 +18,8 @@ class Bonus : public Elemento
 public:
 	Bonus( int posicion, Orientacion orientacion = Norte  );
 	
+	Bonus( int posicion, Coordenada coord, Orientacion orientacion = Norte );
+	
 	virtual ~Bonus();
 	
 	tipoElemento getTipo()const;
