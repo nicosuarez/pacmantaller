@@ -21,6 +21,9 @@ ActualizarJuego::ActualizarJuego(unsigned int updateTime)
 void ActualizarJuego::main()
 {
 	std::cout<<"Corre ActualizarJuego\n";
+	
+	Modelo::getInstance()->getEsperarAgregarJugadores().esperar();
+	
 	while(!seFinalizoElNivel())
 	{
 		this->actualizar();
@@ -72,7 +75,7 @@ tVertice* ActualizarJuego::getVeticeDestino(Posicion* posicion)
 	Modelo* modelo = Modelo::getInstance();
 
 	//Obtengo la arista actual.
-	tArco* arcoActual=this->getAristaActual(posicion);
+	tArco* arcoActual=ActualizarJuego::getAristaActual(posicion);
 	
 	//Obtengo el vertice destino
 	int vDestId = arcoActual->getDestinoId();
@@ -195,9 +198,7 @@ void ActualizarJuego::avanzar(Jugador* jugador){
 	Personaje* personaje = jugador->getPersonaje();
 	Posicion* posicion = personaje->GetPosicion();
 	tArco* arcoActual=this->getAristaActual(posicion);
-	
-	//Posicion posicionInicial = *posicion;  
-	
+
 	std::cout<<"Inicial: " << *posicion;
 	
 	//Si choco con una pared, no avanza mas y espera un giro.
@@ -255,7 +256,7 @@ void ActualizarJuego::avanzar(Jugador* jugador){
 /**
  * Actualizar posicion de los jugadores
  */
-void ActualizarJuego::actualizar()
+void ActualizarJuego::actualizarPosiciones()
 {
 	tListJugadores jugadores=Modelo::getInstance()->GetJugadores();
 	itListJugadores it;
@@ -294,11 +295,30 @@ void ActualizarJuego::actualizar()
 				noPresionoKey(jugador);
 				break;
 		}
-		
 	}
 }
+/*----------------------------------------------------------------------------*/
+/**
+ * Actualizar los elementos del juego
+ */
+void ActualizarJuego::actualizarElementos()
+{
+	Modelo* modelo = Modelo::getInstance();
+	PacMan* pacman=modelo->getPacMan();
+	pacman->comer();
+}
+/*----------------------------------------------------------------------------*/
+/**
+ * Actualizar Juego
+ */
+void ActualizarJuego::actualizar()
+{
+	this->actualizarPosiciones();
+	//this->actualizarElementos();
+	//this->detectarColisiones();
+}
 
-void ActualizarJuego::detectarColiciones()
+void ActualizarJuego::detectarColisiones()
 {
 	Modelo* modelo=Modelo::getInstance();
 	tListJugadores jugadores=modelo->GetJugadores();

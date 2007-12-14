@@ -18,7 +18,6 @@ Pastilla::~Pastilla()
 
 }
 
-
 tipoElemento Pastilla::getTipo()const
 {
 	return tPastilla;

@@ -20,6 +20,7 @@ void Play::main()
 	//Agregar el jugador al juego.
 	std::cout<<"Agrega el jugador "<< idJugador << " al juego\n";
 	Modelo::getInstance()->agregarJugador( jugador );
+	Modelo::getInstance()->getEsperarAgregarJugadores().activar();
 	Status *status = new Status( Modelo::getInstance()->GetElementos());
 	Modelo::getInstance()->getDispatcher()->enviarMensaje( status, idJugador );
 }

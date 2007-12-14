@@ -26,6 +26,10 @@ public:
 	void renderizar();
 	
 	bool operator==( tipoElemento tipo) const;
+	
+	int getPuntaje(){return  puntaje;};
+	
+	static const int puntaje=5;
 
 };
 #endif // !defined(EA_36BDC085_0509_46c5_AB9B_B4CF19D4F9EE__INCLUDED_)

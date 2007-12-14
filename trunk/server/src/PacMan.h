@@ -8,6 +8,7 @@
 #define EA_B035D27E_31A5_4b0f_B082_3F7AF1A2C886__INCLUDED_
 
 #include "Personaje.h"
+#include "Modelo.h"
 
 /**
  * Clase que modela el PacMan
@@ -24,11 +25,20 @@ public:
 	static const int PACMAN_TYPE = 0;
 	int GetRol()const;
 	int GetVelocidad();
+	int getRadio()const;
 	bool IsPowerUp();
 	void SetPowerUp(bool powerUp);
 	bool operator==( int tipo )const;
-
+	int getPuntaje(){return puntaje;};
+	void incPuntaje(int puntaje){this->puntaje += puntaje;};
+	void comer();
+	
+	
 private:
+	/**
+	 * Puntaje acumulado del pacman
+	 */
+	int puntaje;
 	/**
 	 * Determina si el pacman se encuentra en el estado powerUp
 	 */
@@ -37,6 +47,10 @@ private:
 	 * Valor constante de la velocidad inicial del pacman
 	 */
 	static const int velocidadInicial=16;
+	/**
+	 * Radio constante del pacman
+	 */
+	static const int radio = 32;
 
 };
 #endif // !defined(EA_B035D27E_31A5_4b0f_B082_3F7AF1A2C886__INCLUDED_)

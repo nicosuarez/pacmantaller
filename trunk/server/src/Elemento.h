@@ -19,7 +19,7 @@ typedef enum Orientacion
 
 typedef enum Estado
 {
-	Aparece, Desaparece 
+	Inicial,Aparece, Desaparece,FueComido,Eliminado
 };
 
 /**
@@ -37,6 +37,8 @@ public:
 	int getPosicion();
 	
 	virtual tipoElemento getTipo()const = 0;
+	
+	virtual int getPuntaje(){return 0;};
 	
 	Orientacion getOrientacion()const;
 	

@@ -25,6 +25,10 @@ public:
 	virtual void renderizar();
 	
 	bool operator==( tipoElemento tipo) const;
+	
+	int getPuntaje(){return  puntaje;};
+	
+	static const int puntaje=50;
 
 };
 #endif // !defined(EA_FA7D0A8D_70C6_47c2_A215_B4D860C19A44__INCLUDED_)

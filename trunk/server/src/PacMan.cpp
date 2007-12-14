@@ -7,6 +7,7 @@
 #include "PacMan.h"
 
 
+
 PacMan::PacMan(){
 	this->isPowerUp=false;
 }
@@ -25,6 +26,14 @@ PacMan::~PacMan(){
 int PacMan::GetRol()const{
 
 	return PacMan::PACMAN_TYPE;
+}
+
+/**
+ * El radio da una idea del volumen del personaje, y usa para detectar colisiones.
+ */
+int PacMan::getRadio()const
+{
+	return PacMan::radio;
 }
 
 /**
@@ -57,3 +66,24 @@ bool PacMan::operator==( int tipo )const
 {
 	return tipo == PACMAN_TYPE;
 }
+
+void PacMan::comer()
+{
+	Modelo* modelo = Modelo::getInstance();
+	Posicion* posicion= this->GetPosicion();
+	if(this->chocoConPared())
+	{
+		tVertice* vDest = ActualizarJuego::getVeticeDestino(posicion);
+		//Come la comida del vertice destino
+		modelo->comerElementoDelVertice(vDest);
+	}
+	else
+	{
+		//Come la comida del vertice origen
+		Mapa* mapa = Modelo::getInstance()->GetMapa();
+		tVertice* vOrig = mapa->getGrafo()->getVertice(posicion->getVertice());
+		modelo->comerElementoDelVertice(vOrig);
+	}
+	
+}
+
