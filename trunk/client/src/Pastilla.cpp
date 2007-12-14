@@ -32,7 +32,7 @@ tipoElemento Pastilla::getTipo()const
  * Metodo que pertmite renderizar el objeto en la pantalla
  */
 void Pastilla::renderizar(){
-	glColor3f(1,1,1);
+	//glColor3f(1,1,1);
 	glPushMatrix();	
 	glTranslatef(coord.x , coord.y, coord.z);
 	//glRotatef( angcuad, 1,1,1 );

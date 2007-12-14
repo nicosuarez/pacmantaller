@@ -33,9 +33,9 @@ Textura	texPiso;
 Textura	texPared;
 
 //vector<Vertice> vecVertices;
-vector<Vertice> vecPastillas;
-vector<Vertice> vecBonus;
-vector<Vertice> vecPower;
+//vector<Vertice> vecPastillas;
+//vector<Vertice> vecBonus;
+//vector<Vertice> vecPower;
 
 Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
 
@@ -349,34 +349,25 @@ void dibujarSuelo(Mapa* mapa) {
 }
 
 void dibujarBonus() {
-/*
-	Coordenada pos;
-	for (size_t i=0;i<vecBonus.size();i++) {
-		glPushMatrix();	
-		pos=vecBonus[i].getCoordenada();
-		pos.y=ALTURAITEMS;
-		glTranslatef(pos.x , pos.y, pos.z);
-		glRotatef( angcuad, 1,1,1 );
-		glColor3f(0,0,1);
-		glutSolidSphere( 0.07, 18, 15 );
-		glPopMatrix();	
-	}*/
+	tListBonus bonus = Modelo::getInstance()->getBonus();
+	tListBonus::iterator itBonus;
+	for( itBonus = bonus.begin(); itBonus != bonus.end(); itBonus++ )
+	{			
+		(*itBonus)->renderizar();	
+		
+	}	
 	
 }
 
 void dibujarPowerUp() {
 
-	Coordenada pos;
-	for (size_t i=0;i<vecPower.size();i++) {
-		glPushMatrix();	
-		pos=vecPower[i].getCoordenada();
-		pos.y=ALTURAITEMS;
-		glTranslatef(pos.x , pos.y, pos.z);
-		glRotatef( angcuad, 1,1,1 );
-		glColor3f(0,0,1);
-		glutSolidSphere( 0.07, 18, 15 );
-		glPopMatrix();	
-	}
+	tListPower power = Modelo::getInstance()->getPowers();
+	tListPower::iterator itPower;
+	int i=0;
+	for( itPower = power.begin(); itPower != power.end(); itPower++ )
+	{		i++;	
+		(*itPower)->renderizar();		
+	}	
 	
 }
 
@@ -407,11 +398,13 @@ void render(void) {
 	
 	
 	glDisable( GL_TEXTURE_2D );		
-
-	dibujarBonus();
+	
+	glColor3f(1,1,1);
+	
 	dibujarPastillas();
 	dibujarPowerUp();
-
+	dibujarBonus();
+	
 	glutSwapBuffers();
 }
 
