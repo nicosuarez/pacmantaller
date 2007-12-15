@@ -27,7 +27,7 @@ bool AgregarJugadorOp::ejecutar()
 	Play* play = new Play(this->jugador);
 	play->run();
 	StartJugador::getInstance()->agregarStart(play);
-	
+
 	return false;
 }
 
@@ -151,19 +151,4 @@ void AgregarJugadorOp::initFantasma()
 	std::cout<<"ID:"<< jugador->GetIdJugador()<< " " << posicion <<"\n";
 }
 
-/**
- * Metodo que encapsula la logica de la operacion.
- */
-void AgregarJugadorOp::internalProcess(){
-
-}
-
-/**
- * Metodo que valida la operacion. TRUE(exito),
- * * FALSE(error)
- */
-bool AgregarJugadorOp::validarOperacion(){
-
-	return false;
-}
 

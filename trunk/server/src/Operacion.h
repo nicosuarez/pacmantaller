@@ -21,9 +21,5 @@ public:
 	 // Valida y aplica la operacion* retorna TRUE(exito),FALSE(error)
 	virtual bool ejecutar()=0;
 
-protected:
-	virtual void internalProcess();
-	virtual bool validarOperacion();
-
 };
 #endif // !defined(EA_9A3DFB1D_40D2_4167_894A_F5464BCE129F__INCLUDED_)

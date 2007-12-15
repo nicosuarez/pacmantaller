@@ -17,9 +17,14 @@ void Play::main()
 	char* buffer = start.Serialize();
 	jugador->GetSocket()->enviar( buffer, start.getSize() );
 	delete []buffer;
-	//Agregar el jugador al juego.
-	std::cout<<"Agrega el jugador "<< idJugador << " al juego\n";
-	Modelo::getInstance()->agregarJugador( jugador );
+	
+	//Si no esta jugando, agregar el jugador al juego.
+	if(!Modelo::getInstance()->estaJugando(jugador))
+	{
+		std::cout<<"Agrega el jugador "<< idJugador << " al juego\n";
+		Modelo::getInstance()->agregarJugador( jugador );
+	}
+	
 	Modelo::getInstance()->getEsperarAgregarJugadores().activar();
 	Status *status = new Status( Modelo::getInstance()->GetElementos());
 	Modelo::getInstance()->getDispatcher()->enviarMensaje( status, idJugador );

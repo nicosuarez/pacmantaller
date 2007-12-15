@@ -75,6 +75,15 @@ public:
 	//Elimina el bonus del id.
 	void quitarBonus( int idPosicion );
 	
+	//Eliminar los personajes de todos los jugadores.
+	void eliminarPersonajes();
+	
+	//Verifica si el jugador esta en la lista de jugadores
+	bool estaJugando(Jugador* jugador);
+	
+	//Agrega los jugadores actuales al proximo nivel.
+	void cambiarSiguienteNivel();
+	
 	//Retorna la lista de elementos Pastillas y PowerUps
 	tListElementos* GetElementos();
 	
@@ -125,10 +134,16 @@ public:
 	
 	void liberarStartJugadores();
 	
+	void actualizarJuego();
+	
 	//Determina si quedan niveles en el mundo por jugar.
 	bool hayNiveles();
 	
+	void esperarMinJugadores();
+	
 	void liberarNivel();
+	
+	void mostrarElementoComido(Elemento* elemento);
 	
 	void SetSalidaPacMan(SalidaPacMan& salidaPacMan);
 	
