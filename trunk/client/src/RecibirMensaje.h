@@ -20,6 +20,10 @@
 #include "Key.h"
 #include "Coordenada.h"
 #include "Vertice.h"
+#include "ObjLoader.h"
+#include "Model.h"
+#include "LogResource.h"
+
 
 class RecibirMensaje : public Thread
 {
