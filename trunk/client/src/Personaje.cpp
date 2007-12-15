@@ -66,11 +66,11 @@ void Personaje::SetId(int id){
 /**
  * Posicion del personaje en el mapa
  */
-void Personaje::SetPosicion(Posicion newVal){
+void Personaje::SetPosicion(Posicion pos){
 
-	posicion.setArista( newVal.getArista() );
-	posicion.setPosicionArista( newVal.getPosicionArista() );
-	posicion.setDireccion( newVal.getDireccion() );
+	posicion.setArista( pos.getArista() );
+	posicion.setPosicionArista( pos.getPosicionArista() );
+	posicion.setDireccion( pos.getDireccion() );
 }
 
 
