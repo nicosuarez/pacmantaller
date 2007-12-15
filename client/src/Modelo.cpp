@@ -66,11 +66,13 @@ void Modelo::setMapa( Mapa *mapa )
 
 void Modelo::setCasaFantasmas( CasaFantasmas* casaFantasmas )
 {
+	
 	this->casaFantasmas = casaFantasmas;
 }
 
 void Modelo::setSalidaPacMan( SalidaPacMan* salidaPacMan )
 {
+	cout<<"no debe ser null si seteo la salida pacman"<<endl;
 	this->salidaPacMan = salidaPacMan;
 }
 

@@ -25,7 +25,7 @@
 #include "LogResource.h"
 #include "Camara.h"
 
-//extern Camara camara;
+extern Camara camara;
 
 class RecibirMensaje : public Thread
 {

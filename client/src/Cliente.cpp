@@ -215,7 +215,11 @@ void dibujarPersonajes() {
 	tListPersonaje personajes=Modelo::getInstance()->getPersonajes();
 	tListPersonaje::iterator itPersonajes;
 	for( itPersonajes = personajes.begin(); itPersonajes != personajes.end(); itPersonajes++ )
-	{			
+	{
+		if ((*itPersonajes)->GetRol()==0)
+			cout<<"renderizo pacman"<<endl;
+		else
+			cout<<"renderizo fantasma"<<endl;
 		(*itPersonajes)->renderizar();		
 	}
 	
@@ -223,8 +227,7 @@ void dibujarPersonajes() {
 
 
 void render(void) {
-	Mapa* mapa=Modelo::getInstance()->getMapa();
-	
+	Mapa* mapa=Modelo::getInstance()->getMapa();	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
@@ -377,7 +380,7 @@ void  iniciarGraficos(int argc, char** argv)
     glutCreateWindow( "PACMAN 3D" );	
 	glEnable(GL_TEXTURE_2D);
 
-	
+	cout<<"******inicio graficos"<<endl;
 	initTexturas();		
 	transformarParedes(mapa);
 	//temp_setPosicionFantasma(); 
@@ -388,6 +391,7 @@ void  iniciarGraficos(int argc, char** argv)
 	
 	glEnable( GL_DEPTH_TEST );	
 
+	cout<<"comienza el loop"<<endl;
     glutReshapeFunc (reshapeEvent);
 	glutDisplayFunc( render );
 	glutSpecialFunc( tecladoEvent );

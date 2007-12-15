@@ -23,7 +23,7 @@ void EnviarMensaje::main()
 	while( !modelo->getFinalizoJuego() )
 	{
 		//Si no hay mensajes, espera a recibir
-		if( mensajes.empty() )
+		if ( mensajes.empty() )
 			evento.esperar();
 		m_mensajes.lock();
 		Mensaje* mensaje = mensajes.front();
