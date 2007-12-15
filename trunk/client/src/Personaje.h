@@ -35,10 +35,10 @@ public:
 	void SetId(int id);
 	void SetPosicion(Posicion posicion);
 	void SetVelocidad(int velocidad);
-	void SetModel(Model* model){this->model=model;}
+	void SetModel(Model* model);
 	
-	void SetCoordenadaR(Coordenada cRotate) { this->cRotate=cRotate;}
-	void SetCoordenadaT(Coordenada cTranslate) { this->cTranslate=cTranslate;} 
+	void SetCoordenadaR(Coordenada cRotate);
+	void SetCoordenadaT(Coordenada cTranslate); 
 	virtual bool operator==( int tipo )const = 0;
 	
 	//***********************//

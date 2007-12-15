@@ -32,8 +32,8 @@ EnviarMensaje *ptrEnviar = NULL;
 Textura	texSuelo;
 Textura	texPared;
 
-//Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
-Camara camara(Coordenada(5,0.3,-5),Coordenada(5,0.3,-5.5), Coordenada(0,1,0));
+Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
+//Camara camara(Coordenada(5,0.3,-5),Coordenada(5,0.3,-5.5), Coordenada(0,1,0));
 
 GLfloat angcuad=0;
 
@@ -260,19 +260,19 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 		
 	switch ( key ) {
 		case GLUT_KEY_UP:    
-			camara.moverAdelante(); 
+			//camara.moverAdelante(); 
 			ptrEnviar->enviarMensaje( new Key(KEY_ARRIBA) );
 			break;
 		case GLUT_KEY_DOWN:  
-			camara.move(-1); 
+			//camara.move(-1); 
 			ptrEnviar->enviarMensaje( new Key(KEY_ABAJO) );
 			break;
 		case GLUT_KEY_LEFT:
-			camara.moverIzq(); 
+			//camara.moverIzq(); 
 			ptrEnviar->enviarMensaje( new Key(KEY_IZQUIERDA) );
 			break;
 		case GLUT_KEY_RIGHT: 
-			camara.moverDer(); 
+			//camara.moverDer(); 
 			ptrEnviar->enviarMensaje( new Key(KEY_DERECHA) );
 			break;		
 		case GLUT_KEY_HOME://sube la camara= baja el escenario			
@@ -435,6 +435,7 @@ void Cliente::recibirMensajes()
 {
     /* Si logro conectar */
 	if(this->skCliente){
+		cout<<"logre conectar"<<endl;
 		this->thrRecibirMensajes = new RecibirMensaje(this->skCliente);
 		this->thrRecibirMensajes->run();		
 	}
