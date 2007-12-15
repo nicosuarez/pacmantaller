@@ -23,12 +23,12 @@ private:
 	
 	void initPacMan();
 	void initFantasma();
-	Posicion getPosicionInicialPacman();
-	Posicion getPosicionInicialFantasmas();
 	
 public:
 	AgregarJugadorOp(Jugador* jugador);
 
+	static Posicion getPosicionInicialPacman();
+	static Posicion getPosicionInicialFantasmas();
 	bool ejecutar();
 	void enviarMsgInit();
 	//Retorna el rol que se le asgino al jugador

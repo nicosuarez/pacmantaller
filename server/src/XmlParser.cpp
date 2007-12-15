@@ -188,7 +188,6 @@ void XmlParser::agregarCasaFantasmas(Mapa* mapa,xmlpp::TextReader& reader)
 	tVecVerticeId vertices; 
 	elementosNoPastillas.push_back(idPuerta);
 
-	//tVertice* vPuertaCasa = mapa->getGrafo()->getVertice(idPuerta);
 	std::cout << CASA_FANTASMAS << " " << "Entrada" << ": " << idPuerta << "\n";
 	for(int i=1;i<7;i++)
 	{

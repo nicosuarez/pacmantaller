@@ -15,6 +15,8 @@
 #include "Modelo.h"
 #include <list>
 
+class EscucharJugador;
+
 typedef std::list<EscucharJugador*> tListEscuchar;
 
 class ConnectionManager

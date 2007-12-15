@@ -3,8 +3,12 @@
 
 #include "Thread.h"
 #include "Modelo.h"
-#include "PacMan.h"
+#include "Coordenada.h"
 #include "Key.h"
+#include "CerrarServidorOp.h"
+
+class Fantasma;
+class PacMan;
 
 typedef bool* pBool;
 
@@ -65,7 +69,7 @@ public:
 	static tVertice* getVeticeDestino(Posicion* posicion);
 	static tArco* getAristaActual(Posicion* posicion);
 	void doblarJugador(Jugador* jugador,bool izq);
-	
+	void analizarColision(PacMan* pacman,Fantasma* fantasma);
 	
 	Mensaje* armarMensajeStatus();
 

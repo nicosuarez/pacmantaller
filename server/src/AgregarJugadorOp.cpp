@@ -122,7 +122,7 @@ Posicion AgregarJugadorOp::getPosicionInicialFantasmas()
 	
 	tVertice* vSalida = modelo->GetMapa()->getGrafo()->getVertice(idVertice);
 	
-	//Toma el primer arco
+	//Toma el arco se la orientacion de la casa
 	tArco* aristaSalida = vSalida->getArco(orientacion);
     
 	int aristaId = aristaSalida->getid();

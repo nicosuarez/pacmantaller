@@ -8,6 +8,7 @@
 #define EA_E4309321_8E59_4003_BC67_09BA7FB5090B__INCLUDED_
 
 #include "Personaje.h"
+#include "AgregarJugadorOp.h"
 
 /**
  * Clase que modela el personaje Fantasma
@@ -28,6 +29,7 @@ public:
 	bool operator==( int tipo )const;
 	int getRadio()const;
 	int getPuntaje(){return puntaje;};
+	void irACasa();
 	
 private:
 	/**

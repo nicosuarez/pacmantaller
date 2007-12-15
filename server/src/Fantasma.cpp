@@ -46,6 +46,11 @@ bool Fantasma::IsVisible(){
 	return visible;
 }
 
+void Fantasma::irACasa()
+{
+	Posicion posicion = AgregarJugadorOp::getPosicionInicialFantasmas();
+	this->SetPosicion(posicion);
+}
 
 /**
  * Determina si el fantasma esta en estado invisible que ocurre cuando un pacman
