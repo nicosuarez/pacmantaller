@@ -95,11 +95,13 @@ void RecibirMensaje::agregarElemento( PktElemento *pktElemento )
 	{
 		case (int)tSalidaPacman:
 		{
+			cout<<" SETEO SALIDA PACMAN CON COORD "<<coord.x<<" "<<coord.y<<" "<<coord.z<<endl;
 			Modelo::getInstance()->setSalidaPacMan( new SalidaPacMan(posicion, coord, orientacion) );
 			break;
 		}
 		case (int)tCasaFantasmas:
 		{			
+			cout<<" SETEO CASA DE FANTASMA CON COORD "<<coord.x<<" "<<coord.y<<" "<<coord.z<<endl;
 			Modelo::getInstance()->setCasaFantasmas(  new CasaFantasmas( posicion, coord, orientacion) );
 			break;
 		}
@@ -335,36 +337,34 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 		
 		if( idJugador == 0 ) {
 			personaje = new PacMan();
-			
-			cout<<"es pacman"<<endl;
 						
 			ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
-			cout<<"cargue obj y tga de pacman"<<endl;	
+			cout<<"cargue obj y tga de PACMAN"<<endl;	
 			
-			personaje->SetModel( model);
-			
-			coordInicial = Modelo::getInstance()->getSalidaPacMan()->getCoordenada();
-			cout<<"coordInicial: "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;
+			personaje->SetModel( model);			
+					 
+			//if (Modelo::getInstance()->getSalidaPacMan() ==NULL )  cout<<"ERROR"<<endl;
+			//coordInicial = (Modelo::getInstance()->getSalidaPacMan())->getCoordenada();
+			//cout<<"obtengo coord"<<endl;
+			//cout<<"coordInicial: "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;*/
 			
 		}
 		else{
 			personaje = new Fantasma();
+
+			//coordInicial = Modelo::getInstance()->getCasaFantasmas()->getCoordenada();
 			
-			cout<<"es fantasma"<<endl;
-			coordInicial = Modelo::getInstance()->getCasaFantasmas()->getCoordenada();			
 			ObjLoader::cargarModelo(*model,OBJ_PATH_FANTASMA,TEX_PATH_FANTASMA);
-			cout<<"cargue obj y tga de pacman"<<endl;
+			cout<<"cargue obj y tga de FANTASMA"<<endl;			
 			personaje->SetModel( model);
-			
-		cout<<"personaje->SetModel( model);"<<endl;
-			
+					
 			
 		}
 	}
-	else {		
+	/*else {		
 		coordInicial = buscarCoordenada(posicion.getVertice());
-	}
-			
+	}*/
+	coordInicial = buscarCoordenada(posicion.getVertice());
 	
 	float incremento = calcularIncremento(posicion.getPosicionArista());
 	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
@@ -418,8 +418,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			//cout<<"avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;
 		}
 		
-		//camara.setOjo(coordT);//TODO extern de cliente.cpp
-		//camara.setCentro(coordCentro);
+		camara.setOjo(coordT);//TODO extern, posible mutex
+		camara.setCentro(coordCentro);
 
 	}
 	
@@ -456,7 +456,7 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 		int direccion = (int)pktPosicion->direccion;
 		int idVertice = getIdVertice( idArista, direccion, modelo->getMapa()->getAncho() );
 		
-		cout<<"recibi: "<<idJugador<<" "<<idArista<<" "<<posicionArista<<endl;
+		cout<<"recibi: IDJUG: "<<idJugador<<" IDARISTA: "<<idArista<<" POSARISTA: "<<posicionArista<<endl;
 		Posicion posicion( idVertice, idArista, posicionArista, direccion );
 		
 		agregarPersonaje( idJugador, posicion);
@@ -530,5 +530,6 @@ Coordenada RecibirMensaje::buscarCoordenada(int idVert)
 			i++;
 		}
 	}
+	if (!encontrado) cout<<"NO PUEDE SER QUE NO EXISTA"<<endl;
 	return coord;
 }
