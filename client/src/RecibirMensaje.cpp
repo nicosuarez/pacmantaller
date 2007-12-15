@@ -15,6 +15,7 @@ RecibirMensaje::~RecibirMensaje()
 
 void RecibirMensaje:: main()
 {
+	cout<<"empiezo a recibir msgs"<<endl;
 	this->recibirMensaje();
 }
 
@@ -294,7 +295,7 @@ int RecibirMensaje::getIdVertice( int idArista, int direccion, int anchoMapa )
 
 
 int RecibirMensaje::calcularEje(int idVertice,int idArista,int ancho) {
-	
+	cout<<"calculo eje"<<endl;
 	int fila=idVertice/ancho;
 	
 	if (idArista==idVertice+fila*ancho || idArista==idVertice+ancho*(fila+2)) 
@@ -306,6 +307,8 @@ int RecibirMensaje::calcularEje(int idVertice,int idArista,int ancho) {
 
 
 float RecibirMensaje::calcularIncremento(int posicionArista) {
+	
+	cout<<"calculo inc"<<endl;
 	if (posicionArista!=0) {
 		return ((posicionArista+1)/64.0)*LONGVERTICE;	
 	}
@@ -326,23 +329,36 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	//Si el jugador no existe, lo agrega. 
 	if( personaje == NULL )
 	{
+		cout<<"no existe agrego"<<endl;
 		agregarPersonaje = true;
 		Model* model = new Model();
 		
 		if( idJugador == 0 ) {
-			coordInicial = Modelo::getInstance()->getSalidaPacMan()->getCoordenada();			
+			personaje = new PacMan();
+			
+			cout<<"es pacman"<<endl;
+						
 			ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
+			cout<<"cargue obj y tga de pacman"<<endl;	
+			
 			personaje->SetModel( model);
 			
-			personaje = new PacMan();
+			coordInicial = Modelo::getInstance()->getSalidaPacMan()->getCoordenada();
+			cout<<"coordInicial: "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;
 			
 		}
 		else{
+			personaje = new Fantasma();
+			
+			cout<<"es fantasma"<<endl;
 			coordInicial = Modelo::getInstance()->getCasaFantasmas()->getCoordenada();			
 			ObjLoader::cargarModelo(*model,OBJ_PATH_FANTASMA,TEX_PATH_FANTASMA);
+			cout<<"cargue obj y tga de pacman"<<endl;
 			personaje->SetModel( model);
 			
-			personaje = new Fantasma();
+		cout<<"personaje->SetModel( model);"<<endl;
+			
+			
 		}
 	}
 	else {		
@@ -353,15 +369,16 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	float incremento = calcularIncremento(posicion.getPosicionArista());
 	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
 	
+	cout<<"saco inc y eje: "<<incremento<<" "<<eje<<endl; 
 	if ( eje == 2 ) {//eje X
-		
+		cout<<"ejex "<<endl;
 		coordT.x=coordInicial.x+incremento;
 		coordT.y=coordInicial.y;
 		coordT.z=coordInicial.z;	
 					
 	}
 	else { //eje Z
-		
+		cout<<"ejez "<<endl;
 		coordT.x=coordInicial.x;
 		coordT.y=coordInicial.y;
 		coordT.z=coordInicial.z-incremento;
@@ -422,6 +439,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 
 void RecibirMensaje::recibirPosiciones( int cantJugadores )
 {
+	cout<<"****recibirPosiciones"<<endl;
+	cout<<"cant Jugadores: "<<cantJugadores<<endl;
 	int tamanio = cantJugadores*sizeof(PktPosiciones);
 	char *posiciones = new char[ tamanio ];
 	socket->recibir( posiciones, tamanio );
@@ -437,6 +456,7 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 		int direccion = (int)pktPosicion->direccion;
 		int idVertice = getIdVertice( idArista, direccion, modelo->getMapa()->getAncho() );
 		
+		cout<<"recibi: "<<idJugador<<" "<<idArista<<" "<<posicionArista<<endl;
 		Posicion posicion( idVertice, idArista, posicionArista, direccion );
 		
 		agregarPersonaje( idJugador, posicion);
@@ -448,7 +468,7 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 
 void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 {
-	//cout<<"****recibir posiciones"<<endl;
+	
 	Modelo *modelo = Modelo::getInstance();
 	//Recibo la puntuacion
 	int puntuacion;
@@ -456,6 +476,7 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	puntuacion = ntohl(puntuacion);
 	modelo->setPuntuacion( puntuacion );
 		
+	cout<<"voy a entrar a recibir posiciones"<<endl;
 	//Recibo las posiciones de los jugadores
 	recibirPosiciones( ((int)cabecera->aux)+1 );
 	

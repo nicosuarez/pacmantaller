@@ -232,6 +232,7 @@ int ObjLoader::cargarModelo(Model& model,const char* obj_filename, const char* t
 
 	//no hay error
 	if (r == 0) {
+		//cout<<"no hay error de tga ni obj"<<endl;
 		int n,m,k,l,i;
 		
 		n = points.size();
@@ -264,8 +265,10 @@ int ObjLoader::cargarModelo(Model& model,const char* obj_filename, const char* t
 		model.norSize = k;
 		model.triSize = m;
 		model.uvSize  = l;
-				
+		
+		//cout<<"copie datos"<<endl;		
 		if (tga_filename != NULL) {
+			//cout<<"copio tga"<<endl;
 			model.tex = new Texture;
 			model.tex->data = (GLubyte*)data;
 			model.tex->width = w;
@@ -279,8 +282,9 @@ int ObjLoader::cargarModelo(Model& model,const char* obj_filename, const char* t
 		else {
 			model.tex = NULL;
 		}
-
+		//cout<<"ahora CreateBoundingBox(model);"<<endl;
 		CreateBoundingBox(model);
 	}
+	cout<<"ok OBJloader"<<endl;
 	return r;
 }

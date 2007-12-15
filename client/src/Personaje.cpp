@@ -82,6 +82,18 @@ void Personaje::SetVelocidad(int newVal){
 	velocidad = newVal;
 }
 
+void Personaje::SetModel(Model* model){
+	this->model=model;
+}
+
+void Personaje::SetCoordenadaR(Coordenada cRotate) { 
+	this->cRotate=cRotate;
+}
+
+void Personaje::SetCoordenadaT(Coordenada cTranslate) { 
+	this->cTranslate=cTranslate;
+}
+
 
 void Personaje::renderizar() {
 	

@@ -23,7 +23,9 @@
 #include "ObjLoader.h"
 #include "Model.h"
 #include "LogResource.h"
+#include "Camara.h"
 
+//extern Camara camara;
 
 class RecibirMensaje : public Thread
 {
