@@ -292,11 +292,29 @@ int RecibirMensaje::getIdVertice( int idArista, int direccion, int anchoMapa )
 	return -1;
 }
 
+
+int calcularEje(int idVertice,int idArista,int ancho) {
+	int fila=idVertice/ancho;
+	if (idArista==idVertice+fila*ancho || idArista==idVertice+ancho*(fila+2)) return 1;
+	else return 2;
+	
+}
+
+
+float calcularIncremento(int posicionArista) {
+	if (posicionArista!=0) {
+		return ((posicionArista+1)/64.0)*LONGVERTICE;	
+	}
+	return 0;
+
+}
+
 void RecibirMensaje::recibirPosiciones( int cantJugadores )
 {
 	int tamanio = cantJugadores*sizeof(PktPosiciones);
 	char *posiciones = new char[ tamanio ];
 	socket->recibir( posiciones, tamanio );
+	
 	int delta = 0;
 	for( int i=0; i<cantJugadores; i++ )
 	{
@@ -307,19 +325,88 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 		int posicionArista = (int)pktPosicion->posicion;
 		int direccion = (int)pktPosicion->direccion;
 		int idVertice = getIdVertice( idArista, direccion, modelo->getMapa()->getAncho() );
+		
 		Posicion posicion( idVertice, idArista, posicionArista, direccion );
 		
-		Personaje *personaje = modelo->getPersonaje( idJugador);
+		Coordenada coordT;
+		Coordenada coordCentro;
+		
+		Personaje *personaje = modelo->getPersonaje( idJugador);		
+			
 		//Si el jugador no existe, lo agrega. 
 		if( personaje == NULL )
 		{
 			if( idJugador == 0 )
-				personaje = new PacMan;
+				personaje = new PacMan();
 			else
-				personaje = new Fantasma;
+				personaje = new Fantasma();
 		}
+				
+			
+		//Arista arista = buscarAristaPacman(ep.idArista);
+		Coordenada coordInicial=buscarCoordenada(idVertice);
+		float incremento = calcularIncremento(posicionArista);
+		if (calcularEje(idVertice,idArista,modelo->getMapa()->getAncho())==2) {
+
+			
+			coordT.x=coordInicial.x+incremento;
+			coordT.y=coordInicial.y;
+			coordT.z=coordInicial.z;		
+			
+					
+			if (direccion==1) {
+				coordCentro.x = coordT.x + 1;					
+			} else { //direccion=0 izquierda 
+				coordCentro.x = coordT.x - 1;
+			}
+			coordCentro.y = coordT.y;
+			coordCentro.z = coordT.z;				
+			//cout<<"avanzo a Ojo: "<<posPacman.x<<" "<<posPacman.y<<"  "<<posPacman.z<<endl;
+			//cout<<"avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;
+			
+		}
+		else {
+			
+			coordT.x=coordInicial.x;
+			coordT.y=coordInicial.y;
+			coordT.z=coordInicial.z-incremento;
+			
+			
+			if (direccion==1) {
+				coordCentro.z = coordT.z - 1; // porque avanza en la parte negativa del eje z
+			} else { //direccion=0 izquierda 
+				coordCentro.z = coordT.z + 1;
+			}
+			coordCentro.x = coordT.x;
+			coordCentro.y = coordT.y;
+			
+			//cout<<"2-avanzo a Ojo: "<<posPacman.x<<" "<<posPacman.y<<"  "<<posPacman.z<<endl;
+			//cout<<"2-avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;
+					
+		}
+		//camara.setOjo(coordT);//TODO extern de cliente.cpp
+		//camara.setCentro(coordCentro);
+		
+		//personaje->SetCoordenadaR(coordR);
+		personaje->SetCoordenadaT(coordT);
 		//Actualiza la posicion
-		personaje->SetPosicion( posicion );
+		personaje->SetPosicion(posicion);
+		
+		
+		Model* model = new Model();
+		ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
+		personaje->SetModel( model);
+		
+		if( idJugador == 0 )
+			Modelo::getInstance()->getPersonajes().push_back(personaje);
+		else
+			Modelo::getInstance()->getPersonajes().push_back(personaje );
+		
+		
+		
+				
+				
+				
 		delta += sizeof(PktPosiciones);
 	}
 	delete []posiciones;

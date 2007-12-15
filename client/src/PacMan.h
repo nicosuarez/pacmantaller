@@ -18,6 +18,7 @@ class PacMan : public Personaje
 public:
 	PacMan();
 	PacMan(Posicion& posicion);
+	PacMan(Posicion& posicion, Coordenada cTranslate,Coordenada cRotate,Model* model);
 	virtual ~PacMan();
 
 	

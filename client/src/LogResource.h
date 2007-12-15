@@ -22,7 +22,7 @@
 #define ERR_CARGANDO_TEXTURA "Error cargando textura\n"
 
 #define TEX_PATH_SUELO "Imagenes/suelo.tga"
-#define TEX_PATH_PARED "Imagenes/pared.tga"
+#define TEX_PATH_PARED "Imagenes/ladrillo.tga"
 #define TEX_PATH_PACMAN "Imagenes/pacman.tga"
 #define TEX_PATH_FANTASMA "Imagenes/fantasma.tga"
 #define OBJ_PATH_PACMAN "Obj/pacman.obj"
