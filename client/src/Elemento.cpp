@@ -37,6 +37,12 @@ Estado Elemento::getEstado()const
 	return estado;
 }
 
+
+Coordenada Elemento::getCoordenada() 
+{
+	return this->coord;
+}
+
 void Elemento::setOrientacion( Orientacion orientacion)
 {
 	this->orientacion = orientacion;
@@ -63,4 +69,5 @@ void Elemento::setCoordenada( Coordenada coord)
 {
 	this->coord = coord;
 }
+
 
