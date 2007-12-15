@@ -15,6 +15,7 @@
 #include "Operacion.h"
 #include "Jugador.h"
 #include "PacMan.h"
+#include "Fantasma.h"
 #include "AppSettings.h"
 #include "Mapa.h"
 #include "Mundo.h"
@@ -26,11 +27,13 @@
 #include "SalidaPacMan.h"
 #include "Dispatcher.h"
 #include "ActualizarJuego.h"
+#include "AgregarJugadorOp.h"
 
 using std::string;
 
 class Operacion;
 class PacMan;
+class Fantasma;
 
 typedef std::list<Elemento*> tListElementos; 
 typedef std::queue<Operacion*> tQueueOperacion;

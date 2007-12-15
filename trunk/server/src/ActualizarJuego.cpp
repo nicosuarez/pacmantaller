@@ -187,7 +187,8 @@ bool ActualizarJuego::girar(Jugador* jugador,tVertice* vertice
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::salirDelJuego(){
-	
+	CerrarServidorOp* cerrarServidorOp = new CerrarServidorOp();
+	Modelo::getInstance()->agregarOperacion(cerrarServidorOp);
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::noPresionoKey(Jugador* jugador){
@@ -318,28 +319,44 @@ void ActualizarJuego::actualizar()
 	//this->detectarColisiones();
 }
 
+void ActualizarJuego::analizarColision(PacMan* pacman,Fantasma* fantasma)
+{
+	if(pacman->IsPowerUp())
+	{
+		//Se muere el fantasma y retorna a la casa
+		fantasma->irACasa();
+		//el pacman incrementa su puntaje
+		pacman->incPuntaje(fantasma->getPuntaje());
+	}
+	else
+	{
+		this->salirDelJuego();
+	}
+}
+
 void ActualizarJuego::detectarColisiones()
 {
 	Modelo* modelo=Modelo::getInstance();
+	Mapa* mapa = modelo->GetMapa();
 	tListJugadores jugadores=modelo->GetJugadores();
 	itListJugadores it;
 	
 	//Comparo la posicion del pacman con la de cada fantasma.
-	Posicion* posPacMan=modelo->getPacMan()->GetPosicion();
+	PacMan* pacman = modelo->getPacMan();
+	Posicion* posPacMan=pacman->GetPosicion();
 	
 	for(it=jugadores.begin();it!=jugadores.end();it++)
 	{
 		Jugador* jugador = *it;
 		if(jugador->GetIdPersonaje()!=PacMan::PACMAN_TYPE)
 		{
-			Posicion* posFantasma = jugador->getPersonaje()->GetPosicion();
-			if(estaDentroDelMargen(posPacMan,posFantasma))
+			Fantasma* fantasma = (Fantasma*)jugador->getPersonaje();
+			Posicion* posFantasma = fantasma->GetPosicion();
+			if(Coordenada::calcularDistancia(posPacMan,posFantasma,mapa) < pacman->getRadio()+fantasma->getRadio())
 			{
-				
+				this->analizarColision(pacman,fantasma);
 			}
 		}
-			
-		
 	}
 }
 
