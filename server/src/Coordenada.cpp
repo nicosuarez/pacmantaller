@@ -32,9 +32,9 @@ Coordenada Coordenada::transformarPosicion(Posicion* posicion,Mapa* mapa)
 	int alto=mapa->getAlto();
 	int idVertice=posicion->getVertice();
 	int numFila=idVertice/ancho;
-	int posArista= posicion->getArista();
+	double posArista= posicion->getPosicionArista();
 	
-	tArco* arcoActual = NULL;//ActualizarJuego::getAristaActual(posicion);
+	tArco* arcoActual = ActualizarJuego::getAristaActual(posicion);
 	
 	int oriActual = arcoActual->getElemento();
 	
@@ -76,7 +76,13 @@ double Coordenada::calcularDistancia(Posicion* pos1,Posicion* pos2,Mapa* mapa)
 	double dX = coord1.getX() - coord2.getX();
 	double dY = coord1.getY() - coord2.getY();
 	
+	std::cout<<"Coord1("<<coord1.getX()<<","<<coord1.getY()<<") Coord2("<<coord2.getX()<<","<<coord2.getY()<<") ";
+	
 	double dist = pow(dX,2)+pow(dY,2);
-	return sqrt(dist);
+	dist = sqrt(dist);
+	
+	std::cout<<"Distancia: "<< dist <<"\n";
+	
+	return dist;
 }
 

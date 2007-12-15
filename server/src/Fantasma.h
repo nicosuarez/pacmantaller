@@ -27,7 +27,7 @@ public:
 	bool IsVisible();
 	void SetVisible(bool visible);
 	bool operator==( int tipo )const;
-	int getRadio()const;
+	double getRadio()const;
 	int getPuntaje(){return puntaje;};
 	void irACasa();
 	
@@ -35,13 +35,13 @@ private:
 	/**
 	 * Velocidad inicial constante del fantasma
 	 */
-	static const int velocidadInicial=20;
+	static const int velocidadInicial=16;
 	
 	
 	/**
 	 * Radio constante del fantasma
 	 */
-	static const int radio=32;
+	static const double radio=0.5;
 	
 	/**
 	 * Determina si el fantasma esta en estado invisible que ocurre cuando un pacman

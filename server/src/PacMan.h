@@ -25,7 +25,7 @@ public:
 	static const int PACMAN_TYPE = 0;
 	int GetRol()const;
 	int GetVelocidad();
-	int getRadio()const;
+	double getRadio()const;
 	bool IsPowerUp();
 	void SetPowerUp(bool powerUp);
 	bool operator==( int tipo )const;
@@ -50,7 +50,7 @@ private:
 	/**
 	 * Radio constante del pacman
 	 */
-	static const int radio = 32;
+	static const double radio = 0.5;
 
 };
 #endif // !defined(EA_B035D27E_31A5_4b0f_B082_3F7AF1A2C886__INCLUDED_)

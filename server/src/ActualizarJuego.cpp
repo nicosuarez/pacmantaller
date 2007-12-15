@@ -18,11 +18,17 @@ ActualizarJuego::ActualizarJuego(unsigned int updateTime)
 	std::cout<<"Construyo ActualizarJuego\n";
 }
 
+void ActualizarJuego::esperarAgregarJugadores()
+{
+	if(Modelo::getInstance()->GetJugadores().empty())
+		Modelo::getInstance()->getEsperarAgregarJugadores().esperar();
+}
+
 void ActualizarJuego::main()
 {
 	std::cout<<"Corre ActualizarJuego\n";
 	
-	Modelo::getInstance()->getEsperarAgregarJugadores().esperar();
+	this->esperarAgregarJugadores();
 	
 	while(!seFinalizoElNivel())
 	{
@@ -186,9 +192,8 @@ bool ActualizarJuego::girar(Jugador* jugador,tVertice* vertice
 	return giro;
 }
 /*----------------------------------------------------------------------------*/
-void ActualizarJuego::salirDelJuego(){
-	CerrarServidorOp* cerrarServidorOp = new CerrarServidorOp();
-	Modelo::getInstance()->agregarOperacion(cerrarServidorOp);
+void ActualizarJuego::desconectarJugador(){
+	//TODO:Agregar logica cuando el jugador toca el key esc
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::noPresionoKey(Jugador* jugador){
@@ -265,7 +270,6 @@ void ActualizarJuego::actualizarPosiciones()
 	
 	for(it=jugadores.begin();it!=jugadores.end();it++)
 	{
-		
 		Jugador* jugador = *it;
 		keyPressed=jugador->GetKeyPressed();
 		switch (keyPressed)
@@ -288,7 +292,7 @@ void ActualizarJuego::actualizarPosiciones()
 				break;
 			case KEY_ESCAPE:
 				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "ESC" <<"\n";
-				salirDelJuego();
+				desconectarJugador();
 				break;
 				
 			default: //NONE
@@ -316,7 +320,18 @@ void ActualizarJuego::actualizar()
 {
 	this->actualizarPosiciones();
 	//this->actualizarElementos();
-	//this->detectarColisiones();
+	this->detectarColisiones();
+	this->ganoPacman();
+}
+/*----------------------------------------------------------------------------*/
+//Si el pacman comio todas las pastillas y powersUp gano el nivel
+void ActualizarJuego::ganoPacman()
+{
+	tListElementos* elementos = Modelo::getInstance()->GetElementos();
+	if(elementos->size()==0)
+	{
+		this->seFinalizoElNivel(true);
+	}
 }
 
 void ActualizarJuego::analizarColision(PacMan* pacman,Fantasma* fantasma)
@@ -330,10 +345,12 @@ void ActualizarJuego::analizarColision(PacMan* pacman,Fantasma* fantasma)
 	}
 	else
 	{
-		this->salirDelJuego();
+		//Si el pacman fue comido termina el nivel
+		this->seFinalizoElNivel(true);
+		//TODO:Enviar stop estado Perdio Pacman!
 	}
 }
-
+/*----------------------------------------------------------------------------*/
 void ActualizarJuego::detectarColisiones()
 {
 	Modelo* modelo=Modelo::getInstance();
@@ -354,26 +371,13 @@ void ActualizarJuego::detectarColisiones()
 			Posicion* posFantasma = fantasma->GetPosicion();
 			if(Coordenada::calcularDistancia(posPacMan,posFantasma,mapa) < pacman->getRadio()+fantasma->getRadio())
 			{
+				std::cout<<"Chocaron\n";
 				this->analizarColision(pacman,fantasma);
 			}
 		}
 	}
 }
-
-//Valida si el pacman y el fantasma estan dentro del rango de colision.
-bool ActualizarJuego::estaDentroDelMargen(Posicion* posPacman,Posicion* posFantasma)
-{
-	//posPacMan->
-	return false;
-}
-
-bool ActualizarJuego::chocaron()
-{
-	int punt=Modelo::getInstance()->GetPuntuacion();
-	std::cout<<punt;
-	return true;
-}
-
+/*----------------------------------------------------------------------------*/
 bool ActualizarJuego::seFinalizoElNivel()
 {
 	return *finalizoNivel;

@@ -31,7 +31,7 @@ int PacMan::GetRol()const{
 /**
  * El radio da una idea del volumen del personaje, y usa para detectar colisiones.
  */
-int PacMan::getRadio()const
+double PacMan::getRadio()const
 {
 	return PacMan::radio;
 }

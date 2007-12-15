@@ -34,13 +34,9 @@ public:
 	 */
 	void detectarColisiones();
 	/**
-	 * Valida si el pacman y el fantasma estan dentro del rango de colision.
-	 */
-	bool estaDentroDelMargen(Posicion* posPacman,Posicion* posFantasma);
-	/**
 	 * Determina si el pacman colisiono con algun fantasma
 	 */
-	static bool chocaron();
+	void analizarColision(PacMan* pacman,Fantasma* fantasma);
 	/**
 	 * Determina se termino el nivel o no
 	 */
@@ -55,6 +51,7 @@ public:
 	void actualizar();
 	void actualizarPosiciones();
 	void actualizarElementos();
+	void esperarAgregarJugadores();
 	
 	
 	bool girar(Jugador* jugador,tVertice* vertice, Orientacion orientacion,bool izq);
@@ -64,12 +61,12 @@ public:
 	void presionoKeyAbajo(Jugador* jugador);
 	void presionoKeyIzquierda(Jugador* jugador);
 	void presionoKeyDerecha(Jugador* jugador);
-	void salirDelJuego();
+	void desconectarJugador();
 	void noPresionoKey(Jugador* jugador);
 	static tVertice* getVeticeDestino(Posicion* posicion);
 	static tArco* getAristaActual(Posicion* posicion);
 	void doblarJugador(Jugador* jugador,bool izq);
-	void analizarColision(PacMan* pacman,Fantasma* fantasma);
+	void ganoPacman();
 	
 	Mensaje* armarMensajeStatus();
 

@@ -2,8 +2,7 @@
 #define COORDENADA_H_
 
 #include "Posicion.h"
-#include "Mapa.h"
-//#include "ActualizarJuego.h"
+#include "ActualizarJuego.h"
 #include <math.h>
 
 class Coordenada
