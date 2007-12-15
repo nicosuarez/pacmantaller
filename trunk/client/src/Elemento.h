@@ -48,6 +48,9 @@ public:
 	Orientacion getOrientacion()const;
 	
 	Estado getEstado()const;
+
+	Coordenada getCoordenada(); 
+
 	
 	void setOrientacion( Orientacion orientacion);
 	

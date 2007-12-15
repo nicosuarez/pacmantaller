@@ -56,6 +56,12 @@ private:
 	RecibirMensaje(const RecibirMensaje&);
 	RecibirMensaje& operator=(const RecibirMensaje&);
 	
+
+	int calcularEje(int idVertice,int idArista,int ancho);
+	float calcularIncremento(int posicionArista);
+	void agregarPersonaje(int idJugador, Posicion posicion);
+
+	
 public:
 	RecibirMensaje( Socket *socket );
 	
