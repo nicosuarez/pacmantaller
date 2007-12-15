@@ -30,7 +30,7 @@ void Config::setInstance(string mundoXmlPath,int port,int minJugadores,
     }
 }
 
-Config::Config(string mundoXmlPath,int port,int minJugadores,int maxJugadores,
+Config::Config(string mundoXmlPath,int port,size_t minJugadores,size_t maxJugadores,
 	           bool com_fantasmas,int vidas,string archivoLog){
 	this->mundoXmlPath=mundoXmlPath;
 	this->port=port;

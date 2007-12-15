@@ -34,6 +34,7 @@ Modelo::Modelo(pBool finalizoJuego,pBool cerroServidor):dispatcher(&jugadores, f
 	this->cerroServidor=cerroServidor;
 	this->puntuacion = 0;
 	this->dispatcher.run();
+	//this->elementos = new tList
 }
 /*----------------------------------------------------------------------------*/
 Modelo::Modelo():dispatcher(&jugadores, finalizoJuego, &m_jugadores){
@@ -64,8 +65,11 @@ void Modelo::eliminarListaBonus()
 {
 	tListElementos::iterator it;
 	for( it = bonus.begin(); it != bonus.end(); it++ )
+	{
+		std::cout<<"Elimina Bonus:"<<(*it)->getPosicion()<<"\n";
 		delete (*it);
-
+		(*it)=NULL;
+	}
 	bonus.clear();
 }
 /*----------------------------------------------------------------------------*/
@@ -73,7 +77,11 @@ void Modelo::eliminarListaElementos()
 {
 	tListElementos::iterator it;
 	for( it = elementos.begin(); it != elementos.end(); it++ )
+	{
+		std::cout<<"Elimina elemento:"<<(*it)->getPosicion()<<"\n";
 		delete (*it);
+		(*it)=NULL;
+	}
 
 	elementos.clear();
 }
@@ -106,7 +114,7 @@ void Modelo::quitarJugador( int idJugador )
 		{
 			delete (*it);
 			jugadores.erase( it );
-			return;
+			break;
 		}
 	}
 	m_jugadores.unlock();
@@ -118,7 +126,6 @@ void Modelo::agregarElemento( Elemento * elemento )
 	this->elementos.push_back(elemento);
 	m_elemento.unlock();
 }
-
 /*----------------------------------------------------------------------------*/
 void Modelo::quitarElemento( int idPosicion )
 {
@@ -130,7 +137,7 @@ void Modelo::quitarElemento( int idPosicion )
 		{
 			delete (*it);
 			elementos.erase( it );
-			return;
+			break;
 		}
 	}
 	m_elemento.unlock();
@@ -146,16 +153,52 @@ void Modelo::agregarBonus( Elemento * bonus )
 Elemento* Modelo::getBonus( int idPosicion )
 {
 	tListElementos::iterator it;
+	Elemento* elemento = NULL;
 	m_bonus.lock();
 	for( it = bonus.begin(); it != bonus.end(); it++ )
 	{
-		if( (*it)->getPosicion() == idPosicion )
+		if((*it)->getPosicion()==idPosicion)
 		{
-			return *it;
+			elemento =  (*it);
 		}
 	}
 	m_bonus.unlock();
-	return NULL;
+	return elemento;
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::cambiarSiguienteNivel()
+{
+	this->mundo->getNiveles()->pop();
+	
+	//Agrega los jugadores al proximo nivel en caso de haber.
+	tListJugadores::iterator it;
+	Jugador* jugador = NULL;
+	if(this->hayNiveles())
+	{
+		m_jugadores.lock();
+		for( it = jugadores.begin(); it != jugadores.end(); it++ )
+		{
+			jugador = (*it);
+			AgregarJugadorOp* agregar = new AgregarJugadorOp(jugador);
+			this->agregarOperacion(agregar);
+		}
+		m_jugadores.unlock();
+	}
+	
+}
+/*----------------------------------------------------------------------------*/
+bool Modelo::estaJugando(Jugador* jugador)
+{
+	tListJugadores::iterator it;
+	bool esta = false;
+	m_jugadores.lock();
+	for( it = jugadores.begin(); it != jugadores.end(); it++ )
+	{
+		if((*it)->GetIdJugador()== jugador->GetIdJugador())
+			esta=true;
+	}
+	m_jugadores.unlock();
+	return esta;
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::quitarBonus( int idPosicion )
@@ -168,7 +211,7 @@ void Modelo::quitarBonus( int idPosicion )
 		{
 			delete (*it);
 			bonus.erase( it );
-			return;
+			break;
 		}
 	}
 	m_bonus.unlock();
@@ -247,7 +290,6 @@ Elemento* Modelo::getElemento( int posicion )
 	return elemento;
 }
 /*----------------------------------------------------------------------------*/
-
 Jugador* Modelo::getJugador( int idJugador )
 {
 	itListJugadores it;
@@ -264,7 +306,19 @@ Jugador* Modelo::getJugador( int idJugador )
 	m_jugadores.unlock();
 	return jugador;
 }
-
+/*----------------------------------------------------------------------------*/
+void Modelo::eliminarPersonajes()
+{
+	itListJugadores it;
+	m_jugadores.lock();
+	for(it=jugadores.begin();it!=jugadores.end();it++)
+	{
+	    Personaje* personaje = (*it)->getPersonaje();
+		delete personaje;
+		personaje=NULL;
+	}
+	m_jugadores.unlock();
+}
 /*----------------------------------------------------------------------------*/
 int Modelo::GetPuntuacion()
 {
@@ -298,10 +352,8 @@ void Modelo::main(){
 		//Obtener el mapa del nivel.
 		string mapaPath = this->mundo->getNiveles()->front();
 		this->mapa = XmlParser::getMapa(mapaPath);
-		//Crear mensaje init
 		
-		std::cout<<"Esperando comienzo de nivel..\n";
-		this->esperarMinJugadoresEvent.esperar();
+		this->esperarMinJugadores();
 		
 		this->seFinalizoElNivel(false);
 		while(!this->seFinalizoElNivel())
@@ -309,14 +361,23 @@ void Modelo::main(){
 			std::cout<<"Procesando operaciones..\n";
 			this->ejecutarOperaciones();
 		}
-		this->mundo->getNiveles()->pop();
-		this->liberarNivel();
-		std::cout<<"Termino el nivel..\n";
+
+		this->cambiarSiguienteNivel();		
 	}
 	std::cout<<"Termino el Juego..\n";
 	//Libera el thread que inserta los jugadores al juego.
 	this->liberarStartJugadores();
+	//TODO:Liberar actualizar Juego
 }
+
+void Modelo::esperarMinJugadores()
+{
+	std::cout<<"Esperando comienzo de nivel..\n";
+	if(this->GetJugadores().size() < Config::getInstance()->GetMinJugadores())
+		this->esperarMinJugadoresEvent.esperar();
+	std::cout<<"Jugando nivel..\n";
+}
+
 /*----------------------------------------------------------------------------*/
 bool Modelo::hayNiveles()
 {
@@ -328,17 +389,9 @@ void Modelo::liberarNivel()
 	ActualizarJuego::getInstance()->join();
 	delete ActualizarJuego::getInstance();
 	
-	tListElementos* elementos;
-	itListElementos it;
-	elementos = this->GetElementos();
-	for(it=elementos->begin();it!=elementos->end();it++)
-	{
-		std::cout<<"Elimina elemento:"<<(*it)->getPosicion()<<"\n";
-		delete (*it);
-	}
-	
 	this->eliminarListaBonus();
-	//this->eliminarListaElementos();
+	this->eliminarPersonajes();
+	this->eliminarListaElementos();
 	
 	delete mapa;
 }
@@ -369,23 +422,18 @@ void Modelo::ejecutarOperaciones(){
 	{	
 		Operacion* operacion=getOperacion();
 		operacion->ejecutar();
-		/*tListJugadores jugadores;
-		itListJugadores it;
-		jugadores = this->GetJugadores();
-		for(it=jugadores.begin();it!=jugadores.end();it++)
-		{
-			std::cout<<"Esta jugando el jugador:"<<(*it)->GetIdJugador()<<"\n";
-		}*/
-		
-		this->desacolar();
-		//Mutex());
-
-		//Empieza actualizar el juego
-		ActualizarJuego::getInstance()->run();
+		this->desacolar();	
+		this->actualizarJuego();
 		
 		/* Espera la proxima operacion */
 		this->esperarRecibirOperaciones();
 	}
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::actualizarJuego()
+{
+	if(!this->seFinalizoElNivel())
+		ActualizarJuego::getInstance()->run();
 }
 /*----------------------------------------------------------------------------*/
 Operacion* Modelo::desacolar()
@@ -481,10 +529,23 @@ void Modelo::comerElementoDelVertice(tVertice* vertice)
 	}
 	if(elemento != NULL)
 	{
-		//Si encontro incrementa el puntaje y marca el estado FueComido
-		pacMan->incPuntaje(elemento->getPuntaje());
-		elemento->setEstado(FueComido);
+		if(elemento->getEstado()!=FueComido)
+		{
+			//Si encontro incrementa el puntaje y marca el estado FueComido
+			pacMan->incPuntaje(elemento->getPuntaje());
+			elemento->setEstado(FueComido);
+			this->mostrarElementoComido(elemento);
+		}
 	}
+	
 }
-
-
+/*----------------------------------------------------------------------------*/
+void Modelo::mostrarElementoComido(Elemento* elemento)
+{
+	if(elemento->getTipo()==tPastilla)
+		std::cout<<"PacMan come pastilla:" << elemento->getPosicion() << "\n";
+	if(elemento->getTipo()==tPowerup)
+		std::cout<<"PacMan come powerUp:" << elemento->getPosicion() << "\n";
+	if(elemento->getTipo()==tBonus)
+		std::cout<<"PacMan come bonus:" << elemento->getPosicion() << "\n";		
+}

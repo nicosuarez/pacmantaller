@@ -6,6 +6,7 @@
 #include "Coordenada.h"
 #include "Key.h"
 #include "CerrarServidorOp.h"
+#include "CambiarDeNivelOp.h"
 
 class Fantasma;
 class PacMan;
@@ -67,9 +68,13 @@ public:
 	static tArco* getAristaActual(Posicion* posicion);
 	void doblarJugador(Jugador* jugador,bool izq);
 	void ganoPacman();
+	void cambiarDeNivel();
 	
 	Mensaje* armarMensajeStatus();
 
+	//Destructor
+	~ActualizarJuego();
+	
 protected:
 	ActualizarJuego(unsigned int updateTime=5000);
 	ActualizarJuego(const ActualizarJuego&);

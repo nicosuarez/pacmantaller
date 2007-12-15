@@ -11,26 +11,7 @@ Operacion::Operacion(){
 
 }
 
-
-
 Operacion::~Operacion(){
 
 }
 
-
-/**
- * Metodo que encapsula la logica de la operacion.
- */
-void Operacion::internalProcess(){
-
-}
-
-
-/**
- * Metodo que valida la operacion. TRUE(exito),
- * * FALSE(error)
- */
-bool Operacion::validarOperacion(){
-
-	return false;
-}

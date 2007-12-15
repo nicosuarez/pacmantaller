@@ -20,7 +20,7 @@ protected:
 	Config();
 	Config(const Config&);
 	Config& operator= (const Config&);
-	Config(string mundoXmlPath,int port,int minJugadores,int maxJugadores,
+	Config(string mundoXmlPath,int port,size_t minJugadores,size_t maxJugadores,
 	       bool com_fantasmas,int vidas,string archivoLog);
 	
 private:
@@ -70,11 +70,11 @@ public:
 	/** 
 	 * Obtiene la Minima cantidad de jugadores para poder jugar simultaneamente.
 	 */
-	int GetMinJugadores(){return this->minJugadores;};
+ 	size_t GetMinJugadores(){return this->minJugadores;};
 	/** 
 	 * Obtiene la Maxima cantidad de jugadores para poder jugar simultaneamente.
 	 */
-	int GetMaxJugadores(){return this->maxJugadores;};
+ 	size_t GetMaxJugadores(){return this->maxJugadores;};
 	/** 
 	 * Si esta activado, cuando un fantasma ve al Pac-Man, automaticamente 
 	 * todos los demas fantasmas pueden verlo tambien.

@@ -11,6 +11,11 @@ ActualizarJuego* ActualizarJuego::getInstance ()
     return pActualizarJuego;
 }
 
+ActualizarJuego::~ActualizarJuego()
+{
+	ActualizarJuego::pActualizarJuego = NULL;
+}
+
 ActualizarJuego::ActualizarJuego(unsigned int updateTime)
 {
 	this->finalizoNivel=Modelo::getInstance()->getFinalizoNivel();
@@ -319,8 +324,9 @@ void ActualizarJuego::actualizarElementos()
 void ActualizarJuego::actualizar()
 {
 	this->actualizarPosiciones();
-	//this->actualizarElementos();
+	this->actualizarElementos();
 	this->detectarColisiones();
+	//this->cambiarDeNivel();
 	this->ganoPacman();
 }
 /*----------------------------------------------------------------------------*/
@@ -330,10 +336,18 @@ void ActualizarJuego::ganoPacman()
 	tListElementos* elementos = Modelo::getInstance()->GetElementos();
 	if(elementos->size()==0)
 	{
-		this->seFinalizoElNivel(true);
+		this->cambiarDeNivel();
+		//TODO:Enviar stop estado Gano Pacman!
 	}
 }
-
+/*----------------------------------------------------------------------------*/
+void ActualizarJuego::cambiarDeNivel()
+{
+	//Operacion CambiarDeNivelOp
+	CambiarDeNivelOp* cambiarNivel = new CambiarDeNivelOp();
+	Modelo::getInstance()->agregarOperacion(cambiarNivel);
+}
+/*----------------------------------------------------------------------------*/
 void ActualizarJuego::analizarColision(PacMan* pacman,Fantasma* fantasma)
 {
 	if(pacman->IsPowerUp())
@@ -346,7 +360,7 @@ void ActualizarJuego::analizarColision(PacMan* pacman,Fantasma* fantasma)
 	else
 	{
 		//Si el pacman fue comido termina el nivel
-		this->seFinalizoElNivel(true);
+		this->cambiarDeNivel();
 		//TODO:Enviar stop estado Perdio Pacman!
 	}
 }

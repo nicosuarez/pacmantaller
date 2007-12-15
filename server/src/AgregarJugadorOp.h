@@ -34,9 +34,5 @@ public:
 	//Retorna el rol que se le asgino al jugador
 	void asignarPersonaje();
 
-protected:
-	void internalProcess();
-	bool validarOperacion();
-
 };
 #endif // !defined(EA_D3BA0CF4_509D_4018_9D76_9DE0FEAE4FB9__INCLUDED_)

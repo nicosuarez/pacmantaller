@@ -11,10 +11,7 @@ class CerrarServidorOp : public Operacion
 public:
 	CerrarServidorOp();
 	bool ejecutar();
-	
-protected:
-	void internalProcess(){};
-	bool validarOperacion(){return false;};
+
 };
 
 #endif /*CERRARSERVIDOROP_H_*/
