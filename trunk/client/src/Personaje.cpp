@@ -15,8 +15,7 @@ Personaje::Personaje(Posicion& posicion){
 	this->posicion=posicion;
 }
 
-Personaje::Personaje(Posicion& posicion, Coordenada cTranslate, Model* model):posicion(posicion),
-cTranslate(cTranslate),model(model) {
+Personaje::Personaje(Posicion& posicion, Coordenada cTranslate, Coordenada cRotate, Model* model):posicion(posicion),cTranslate(cTranslate),cRotate(cRotate),model(model) {
 
 	/*cTranslate = Coordenada(0.0f, 0.0f, 0.0f);
 	cRotate = Coordenada(0.0f, 0.0f, 0.0f);
@@ -89,10 +88,10 @@ void Personaje::renderizar() {
 	glPushMatrix();
 	
 	glTranslatef(cTranslate.x, cTranslate.y, cTranslate.z);//(0,0,0) para el escenario 
-/*	glRotatef(cRotate.y, 0.0f, 1.0f, 0.0f);
-	glRotatef(cRotate.x, 1.0f, 0.0f, 0.0f);
-	glRotatef(cRotate.z, 0.0f, 0.0f, 1.0f);
-	glScalef(cScale.x, cScale.y, cScale.z);*/
+	//glRotatef(cRotate.y, 0.0f, 1.0f, 0.0f);
+	//glRotatef(cRotate.x, 1.0f, 0.0f, 0.0f);
+	//glRotatef(cRotate.z, 0.0f, 0.0f, 1.0f);
+	glScalef(0.02, 0.02, 0.02);
 	
 	if (model != NULL) {
 

@@ -32,7 +32,8 @@ EnviarMensaje *ptrEnviar = NULL;
 Textura	texSuelo;
 Textura	texPared;
 
-Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
+//Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
+Camara camara(Coordenada(5,0.3,-5),Coordenada(5,0.3,-5.5), Coordenada(0,1,0));
 
 GLfloat angcuad=0;
 
@@ -182,18 +183,28 @@ void dibujarPastillas() {
 	
 }
 
-void temp_setPosicionFantasma() {
+//void temp_setPosicionFantasma() {
 
-	Coordenada coord;
+/*/	Coordenada coord;
 	coord.x=5;
-	coord.y=2;
+	coord.y=0.3;
 	coord.z=-5;
 	Posicion posicion;
 	Model* model = new Model();
 	ObjLoader::cargarModelo(*model,OBJ_PATH_FANTASMA,TEX_PATH_FANTASMA);
 	Modelo::getInstance()->getPersonajes().push_back(new Fantasma( posicion, coord,model ));
+*/
+/*
+	Coordenada coordT,coordR;
+	coordT.x=5;
+	coordT.y=0.3;
+	coordT.z=-5;
+	Posicion posicion;
+	Model* model = new Model();
+	ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
+	Modelo::getInstance()->getPersonajes().push_back(new Fantasma( posicion, coordT,coordR,model ));
 
-}
+}*/
 
 void dibujarPersonajes() {
 	
@@ -201,7 +212,7 @@ void dibujarPersonajes() {
 	int posicionArista; //Posicion dentro de la arista 0-63
 	int direccion; //Direccion sobre la arista NORTE/SUR ESTE/OESTE
 	int idVertice; //Vertice*/
-	tListPersonaje personajes;
+	tListPersonaje personajes=Modelo::getInstance()->getPersonajes();
 	tListPersonaje::iterator itPersonajes;
 	for( itPersonajes = personajes.begin(); itPersonajes != personajes.end(); itPersonajes++ )
 	{			
@@ -369,7 +380,7 @@ void  iniciarGraficos(int argc, char** argv)
 	
 	initTexturas();		
 	transformarParedes(mapa);
-	temp_setPosicionFantasma(); 
+	//temp_setPosicionFantasma(); 
 	
 	//setearCoordenadasElementos();//del INIT
 	//setearCamaraInit();	

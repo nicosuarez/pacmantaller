@@ -24,7 +24,7 @@ public:
 	Personaje(Posicion& posicion);
 	
 	//****************//
-	Personaje(Posicion& posicion, Coordenada cTranslate,Model* model);
+	Personaje(Posicion& posicion, Coordenada cTranslate,Coordenada cRotate,Model* model);
 	
 	virtual ~Personaje();
 
@@ -35,10 +35,15 @@ public:
 	void SetId(int id);
 	void SetPosicion(Posicion posicion);
 	void SetVelocidad(int velocidad);
+	void SetModel(Model* model){this->model=model;}
+	
+	void SetCoordenadaR(Coordenada cRotate) { this->cRotate=cRotate;}
+	void SetCoordenadaT(Coordenada cTranslate) { this->cTranslate=cTranslate;} 
 	virtual bool operator==( int tipo )const = 0;
 	
 	//***********************//
 	virtual void renderizar();
+
 	
 private:
 	/**
@@ -57,11 +62,12 @@ protected:
 	int velocidad;
 	
 	//***************//
-	Coordenada cTranslate;
-	Model *model;
-	/*Coordenada cTranslate;//Translate
+	
+	
+	Coordenada cTranslate;//Translate
 	Coordenada cRotate;//Rotate
-	Coordenada cScale;//Scale*/
+	Coordenada cScale;//Scale
+	Model *model;
 
 };
 #endif // !defined(EA_93129EDB_E1C4_4602_9934_5696451996BE__INCLUDED_)

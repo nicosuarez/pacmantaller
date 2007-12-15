@@ -15,6 +15,10 @@ PacMan::PacMan(Posicion& posicion):Personaje(posicion){
 	this->isPowerUp=false;
 }
 
+PacMan::PacMan(Posicion& posicion, Coordenada cTranslate,Coordenada cRotate,Model* model):Personaje(posicion,cTranslate,cRotate,model) 
+{
+}
+
 PacMan::~PacMan(){
 
 }
