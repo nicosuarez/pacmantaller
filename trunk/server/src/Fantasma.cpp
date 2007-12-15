@@ -70,7 +70,7 @@ bool Fantasma::operator==( int tipo )const
 /**
  * El radio da una idea del volumen del personaje, y usa para detectar colisiones.
  */
-int Fantasma::getRadio()const
+double Fantasma::getRadio()const
 {
 	return Fantasma::radio;
 }

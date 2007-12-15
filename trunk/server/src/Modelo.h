@@ -125,6 +125,9 @@ public:
 	
 	void liberarStartJugadores();
 	
+	//Determina si quedan niveles en el mundo por jugar.
+	bool hayNiveles();
+	
 	void liberarNivel();
 	
 	void SetSalidaPacMan(SalidaPacMan& salidaPacMan);

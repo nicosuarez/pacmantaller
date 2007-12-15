@@ -46,8 +46,8 @@ Modelo::Modelo():dispatcher(&jugadores, finalizoJuego, &m_jugadores){
 Modelo::~Modelo(){
 
 	this->eliminarListaJugadores();
-	this->eliminarListaBonus();
-	this->eliminarListaElementos();
+	//this->eliminarListaBonus();
+	//this->eliminarListaElementos();
 	delete mundo;
 }
 /*----------------------------------------------------------------------------*/
@@ -292,7 +292,8 @@ void Modelo::main(){
 	//Obtener el mundo.
 	this->mundo = XmlParser::getMundo(Config::getInstance()->GetMundoXmlPath());
 	
-	while(!this->seFinalizoElJuego())
+	//Si no termino el juego y hay niveles. 
+	while(!this->seFinalizoElJuego() || this->hayNiveles())
 	{
 		//Obtener el mapa del nivel.
 		string mapaPath = this->mundo->getNiveles()->front();
@@ -309,12 +310,17 @@ void Modelo::main(){
 			this->ejecutarOperaciones();
 		}
 		this->mundo->getNiveles()->pop();
-		liberarNivel();
+		this->liberarNivel();
 		std::cout<<"Termino el nivel..\n";
 	}
 	std::cout<<"Termino el Juego..\n";
 	//Libera el thread que inserta los jugadores al juego.
 	this->liberarStartJugadores();
+}
+/*----------------------------------------------------------------------------*/
+bool Modelo::hayNiveles()
+{
+	return !mundo->getNiveles()->empty();
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::liberarNivel()
@@ -330,6 +336,9 @@ void Modelo::liberarNivel()
 		std::cout<<"Elimina elemento:"<<(*it)->getPosicion()<<"\n";
 		delete (*it);
 	}
+	
+	this->eliminarListaBonus();
+	//this->eliminarListaElementos();
 	
 	delete mapa;
 }

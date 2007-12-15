@@ -38,7 +38,7 @@ public:
 	
 	bool chocoConPared();
 	
-	virtual int getRadio()const=0;
+	virtual double getRadio()const=0;
 	
 private:
 	/**
