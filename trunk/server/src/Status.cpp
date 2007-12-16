@@ -21,20 +21,14 @@ Status::Status()
 		if( (*it)->getEstado() == FueComido )
 		{
 			elementos.push_back( *it );
-			//(*it)->setEstado( Eliminado );
 		}
 	}
 	
-	//Verifico si hay un powerUp nuevo o si alguno cambio de estado 
+	//Verifico si hay un Bonus nuevo o si alguno cambio de estado 
 	elementosModelo = modelo->GetBonus();
 	for( it = elementosModelo->begin(); it != elementosModelo->end(); it++ )
 	{
-		if( (*it)->getEstado() == FueComido )
-		{
-			elementos.push_back( *it );
-		//	(*it)->setEstado( Eliminado );
-		}
-		if( (*it)->getEstado() == Aparece || (*it)->getEstado() == Desaparece )
+		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Aparece || (*it)->getEstado() == Desaparece )
 			elementos.push_back( *it );
 	}
 }
@@ -96,8 +90,17 @@ char* Status::Serialize()
 		elemento->estado = (*it)->getEstado();
 		elemento->posicion = (*it)->getPosicion();
 		delta += sizeof(PktElementoStatus);
+		//Si el elemento fue comido o eliminado, lo elimino de la lista de elementos
 		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Eliminado )
-		modelo->quitarElemento( (*it)->getPosicion() );
+		{
+			if( (*it)->getTipo() == tBonus )
+			{
+				modelo->quitarBonus((*it)->getPosicion() );
+				std::cout << ">>>>>>>>>>>>>>>>QUITO BONUS\n";
+			}
+				
+			else modelo->quitarElemento( (*it)->getPosicion() );
+		}
 	} 
 	return buffer;
 }
