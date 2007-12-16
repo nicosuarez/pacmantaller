@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include "LogResource.h"
+#include "Stop.h"
 
 typedef bool* pBool;
 
