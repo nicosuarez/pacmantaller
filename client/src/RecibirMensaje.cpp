@@ -323,7 +323,7 @@ float RecibirMensaje::calcularIncremento(int posicionArista) {
 void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
 	Coordenada coordT;
-	Coordenada coordCentro;
+	Coordenada coordCentro,coordOjo;
 	bool agregarALista=false;
 	
 	Personaje *personaje = Modelo::getInstance()->getPersonaje( idJugador);		
@@ -372,55 +372,70 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
 	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
 	
-	 
+	coordT=coordInicial;
+	cout<<"ESTE   ES   EL  EJE : "<<eje<<endl; 
 	if ( eje == 2 ) {//eje X
-		//cout<<"EJE X! "<<endl;
-		coordT.x=coordInicial.x+incremento;
-		coordT.y=coordInicial.y;
-		coordT.z=coordInicial.z;	
+		cout<<"ES EJE X! "<<endl;
+				
+		if (posicion.getDireccion()==1) {			
+			//coordT.x=coordInicial.x+(LONGVERTICE-incremento);
+			coordT.x=coordInicial.x+incremento;
+										
+		} else { //direccion=0 izquierda
+			//coordT.x=coordInicial.x - (LONGVERTICE-incremento);
+			coordT.x=coordInicial.x - incremento;
+		}	
 					
 	}
 	else { //eje Z
-		//cout<<"ejez "<<endl;
-		coordT.x=coordInicial.x;
-		coordT.y=coordInicial.y;
-		coordT.z=coordInicial.z-incremento;
-				
-				
+		cout<<"ES EJEZ! "<<endl;
+		if (posicion.getDireccion()==1) {			
+			coordT.z=coordInicial.z-incremento;
+										
+		} else { //direccion=0 izquierda
+			//coordT.z=coordInicial.z + (LONGVERTICE-incremento);
+			coordT.z=coordInicial.z + incremento;
+		}
+			
 	}
 	
 	
 	if (idJugador == Modelo::getInstance()->getid()) {
-		
+		coordOjo = coordT;
+		coordCentro = coordT;
 		if ( eje==1 ) {
-		//	cout<<"#### ejez PARA CAMARA "<<endl;
+			cout<<"#### ejez PARA CAMARA "<<endl;
 			if (posicion.getDireccion()==1) {
+				//coordOjo.z = coordT.z +0.5;
 				coordCentro.z = coordT.z - 1; // porque avanza en la parte negativa del eje z
-		//		cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
-			} else { //direccion=0 izquierda 
+				cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
+			} else { //direccion=0 izquierda
+				//coordOjo.z = coordT.z -0.5;
 				coordCentro.z = coordT.z + 1;
-		//		cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
+				cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
 			}
-			coordCentro.x = coordT.x;
-			coordCentro.y = coordT.y;
-			//cout<<"2-avanzo a Ojo: "<<posPacman.x<<" "<<posPacman.y<<"  "<<posPacman.z<<endl;
-			//cout<<"2-avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;			
+			cout<<"2-avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
+			cout<<"2-avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;			
 		}
 		else {
-		//	cout<<"#######ejex PARA CAMARA "<<endl;
-			if (posicion.getDireccion()==1) {				
+			//**************************
+			cout<<"#######ejex PARA CAMARA "<<endl;
+			if (posicion.getDireccion()==1) {
+				//coordOjo.x = coordT.x + 0.5;
 				coordCentro.x = coordT.x + 1;
-		//		cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
-			} else { //direccion=0 izquierda				
+				cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
+				
+			} else { //direccion=0 izquierda
+				//coordOjo.x = coordT.x - 0.5;
 				coordCentro.x = coordT.x - 1;
-		//		cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
-			}
-			coordCentro.y = coordT.y;
-			coordCentro.z = coordT.z;				
-			//cout<<"avanzo a Ojo: "<<posPacman.x<<" "<<posPacman.y<<"  "<<posPacman.z<<endl;
-			//cout<<"avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;
+				cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
+			}							
+			cout<<"avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
+			cout<<"avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;
+		
 		}
-		cout<<"actualizo camara"<<endl;
+		
+		cout<<"actualizo camara"<<endl;		
 		Modelo::getInstance()->getCamara().setOjo(coordT);
 		Modelo::getInstance()->getCamara().setCentro(coordCentro);
 
@@ -432,8 +447,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	personaje->SetPosicion(posicion);
 	
 	
-	if ( agregarALista  ) {
-	//	cout<<" push de personaje que no existia"<<endl;
+	if ( agregarALista ) {
+		cout<<" push de personaje que no existia"<<endl;
 		
 		(Modelo::getInstance()->getPersonajes()).push_back(personaje);
 							
