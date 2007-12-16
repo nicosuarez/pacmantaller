@@ -91,7 +91,7 @@ char* Status::Serialize()
 		elemento->posicion = (*it)->getPosicion();
 		delta += sizeof(PktElementoStatus);
 		//Si el elemento fue comido o eliminado, lo elimino de la lista de elementos
-		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Eliminado )
+		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Eliminado || (*it)->getEstado() == Desaparece )
 		{
 			if( (*it)->getTipo() == tBonus )
 				modelo->quitarBonus((*it)->getPosicion() );
