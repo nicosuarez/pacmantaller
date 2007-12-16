@@ -31,13 +31,15 @@ tipoElemento Bonus::getTipo()const
  */
 void Bonus::renderizar(){
 	//glColor3f(1,1,1);
-	glPushMatrix();	
-	glTranslatef(coord.x , coord.y, coord.z);
-	//glRotatef( angcuad, 1,1,1 );
-	glRotatef( 90, 1,1,1 );
-	glColor3f(1.0,0.0,0);
-	glutSolidSphere( 0.06, 10, 10 );
-	glPopMatrix();	
+	if (estado == Aparece) {
+		glPushMatrix();	
+		glTranslatef(coord.x , coord.y, coord.z);
+		//glRotatef( angcuad, 1,1,1 );
+		glRotatef( 90, 1,1,1 );
+		glColor3f(1.0,0.0,0);
+		glutSolidSphere( 0.06, 10, 10 );
+		glPopMatrix();
+	}
 
 }
 

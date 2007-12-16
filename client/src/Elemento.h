@@ -68,10 +68,12 @@ private:
 	
 	int posicion; //es el id del vertice donde se encuentra el elemento
 	Orientacion orientacion;
-	Estado estado;
+	//
 	
 protected:
+	Estado estado;
 	Coordenada coord;
+	
 	
 };
 #endif // !defined(EA_F887A8C4_26A7_4b56_9859_BC974BB6BA04__INCLUDED_)
