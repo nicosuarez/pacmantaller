@@ -325,37 +325,37 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
 	Personaje *personaje = Modelo::getInstance()->getPersonaje( idJugador);		
 	Coordenada coordInicial;
+	Model* model = new Model;
 	
 	//Si el jugador no existe, lo agrega. 
 	if( personaje == NULL )
 	{
 		cout<<"no existe, agrego personaje"<<endl;
 		agregarPersonaje = true;
-		Model* model = new Model();
+		//Model* model = new Model;
 		
 		if( idJugador == 0 ) {
 			personaje = new PacMan();
-						
+			//personaje->model=new Model;
+			cout<<"voy a cargar modelo pacman"<<endl;
+			//ObjLoader::cargarModelo(*personaje->model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
 			ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
 			cout<<"cargue obj y tga de PACMAN"<<endl;	
 			
-			personaje->SetModel( model);			
-					 
+			personaje->SetModel( model);
 			//if (Modelo::getInstance()->getSalidaPacMan() ==NULL )  cout<<"ERROR"<<endl;
 			//coordInicial = (Modelo::getInstance()->getSalidaPacMan())->getCoordenada();
 			//cout<<"obtengo coord"<<endl;
 			//cout<<"coordInicial: "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;*/
 			
 		}
-		else{
-			personaje = new Fantasma();
-
+		else{			
+			personaje = new Fantasma();			
 			//coordInicial = Modelo::getInstance()->getCasaFantasmas()->getCoordenada();
-			
+			cout<<"voy a cargar modelo FANT"<<endl;			
 			ObjLoader::cargarModelo(*model,OBJ_PATH_FANTASMA,TEX_PATH_FANTASMA);
 			cout<<"cargue obj y tga de FANTASMA"<<endl;			
-			personaje->SetModel( model);
-					
+			personaje->SetModel( model);			
 			
 		}
 	}
@@ -430,8 +430,9 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
 	
 	if ( agregarPersonaje ) {
-		cout<<" push de personaje"<<endl;
-		Modelo::getInstance()->getPersonajes().push_back(personaje);
+		cout<<" push de personaje que no existia"<<endl;
+		
+		(Modelo::getInstance()->getPersonajes()).push_back(personaje);
 							
 	}
 	

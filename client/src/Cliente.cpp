@@ -175,7 +175,7 @@ void dibujarPastillas() {
 	}	
 	
 }
-
+/*
 void temp_setPosicionFantasma() {
 
 	Coordenada coord,rot;
@@ -210,7 +210,7 @@ void temp_setPosicionFantasma() {
 	pac->SetModel(model2);
 	Modelo::getInstance()->getPersonajes().push_back(pac);
 		
-}
+}*/
 
 void dibujarPersonajes() {
 	
@@ -225,7 +225,8 @@ void dibujarPersonajes() {
 		/*if ((*itPersonajes)->GetRol()==0)
 			cout<<"renderizo pacman"<<endl;
 		else
-			cout<<"renderizo fantasma"<<endl;*/
+			cout<<"renderizo fantasma"<<endl;*/		
+		
 		(*itPersonajes)->renderizar();		
 	}
 	
@@ -269,20 +270,20 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 		
 	switch ( key ) {
 		case GLUT_KEY_UP:    
-			camara.moverAdelante(); 
-			//ptrEnviar->enviarMensaje( new Key(KEY_ARRIBA) );
+			//camara.moverAdelante(); 
+			ptrEnviar->enviarMensaje( new Key(KEY_ARRIBA) );
 			break;
 		case GLUT_KEY_DOWN:  
-			camara.move(-1); 
-			//ptrEnviar->enviarMensaje( new Key(KEY_ABAJO) );
+			//camara.move(-1); 
+			ptrEnviar->enviarMensaje( new Key(KEY_ABAJO) );
 			break;
 		case GLUT_KEY_LEFT:
-			camara.moverIzq(); 
-			//ptrEnviar->enviarMensaje( new Key(KEY_IZQUIERDA) );
+			//camara.moverIzq(); 
+			ptrEnviar->enviarMensaje( new Key(KEY_IZQUIERDA) );
 			break;
 		case GLUT_KEY_RIGHT: 
-			camara.moverDer(); 
-			//ptrEnviar->enviarMensaje( new Key(KEY_DERECHA) );
+			//camara.moverDer(); 
+			ptrEnviar->enviarMensaje( new Key(KEY_DERECHA) );
 			break;		
 		case GLUT_KEY_HOME://sube la camara= baja el escenario			
 			camara.strafeUp(1);
@@ -361,7 +362,7 @@ void  iniciarGraficos(int argc, char** argv)
 	cout<<"******inicio graficos"<<endl;
 	initTexturas();		
 	transformarParedes(mapa);
-	temp_setPosicionFantasma(); 
+	//temp_setPosicionFantasma(); 
 	
 	//setearCoordenadasElementos();//del INIT
 	//initPacman.setIdPlayer(idPlayer);//del STATUS

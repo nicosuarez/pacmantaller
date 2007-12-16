@@ -50,7 +50,7 @@ public:
 	
 	//***********************//
 	virtual void renderizar();
-
+	
 	
 private:
 	/**
