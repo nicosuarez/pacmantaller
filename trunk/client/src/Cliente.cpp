@@ -22,13 +22,6 @@ using namespace std;
 
 EnviarMensaje *ptrEnviar = NULL;
 
-#define LONGVERTICE 2
-#define MAXPOSARISTA 64
-#define ALTURAPACMAN 0.57
-#define ALTURAITEMS 0.5
-#define cantBonus 3
-#define cantPower 2
-
 Textura	texSuelo;
 Textura	texPared;
 
@@ -183,28 +176,41 @@ void dibujarPastillas() {
 	
 }
 
-//void temp_setPosicionFantasma() {
+void temp_setPosicionFantasma() {
 
-/*/	Coordenada coord;
+	Coordenada coord,rot;
 	coord.x=5;
 	coord.y=0.3;
 	coord.z=-5;
-	Posicion posicion;
+	
+	rot.x=0.0;
+	rot.y=-75.0;
+	rot.z=0.0;
+		
 	Model* model = new Model();
 	ObjLoader::cargarModelo(*model,OBJ_PATH_FANTASMA,TEX_PATH_FANTASMA);
-	Modelo::getInstance()->getPersonajes().push_back(new Fantasma( posicion, coord,model ));
-*/
-/*
-	Coordenada coordT,coordR;
-	coordT.x=5;
-	coordT.y=0.3;
-	coordT.z=-5;
-	Posicion posicion;
-	Model* model = new Model();
-	ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
-	Modelo::getInstance()->getPersonajes().push_back(new Fantasma( posicion, coordT,coordR,model ));
+	Personaje* fantasma = new Fantasma();
+	fantasma->SetCoord(coord);
+	fantasma->SetRotacion(rot);
+	fantasma->SetModel(model);
+	Modelo::getInstance()->getPersonajes().push_back(fantasma);
 
-}*/
+	coord.x=5.8;
+	coord.y=1.3;
+	coord.z=-5;
+	
+	rot.x=0.0;
+	rot.y=180.0;
+	rot.z=-100.0;
+	Model* model2 = new Model();
+	ObjLoader::cargarModelo(*model2,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
+	Personaje* pac = new PacMan();
+	pac->SetCoord(coord);
+	pac->SetRotacion(rot);
+	pac->SetModel(model2);
+	Modelo::getInstance()->getPersonajes().push_back(pac);
+		
+}
 
 void dibujarPersonajes() {
 	
@@ -216,10 +222,10 @@ void dibujarPersonajes() {
 	tListPersonaje::iterator itPersonajes;
 	for( itPersonajes = personajes.begin(); itPersonajes != personajes.end(); itPersonajes++ )
 	{
-		if ((*itPersonajes)->GetRol()==0)
+		/*if ((*itPersonajes)->GetRol()==0)
 			cout<<"renderizo pacman"<<endl;
 		else
-			cout<<"renderizo fantasma"<<endl;
+			cout<<"renderizo fantasma"<<endl;*/
 		(*itPersonajes)->renderizar();		
 	}
 	
@@ -263,20 +269,20 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 		
 	switch ( key ) {
 		case GLUT_KEY_UP:    
-			//camara.moverAdelante(); 
-			ptrEnviar->enviarMensaje( new Key(KEY_ARRIBA) );
+			camara.moverAdelante(); 
+			//ptrEnviar->enviarMensaje( new Key(KEY_ARRIBA) );
 			break;
 		case GLUT_KEY_DOWN:  
-			//camara.move(-1); 
-			ptrEnviar->enviarMensaje( new Key(KEY_ABAJO) );
+			camara.move(-1); 
+			//ptrEnviar->enviarMensaje( new Key(KEY_ABAJO) );
 			break;
 		case GLUT_KEY_LEFT:
-			//camara.moverIzq(); 
-			ptrEnviar->enviarMensaje( new Key(KEY_IZQUIERDA) );
+			camara.moverIzq(); 
+			//ptrEnviar->enviarMensaje( new Key(KEY_IZQUIERDA) );
 			break;
 		case GLUT_KEY_RIGHT: 
-			//camara.moverDer(); 
-			ptrEnviar->enviarMensaje( new Key(KEY_DERECHA) );
+			camara.moverDer(); 
+			//ptrEnviar->enviarMensaje( new Key(KEY_DERECHA) );
 			break;		
 		case GLUT_KEY_HOME://sube la camara= baja el escenario			
 			camara.strafeUp(1);
@@ -340,34 +346,6 @@ int comenzarJuego(Request* req)
 	return err;
 }
 
-/*void setearCamaraInit() {
-	
-	camara.setSpeed(2/8.0);//no se usará
-	//Coordenada pos = (initPacman.getVertice()).getCoordenada();
-	//cout<<"CamaraInit--> pos ojo= "<<pos.x<<" "<<pos.y<<" "<<pos.z<<endl;
-	camara.setOjo(pos);
-	//cout<<"CamaraInit--> Orientacion "<<initPacman.getOrientacion()<<endl;
-	switch (initPacman.getOrientacion()) {
-		case 0: {
-			pos.z -= 1;
-			break;
-		}
-		case 1: {
-			pos.z += 1;
-			break;
-		}
-		case 2: {
-			pos.x += 1;
-			break;
-		}
-		case 3: {
-			pos.x -= 1;
-			break;
-		}
-	}
-	camara.setCentro(pos);
-	//cout<<"CamaraInit--> pos centro= "<<pos.x<<" "<<pos.y<<" "<<pos.z<<endl;
-}*/
 
 void  iniciarGraficos(int argc, char** argv)
 {
@@ -383,10 +361,9 @@ void  iniciarGraficos(int argc, char** argv)
 	cout<<"******inicio graficos"<<endl;
 	initTexturas();		
 	transformarParedes(mapa);
-	//temp_setPosicionFantasma(); 
+	temp_setPosicionFantasma(); 
 	
 	//setearCoordenadasElementos();//del INIT
-	//setearCamaraInit();	
 	//initPacman.setIdPlayer(idPlayer);//del STATUS
 	
 	glEnable( GL_DEPTH_TEST );	
@@ -453,7 +430,7 @@ void Cliente::recibirMensajes()
 /**
  * Se ejecuta el hilo principal del juego el del modelo.
  */
-void Cliente::comenzarJuego(int cantArg,char* argv[]){
+void Cliente::comenzarJuego(int cantArg,char* argv[]) {
 	
 	//Se instancia el modelo. Singleton
 	//Modelo::setInstance(cantArg,argv);
@@ -469,9 +446,4 @@ void Cliente::comenzarJuego(int cantArg,char* argv[]){
 	Modelo::getInstance()->setFinalizoJuego( true );
 	this->enviarMensaje->join();
 }
-
-
-
-
-
 

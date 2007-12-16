@@ -9,16 +9,17 @@
 
 Fantasma::Fantasma(){
 	this->visible=true;
+	coord = Coordenada(0.0f, 0.0f, 0.0f);
+	rotacion = Coordenada(0.0f, -75.0f, 0.0f);
 }
 
 Fantasma::Fantasma(Posicion& posicion):Personaje(posicion){
 	this->visible=true;
-}
-
-Fantasma::Fantasma(Posicion& posicion, Coordenada cTranslate,Coordenada cRotate,Model* model):Personaje(posicion,cTranslate,cRotate,model) {
 	
-
+	coord = Coordenada(0.0f, 0.0f, 0.0f);
+	rotacion = Coordenada(0.0f, -75.0f, 0.0f);
 }
+
 
 Fantasma::~Fantasma(){
 

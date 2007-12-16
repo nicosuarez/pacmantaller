@@ -2,6 +2,10 @@
 #include <iostream>
 using namespace std;
 
+
+Camara::Camara():posOjo(0,0,0),posCentro(0,0,0),dirArriba(0,1,0){
+	
+}
 Camara::Camara(Coordenada posOjo,Coordenada posCentro ,Coordenada dirArriba): posOjo(posOjo),posCentro(posCentro),dirArriba(dirArriba) {
 		
 	cSpeed = 0.5;//mientras mas alto mas velocidad de la camara: "mas rapido llego de una posicion a otra".

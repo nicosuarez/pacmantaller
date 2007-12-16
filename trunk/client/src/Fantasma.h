@@ -7,6 +7,7 @@
 #if !defined(EA_E4309321_8E59_4003_BC67_09BA7FB5090B__INCLUDED_)
 #define EA_E4309321_8E59_4003_BC67_09BA7FB5090B__INCLUDED_
 
+	
 #include "Personaje.h"
 
 /**
@@ -17,8 +18,7 @@ class Fantasma : public Personaje
 
 public:
 	Fantasma();
-	Fantasma(Posicion& posicion);
-	Fantasma(Posicion& posicion, Coordenada cTranslate, Coordenada cRotate,Model* model);
+	Fantasma(Posicion& posicion);	
 	virtual ~Fantasma();
 
 	static const int FANTASMA_TYPE = 1;

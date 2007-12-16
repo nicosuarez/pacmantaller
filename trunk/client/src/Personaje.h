@@ -13,6 +13,13 @@
 #include "Model.h"
 
 
+#define P_ESCALAX 0.14f
+#define	P_ESCALAY 0.14f
+#define	P_ESCALAZ 0.14f
+#define F_ESCALAX 0.035f
+#define	F_ESCALAY 0.04f
+#define	F_ESCALAZ 0.035f
+
 /**
  * Clase que modela los personajes del juego
  */
@@ -24,21 +31,21 @@ public:
 	Personaje(Posicion& posicion);
 	
 	//****************//
-	Personaje(Posicion& posicion, Coordenada cTranslate,Coordenada cRotate,Model* model);
-	
+		
 	virtual ~Personaje();
 
 	virtual int GetRol()const=0;
 	Posicion *GetPosicion();
 	virtual int GetVelocidad();
 	int GetId()const;
+	
 	void SetId(int id);
 	void SetPosicion(Posicion posicion);
 	void SetVelocidad(int velocidad);
 	void SetModel(Model* model);
 	
-	void SetCoordenadaR(Coordenada cRotate);
-	void SetCoordenadaT(Coordenada cTranslate); 
+	void SetCoord(Coordenada coord);
+	void SetRotacion(Coordenada rotacion);	
 	virtual bool operator==( int tipo )const = 0;
 	
 	//***********************//
@@ -60,14 +67,13 @@ protected:
 	 * Velocidad del personaje
 	 */
 	int velocidad;
+			
+	Coordenada coord;
+	Coordenada rotacion;	
 	
-	//***************//
-	
-	
-	Coordenada cTranslate;//Translate
-	Coordenada cRotate;//Rotate
-	Coordenada cScale;//Scale
 	Model *model;
 
 };
+
 #endif // !defined(EA_93129EDB_E1C4_4602_9934_5696451996BE__INCLUDED_)
+
