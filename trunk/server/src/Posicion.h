@@ -11,8 +11,8 @@
 #include "Elemento.h"
 
 //Se definen las direcciones en las aristas.
-#define N_E 0  //Direccion Norte/Este
-#define S_O 1  //Direccion Sur/Oeste
+#define N_E 1  //Direccion Norte/Este
+#define S_O 0  //Direccion Sur/Oeste
 
 //Se definen el rango de posiciones dentro de las aristas.
 #define INICIO_ARISTA 0  //Posicion inicial del arista si el personaje viene de N o E
