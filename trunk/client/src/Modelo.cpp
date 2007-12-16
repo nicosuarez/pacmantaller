@@ -235,3 +235,8 @@ void Modelo:: eliminarPowers()
 	}
 	powers.clear();
 }
+
+
+Camara& Modelo::getCamara() {
+	return camara;
+}

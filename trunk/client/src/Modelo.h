@@ -11,6 +11,8 @@
 #include "CasaFantasmas.h"
 #include "SalidaPacMan.h"
 
+#include "Camara.h"
+
 class EnviarMensaje;
 typedef std::list<Pastilla*> tListPastilla;
 typedef std::list<Bonus*> tListBonus;
@@ -36,7 +38,7 @@ private:
 	Modelo();
 
     Evento recibiMensajeInitEvent;
-    
+    Camara camara;
     
     
 public:
@@ -102,6 +104,8 @@ public:
 	void eliminarBonus();
 	
 	void eliminarPowers();
+	
+	Camara& getCamara(); 
 	
 	    
 };

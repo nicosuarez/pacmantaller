@@ -25,8 +25,8 @@ EnviarMensaje *ptrEnviar = NULL;
 Textura	texSuelo;
 Textura	texPared;
 
-Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
-//Camara camara(Coordenada(5,0.3,-5),Coordenada(5,0.3,-5.5), Coordenada(0,1,0));
+//Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
+
 
 GLfloat angcuad=0;
 
@@ -214,10 +214,6 @@ void temp_setPosicionFantasma() {
 
 void dibujarPersonajes() {
 	
-	/*idArista; //Identificador de la arista
-	int posicionArista; //Posicion dentro de la arista 0-63
-	int direccion; //Direccion sobre la arista NORTE/SUR ESTE/OESTE
-	int idVertice; //Vertice*/
 	tListPersonaje personajes=Modelo::getInstance()->getPersonajes();
 	tListPersonaje::iterator itPersonajes;
 	for( itPersonajes = personajes.begin(); itPersonajes != personajes.end(); itPersonajes++ )
@@ -238,7 +234,7 @@ void render(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-	camara.update(); 
+	Modelo::getInstance()->getCamara().update(); 
 	
 	glEnable(GL_TEXTURE_2D);
 	glColor3f(1,1,1);//Selecciona el color actual con el que dibujar
@@ -286,14 +282,14 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 			ptrEnviar->enviarMensaje( new Key(KEY_DERECHA) );
 			break;		
 		case GLUT_KEY_HOME://sube la camara= baja el escenario			
-			camara.strafeUp(1);
+			Modelo::getInstance()->getCamara().strafeUp(1);
 			break;
 		case GLUT_KEY_END:			
-			camara.strafeUp(-1);
+			Modelo::getInstance()->getCamara().strafeUp(-1);
 			break;
 		case GLUT_KEY_F1: 
 			cout<<"camara aerea"<<endl;
-			camara.vistaAerea();
+			Modelo::getInstance()->getCamara().vistaAerea();
 			break;
 	}
 	glutPostRedisplay();
@@ -363,10 +359,7 @@ void  iniciarGraficos(int argc, char** argv)
 	initTexturas();		
 	transformarParedes(mapa);
 	//temp_setPosicionFantasma(); 
-	
-	//setearCoordenadasElementos();//del INIT
-	//initPacman.setIdPlayer(idPlayer);//del STATUS
-	
+		
 	glEnable( GL_DEPTH_TEST );	
 
 	cout<<"comienza el loop"<<endl;
