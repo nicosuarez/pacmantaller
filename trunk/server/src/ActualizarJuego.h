@@ -6,6 +6,7 @@
 #include "Coordenada.h"
 #include "Key.h"
 #include "CerrarServidorOp.h"
+#include "Status.h"
 #include "CambiarDeNivelOp.h"
 
 class Fantasma;
@@ -70,7 +71,7 @@ public:
 	void ganoPacman();
 	void cambiarDeNivel();
 	
-	Mensaje* armarMensajeStatus();
+	void enviarStatus();
 
 	//Destructor
 	~ActualizarJuego();

@@ -26,6 +26,4 @@ void Play::main()
 	}
 	
 	Modelo::getInstance()->getEsperarAgregarJugadores().activar();
-	Status *status = new Status( Modelo::getInstance()->GetElementos());
-	Modelo::getInstance()->getDispatcher()->enviarMensaje( status, idJugador );
 }
