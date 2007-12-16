@@ -13,5 +13,6 @@ int main(int argc,char* argv[])
 	//Se instancia el servidor y se pone a correr.
 	Servidor server;
 	int exit=server.ejecutar();
+	std::cout << "SALIO DE SERVER\n";
 	return exit;
 }

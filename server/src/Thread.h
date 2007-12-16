@@ -34,6 +34,10 @@ public:
     virtual ~Thread();
     /* Duerme el thread actual una cierta cantidad de milisegundos */
     static void sleep(unsigned long msecs);
+    void cancelThread()
+    {
+    	pthread_cancel( this->thread);
+    };
 protected:
     /* Metodo virtual puro que deben implementar las subclases */
     virtual void main() = 0;

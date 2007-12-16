@@ -63,7 +63,7 @@ public:
 	void presionoKeyAbajo(Jugador* jugador);
 	void presionoKeyIzquierda(Jugador* jugador);
 	void presionoKeyDerecha(Jugador* jugador);
-	void desconectarJugador();
+	void desconectarJugador( int idJugador );
 	void noPresionoKey(Jugador* jugador);
 	static tVertice* getVeticeDestino(Posicion* posicion);
 	static tArco* getAristaActual(Posicion* posicion);

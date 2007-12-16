@@ -40,7 +40,6 @@ void ActualizarJuego::main()
 		this->actualizar();
 		this->enviarStatus();
 		sleep(updateTime);
-		//Armar mensaje status
 	}
 	std::cout<<"Termino Actualizar Juego\n";
 }
@@ -200,8 +199,9 @@ bool ActualizarJuego::girar(Jugador* jugador,tVertice* vertice
 	return giro;
 }
 /*----------------------------------------------------------------------------*/
-void ActualizarJuego::desconectarJugador(){
-	//TODO:Agregar logica cuando el jugador toca el key esc
+void ActualizarJuego::desconectarJugador( int idJugador ){
+	QuitarJugadorOp *quitarJugador = new QuitarJugadorOp( idJugador );
+	Modelo::getInstance()->agregarOperacion( quitarJugador );
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::noPresionoKey(Jugador* jugador){
@@ -300,7 +300,7 @@ void ActualizarJuego::actualizarPosiciones()
 				break;
 			case KEY_ESCAPE:
 				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "ESC" <<"\n";
-				desconectarJugador();
+				desconectarJugador( jugador->GetIdJugador() );
 				break;
 				
 			default: //NONE

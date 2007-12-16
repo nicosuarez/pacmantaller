@@ -3,6 +3,7 @@
 
 #include "Operacion.h"
 #include "Modelo.h"
+#include "Stop.h"
 
 class QuitarJugadorOp : public Operacion
 {

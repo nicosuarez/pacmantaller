@@ -40,8 +40,8 @@ Status::~Status()
 char* Status::Serialize()
 {
 	Modelo *modelo = Modelo::getInstance();
-	int cantJugadores = modelo->GetJugadores().size();
 	int cantElementos = elementos.size();
+	int cantJugadores = modelo->GetJugadores().size();
 	
 	int sizePktPosiciones = sizeof(uint32_t) + cantJugadores*sizeof(PktPosiciones);
 	int sizePktElementos = sizeof(uint8_t) + cantElementos*sizeof( PktElementoStatus); 
@@ -94,12 +94,9 @@ char* Status::Serialize()
 		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Eliminado )
 		{
 			if( (*it)->getTipo() == tBonus )
-			{
 				modelo->quitarBonus((*it)->getPosicion() );
-				std::cout << ">>>>>>>>>>>>>>>>QUITO BONUS\n";
-			}
-				
-			else modelo->quitarElemento( (*it)->getPosicion() );
+			else 
+				modelo->quitarElemento( (*it)->getPosicion() );
 		}
 	} 
 	return buffer;

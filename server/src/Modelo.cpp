@@ -117,6 +117,18 @@ void Modelo::quitarJugador( int idJugador )
 			break;
 		}
 	}
+	if( idJugador == 0 )
+	{
+		CerrarServidorOp *operacion = new CerrarServidorOp();
+		this->agregarOperacion( operacion );
+	}
+	else if( jugadores.size() < Config::getInstance()->GetMinJugadores() )
+	{
+		Stop *stop = new Stop( JUGADORES_INSUFICIENTES );
+		this->getDispatcher()->enviarMensaje( stop );
+		CerrarServidorOp *operacion = new CerrarServidorOp();
+		this->agregarOperacion( operacion );
+	}
 	m_jugadores.unlock();
 }
 /*----------------------------------------------------------------------------*/
@@ -168,6 +180,8 @@ Elemento* Modelo::getBonus( int idPosicion )
 /*----------------------------------------------------------------------------*/
 void Modelo::cambiarSiguienteNivel()
 {
+	if( this->seFinalizoElJuego() )
+		return;
 	this->mundo->getNiveles()->pop();
 	
 	//Agrega los jugadores al proximo nivel en caso de haber.
@@ -323,7 +337,11 @@ void Modelo::eliminarPersonajes()
 /*----------------------------------------------------------------------------*/
 int Modelo::GetPuntuacion()
 {
-	return getPacMan()->getPuntaje();
+	PacMan *pacman = getPacMan();
+	if( pacman != NULL )
+		return pacman->getPuntaje();
+	else
+		return 0; 
 }
 
 /*----------------------------------------------------------------------------*/
@@ -348,7 +366,7 @@ void Modelo::main(){
 	this->mundo = XmlParser::getMundo(Config::getInstance()->GetMundoXmlPath());
 	
 	//Si no termino el juego y hay niveles. 
-	while(!this->seFinalizoElJuego() || this->hayNiveles())
+	while( !this->seFinalizoElJuego() && this->hayNiveles() )
 	{
 		//Obtener el mapa del nivel.
 		string mapaPath = this->mundo->getNiveles()->front();
@@ -504,18 +522,20 @@ void Modelo::SetMundo(Mundo *mundo)
  */
 PacMan* Modelo::getPacMan()
 {
+	this->m_jugadores.lock();
 	tListJugadores jugadores=this->GetJugadores();
 	itListJugadores it;
-	
 	for(it=jugadores.begin();it!=jugadores.end();it++)
 	{
 		Jugador* jugador = *it;
 		if(jugador->GetIdPersonaje()==PacMan::PACMAN_TYPE)
 		{
 			PacMan* pacman = (PacMan*)jugador->getPersonaje();
+			this->m_jugadores.unlock();
 			return pacman;
 		}
 	}
+	this->m_jugadores.unlock();
 	return NULL;
 }
 /*----------------------------------------------------------------------------*/

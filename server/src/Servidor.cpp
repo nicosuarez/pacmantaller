@@ -31,7 +31,8 @@ int Servidor::ejecutar(){
 		//Comienza el juego.
 		this->comenzarJuego();
 	}
-	monitor.join();
+	monitor.cancelThread();
+	//monitor.join();
 	return 0;
 }
 /*----------------------------------------------------------------------------*/
@@ -59,7 +60,7 @@ void Servidor::comenzarJuego(){
 	
 	//Espera que finalice...
 	Modelo::getInstance()->join();
-	
+	this->cerrarServidor = true;
 	//Deja de aceptar jugadores
 	this->terminarDeAceptarClientes();
 	aceptarJugador.join();
