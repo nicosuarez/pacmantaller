@@ -347,9 +347,10 @@ int comenzarJuego(Request* req)
 void  iniciarGraficos(int argc, char** argv)
 {
 	Mapa* mapa=Modelo::getInstance()->getMapa();
-	
+	std::cout<<"Obtiene mapa\n";
 	glutInit( &argc, argv );	
 	glutInitWindowSize( 500, 400 );
+	std::cout<<"inicio windows\n";
 	glutInitWindowPosition( 100, 100 );
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
     glutCreateWindow( "PACMAN 3D" );	
@@ -436,6 +437,7 @@ void Cliente::comenzarJuego(int cantArg,char* argv[]) {
 	//Modelo::getInstance()->join();
 	this->enviarMensaje->run();
 	ptrEnviar = this->enviarMensaje;
+	std::cout<<"Entrar a iniciar graficos\n";
 	iniciarGraficos(cantArg,argv);
 	Modelo::getInstance()->setFinalizoJuego( true );
 	this->enviarMensaje->join();

@@ -16,9 +16,9 @@
 #define P_ESCALAX 0.14f
 #define	P_ESCALAY 0.14f
 #define	P_ESCALAZ 0.14f
-#define F_ESCALAX 0.035f
-#define	F_ESCALAY 0.04f
-#define	F_ESCALAZ 0.035f
+#define F_ESCALAX 0.050f
+#define	F_ESCALAY 0.060f
+#define	F_ESCALAZ 0.050f
 
 /**
  * Clase que modela los personajes del juego
