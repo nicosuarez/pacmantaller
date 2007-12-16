@@ -426,7 +426,8 @@ void Modelo::ejecutarOperaciones(){
 		this->actualizarJuego();
 		
 		/* Espera la proxima operacion */
-		this->esperarRecibirOperaciones();
+		if( operaciones.empty() )
+			this->esperarRecibirOperaciones();
 	}
 }
 /*----------------------------------------------------------------------------*/

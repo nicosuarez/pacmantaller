@@ -47,10 +47,10 @@ Evento& Dispatcher::getRecibiMensajeEvent()
  */
 void Dispatcher::main()
 {
+	if( mensajes.empty() )
+	    this->getRecibiMensajeEvent().esperar();
     while( !(*terminoJuego)  )
     {	
-    	if( mensajes.empty() )
-    		this->getRecibiMensajeEvent().esperar();
     	m_mensajes.lock();
         Mensaje* msg = mensajes.front();
         if( msg->GetIdJugador() == BROADCAST )
@@ -60,6 +60,8 @@ void Dispatcher::main()
         mensajes.pop();
         m_mensajes.unlock();
         delete msg;
+        if( mensajes.empty() )
+    		this->getRecibiMensajeEvent().esperar();
     }
     std::cout << "Sale del dispatcher\n";
 }

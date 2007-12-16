@@ -38,18 +38,21 @@ void ActualizarJuego::main()
 	while(!seFinalizoElNivel())
 	{
 		this->actualizar();
+		this->enviarStatus();
 		sleep(updateTime);
 		//Armar mensaje status
 	}
 	std::cout<<"Termino Actualizar Juego\n";
 }
 /*----------------------------------------------------------------------------*/
-Mensaje* ActualizarJuego::armarMensajeStatus()
+void ActualizarJuego::enviarStatus()
 {
-	//Chekear reglas del juego..
-	
-	//Termino el nivel?
-	return NULL;
+	if( !seFinalizoElNivel() )
+	{
+		Status *status = new Status;
+		Modelo::getInstance()->getDispatcher()->enviarMensaje( status);
+		std::cout << "Envio Mensaje STATUS\n";
+	}
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::presionoKeyArriba(Jugador* jugador){

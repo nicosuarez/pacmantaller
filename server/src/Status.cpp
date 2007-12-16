@@ -7,21 +7,47 @@
 #include "Status.h"
 
 
-Status::Status( tListaElemento *elementos )
-{	
-	this->elementos = elementos;
+Status::Status()
+{
+	//Voy a agregar a la lista elementos, los elementos que fueron comidos por el
+	//pacman, los que aparecieron y desaparecieron 
+	Modelo *modelo = Modelo::getInstance();
+	tListaElemento *elementosModelo = modelo->GetElementos();
+	tListaElemento::iterator it;
+	
+	//Vertifico si las pastillas y los powerUp fueron comidos
+	for( it = elementosModelo->begin(); it != elementosModelo->end(); it++ )
+	{
+		if( (*it)->getEstado() == FueComido )
+		{
+			elementos.push_back( *it );
+			(*it)->setEstado( Eliminado );
+		}
+	}
+	
+	//Verifico si hay un powerUp nuevo o si alguno cambio de estado 
+	elementosModelo = modelo->GetBonus();
+	for( it = elementosModelo->begin(); it != elementosModelo->end(); it++ )
+	{
+		if( (*it)->getEstado() == FueComido )
+		{
+			elementos.push_back( *it );
+			(*it)->setEstado( Eliminado );
+		}
+		if( (*it)->getEstado() == Aparece || (*it)->getEstado() == Desaparece )
+			elementos.push_back( *it );
+	}
 }
 
-
-Status::~Status(){
-
+Status::~Status()
+{
 }
 
 char* Status::Serialize()
 {
 	Modelo *modelo = Modelo::getInstance();
 	int cantJugadores = modelo->GetJugadores().size();
-	int cantElementos = elementos->size();
+	int cantElementos = elementos.size();
 	
 	int sizePktPosiciones = sizeof(uint32_t) + cantJugadores*sizeof(PktPosiciones);
 	int sizePktElementos = sizeof(uint8_t) + cantElementos*sizeof( PktElementoStatus); 
@@ -62,7 +88,7 @@ char* Status::Serialize()
 	
 	//Seteo los elementos
 	tListElementos::iterator it;
-	for( it = elementos->begin(); it != elementos->end(); it++ )
+	for( it = elementos.begin(); it != elementos.end(); it++ )
 	{
 		PktElementoStatus *elemento = (PktElementoStatus*) ( buffer + delta  );
 		elemento->tipo =  (int)(*it)->getTipo();

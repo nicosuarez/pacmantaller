@@ -16,12 +16,12 @@
 class Status : public Mensaje
 {
 
-	tListaElemento *elementos;
+	tListaElemento elementos;
 public:
 	
 	static const int STATUS_TYPE = 2;
 	
-	Status( tListaElemento *elementos);
+	Status();
 	
 	virtual ~Status();
 	
