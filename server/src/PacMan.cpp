@@ -10,10 +10,12 @@
 
 PacMan::PacMan(){
 	this->isPowerUp=false;
+	this->velocidad=velocidadInicial;
 }
 
 PacMan::PacMan(Posicion& posicion):Personaje(posicion){
 	this->isPowerUp=false;
+	this->velocidad=velocidadInicial;
 }
 
 PacMan::~PacMan(){
@@ -41,25 +43,39 @@ double PacMan::getRadio()const
  */
 int PacMan::GetVelocidad(){
 
-	return velocidadInicial;
+	return this->velocidad;
 }
-
 
 /**
  * Determina si el pacman se encuentra en el estado powerUp
  */
 bool PacMan::IsPowerUp(){
 
-	return isPowerUp;
+	if(isPowerUp)
+	{
+		if(mantenerEstado.getTime()<tiempoPowerUp)
+		{
+			return true;
+		}
+		else
+		{
+			mantenerEstado.initial();
+			isPowerUp=false;
+			Modelo::getInstance()->restoreDefaultSpeed();
+			return false;
+		}
+	}
+	return false;
 }
 
 
 /**
  * Determina si el pacman se encuentra en el estado powerUp
  */
-void PacMan::SetPowerUp(bool powerUp){
-
-	isPowerUp = powerUp;
+void PacMan::SetPowerUp(){
+	mantenerEstado.initial();
+	isPowerUp=true;
+	Modelo::getInstance()->intercambiarVelocidades();
 }
 
 bool PacMan::operator==( int tipo )const

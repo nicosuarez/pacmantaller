@@ -9,10 +9,12 @@
 
 Fantasma::Fantasma(){
 	this->visible=true;
+	this->velocidad=velocidadInicial;
 }
 
 Fantasma::Fantasma(Posicion& posicion):Personaje(posicion){
 	this->visible=true;
+	this->velocidad=velocidadInicial;
 }
 
 Fantasma::~Fantasma(){
@@ -32,9 +34,8 @@ int Fantasma::GetRol()const{
  */
 int Fantasma::GetVelocidad(){
 
-	return velocidadInicial;
+	return this->velocidad;
 }
-
 
 /**
  * Determina si el fantasma esta en estado invisible que ocurre cuando un pacman

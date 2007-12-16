@@ -26,6 +26,8 @@ public:
 	
 	virtual int GetVelocidad();
 	
+	void incVelocidad(int inc);
+	
 	void SetId(int id);
 	
 	void SetPosicion(Posicion& posicion);
@@ -39,6 +41,16 @@ public:
 	bool chocoConPared();
 	
 	virtual double getRadio()const=0;
+		
+	/**
+	 * Velocidad en esta power up
+	 */
+	void SetVelocidadPower(int velocidad){this->velocidadPower=velocidad;};
+	
+	/**
+	 * Velocidad en esta power up
+	 */
+	int GetVelocidadPower(){return this->velocidadPower;};
 	
 private:
 	/**
@@ -53,13 +65,18 @@ private:
 	 * Determina si el personaje a chocado con una pared.
 	 */
 	bool seChocoConPared;
-	
+
 	
 protected:
 	/**
 	 * Velocidad del personaje
 	 */
 	int velocidad;
+	/**
+	 * Velocidad de en estado power
+	 */
+	int velocidadPower;
+
 
 };
 #endif // !defined(EA_93129EDB_E1C4_4602_9934_5696451996BE__INCLUDED_)
