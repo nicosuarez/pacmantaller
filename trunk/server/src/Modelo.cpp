@@ -536,9 +536,94 @@ void Modelo::comerElementoDelVertice(tVertice* vertice)
 			pacMan->incPuntaje(elemento->getPuntaje());
 			elemento->setEstado(FueComido);
 			this->mostrarElementoComido(elemento);
+			if(elemento->getTipo()==tPowerup)
+			{
+				pacMan->SetPowerUp();
+				pacMan->SetVelocidad(Fantasma::velocidadInicial);
+				pacMan->SetVelocidad(Fantasma::velocidadInicial);
+			}
 		}
 	}
+	std::cout<<"Esta powerUp? "<< pacMan->IsPowerUp() << "\n";
 	
+}
+
+/*----------------------------------------------------------------------------*/
+/**
+ * Obtiene de la lista de jugadores el primer personaje fantasma.
+ */
+Fantasma* Modelo::getFantasma()
+{
+	tListJugadores jugadores=this->GetJugadores();
+	itListJugadores it;
+	
+	for(it=jugadores.begin();it!=jugadores.end();it++)
+	{
+		Jugador* jugador = *it;
+		if(jugador->GetIdPersonaje()!=PacMan::PACMAN_TYPE)
+		{
+			Fantasma* fantasma = (Fantasma*)jugador->getPersonaje();
+			return fantasma;
+		}
+	}
+	return NULL;
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::restoreDefaultSpeed()
+{
+	PacMan* pacman = this->getPacMan();
+	Fantasma* fantasma = this->getFantasma();
+	int vFantasma=0;
+	int vPacman = pacman->GetVelocidadPower();
+	
+	if(fantasma!=NULL)
+		vFantasma = fantasma->GetVelocidadPower();
+	else
+		vFantasma = Fantasma::velocidadInicial;
+
+	pacman->SetVelocidad(vPacman);
+	this->cambiarVelocidadFantasmas(vFantasma);
+	
+	std::cout<<"VPAC REST: "<< vPacman<< " VFAN REST: "<<vFantasma<<"\n";
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::cambiarVelocidadFantasmas(int vPacman)
+{
+	tListJugadores jugadores=this->GetJugadores();
+	itListJugadores it;
+	
+	m_jugadores.lock();
+	for(it=jugadores.begin();it!=jugadores.end();it++)
+	{
+		Jugador* jugador = *it;
+		if(jugador->GetIdPersonaje()!=PacMan::PACMAN_TYPE)
+		{
+			Fantasma* ghost = (Fantasma*)jugador->getPersonaje();
+			ghost->SetVelocidad(vPacman);
+		}
+	}
+	m_jugadores.unlock();
+}
+/*----------------------------------------------------------------------------*/
+void Modelo::intercambiarVelocidades()
+{
+	PacMan* pacman = this->getPacMan();
+	Fantasma* fantasma = this->getFantasma();
+	int vFantasma=0;
+	int vPacman = pacman->GetVelocidad();
+	pacman->SetVelocidadPower(vPacman);
+	
+	if(fantasma!=NULL)
+	{
+		vFantasma = fantasma->GetVelocidad();
+		fantasma->SetVelocidadPower(vFantasma);
+	}	
+	else
+		vFantasma = Fantasma::velocidadInicial;
+
+	pacman->SetVelocidad(vFantasma);
+	this->cambiarVelocidadFantasmas(vPacman);
+	std::cout<<"VPAC: "<< vFantasma<< " VFAN: "<<vPacman<<"\n";
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::mostrarElementoComido(Elemento* elemento)

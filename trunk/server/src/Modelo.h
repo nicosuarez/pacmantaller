@@ -155,6 +155,17 @@ public:
 	
 	CasaFantasmas* getCasaFantasmas(){return &casa;}
 	
+	//Intercambia las velocidades del pacman y los fantasmas cuando el pacman
+	//se encuentra en el estado powerup
+	void intercambiarVelocidades();
+	
+	//Setea la velocidad que traia el personaje antes de estar bajo efecto 
+	//powerUp
+	void restoreDefaultSpeed();
+	
+	//Modifica la velocidad a todos los fantasmas del juego
+	void cambiarVelocidadFantasmas(int vPacman);
+	
 	/**
 	 * Determina se termino el nivel o no
 	 */
@@ -172,6 +183,8 @@ public:
 	Operacion* getOperacion();
 	
 	Operacion* desacolar();
+	
+	Fantasma* getFantasma();
 	
 	//Retorna el elemento de la posicion. NULL sino encuentra.
 	Elemento* getElemento( int posicion );

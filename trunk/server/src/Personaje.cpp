@@ -45,7 +45,7 @@ Posicion* Personaje::GetPosicion(){
  */
 int Personaje::GetVelocidad(){
 
-	return velocidad;
+	return this->velocidad;
 }
 
 
@@ -71,5 +71,15 @@ void Personaje::SetPosicion(Posicion& posicion){
  */
 void Personaje::SetVelocidad(int velocidad){
 
-	velocidad = velocidad;
+	this->velocidad = velocidad;
 }
+
+/**
+ * Incrementar la velocidad del personaje
+ */
+void Personaje::incVelocidad(int inc){
+
+	this->velocidad+=inc;
+}
+
+

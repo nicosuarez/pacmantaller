@@ -9,6 +9,8 @@
 
 #include "Personaje.h"
 #include "Modelo.h"
+#include "Timer.h"
+
 
 /**
  * Clase que modela el PacMan
@@ -20,19 +22,23 @@ public:
 	PacMan();
 	PacMan(Posicion& posicion);
 	virtual ~PacMan();
-
+	
 	
 	static const int PACMAN_TYPE = 0;
+	Timer mantenerEstado;
 	int GetRol()const;
 	int GetVelocidad();
 	double getRadio()const;
 	bool IsPowerUp();
-	void SetPowerUp(bool powerUp);
+	void SetPowerUp();
 	bool operator==( int tipo )const;
 	int getPuntaje(){return puntaje;};
 	void incPuntaje(int puntaje){this->puntaje += puntaje;};
 	void comer();
-	
+	/**
+	 * Valor constante de la velocidad inicial del pacman
+	 */
+	static const int velocidadInicial=8;
 	
 private:
 	/**
@@ -44,13 +50,14 @@ private:
 	 */
 	bool isPowerUp;
 	/**
-	 * Valor constante de la velocidad inicial del pacman
-	 */
-	static const int velocidadInicial=16;
-	/**
 	 * Radio constante del pacman
 	 */
 	static const double radio = 0.5;
+	
+	/**
+	 * Valor constante de tiempo en estado de powerUp (ms)
+	 */
+	static const int tiempoPowerUp=10000;
 
 };
 #endif // !defined(EA_B035D27E_31A5_4b0f_B082_3F7AF1A2C886__INCLUDED_)
