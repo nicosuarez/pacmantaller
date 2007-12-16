@@ -8,30 +8,22 @@
 
 
 Personaje::Personaje(){
-
 }
 
 Personaje::Personaje(Posicion& posicion){
 	this->posicion=posicion;
 }
 
-Personaje::Personaje(Posicion& posicion, Coordenada cTranslate, Coordenada cRotate, Model* model):posicion(posicion),cTranslate(cTranslate),cRotate(cRotate),model(model) {
 
-	/*cTranslate = Coordenada(0.0f, 0.0f, 0.0f);
-	cRotate = Coordenada(0.0f, 0.0f, 0.0f);
-	cScale = Coordenada(1.0f, 1.0f, 1.0f);*/
-}
-
-Personaje::~Personaje(){
+Personaje::~Personaje() {
 
 }
-
 
 
 /**
  * Posicion del personaje en el mapa
  */
-Posicion* Personaje::GetPosicion(){
+Posicion* Personaje::GetPosicion() {
 
 	return &posicion;
 }
@@ -86,12 +78,14 @@ void Personaje::SetModel(Model* model){
 	this->model=model;
 }
 
-void Personaje::SetCoordenadaR(Coordenada cRotate) { 
-	this->cRotate=cRotate;
+void Personaje::SetRotacion(Coordenada rotacion) { 
+	
+	this->rotacion = rotacion;
 }
 
-void Personaje::SetCoordenadaT(Coordenada cTranslate) { 
-	this->cTranslate=cTranslate;
+void Personaje::SetCoord(Coordenada coord) { 
+	
+	this->coord= coord;
 }
 
 
@@ -99,11 +93,14 @@ void Personaje::renderizar() {
 	
 	glPushMatrix();
 	
-	glTranslatef(cTranslate.x, cTranslate.y, cTranslate.z);//(0,0,0) para el escenario 
-	//glRotatef(cRotate.y, 0.0f, 1.0f, 0.0f);
-	//glRotatef(cRotate.x, 1.0f, 0.0f, 0.0f);
-	//glRotatef(cRotate.z, 0.0f, 0.0f, 1.0f);
-	glScalef(0.02, 0.02, 0.02);
+	glTranslatef(coord.x, coord.y, coord.z);//(0,0,0) para el escenario 
+	glRotatef(rotacion.x, 1.0f, 0.0f, 0.0f);
+	glRotatef(rotacion.y, 0.0f, 1.0f, 0.0f);	
+	glRotatef(rotacion.z, 0.0f, 0.0f, 1.0f);
+	if (GetRol()==0)
+		glScalef(P_ESCALAX, P_ESCALAY, P_ESCALAZ);
+	else 
+		glScalef(F_ESCALAX, F_ESCALAY, F_ESCALAZ);
 	
 	if (model != NULL) {
 

@@ -9,6 +9,7 @@
 
 #include "Personaje.h"
 
+
 /**
  * Clase que modela el PacMan
  */
@@ -17,10 +18,8 @@ class PacMan : public Personaje
 
 public:
 	PacMan();
-	PacMan(Posicion& posicion);
-	PacMan(Posicion& posicion, Coordenada cTranslate,Coordenada cRotate,Model* model);
+	PacMan(Posicion& posicion);	
 	virtual ~PacMan();
-
 	
 	static const int PACMAN_TYPE = 0;
 	int GetRol()const;

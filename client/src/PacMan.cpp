@@ -9,15 +9,18 @@
 
 PacMan::PacMan(){
 	this->isPowerUp=false;
+
+	coord = Coordenada(0.0f, 0.0f, 0.0f);
+	rotacion = Coordenada(0.0f, 180.0f, -100.0f);	
 }
 
 PacMan::PacMan(Posicion& posicion):Personaje(posicion){
 	this->isPowerUp=false;
+	coord = Coordenada(0.0f, 0.0f, 0.0f);
+	rotacion = Coordenada(0.0f, 180.0f, -100.0f);	
+
 }
 
-PacMan::PacMan(Posicion& posicion, Coordenada cTranslate,Coordenada cRotate,Model* model):Personaje(posicion,cTranslate,cRotate,model) 
-{
-}
 
 PacMan::~PacMan(){
 

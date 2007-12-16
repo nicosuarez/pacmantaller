@@ -297,7 +297,7 @@ int RecibirMensaje::getIdVertice( int idArista, int direccion, int anchoMapa )
 
 
 int RecibirMensaje::calcularEje(int idVertice,int idArista,int ancho) {
-	cout<<"calculo eje"<<endl;
+	
 	int fila=idVertice/ancho;
 	
 	if (idArista==idVertice+fila*ancho || idArista==idVertice+ancho*(fila+2)) 
@@ -309,8 +309,7 @@ int RecibirMensaje::calcularEje(int idVertice,int idArista,int ancho) {
 
 
 float RecibirMensaje::calcularIncremento(int posicionArista) {
-	
-	cout<<"calculo inc"<<endl;
+		
 	if (posicionArista!=0) {
 		return ((posicionArista+1)/64.0)*LONGVERTICE;	
 	}
@@ -320,7 +319,6 @@ float RecibirMensaje::calcularIncremento(int posicionArista) {
 
 void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
-
 	Coordenada coordT;
 	Coordenada coordCentro;
 	bool agregarPersonaje=false;
@@ -331,7 +329,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	//Si el jugador no existe, lo agrega. 
 	if( personaje == NULL )
 	{
-		cout<<"no existe agrego"<<endl;
+		cout<<"no existe, agrego personaje"<<endl;
 		agregarPersonaje = true;
 		Model* model = new Model();
 		
@@ -365,13 +363,15 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 		coordInicial = buscarCoordenada(posicion.getVertice());
 	}*/
 	coordInicial = buscarCoordenada(posicion.getVertice());
-	
+	cout<<"coordInicial= "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;
 	float incremento = calcularIncremento(posicion.getPosicionArista());
+	cout<<"incremento= "<<incremento<<endl;
+	
 	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
 	
-	cout<<"saco inc y eje: "<<incremento<<" "<<eje<<endl; 
+	 
 	if ( eje == 2 ) {//eje X
-		cout<<"ejex "<<endl;
+		cout<<"EJE X! "<<endl;
 		coordT.x=coordInicial.x+incremento;
 		coordT.y=coordInicial.y;
 		coordT.z=coordInicial.z;	
@@ -417,19 +417,20 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			//cout<<"avanzo a Ojo: "<<posPacman.x<<" "<<posPacman.y<<"  "<<posPacman.z<<endl;
 			//cout<<"avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;
 		}
-		
+		cout<<"actualizo camara"<<endl;
 		camara.setOjo(coordT);//TODO extern, posible mutex
 		camara.setCentro(coordCentro);
 
 	}
 	
 	//personaje->SetCoordenadaR(coordR);
-	personaje->SetCoordenadaT(coordT);
+	personaje->SetCoord(coordT);
 	//Actualiza la posicion
 	personaje->SetPosicion(posicion);
 	
 	
-	if ( agregarPersonaje ) {		
+	if ( agregarPersonaje ) {
+		cout<<" push de personaje"<<endl;
 		Modelo::getInstance()->getPersonajes().push_back(personaje);
 							
 	}
@@ -438,8 +439,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 
 
 void RecibirMensaje::recibirPosiciones( int cantJugadores )
-{
-	cout<<"****recibirPosiciones"<<endl;
+{	
 	cout<<"cant Jugadores: "<<cantJugadores<<endl;
 	int tamanio = cantJugadores*sizeof(PktPosiciones);
 	char *posiciones = new char[ tamanio ];
@@ -456,7 +456,8 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 		int direccion = (int)pktPosicion->direccion;
 		int idVertice = getIdVertice( idArista, direccion, modelo->getMapa()->getAncho() );
 		
-		cout<<"recibi: IDJUG: "<<idJugador<<" IDARISTA: "<<idArista<<" POSARISTA: "<<posicionArista<<endl;
+		cout<<"INFO STATUS"<<endl;
+		cout<<"IDJUG: "<<idJugador<<" IDARISTA: "<<idArista<<" POSARISTA: "<<posicionArista<<" DIR: "<<direccion<<"  "<<idVertice<<endl;
 		Posicion posicion( idVertice, idArista, posicionArista, direccion );
 		
 		agregarPersonaje( idJugador, posicion);
@@ -530,6 +531,6 @@ Coordenada RecibirMensaje::buscarCoordenada(int idVert)
 			i++;
 		}
 	}
-	if (!encontrado) cout<<"NO PUEDE SER QUE NO EXISTA"<<endl;
+	//if (!encontrado) cout<<"NO PUEDE SER QUE NO EXISTA"<<endl;
 	return coord;
 }
