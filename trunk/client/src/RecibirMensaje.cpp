@@ -321,7 +321,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
 	Coordenada coordT;
 	Coordenada coordCentro;
-	bool agregarPersonaje=false;
+	bool agregarALista=false;
 	
 	Personaje *personaje = Modelo::getInstance()->getPersonaje( idJugador);		
 	Coordenada coordInicial;
@@ -331,7 +331,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	if( personaje == NULL )
 	{
 		cout<<"no existe, agrego personaje"<<endl;
-		agregarPersonaje = true;
+		agregarALista = true;
 		//Model* model = new Model;
 		
 		if( idJugador == 0 ) {
@@ -369,16 +369,16 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
 	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
 	
-	 
+	cout<<"ESTE   ES   EL  EJE : "<<eje<<endl; 
 	if ( eje == 2 ) {//eje X
-		cout<<"EJE X! "<<endl;
+		cout<<"ES EJE X! "<<endl;
 		coordT.x=coordInicial.x+incremento;
 		coordT.y=coordInicial.y;
 		coordT.z=coordInicial.z;	
 					
 	}
 	else { //eje Z
-		cout<<"ejez "<<endl;
+		cout<<"ES EJEZ! "<<endl;
 		coordT.x=coordInicial.x;
 		coordT.y=coordInicial.y;
 		coordT.z=coordInicial.z-incremento;
@@ -414,8 +414,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			}
 			coordCentro.y = coordT.y;
 			coordCentro.z = coordT.z;				
-			//cout<<"avanzo a Ojo: "<<posPacman.x<<" "<<posPacman.y<<"  "<<posPacman.z<<endl;
-			//cout<<"avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;
+			cout<<"avanzo a Ojo: "<<coordT.x<<" "<<coordT.y<<"  "<<coordT.z<<endl;
+			cout<<"avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;
 		}
 		cout<<"actualizo camara"<<endl;
 		Modelo::getInstance()->getCamara().setOjo(coordT);
@@ -429,7 +429,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	personaje->SetPosicion(posicion);
 	
 	
-	if ( agregarPersonaje ) {
+	if ( agregarALista ) {
 		cout<<" push de personaje que no existia"<<endl;
 		
 		(Modelo::getInstance()->getPersonajes()).push_back(personaje);

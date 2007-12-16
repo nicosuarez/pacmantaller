@@ -32,14 +32,17 @@ tipoElemento Pastilla::getTipo()const
  * Metodo que pertmite renderizar el objeto en la pantalla
  */
 void Pastilla::renderizar(){
+	
 	//glColor3f(1,1,1);
-	glPushMatrix();	
-	glTranslatef(coord.x , coord.y, coord.z);
-	//glRotatef( angcuad, 1,1,1 );
-	glRotatef( 90, 1,1,1 );
-	glColor3f(1,1,0);
-	glutSolidSphere( 0.06, 10, 10 );
-	glPopMatrix();	
+	if (estado == Aparece) {
+		glPushMatrix();	
+		glTranslatef(coord.x , coord.y, coord.z);
+		//glRotatef( angcuad, 1,1,1 );
+		glRotatef( 90, 1,1,1 );
+		glColor3f(1,1,0);
+		glutSolidSphere( 0.06, 10, 10 );
+		glPopMatrix();
+	}
 }
 
 bool Pastilla::operator==( tipoElemento tipo) const
