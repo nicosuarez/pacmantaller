@@ -21,7 +21,7 @@ Status::Status()
 		if( (*it)->getEstado() == FueComido )
 		{
 			elementos.push_back( *it );
-			(*it)->setEstado( Eliminado );
+			//(*it)->setEstado( Eliminado );
 		}
 	}
 	
@@ -32,7 +32,7 @@ Status::Status()
 		if( (*it)->getEstado() == FueComido )
 		{
 			elementos.push_back( *it );
-			(*it)->setEstado( Eliminado );
+		//	(*it)->setEstado( Eliminado );
 		}
 		if( (*it)->getEstado() == Aparece || (*it)->getEstado() == Desaparece )
 			elementos.push_back( *it );
@@ -96,6 +96,8 @@ char* Status::Serialize()
 		elemento->estado = (*it)->getEstado();
 		elemento->posicion = (*it)->getPosicion();
 		delta += sizeof(PktElementoStatus);
+		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Eliminado )
+		modelo->quitarElemento( (*it)->getPosicion() );
 	} 
 	return buffer;
 }
