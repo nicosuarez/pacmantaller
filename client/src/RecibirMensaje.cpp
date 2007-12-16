@@ -390,13 +390,13 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	if (idJugador == Modelo::getInstance()->getid()) {
 		
 		if ( eje==1 ) {
-			
+			cout<<"#### ejez PARA CAMARA "<<endl;
 			if (posicion.getDireccion()==1) {
 				coordCentro.z = coordT.z - 1; // porque avanza en la parte negativa del eje z
-				
+				cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
 			} else { //direccion=0 izquierda 
 				coordCentro.z = coordT.z + 1;
-				
+				cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
 			}
 			coordCentro.x = coordT.x;
 			coordCentro.y = coordT.y;
@@ -404,13 +404,13 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			//cout<<"2-avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;			
 		}
 		else {
-
+			cout<<"#######ejex PARA CAMARA "<<endl;
 			if (posicion.getDireccion()==1) {				
 				coordCentro.x = coordT.x + 1;
-				
+				cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
 			} else { //direccion=0 izquierda				
 				coordCentro.x = coordT.x - 1;
-				
+				cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
 			}
 			coordCentro.y = coordT.y;
 			coordCentro.z = coordT.z;				
@@ -418,8 +418,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			//cout<<"avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;
 		}
 		cout<<"actualizo camara"<<endl;
-		camara.setOjo(coordT);//TODO extern, posible mutex
-		camara.setCentro(coordCentro);
+		Modelo::getInstance()->getCamara().setOjo(coordT);
+		Modelo::getInstance()->getCamara().setCentro(coordCentro);
 
 	}
 	
