@@ -14,7 +14,6 @@ bool CerrarServidorOp::ejecutar()
 	if( !modelo->GetJugadores().empty() )
 	{
 		//Enviar mensaje Quit a todos los jugadores
-		std::cout<<"Enviar mensaje QUIT\n";
 		Quit *quit = new Quit;
 		modelo->getDispatcher()->enviarMensaje( quit );
 	}

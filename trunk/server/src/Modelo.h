@@ -28,6 +28,7 @@
 #include "Dispatcher.h"
 #include "ActualizarJuego.h"
 #include "AgregarJugadorOp.h"
+#include "Stop.h"
 
 using std::string;
 

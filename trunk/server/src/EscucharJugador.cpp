@@ -23,39 +23,14 @@ EscucharJugador::~EscucharJugador()
  */
 void EscucharJugador::main()
 {
-	
-	while( !(*terminoJuego) )
+	int tecla = NONE;
+	Modelo *modelo = Modelo::getInstance();
+	while( !(*terminoJuego) && tecla != KEY_ESCAPE )
 	{
-		int tecla = recibirMensaje();
+		tecla = recibirMensaje();
 		if( (*terminoJuego) )
 			return;
-		if( tecla == KEY_ESCAPE )
-		{
-			std::cout << "Presiono tecla: ESC\n";
-			QuitarJugadorOp *quitarJugador = new QuitarJugadorOp( idJugador );
-			Modelo::getInstance()->agregarOperacion( quitarJugador );
-			break;
-		}
-		else
-		{
-			std::cout << "Presiono tecla: ";
-			switch( tecla )
-			{
-			case KEY_ARRIBA: 
-				std::cout<< "ARRIBA" << std::endl;
-				break;
-			case KEY_ABAJO: 
-				std::cout<< "ABAJO" << std::endl;
-				break;
-			case KEY_DERECHA: 
-				std::cout<< "DERECHA" << std::endl;
-				break;
-			case KEY_IZQUIERDA: 
-				std::cout<< "IZQUIERDA" << std::endl;
-				break;
-			}
-			Modelo::getInstance()->getJugador( idJugador )->SetKeyPressed( tecla );
-		}
+		modelo->getJugador( idJugador )->SetKeyPressed( tecla );
 	}
 }
 

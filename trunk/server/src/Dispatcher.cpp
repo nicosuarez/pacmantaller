@@ -49,7 +49,7 @@ void Dispatcher::main()
 {
 	if( mensajes.empty() )
 	    this->getRecibiMensajeEvent().esperar();
-    while( !(*terminoJuego)  )
+    while( !(*terminoJuego) || !mensajes.empty() )
     {	
     	m_mensajes.lock();
         Mensaje* msg = mensajes.front();
@@ -60,7 +60,7 @@ void Dispatcher::main()
         mensajes.pop();
         m_mensajes.unlock();
         delete msg;
-        if( mensajes.empty() )
+        if( mensajes.empty() && !(*terminoJuego) )
     		this->getRecibiMensajeEvent().esperar();
     }
     std::cout << "Sale del dispatcher\n";

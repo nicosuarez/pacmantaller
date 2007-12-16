@@ -13,6 +13,7 @@
 class Quit : public Mensaje
 {
 
+	int razon;
 public:
 	
 	static const int QUIT_TYPE = 4;
