@@ -148,6 +148,7 @@ GLubyte* ObjLoader::ReadTga(const char* name, unsigned& size, unsigned& bpp, uns
 	w = width;
 	h = height;
 
+	cout<<"ok READTGA"<<endl;
 	return data;
 }
 
@@ -189,6 +190,7 @@ void ObjLoader::CreateBoundingBox(Model &model)
 
 int ObjLoader::cargarModelo(Model& model,const char* obj_filename, const char* tga_filename){
 
+	cout<<"obj_filename: "<<obj_filename<<endl;
 	std::vector<Coordenada> points;
 	std::vector<UV> uvs;
 	std::vector<Coordenada> normals;
@@ -266,9 +268,9 @@ int ObjLoader::cargarModelo(Model& model,const char* obj_filename, const char* t
 		model.triSize = m;
 		model.uvSize  = l;
 		
-		//cout<<"copie datos"<<endl;		
+		cout<<"copie datos"<<endl;		
 		if (tga_filename != NULL) {
-			//cout<<"copio tga"<<endl;
+			cout<<"copio tga"<<endl;
 			model.tex = new Texture;
 			model.tex->data = (GLubyte*)data;
 			model.tex->width = w;
@@ -276,13 +278,22 @@ int ObjLoader::cargarModelo(Model& model,const char* obj_filename, const char* t
 			model.tex->size = size;
 			glGenTextures (1, &(model.tex->id));
 			glBindTexture (GL_TEXTURE_2D, model.tex->id);
+			
 			glTexImage2D (GL_TEXTURE_2D, 0, 4, model.tex->width, model.tex->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, model.tex->data);
-			gluBuild2DMipmaps (GL_TEXTURE_2D, 4, model.tex->width, model.tex->height, GL_RGBA, GL_UNSIGNED_BYTE, model.tex->data);
+			
+			//int a=gluBuild2DMipmaps (GL_TEXTURE_2D, 4, model.tex->width, model.tex->height, GL_RGBA, GL_UNSIGNED_BYTE, model.tex->data);
+			/*if (a==GLU_INVALID_VALUE){
+				cout<<"width or height are < 1"<<endl;
+			}
+			else if(a==GLU_INVALID_ENUM){
+				cout<<"internalFormat, format or type are not legal."<<endl;
+			}
+			else if(a==GLU_INVALID_OPERATION)  cout<<"if type is GL_UNSIGNED_BYTE_3_3_2 or GL_UNSIGNED_BYTE_2_3_3_REV and format is not GL_RGB."<<endl;*/
 		} 
 		else {
 			model.tex = NULL;
 		}
-		//cout<<"ahora CreateBoundingBox(model);"<<endl;
+		cout<<"ahora CreateBoundingBox(model);"<<endl;
 		CreateBoundingBox(model);
 	}
 	cout<<"ok OBJloader"<<endl;

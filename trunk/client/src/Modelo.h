@@ -37,6 +37,8 @@ private:
 
     Evento recibiMensajeInitEvent;
     
+    
+    
 public:
 	Evento& getRecibiMensajeInitEvent();
 	
@@ -100,6 +102,8 @@ public:
 	void eliminarBonus();
 	
 	void eliminarPowers();
+	
+	    
 };
 
 #endif /*MODELO_H_*/

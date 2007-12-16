@@ -10,6 +10,7 @@ Modelo::Modelo()
 	salidaPacMan = NULL;
 	casaFantasmas = NULL;
 	mapa = NULL;
+	
 }
 
 
