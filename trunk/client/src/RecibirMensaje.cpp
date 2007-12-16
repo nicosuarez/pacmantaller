@@ -23,6 +23,7 @@ void RecibirMensaje::recibirMensaje()
 {
 	Modelo *modelo = Modelo::getInstance();
 	char *buffer = new char[sizeof(PktCabecera)];
+	bool start=false;
 	//Mientras no haya finalizado el juego sigue recibiendo paquetes
 	while( !modelo->getFinalizoJuego() )
 	{
@@ -48,11 +49,13 @@ void RecibirMensaje::recibirMensaje()
 				id = ntohs(id);
 				std::cout << "ID: " << (int)id << std::endl;
 				modelo->setid( (int)(id) );
+				start=true;
 				break;
 			}	
 			case Mensaje::STATUS_TYPE:
 			{
 				std::cout<< "Status\n";
+				if(start)
 				recibirStatus( cabecera );
 				break;
 			}	
@@ -369,16 +372,16 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
 	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
 	
-	cout<<"ESTE   ES   EL  EJE : "<<eje<<endl; 
+	 
 	if ( eje == 2 ) {//eje X
-		cout<<"ES EJE X! "<<endl;
+		//cout<<"EJE X! "<<endl;
 		coordT.x=coordInicial.x+incremento;
 		coordT.y=coordInicial.y;
 		coordT.z=coordInicial.z;	
 					
 	}
 	else { //eje Z
-		cout<<"ES EJEZ! "<<endl;
+		//cout<<"ejez "<<endl;
 		coordT.x=coordInicial.x;
 		coordT.y=coordInicial.y;
 		coordT.z=coordInicial.z-incremento;
@@ -390,13 +393,13 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	if (idJugador == Modelo::getInstance()->getid()) {
 		
 		if ( eje==1 ) {
-			cout<<"#### ejez PARA CAMARA "<<endl;
+		//	cout<<"#### ejez PARA CAMARA "<<endl;
 			if (posicion.getDireccion()==1) {
 				coordCentro.z = coordT.z - 1; // porque avanza en la parte negativa del eje z
-				cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
+		//		cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
 			} else { //direccion=0 izquierda 
 				coordCentro.z = coordT.z + 1;
-				cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
+		//		cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
 			}
 			coordCentro.x = coordT.x;
 			coordCentro.y = coordT.y;
@@ -404,18 +407,18 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			//cout<<"2-avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;			
 		}
 		else {
-			cout<<"#######ejex PARA CAMARA "<<endl;
+		//	cout<<"#######ejex PARA CAMARA "<<endl;
 			if (posicion.getDireccion()==1) {				
 				coordCentro.x = coordT.x + 1;
-				cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
+		//		cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
 			} else { //direccion=0 izquierda				
 				coordCentro.x = coordT.x - 1;
-				cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
+		//		cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
 			}
 			coordCentro.y = coordT.y;
 			coordCentro.z = coordT.z;				
-			cout<<"avanzo a Ojo: "<<coordT.x<<" "<<coordT.y<<"  "<<coordT.z<<endl;
-			cout<<"avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;
+			//cout<<"avanzo a Ojo: "<<posPacman.x<<" "<<posPacman.y<<"  "<<posPacman.z<<endl;
+			//cout<<"avanzo a Centro: "<<posCentro.x<<" "<<posCentro.y<<"  "<<posCentro.z<<endl<<endl;
 		}
 		cout<<"actualizo camara"<<endl;
 		Modelo::getInstance()->getCamara().setOjo(coordT);
@@ -429,8 +432,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	personaje->SetPosicion(posicion);
 	
 	
-	if ( agregarALista ) {
-		cout<<" push de personaje que no existia"<<endl;
+	if ( agregarALista  ) {
+	//	cout<<" push de personaje que no existia"<<endl;
 		
 		(Modelo::getInstance()->getPersonajes()).push_back(personaje);
 							
@@ -457,7 +460,7 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 		int direccion = (int)pktPosicion->direccion;
 		int idVertice = getIdVertice( idArista, direccion, modelo->getMapa()->getAncho() );
 		
-		cout<<"INFO STATUS"<<endl;
+		//cout<<"INFO STATUS"<<endl;
 		cout<<"IDJUG: "<<idJugador<<" IDARISTA: "<<idArista<<" POSARISTA: "<<posicionArista<<" DIR: "<<direccion<<"  "<<idVertice<<endl;
 		Posicion posicion( idVertice, idArista, posicionArista, direccion );
 		
@@ -478,7 +481,7 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	puntuacion = ntohl(puntuacion);
 	modelo->setPuntuacion( puntuacion );
 		
-	cout<<"voy a entrar a recibir posiciones"<<endl;
+	//cout<<"voy a entrar a recibir posiciones"<<endl;
 	//Recibo las posiciones de los jugadores
 	recibirPosiciones( ((int)cabecera->aux)+1 );
 	
