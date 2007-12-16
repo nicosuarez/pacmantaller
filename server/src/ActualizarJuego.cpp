@@ -336,11 +336,12 @@ void ActualizarJuego::actualizar()
 //Si el pacman comio todas las pastillas y powersUp gano el nivel
 void ActualizarJuego::ganoPacman()
 {
-	tListElementos* elementos = Modelo::getInstance()->GetElementos();
+	Modelo *modelo = Modelo::getInstance();
+	tListElementos* elementos = modelo->GetElementos();
 	if(elementos->size()==0)
 	{
+		modelo->getDispatcher()->enviarMensaje( new Stop(PACMAN_GANO) );
 		this->cambiarDeNivel();
-		//TODO:Enviar stop estado Gano Pacman!
 	}
 }
 /*----------------------------------------------------------------------------*/
