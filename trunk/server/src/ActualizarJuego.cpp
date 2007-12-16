@@ -362,9 +362,10 @@ void ActualizarJuego::analizarColision(PacMan* pacman,Fantasma* fantasma)
 	}
 	else
 	{
-		//Si el pacman fue comido termina el nivel
-		this->cambiarDeNivel();
-		//TODO:Enviar stop estado Perdio Pacman!
+		Modelo *modelo = Modelo::getInstance();
+		//Si el pacman fue comido finaliza el juego
+		modelo->getDispatcher()->enviarMensaje( new Stop( PACMAN_FUE_COMIDO ) );
+		modelo->agregarOperacion( new CerrarServidorOp() );
 	}
 }
 /*----------------------------------------------------------------------------*/

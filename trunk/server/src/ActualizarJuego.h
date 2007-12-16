@@ -8,6 +8,7 @@
 #include "CerrarServidorOp.h"
 #include "Status.h"
 #include "CambiarDeNivelOp.h"
+#include "Stop.h"
 
 class Fantasma;
 class PacMan;
