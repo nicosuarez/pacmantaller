@@ -10,8 +10,7 @@
 #include "Operacion.h"
 #include <iostream>
 /**
- * Clase encargada de generar las operaciones que agregan en el mapa los bonus y
- * powersUp
+ * Clase encargada de generar las operaciones que agregan en el mapa los bonus.
  */
 class ElementsManager
 {

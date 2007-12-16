@@ -184,6 +184,7 @@ void Modelo::cambiarSiguienteNivel()
 		}
 		m_jugadores.unlock();
 	}
+	sleep(30000);
 	
 }
 /*----------------------------------------------------------------------------*/
@@ -539,8 +540,6 @@ void Modelo::comerElementoDelVertice(tVertice* vertice)
 			if(elemento->getTipo()==tPowerup)
 			{
 				pacMan->SetPowerUp();
-				pacMan->SetVelocidad(Fantasma::velocidadInicial);
-				pacMan->SetVelocidad(Fantasma::velocidadInicial);
 			}
 		}
 	}
