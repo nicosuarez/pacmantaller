@@ -59,9 +59,12 @@ private:
 	
 
 	int calcularEje(int idVertice,int idArista,int ancho);
+	
 	float calcularIncremento(int posicionArista);
+	
 	void agregarPersonaje(int idJugador, Posicion posicion);
 
+	void verRazon( int razon );
 	
 public:
 	RecibirMensaje( Socket *socket );

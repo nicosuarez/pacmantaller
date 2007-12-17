@@ -30,7 +30,12 @@ Modelo::~Modelo()
 	eliminarBonus();
 	eliminarPowers();
 	if( mapa != NULL )
+	{
+		this->m_mapa.lock();
 		delete mapa;
+		this->m_mapa.unlock();
+	}
+		
 	if( salidaPacMan != NULL )
 		delete salidaPacMan;
 	if( casaFantasmas != NULL )
@@ -60,9 +65,11 @@ void Modelo::setFinalizoNivel( bool finalizo )
 
 void Modelo::setMapa( Mapa *mapa )
 {
+	this->m_mapa.lock();
 	if( this->mapa != NULL)
 		delete mapa;
 	this->mapa = mapa;
+	this->m_mapa.unlock();
 }
 
 void Modelo::setCasaFantasmas( CasaFantasmas* casaFantasmas )
@@ -199,44 +206,95 @@ SalidaPacMan* Modelo::getSalidaPacMan()
 void Modelo:: eliminarPersonajes()
 {
 	tListPersonaje::iterator it;
+	this->m_personajes.lock();
 	for( it=personajes.begin(); it!=personajes.end(); it++ )
 	{
 		delete(*it);
 	}
 	personajes.clear();
+	this->m_personajes.unlock();
 }
 
 void Modelo:: eliminarPastillas()
 {
 	tListPastilla::iterator it;
+	this->m_pastillas.lock();
 	for( it = pastillas.begin(); it != pastillas.end(); it++ )
 	{
 		delete(*it);
 	}
 	pastillas.clear();
+	this->m_pastillas.unlock();
 }
 
 void Modelo:: eliminarBonus()
 {
 	tListBonus::iterator it;
+	this->m_bonus.lock();
 	for( it= bonus.begin(); it != bonus.end(); it++ )
 	{
 		delete(*it);
 	}
 	bonus.clear();
+	this->m_bonus.unlock();
 }
 
 void Modelo:: eliminarPowers()
 {
 	tListPower::iterator it;
+	this->m_powers.lock();
 	for( it= powers.begin(); it != powers.end(); it++ )
 	{
 		delete(*it);
 	}
 	powers.clear();
+	this->m_powers.lock();
 }
 
 
 Camara& Modelo::getCamara() {
 	return camara;
 }
+
+Mutex& Modelo::getMutexPastillas()
+{
+	return this->m_pastillas;
+}
+
+Mutex& Modelo::getMutexBonus()
+{
+	return this->m_bonus;
+}
+
+Mutex& Modelo::getMutexPowers()
+{
+	return this->m_powers;
+}
+
+Mutex& Modelo::getMutexPersonajes()
+{
+	return this->m_personajes;
+}
+
+Mutex& Modelo::getMutexMapa()
+{
+	return this->m_mapa;
+}
+
+//void Modelo::quitarBonus( int idPosicion )
+//{
+//	tListBonus::iterator it;
+//	m_bonus.lock();
+//	for( it = bonus.begin(); it != bonus.end(); it++ )
+//	{
+//		if( (*it)->getPosicion() == idPosicion )
+//		{
+//			delete (*it);
+//			bonus.erase( it );
+//			break;
+//		}
+//	}
+//	m_bonus.unlock();
+//}
+
+

@@ -56,7 +56,7 @@ void RecibirMensaje::recibirMensaje()
 			{
 				std::cout<< "Status\n";
 				if(start)
-				recibirStatus( cabecera );
+					recibirStatus( cabecera );
 				break;
 			}	
 			case Mensaje::STOP_TYPE:
@@ -65,16 +65,16 @@ void RecibirMensaje::recibirMensaje()
 				//recibo la puntuacion del pacman
 				char puntuacion[sizeof(uint32_t)];
 				socket->recibir( puntuacion, sizeof(uint32_t) );
-				//TODO FALTA VER QUE SE HACE CON LA "RAZON" DE PORQUE FINALIZO EL NIVEL
-				modelo->setFinalizoNivel( true );
 				modelo->setPuntuacion( (int)(*puntuacion) );
+				modelo->setFinalizoNivel( true );
+				verRazon( cabecera->aux );
 				break;
 			}	
 			case Mensaje::QUIT_TYPE:
 			{
 				std::cout<< "Quit\n";
 				modelo->setFinalizoJuego( true );
-				modelo->getEnviarMensaje()->enviarMensaje( new Key(4) );
+				modelo->getEnviarMensaje()->enviarMensaje( new Key(KEY_ESCAPE) );
 				break;
 			}	
 			default: 
@@ -245,17 +245,15 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 	Modelo* modelo = Modelo::getInstance();
 	int tamanio = cantElementos*sizeof(PktElementoStatus);
 	char *elementos = new char[ tamanio ];
-	std::cout<<"recibirElementos"<<"\n";
 	socket->recibir( elementos, tamanio );
 	int delta = 0;
-	std::cout<<"recibiendo..."<<"\n";
 	for( int i=0; i< cantElementos; i++ )
 	{
 		PktElementoStatus *elementoStatus = (PktElementoStatus*)(elementos + delta);
-		std::cout<<"elemento tipo: "<<(int)elementoStatus->tipo <<" estado: "<< (int)elementoStatus->estado<<"\n";
 		if( elementoStatus->estado == Aparece )
 		{
-			std::cout<<"Aparece elemento tipo: "<<elementoStatus->tipo<<"\n";
+			if( elementoStatus->tipo == tBonus )
+				std::cout << ">>>>>>>>>>>>>>>>>BONUS - Estado APARECE\n"; 
 			PktElemento pktElemento;
 			pktElemento.tipo = elementoStatus->tipo;
 			pktElemento.orientacion = elementoStatus->orientacion;
@@ -267,8 +265,12 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 			Elemento* elemento = modelo->getElemento( (tipoElemento)elementoStatus->tipo, elementoStatus->posicion );
 			if(elemento!=NULL)
 			{
-				std::cout<<"Desaparece elemento tipo: "<<elementoStatus->tipo<<"\n";
 				elemento->setEstado( Desaparece );
+			}
+			if( elementoStatus->tipo == tBonus )
+			{
+				std::cout << ">>>>>>>>>>>>>>>>>BONUS - Estado DESAPARECE\n";
+				modelo->quitarBonus( elementoStatus->posicion );
 			}
 		}
 		delta += sizeof(PktElementoStatus);
@@ -334,8 +336,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	Coordenada coordT;
 	Coordenada coordCentro,coordOjo;
 	bool agregarALista=false;
-	
-	Personaje *personaje = Modelo::getInstance()->getPersonaje( idJugador);		
+	Modelo *modelo = Modelo::getInstance();
+	Personaje *personaje = modelo->getPersonaje( idJugador);		
 	Coordenada coordInicial;
 	
 	
@@ -350,10 +352,10 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 		if( idJugador == 0 ) {
 			personaje = new PacMan();
 			//personaje->model=new Model;
-			cout<<"voy a cargar modelo pacman"<<endl;
+//			cout<<"voy a cargar modelo pacman"<<endl;
 			//ObjLoader::cargarModelo(*personaje->model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
 			ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
-			cout<<"cargue obj y tga de PACMAN"<<endl;	
+//			cout<<"cargue obj y tga de PACMAN"<<endl;	
 			
 			personaje->SetModel( model);
 			//if (Modelo::getInstance()->getSalidaPacMan() ==NULL )  cout<<"ERROR"<<endl;
@@ -365,9 +367,9 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 		else{			
 			personaje = new Fantasma();			
 			//coordInicial = Modelo::getInstance()->getCasaFantasmas()->getCoordenada();
-			cout<<"voy a cargar modelo FANT"<<endl;			
+//			cout<<"voy a cargar modelo FANT"<<endl;			
 			ObjLoader::cargarModelo(*model,OBJ_PATH_FANTASMA,TEX_PATH_FANTASMA);
-			cout<<"cargue obj y tga de FANTASMA"<<endl;			
+//			cout<<"cargue obj y tga de FANTASMA"<<endl;			
 			personaje->SetModel( model);			
 			
 		}
@@ -375,16 +377,16 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	int posArista = posicion.getPosicionArista();
 	
 	coordInicial = buscarCoordenada(posicion.getVertice());
-	cout<<"coordInicial= "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;
+//	cout<<"coordInicial= "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;
 	float incremento = calcularIncremento(posArista);
-	cout<<"incremento= "<<incremento<<endl;
+//	cout<<"incremento= "<<incremento<<endl;
 	
-	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
+	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),modelo->getMapa()->getAncho() );
 	
 	coordT=coordInicial;
-	cout<<"ESTE   ES   EL  EJE : "<<eje<<endl; 
+//	cout<<"ESTE   ES   EL  EJE : "<<eje<<endl; 
 	if ( eje == 2 ) {//eje X
-		cout<<"ES EJE X! "<<endl;
+//		cout<<"ES EJE X! "<<endl;
 				
 		if (posicion.getDireccion()==1) {			
 			//coordT.x=coordInicial.x+(LONGVERTICE-incremento);
@@ -397,7 +399,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 					
 	}
 	else { //eje Z
-		cout<<"ES EJEZ! "<<endl;
+		//cout<<"ES EJEZ! "<<endl;
 		if (posicion.getDireccion()==1) {			
 			coordT.z=coordInicial.z-incremento;
 										
@@ -408,46 +410,44 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			
 	}
 	
-	
-	if (idJugador == Modelo::getInstance()->getid()) {
+	if (idJugador == modelo->getid()) {
 		coordOjo = coordT;
 		coordCentro = coordT;
 		if ( eje==1 ) {
-			cout<<"#### ejez PARA CAMARA "<<endl;
+			//cout<<"#### ejez PARA CAMARA "<<endl;
 			if (posicion.getDireccion()==1) {
 				//coordOjo.z = coordT.z +0.5;
 				coordCentro.z = coordT.z - 1; // porque avanza en la parte negativa del eje z
-				cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
+				//cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
 			} else { //direccion=0 izquierda
 				//coordOjo.z = coordT.z -0.5;
 				coordCentro.z = coordT.z + 1;
-				cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
+				//cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
 			}
-			cout<<"2-avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
-			cout<<"2-avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;			
+//			cout<<"2-avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
+//			cout<<"2-avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;			
 		}
 		else {
 			//**************************
-			cout<<"#######ejex PARA CAMARA "<<endl;
+	//		cout<<"#######ejex PARA CAMARA "<<endl;
 			if (posicion.getDireccion()==1) {
 				//coordOjo.x = coordT.x + 0.5;
 				coordCentro.x = coordT.x + 1;
-				cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
+		//		cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
 				
 			} else { //direccion=0 izquierda
 				//coordOjo.x = coordT.x - 0.5;
 				coordCentro.x = coordT.x - 1;
-				cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
+			//	cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
 			}							
-			cout<<"avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
-			cout<<"avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;
+//			cout<<"avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
+//			cout<<"avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;
 		
 		}
 		
-		cout<<"actualizo camara"<<endl;		
-		Modelo::getInstance()->getCamara().setOjo(coordT);
-		Modelo::getInstance()->getCamara().setCentro(coordCentro);
-
+		//cout<<"actualizo camara"<<endl;		
+		modelo->getCamara().setOjo(coordT);
+		modelo->getCamara().setCentro(coordCentro);
 	}
 	
 	//personaje->SetCoordenadaR(coordR);
@@ -458,9 +458,9 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	
 	if ( agregarALista ) {
 		cout<<" push de personaje que no existia"<<endl;
-		
-		(Modelo::getInstance()->getPersonajes()).push_back(personaje);
-							
+		modelo->getMutexPersonajes().lock();
+		modelo->getPersonajes().push_back(personaje);
+		modelo->getMutexPersonajes().unlock();							
 	}
 	
 }
@@ -508,11 +508,9 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	//Recibo las posiciones de los jugadores
 	recibirPosiciones( ((int)cabecera->aux)+1 );
 	
-	std::cout<<"recibirCantidad"<<"\n";
 	//Recibo la cantidad de elementos
 	char *buffer = new char[sizeof(uint8_t)];
 	socket->recibir( buffer, sizeof(uint8_t) );
-	std::cout<<"recibirElementosAntes"<<"\n";
 	//Recibo los elementos
 	recibirElementosStatus( (int)(*buffer) );
 	delete []buffer;
@@ -536,6 +534,43 @@ void RecibirMensaje::crearVerticesMapa()
 			id = ((filas-1)-i)*cols+j;
 			Vertice vert(id,pos);
 			vecVertices.push_back(vert);
+		}
+	}
+}
+
+void RecibirMensaje::verRazon( int razon )
+{
+	Modelo *modelo = Modelo::getInstance();
+	switch( razon )
+	{
+		case PACMAN_GANO:
+		{
+			modelo->eliminarBonus();
+			modelo->eliminarPastillas();
+			modelo->eliminarPowers();
+			modelo->eliminarPersonajes();
+			std::cout << "PACMAN GANO\n";
+			break;
+		}
+		case PACMAN_FUE_COMIDO:
+		{
+			std::cout << "EL PACMAN FUE COMIDO\n";
+			break;
+		}
+		case PACMAN_SE_DESCONECTO:
+		{
+			std::cout << "EL PACMAN SE DESCONECTO\n";
+			break;
+		}
+		case JUGADORES_INSUFICIENTES:
+		{
+			std::cout << "CANTIDAD DE JUGADORES INSUFICIENTES\n";
+			break;
+		}
+		case SERVER_TERMINADO:
+		{
+			std::cout << "EL SERVIDOR FUE TERMINADO\n";
+			break;
 		}
 	}
 }

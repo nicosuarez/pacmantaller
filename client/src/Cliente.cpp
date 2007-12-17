@@ -144,35 +144,42 @@ void dibujarSuelo(Mapa* mapa) {
 }
 
 void dibujarBonus() {
-	tListBonus bonus = Modelo::getInstance()->getBonus();
+	Modelo *modelo = Modelo::getInstance();
+	modelo->getMutexBonus().lock();
+	tListBonus bonus = modelo->getBonus();
 	tListBonus::iterator itBonus;
 	for( itBonus = bonus.begin(); itBonus != bonus.end(); itBonus++ )
 	{		
 		(*itBonus)->renderizar();	
 		
 	}	
-	
+	modelo->getMutexBonus().unlock();
 }
 
 void dibujarPowerUp() {
 
-	tListPower powers = Modelo::getInstance()->getPowers();
+	Modelo *modelo = Modelo::getInstance();
+	modelo->getMutexPowers().lock();
+	tListPower powers = modelo->getPowers();
 	tListPower::iterator itPowers;
 	
 	for( itPowers = powers.begin(); itPowers != powers.end(); itPowers++ )
 	{	
 		(*itPowers)->renderizar();		
 	}	
-	
+	modelo->getMutexPowers().unlock();
 }
 
-void dibujarPastillas() {	
-	tListPastilla pastillas = Modelo::getInstance()->getPastillas();
+void dibujarPastillas() {
+	Modelo *modelo = Modelo::getInstance();
+	modelo->getMutexPastillas().lock();
+	tListPastilla pastillas = modelo->getPastillas();
 	tListPastilla::iterator itPastillas;
 	for( itPastillas = pastillas.begin(); itPastillas != pastillas.end(); itPastillas++ )
 	{			
 		(*itPastillas)->renderizar();		
-	}	
+	}
+	modelo->getMutexPastillas().unlock();
 	
 }
 /*
@@ -214,7 +221,9 @@ void temp_setPosicionFantasma() {
 
 void dibujarPersonajes() {
 	
-	tListPersonaje personajes=Modelo::getInstance()->getPersonajes();
+	Modelo *modelo = Modelo::getInstance();
+	modelo->getMutexPersonajes().lock();
+	tListPersonaje personajes = modelo->getPersonajes();
 	tListPersonaje::iterator itPersonajes;
 	for( itPersonajes = personajes.begin(); itPersonajes != personajes.end(); itPersonajes++ )
 	{
@@ -225,24 +234,26 @@ void dibujarPersonajes() {
 		
 		(*itPersonajes)->renderizar();		
 	}
-	
+	modelo->getMutexPersonajes().unlock();
 }
 
 
 void render(void) {
-	Mapa* mapa=Modelo::getInstance()->getMapa();	
+	Modelo *modelo = Modelo::getInstance(); 
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-	Modelo::getInstance()->getCamara().update(); 
+	modelo->getCamara().update(); 
 	
 	glEnable(GL_TEXTURE_2D);
 	glColor3f(1,1,1);//Selecciona el color actual con el que dibujar
-
+	modelo->getMutexMapa().lock();
+	Mapa* mapa = modelo->getMapa();
 	dibujarParedH(mapa);	
 	dibujarParedV(mapa);
 	dibujarSuelo(mapa); 	
-	
+	modelo->getMutexMapa().unlock();
 	
 	glDisable( GL_TEXTURE_2D );		
 	
@@ -346,7 +357,7 @@ int comenzarJuego(Request* req)
 
 void  iniciarGraficos(int argc, char** argv)
 {
-	Mapa* mapa=Modelo::getInstance()->getMapa();
+	Modelo *modelo = Modelo::getInstance(); 
 	std::cout<<"Obtiene mapa\n";
 	glutInit( &argc, argv );	
 	glutInitWindowSize( 500, 400 );
@@ -357,8 +368,11 @@ void  iniciarGraficos(int argc, char** argv)
 	glEnable(GL_TEXTURE_2D);
 
 	cout<<"******inicio graficos"<<endl;
-	initTexturas();		
+	initTexturas();
+	modelo->getMutexMapa().lock();
+	Mapa* mapa= modelo->getMapa();
 	transformarParedes(mapa);
+	modelo->getMutexMapa().unlock();
 	//temp_setPosicionFantasma(); 
 		
 	glEnable( GL_DEPTH_TEST );	
