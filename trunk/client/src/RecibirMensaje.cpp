@@ -250,27 +250,27 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 	for( int i=0; i< cantElementos; i++ )
 	{
 		PktElementoStatus *elementoStatus = (PktElementoStatus*)(elementos + delta);
-		if( elementoStatus->estado == Aparece )
+		
+		int estado = elementoStatus->estado;
+		int tipo = elementoStatus->tipo;
+		std::cout<<"elemento tipo: "<<tipo <<" estado: "<< estado<<"\n";
+		
+		if( estado == Aparece )
 		{
-			if( elementoStatus->tipo == tBonus )
-				std::cout << ">>>>>>>>>>>>>>>>>BONUS - Estado APARECE\n"; 
+			std::cout<<"Aparece elemento tipo: "<<tipo<<"\n";
 			PktElemento pktElemento;
 			pktElemento.tipo = elementoStatus->tipo;
 			pktElemento.orientacion = elementoStatus->orientacion;
 			pktElemento.posicion = elementoStatus->posicion;
 			agregarElemento( &pktElemento );
 		}
-		else if( elementoStatus->estado == Desaparece )
+		else
 		{
 			Elemento* elemento = modelo->getElemento( (tipoElemento)elementoStatus->tipo, elementoStatus->posicion );
 			if(elemento!=NULL)
 			{
+				std::cout<<"Desaparece elemento tipo: "<<tipo<<"\n";
 				elemento->setEstado( Desaparece );
-			}
-			if( elementoStatus->tipo == tBonus )
-			{
-				std::cout << ">>>>>>>>>>>>>>>>>BONUS - Estado DESAPARECE\n";
-				//modelo->quitarBonus( elementoStatus->posicion );
 			}
 		}
 		delta += sizeof(PktElementoStatus);
@@ -381,7 +381,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	float incremento = calcularIncremento(posArista);
 //	cout<<"incremento= "<<incremento<<endl;
 	
-	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),modelo->getMapa()->getAncho() );
+	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
 	
 	coordT=coordInicial;
 //	cout<<"ESTE   ES   EL  EJE : "<<eje<<endl; 
@@ -410,7 +410,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			
 	}
 	
-	if (idJugador == modelo->getid()) {
+	
+	if (idJugador == Modelo::getInstance()->getid()) {
 		coordOjo = coordT;
 		coordCentro = coordT;
 		if ( eje==1 ) {
@@ -507,6 +508,7 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	//cout<<"voy a entrar a recibir posiciones"<<endl;
 	//Recibo las posiciones de los jugadores
 	recibirPosiciones( ((int)cabecera->aux)+1 );
+	
 	
 	//Recibo la cantidad de elementos
 	char *buffer = new char[sizeof(uint8_t)];
