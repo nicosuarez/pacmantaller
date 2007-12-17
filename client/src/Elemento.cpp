@@ -60,9 +60,9 @@ void Elemento::renderizar(){
 
 }
 
-void Elemento::SetPosicion(int newVal){
+void Elemento::SetPosicion(int posicion){
 
-	posicion = newVal;
+	this->posicion = posicion;
 }
 
 void Elemento::setCoordenada( Coordenada coord) 

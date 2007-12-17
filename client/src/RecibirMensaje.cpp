@@ -116,6 +116,7 @@ void RecibirMensaje::agregarElemento( PktElemento *pktElemento )
 		case (int)tBonus: 
 		{
 			Modelo::getInstance()->getBonus().push_back( new Bonus( posicion, coord, orientacion) );
+			std::cout<<"recibe bonus estado: Aparece"<<"\n";
 			break;			
 		}
 		case (int)tPastilla:
@@ -244,23 +245,31 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 	Modelo* modelo = Modelo::getInstance();
 	int tamanio = cantElementos*sizeof(PktElementoStatus);
 	char *elementos = new char[ tamanio ];
+	std::cout<<"recibirElementos"<<"\n";
 	socket->recibir( elementos, tamanio );
 	int delta = 0;
+	std::cout<<"recibiendo..."<<"\n";
 	for( int i=0; i< cantElementos; i++ )
 	{
 		PktElementoStatus *elementoStatus = (PktElementoStatus*)(elementos + delta);
+		std::cout<<"elemento tipo: "<<(int)elementoStatus->tipo <<" estado: "<< (int)elementoStatus->estado<<"\n";
 		if( elementoStatus->estado == Aparece )
 		{
+			std::cout<<"Aparece elemento tipo: "<<elementoStatus->tipo<<"\n";
 			PktElemento pktElemento;
 			pktElemento.tipo = elementoStatus->tipo;
 			pktElemento.orientacion = elementoStatus->orientacion;
 			pktElemento.posicion = elementoStatus->posicion;
 			agregarElemento( &pktElemento );
 		}
-		else //estado == Desaparece
+		else if( elementoStatus->estado == Desaparece )
 		{
 			Elemento* elemento = modelo->getElemento( (tipoElemento)elementoStatus->tipo, elementoStatus->posicion );
-			elemento->setEstado( Desaparece );
+			if(elemento!=NULL)
+			{
+				std::cout<<"Desaparece elemento tipo: "<<elementoStatus->tipo<<"\n";
+				elemento->setEstado( Desaparece );
+			}
 		}
 		delta += sizeof(PktElementoStatus);
 	}
@@ -500,10 +509,11 @@ void RecibirMensaje::recibirStatus( PktCabecera *cabecera )
 	//Recibo las posiciones de los jugadores
 	recibirPosiciones( ((int)cabecera->aux)+1 );
 	
+	std::cout<<"recibirCantidad"<<"\n";
 	//Recibo la cantidad de elementos
 	char *buffer = new char[sizeof(uint8_t)];
 	socket->recibir( buffer, sizeof(uint8_t) );
- 
+	std::cout<<"recibirElementosAntes"<<"\n";
 	//Recibo los elementos
 	recibirElementosStatus( (int)(*buffer) );
 	delete []buffer;
