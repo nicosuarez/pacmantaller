@@ -75,7 +75,10 @@ void RecibirMensaje::recibirMensaje()
 			{
 				std::cout<< "Quit\n";
 				modelo->setFinalizoJuego( true );
+				modelo->setFinalizoNivel( true );
 				modelo->getEnviarMensaje()->enviarMensaje( new Key(KEY_ESCAPE) );
+				modelo->getEnviarMensaje()->join();
+				modelo->getRecibiMensajeInitEvent().activar();
 				break;
 			}	
 			default: 
