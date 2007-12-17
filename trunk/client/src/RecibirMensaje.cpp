@@ -191,6 +191,12 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 			//Si no hay arco (bit = 0 ) entonces hay pared
 			ph[numFila][i] = 1 - getbit( j, buffer );
 			j++;
+			//************************
+			if (numFila==0 && (1-ph[numFila][i])==1) {
+				Modelo::getInstance()->getAristasPortal().push_back(j-1);//por el j++
+				cout<<"arista= "<<j<<" es una arista PORTAL"<<endl;
+			}
+			//************************
 		}
 		//Veo el rango de bits que representa los arcos este
 		for( int i=0; i< ancho; i++ )
@@ -198,6 +204,12 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 			//Si no hay arco (bit = 0 ) entonces hay pared
 			pv[numFila][i+1] = 1 - getbit(j, buffer );
 			j++;
+			//************************
+			if (i==(ancho-1) && (1-pv[numFila][i+1])==1) {
+				Modelo::getInstance()->getAristasPortal().push_back(j-1);//por el j++
+				cout<<"arista= "<<j<<" es una arista PORTAL"<<endl;
+			}
+			//************************
 		}
 		numFila++;
 	}
@@ -331,6 +343,88 @@ float RecibirMensaje::calcularIncremento(int posicionArista) {
 
 }
 
+
+bool RecibirMensaje::esAristaPortal(int idArista) {
+	
+	bool existe = false;
+	tListAristaPortal lista = Modelo::getInstance()->getAristasPortal();
+	tListAristaPortal::iterator itLista= lista.begin(); 
+	
+	while (!existe && itLista!= lista.end()) {
+		if (*itLista==idArista) {
+			cout<<"&&&&& "<<idArista<<" ESSSSSSSSSS arista PORTAL"<<endl;
+			existe = true;
+		}
+		else {
+			cout<<"&&&&& "<<idArista<<" no es arista PORTAL"<<endl;
+			itLista++;
+		}
+	}	
+	return existe;
+}
+
+
+void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
+	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
+	int idVerticeFinal;
+	Coordenada coord,coordCentro;
+	
+	int ancho = Modelo::getInstance()->getMapa()->getAncho();
+	int alto = Modelo::getInstance()->getMapa()->getAlto();
+	
+	if (eje==2) { //eje x
+		cout<<"PORTAL---------------->EJE X"<<endl;
+		if (posicion.getDireccion()==1) { //portal esta en la derecha del mapa
+			cout<<"PORTAL-->EJE X---------->portal derecha del mapa"<<endl;
+			idVerticeFinal = posicion.getVertice() - (ancho - 1) ;
+			coord = buscarCoordenada(idVerticeFinal);
+			coordCentro = coord;
+			coordCentro.x += 1;
+			
+		}
+		else { //portal de la izquierda
+			cout<<"PORTAL-->EJE X---------->portal izquierda del mapa"<<endl;
+			idVerticeFinal = posicion.getVertice() + (ancho - 1) ;
+			coord = buscarCoordenada(idVerticeFinal);
+			coordCentro = coord;
+			coordCentro.x -= 1;
+		}
+		
+	}
+	else { //eje z
+		cout<<"PORTAL---------------->EJE Z"<<endl;
+		if (posicion.getDireccion()==1) { //portal de arriba
+			cout<<"PORTAL-->EJE Z---------->portal arriba del mapa"<<endl;
+			idVerticeFinal = (alto-1)*ancho + posicion.getVertice();
+			coord = buscarCoordenada(idVerticeFinal);
+			coordCentro = coord;
+			coordCentro.z -= 1;
+		}
+		else { // portal de abajo
+			cout<<"PORTAL-->EJE Z---------->portal abajo del mapa"<<endl;
+			idVerticeFinal = posicion.getPosicionArista()%ancho;
+			coord = buscarCoordenada(idVerticeFinal);
+			coordCentro = coord;
+			coordCentro.z += 1;
+		}
+		
+	}
+	
+	if ( idJugador == Modelo::getInstance()->getid()) {
+		cout<<"actualizo camara"<<endl;
+		cout<<"coord "<<coord.x<<"  "<<coord.z<<"     coordCentro "<<coordCentro.x<<"  "<<coordCentro.z<<endl;
+		Modelo::getInstance()->getCamara().setOjo(coord);
+		Modelo::getInstance()->getCamara().setCentro(coordCentro);		
+	}
+	
+	Personaje *personaje = Modelo::getInstance()->getPersonaje( idJugador);//NUNCA ES NULL
+	//personaje->SetCoordenadaR(coordR);
+	personaje->SetCoord(coord);
+	//Actualiza la posicion
+	personaje->SetPosicion(posicion);
+		
+}
+
 void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 
 	Coordenada coordT;
@@ -376,92 +470,100 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	}
 	int posArista = posicion.getPosicionArista();
 	
-	coordInicial = buscarCoordenada(posicion.getVertice());
-//	cout<<"coordInicial= "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;
-	float incremento = calcularIncremento(posArista);
-//	cout<<"incremento= "<<incremento<<endl;
-	
-	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
-	
-	coordT=coordInicial;
-//	cout<<"ESTE   ES   EL  EJE : "<<eje<<endl; 
-	if ( eje == 2 ) {//eje X
-//		cout<<"ES EJE X! "<<endl;
-				
-		if (posicion.getDireccion()==1) {			
-			//coordT.x=coordInicial.x+(LONGVERTICE-incremento);
-			coordT.x=coordInicial.x+incremento;
-										
-		} else { //direccion=0 izquierda
-			coordT.x=coordInicial.x - (LONGVERTICE-incremento);
-			//coordT.x=coordInicial.x - incremento;
-		}	
+
+	if (! esAristaPortal(posicion.getArista())) {
+		
+		
+		coordInicial = buscarCoordenada(posicion.getVertice());
+	//	cout<<"coordInicial= "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;
+		float incremento = calcularIncremento(posArista);
+	//	cout<<"incremento= "<<incremento<<endl;
+		
+		int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
+		
+		coordT=coordInicial;
+	//	cout<<"ESTE   ES   EL  EJE : "<<eje<<endl; 
+		if ( eje == 2 ) {//eje X
+	//		cout<<"ES EJE X! "<<endl;
 					
-	}
-	else { //eje Z
-		//cout<<"ES EJEZ! "<<endl;
-		if (posicion.getDireccion()==1) {			
-			coordT.z=coordInicial.z-incremento;
-										
-		} else { //direccion=0 izquierda
-			coordT.z=coordInicial.z + (LONGVERTICE-incremento);
-			//coordT.z=coordInicial.z + incremento;
-		}
-			
-	}
-	
-	
-	if (idJugador == Modelo::getInstance()->getid()) {
-		coordOjo = coordT;
-		coordCentro = coordT;
-		if ( eje==1 ) {
-			//cout<<"#### ejez PARA CAMARA "<<endl;
-			if (posicion.getDireccion()==1) {
-				//coordOjo.z = coordT.z +0.5;
-				coordCentro.z = coordT.z - 1; // porque avanza en la parte negativa del eje z
-				//cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
+			if (posicion.getDireccion()==1) {			
+				//coordT.x=coordInicial.x+(LONGVERTICE-incremento);
+				coordT.x=coordInicial.x+incremento;
+											
 			} else { //direccion=0 izquierda
-				//coordOjo.z = coordT.z -0.5;
-				coordCentro.z = coordT.z + 1;
-				//cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
+				coordT.x=coordInicial.x - (LONGVERTICE-incremento);
+				//coordT.x=coordInicial.x - incremento;
+			}	
+						
+		}
+		else { //eje Z
+			//cout<<"ES EJEZ! "<<endl;
+			if (posicion.getDireccion()==1) {			
+				coordT.z=coordInicial.z-incremento;
+											
+			} else { //direccion=0 izquierda
+				coordT.z=coordInicial.z + (LONGVERTICE-incremento);
+				//coordT.z=coordInicial.z + incremento;
 			}
-//			cout<<"2-avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
-//			cout<<"2-avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;			
-		}
-		else {
-			//**************************
-	//		cout<<"#######ejex PARA CAMARA "<<endl;
-			if (posicion.getDireccion()==1) {
-				//coordOjo.x = coordT.x + 0.5;
-				coordCentro.x = coordT.x + 1;
-		//		cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
 				
-			} else { //direccion=0 izquierda
-				//coordOjo.x = coordT.x - 0.5;
-				coordCentro.x = coordT.x - 1;
-			//	cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
-			}							
-//			cout<<"avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
-//			cout<<"avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;
-		
 		}
 		
-		//cout<<"actualizo camara"<<endl;		
-		modelo->getCamara().setOjo(coordT);
-		modelo->getCamara().setCentro(coordCentro);
+		
+		if (idJugador == Modelo::getInstance()->getid()) {
+			coordOjo = coordT;
+			coordCentro = coordT;
+			if ( eje==1 ) {
+				//cout<<"#### ejez PARA CAMARA "<<endl;
+				if (posicion.getDireccion()==1) {
+					//coordOjo.z = coordT.z +0.5;
+					coordCentro.z = coordT.z - 1; // porque avanza en la parte negativa del eje z
+					//cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
+				} else { //direccion=0 izquierda
+					//coordOjo.z = coordT.z -0.5;
+					coordCentro.z = coordT.z + 1;
+					//cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
+				}
+	//			cout<<"2-avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
+	//			cout<<"2-avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;			
+			}
+			else {
+				//**************************
+		//		cout<<"#######ejex PARA CAMARA "<<endl;
+				if (posicion.getDireccion()==1) {
+					//coordOjo.x = coordT.x + 0.5;
+					coordCentro.x = coordT.x + 1;
+			//		cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
+					
+				} else { //direccion=0 izquierda
+					//coordOjo.x = coordT.x - 0.5;
+					coordCentro.x = coordT.x - 1;
+				//	cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
+				}							
+	//			cout<<"avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
+	//			cout<<"avanzo a Centro: "<<coordCentro.x<<" "<<coordCentro.y<<"  "<<coordCentro.z<<endl<<endl;
+			
+			}
+			
+			//cout<<"actualizo camara"<<endl;		
+			modelo->getCamara().setOjo(coordT);
+			modelo->getCamara().setCentro(coordCentro);
+		}
+		
+		//personaje->SetCoordenadaR(coordR);
+		personaje->SetCoord(coordT);
+		//Actualiza la posicion
+		personaje->SetPosicion(posicion);
+		
+		
+		if ( agregarALista ) {
+			cout<<" push de personaje que no existia"<<endl;
+			modelo->getMutexPersonajes().lock();
+			modelo->getPersonajes().push_back(personaje);
+			modelo->getMutexPersonajes().unlock();							
+		}
 	}
-	
-	//personaje->SetCoordenadaR(coordR);
-	personaje->SetCoord(coordT);
-	//Actualiza la posicion
-	personaje->SetPosicion(posicion);
-	
-	
-	if ( agregarALista ) {
-		cout<<" push de personaje que no existia"<<endl;
-		modelo->getMutexPersonajes().lock();
-		modelo->getPersonajes().push_back(personaje);
-		modelo->getMutexPersonajes().unlock();							
+	else {
+		pasarPortal(idJugador,posicion);					
 	}
 	
 }
