@@ -171,11 +171,15 @@ Elemento* Modelo:: getElemento( tipoElemento tipo, int posicion )
 		}
 		case tBonus:
 		{
+			std::cout<<"Buscar bonus...\n";
 			tListBonus::iterator it;
 			for( it = bonus.begin(); it != bonus.end(); it++ )
 			{
 				if( (*it)->getPosicion() == posicion )
+				{
+					std::cout<<"encontro bonus...\n";
 					return (*it);
+				}
 			}
 			break;
 		}
