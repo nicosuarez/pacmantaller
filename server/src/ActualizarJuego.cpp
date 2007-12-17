@@ -52,43 +52,40 @@ void ActualizarJuego::agregaBonusAlJuego()
 	Elemento* elemento=NULL;
 	
 	if(mantenerBonus)
-		elemento=this->bonusActual;	
+	{
+		elemento=this->bonusActual;
+		elemento->setEstado(Visible);
+	}
 	else
 		elemento=modelo->hayBonus();
 			
 	//Paso el tiempo
-	std::cout<<"agregar bonus time.."<<agregarBonus.getTimeStartNow()<< "\n";
 	if(agregarBonus.getTimeStartNow()>tAgregarBonus)
 	{
-		std::cout<<"agregar bonus.."<<elemento<<"\n";
-		
 		if(elemento!=NULL)
 		{
-			std::cout<<"Hay Bonus Agregarlo..\n";
-			std::cout<<"poner time.."<<mantenerVisible.getTimeStartNow()<< "\n";
+			std::cout<<"agregar bonus.."<<elemento<<"\n";
 			if(mantenerVisible.getTimeStartNow()<tMantenerVisibleBonus)
 			{
 				std::cout<<"Mantener visible bonus..\n";
 				//MostrarBonus
-				elemento->setEstado(Aparece);
-				this->mantenerBonus=true;
-				this->bonusActual=elemento;
+				if(!mantenerBonus)
+				{
+					elemento->setEstado(Aparece);
+					this->mantenerBonus=true;
+					this->bonusActual=elemento;
+				}
 			}
 			else
 			{
-				std::cout<<"Termino tiempo visible..\n";
-				if(elemento->getEstado()!=FueComido && elemento->getEstado()!=Eliminado)
-				{
+				if(elemento->getEstado()!=Desaparece)
 					elemento->setEstado(Desaparece);
-					std::cout<<"Si no lo comio desaparece..\n";
-				}
 				this->mantenerBonus=false;
 				this->bonusActual=NULL;
 				agregarBonus.initial();
 				mantenerVisible.initial();
 			}
 		}
-		
 	}
 }
 /*----------------------------------------------------------------------------*/
@@ -127,6 +124,8 @@ void ActualizarJuego::presionoKeyAbajo(Jugador* jugador){
 	jugador->getPersonaje()->chocoConPared(false);
 	
 	jugador->SetKeyPressed(NONE);
+	if(posicion->estaEnUnVertice())
+		this->avanzar(jugador);
 	
 	std::cout<<"Final: " << *posicion<<"\n";
 }
@@ -375,8 +374,8 @@ void ActualizarJuego::actualizarElementos()
 void ActualizarJuego::actualizar()
 {
 	this->actualizarPosiciones();
-	this->actualizarElementos();
 	this->agregaBonusAlJuego();
+	this->actualizarElementos();
 	this->detectarColisiones();
 	//this->cambiarDeNivel();
 	this->ganoPacman();

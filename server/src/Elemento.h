@@ -19,7 +19,7 @@ typedef enum Orientacion
 
 typedef enum Estado
 {
-	Desaparece=0,Aparece=1,Inicial=2,FueComido=3,Eliminado=4
+	Desaparece=0,Aparece=1,Inicial=2,FueComido=4,Eliminado=5,Visible=6
 };
 
 /**
