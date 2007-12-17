@@ -675,7 +675,7 @@ void Modelo::analizarElementoComido(Elemento* elemento,PacMan* pacman)
 			pacman->SetPowerUp();
 			break;
 		case tBonus:
-			if(elemento->getEstado()==Aparece)
+			if(elemento->getEstado()==Aparece || elemento->getEstado()==Visible)
 			{
 				std::cout<<"PacMan come bonus:" << elemento->getPosicion() << "\n";
 				elemento->setEstado(FueComido);
