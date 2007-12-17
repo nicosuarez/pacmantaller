@@ -101,9 +101,15 @@ char* Status::Serialize()
 		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Eliminado || (*it)->getEstado() == Desaparece )
 		{
 			if( (*it)->getTipo() == tBonus )
+			{
 				modelo->quitarBonus((*it)->getPosicion() );
-			else 
+				std::cout<<"quita bonus de la lista:"<<(*it)->getPosicion()<<"\n";
+			}
+			else
+			{
 				modelo->quitarElemento( (*it)->getPosicion() );
+				std::cout<<"quita elemento de la lista:"<<(*it)->getPosicion()<<"\n";
+			}
 		}
 	} 
 	return buffer;

@@ -50,7 +50,7 @@ public:
 	/**
 	 * Determina si el pacman colisiono con algun fantasma
 	 */
-	void analizarColision(PacMan* pacman,Fantasma* fantasma);
+	void analizarColision(PacMan* pacman,Jugador* fantasma);
 	/**
 	 * Determina se termino el nivel o no
 	 */
@@ -90,7 +90,7 @@ public:
 	~ActualizarJuego();
 	
 protected:
-	ActualizarJuego(unsigned int updateTime=3000);
+	ActualizarJuego(unsigned int updateTime=250);
 	ActualizarJuego(const ActualizarJuego&);
 	ActualizarJuego& operator= (const ActualizarJuego&);
 

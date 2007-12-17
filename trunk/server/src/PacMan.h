@@ -57,7 +57,7 @@ private:
 	/**
 	 * Valor constante de tiempo en estado de powerUp (ms)
 	 */
-	static const int tiempoPowerUp=10000;
+	static const int tiempoPowerUp=7000;
 
 };
 #endif // !defined(EA_B035D27E_31A5_4b0f_B082_3F7AF1A2C886__INCLUDED_)
