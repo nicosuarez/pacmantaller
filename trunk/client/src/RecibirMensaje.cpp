@@ -270,7 +270,7 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 			if( elementoStatus->tipo == tBonus )
 			{
 				std::cout << ">>>>>>>>>>>>>>>>>BONUS - Estado DESAPARECE\n";
-				modelo->quitarBonus( elementoStatus->posicion );
+				//modelo->quitarBonus( elementoStatus->posicion );
 			}
 		}
 		delta += sizeof(PktElementoStatus);
