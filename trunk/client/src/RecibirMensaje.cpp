@@ -37,6 +37,7 @@ void RecibirMensaje::recibirMensaje()
 				std::cout<< "Init\n";
 				recibirInit( cabecera );
 				//Comienza el cliente a dibijar el mapa...
+				modelo->setFinalizoNivel( false );
 				modelo->getRecibiMensajeInitEvent().activar();
 				break;
 			}
