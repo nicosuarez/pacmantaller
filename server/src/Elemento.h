@@ -9,7 +9,7 @@
 
 typedef enum tipoElemento
 {
-	tSalidaPacman, tCasaFantasmas, tPowerup, tBonus, tPastilla
+	tSalidaPacman=0, tCasaFantasmas=1, tPowerup=2, tBonus=3, tPastilla=4
 };
 
 typedef enum Orientacion
@@ -19,7 +19,7 @@ typedef enum Orientacion
 
 typedef enum Estado
 {
-	Inicial,Aparece, Desaparece,FueComido,Eliminado
+	Desaparece=0,Aparece=1,Inicial=2,FueComido=3,Eliminado=4
 };
 
 /**
@@ -46,7 +46,7 @@ public:
 	
 	void setOrientacion( Orientacion orientacion);
 	
-	void SetPosicion(int newVal);
+	void SetPosicion(int posicion);
 	
 	void setEstado( Estado estado );
 	

@@ -8,6 +8,7 @@
 #include "CerrarServidorOp.h"
 #include "Status.h"
 #include "CambiarDeNivelOp.h"
+#include "Timer.h"
 #include "Stop.h"
 
 class Fantasma;
@@ -26,6 +27,16 @@ private:
 	int margenDeColicion;
 	
 	static ActualizarJuego* pActualizarJuego;
+	//Tiempo en ms que mantiene visible el bonus
+	static const int tMantenerVisibleBonus = 30000;
+	//Tiempo en ms que tarda en juego en agregar un bonus
+	static const int tAgregarBonus = 60000;
+	
+	//Atributos para el manejo del envio de bonus.
+	Timer agregarBonus;
+	Timer mantenerVisible;
+	Elemento* bonusActual;
+	bool mantenerBonus;
 	
 public:
 	static ActualizarJuego* getInstance();
@@ -71,6 +82,7 @@ public:
 	void doblarJugador(Jugador* jugador,bool izq);
 	void ganoPacman();
 	void cambiarDeNivel();
+	void agregaBonusAlJuego();
 	
 	void enviarStatus();
 

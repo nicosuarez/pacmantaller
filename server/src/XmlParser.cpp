@@ -167,6 +167,7 @@ void XmlParser::agregarBonus(Mapa* mapa,xmlpp::TextReader& reader)
 {
 	int idVertice = getAtributoInt(reader,ATRIB_ID_VERTICE);
 	Bonus* bonus=new Bonus(idVertice);
+	bonus->setEstado(Inicial);
 	Modelo::getInstance()->agregarBonus(bonus);
 	elementosNoPastillas.push_back(idVertice);
 	std::cout << BONUS << " " << ATRIB_ID << ": " << idVertice << "\n";

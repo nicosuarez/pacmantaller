@@ -22,12 +22,18 @@ void Timer::initial()
 /*----------------------------------------------------------------------------*/
 int Timer::getTime()
 {
-    /*if(!comenzo)
+    gettimeofday( &tvactual, 0 );
+    return ( getmiliseg(tvactual) - getmiliseg(tvinicial) );
+}
+/*----------------------------------------------------------------------------*/
+int Timer::getTimeStartNow()
+{
+    if(!comenzo)
     {
         comenzo=true;
         this->initial();
         return 0;
-    }*/
+    }
     gettimeofday( &tvactual, 0 );
     return ( getmiliseg(tvactual) - getmiliseg(tvinicial) );
 }

@@ -40,6 +40,9 @@ public:
 
     /*Devuelve el valor cero en formato string*/
     std::string getinitial();
+    
+    /*Devuelve el tiempo actual en formato int y se setea solo una vez en cero*/
+    int getTimeStartNow();
 };
 
 #endif

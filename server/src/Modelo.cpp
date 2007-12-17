@@ -55,34 +55,54 @@ Modelo::~Modelo(){
 void Modelo::eliminarListaJugadores()
 {
 	itListJugadores it;
-	
+	m_jugadores.lock();
 	for(it=jugadores.begin();it!=jugadores.end();it++)
 		delete *it;
 	jugadores.clear();
+	m_jugadores.lock();
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::eliminarListaBonus()
 {
 	tListElementos::iterator it;
+	m_bonus.lock();
 	for( it = bonus.begin(); it != bonus.end(); it++ )
 	{
 		std::cout<<"Elimina Bonus:"<<(*it)->getPosicion()<<"\n";
 		delete (*it);
 		(*it)=NULL;
 	}
+	m_bonus.unlock();
 	bonus.clear();
+}
+/*----------------------------------------------------------------------------*/
+Elemento* Modelo::hayBonus()
+{
+	tListElementos::iterator it;
+	Elemento* elemento = NULL;
+	m_bonus.lock();
+	for( it = bonus.begin(); it != bonus.end(); it++ )
+	{
+		if((*it)->getEstado()!=Eliminado)
+		{
+			elemento = (*it);
+		}
+	}
+	m_bonus.unlock();
+	return elemento;
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::eliminarListaElementos()
 {
 	tListElementos::iterator it;
+	m_elemento.lock();
 	for( it = elementos.begin(); it != elementos.end(); it++ )
 	{
 		std::cout<<"Elimina elemento:"<<(*it)->getPosicion()<<"\n";
 		delete (*it);
 		(*it)=NULL;
 	}
-
+	m_elemento.unlock();
 	elementos.clear();
 }
 /*----------------------------------------------------------------------------*/
@@ -555,12 +575,7 @@ void Modelo::comerElementoDelVertice(tVertice* vertice)
 		{
 			//Si encontro incrementa el puntaje y marca el estado FueComido
 			pacMan->incPuntaje(elemento->getPuntaje());
-			elemento->setEstado(FueComido);
-			this->mostrarElementoComido(elemento);
-			if(elemento->getTipo()==tPowerup)
-			{
-				pacMan->SetPowerUp();
-			}
+			this->analizarElementoComido(elemento,pacMan);
 		}
 	}
 	std::cout<<"Esta powerUp? "<< pacMan->IsPowerUp() << "\n";
@@ -645,12 +660,27 @@ void Modelo::intercambiarVelocidades()
 	std::cout<<"VPAC: "<< vFantasma<< " VFAN: "<<vPacman<<"\n";
 }
 /*----------------------------------------------------------------------------*/
-void Modelo::mostrarElementoComido(Elemento* elemento)
+void Modelo::analizarElementoComido(Elemento* elemento,PacMan* pacman)
 {
-	if(elemento->getTipo()==tPastilla)
-		std::cout<<"PacMan come pastilla:" << elemento->getPosicion() << "\n";
-	if(elemento->getTipo()==tPowerup)
-		std::cout<<"PacMan come powerUp:" << elemento->getPosicion() << "\n";
-	if(elemento->getTipo()==tBonus)
-		std::cout<<"PacMan come bonus:" << elemento->getPosicion() << "\n";		
+	int tipo = elemento->getTipo();
+	switch (tipo)
+	{
+		case tPastilla:
+			std::cout<<"PacMan come pastilla:" << elemento->getPosicion() << "\n";
+			elemento->setEstado(FueComido);
+			break;
+		case tPowerup:
+			std::cout<<"PacMan come powerUp:" << elemento->getPosicion() << "\n";
+			elemento->setEstado(FueComido);
+			pacman->SetPowerUp();
+			break;
+		case tBonus:
+			if(elemento->getEstado()==Aparece)
+			{
+				std::cout<<"PacMan come bonus:" << elemento->getPosicion() << "\n";
+				elemento->setEstado(FueComido);
+			}
+			break;
+	}
+
 }
