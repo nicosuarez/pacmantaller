@@ -144,6 +144,13 @@ tListPersonaje& Modelo::getPersonajes()
 	return personajes;
 }
 
+
+tListAristaPortal& Modelo::getAristasPortal() 
+{
+	return aristasPortal;
+
+}
+
 Personaje* Modelo::getPersonaje( int id )
 {
 	tListPersonaje::iterator it;

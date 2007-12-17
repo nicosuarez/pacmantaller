@@ -18,6 +18,9 @@ typedef std::list<Pastilla*> tListPastilla;
 typedef std::list<Bonus*> tListBonus;
 typedef std::list<PowerUp*> tListPower;
 typedef std::list<Personaje*> tListPersonaje;
+//**********************
+typedef std::list<int> tListAristaPortal;
+//*********************
 
 class Modelo
 {
@@ -43,7 +46,9 @@ private:
 	Mutex m_personajes;
 	Mutex m_mapa;
 	Modelo();
+	tListAristaPortal aristasPortal;
     
+	
 public:
 	Evento& getRecibiMensajeInitEvent();
 	
@@ -122,6 +127,7 @@ public:
 	
 	Camara& getCamara(); 
 	
+	tListAristaPortal& getAristasPortal();
 	    
 };
 

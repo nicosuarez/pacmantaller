@@ -66,6 +66,10 @@ private:
 
 	void verRazon( int razon );
 	
+	bool esAristaPortal(int idArista);
+	void pasarPortal( int idJugador, Posicion posicion);
+	
+	
 public:
 	RecibirMensaje( Socket *socket );
 	
