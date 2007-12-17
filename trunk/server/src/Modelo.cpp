@@ -207,6 +207,8 @@ void Modelo::cambiarSiguienteNivel()
 		return;
 	this->mundo->getNiveles()->pop();
 	
+	std::cout<<"Cambiando de NIVEL... esperar\n";
+	
 	//Agrega los jugadores al proximo nivel en caso de haber.
 	tListJugadores::iterator it;
 	Jugador* jugador = NULL;

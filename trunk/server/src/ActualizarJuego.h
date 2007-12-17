@@ -90,7 +90,7 @@ public:
 	~ActualizarJuego();
 	
 protected:
-	ActualizarJuego(unsigned int updateTime=250);
+	ActualizarJuego(unsigned int updateTime=50);
 	ActualizarJuego(const ActualizarJuego&);
 	ActualizarJuego& operator= (const ActualizarJuego&);
 

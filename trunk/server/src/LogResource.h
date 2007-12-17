@@ -7,6 +7,8 @@
 #ifndef LOG_RESOURCE_H_
 #define LOG_RESOURCE_H_
 
+#define ERR_XML_MAPA "No se encuentra el mapa"
+#define ERR_XML_MUNDO "No se encuentra el mundo"
 #define MSG_SERVER_RUNNING "Servidor corriendo...\n"
 #define MSG_SERVER_FINISH "Servidor finalizado.\n"
 #define ERR_MAL_EJECUTADO 1

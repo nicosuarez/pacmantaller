@@ -34,7 +34,7 @@ public:
 	/**
 	 * Velocidad inicial constante del fantasma
 	 */
-	static const int velocidadInicial=16;
+	static const int velocidadInicial=4;
 	
 private:
 	
