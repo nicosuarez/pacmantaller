@@ -330,21 +330,22 @@ float RecibirMensaje::calcularIncremento(int posicionArista) {
 }
 
 void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
-	
+
 	Coordenada coordT;
 	Coordenada coordCentro,coordOjo;
 	bool agregarALista=false;
 	
 	Personaje *personaje = Modelo::getInstance()->getPersonaje( idJugador);		
 	Coordenada coordInicial;
-	Model* model = new Model;
+	
 	
 	//Si el jugador no existe, lo agrega. 
 	if( personaje == NULL )
 	{
+			
 		cout<<"no existe, agrego personaje"<<endl;
 		agregarALista = true;
-		//Model* model = new Model;
+		Model* model = new Model;
 		
 		if( idJugador == 0 ) {
 			personaje = new PacMan();
@@ -371,12 +372,11 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			
 		}
 	}
-	/*else {		
-		coordInicial = buscarCoordenada(posicion.getVertice());
-	}*/
+	int posArista = posicion.getPosicionArista();
+	
 	coordInicial = buscarCoordenada(posicion.getVertice());
 	cout<<"coordInicial= "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;
-	float incremento = calcularIncremento(posicion.getPosicionArista());
+	float incremento = calcularIncremento(posArista);
 	cout<<"incremento= "<<incremento<<endl;
 	
 	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
@@ -391,8 +391,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			coordT.x=coordInicial.x+incremento;
 										
 		} else { //direccion=0 izquierda
-			//coordT.x=coordInicial.x - (LONGVERTICE-incremento);
-			coordT.x=coordInicial.x - incremento;
+			coordT.x=coordInicial.x - (LONGVERTICE-incremento);
+			//coordT.x=coordInicial.x - incremento;
 		}	
 					
 	}
@@ -402,8 +402,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			coordT.z=coordInicial.z-incremento;
 										
 		} else { //direccion=0 izquierda
-			//coordT.z=coordInicial.z + (LONGVERTICE-incremento);
-			coordT.z=coordInicial.z + incremento;
+			coordT.z=coordInicial.z + (LONGVERTICE-incremento);
+			//coordT.z=coordInicial.z + incremento;
 		}
 			
 	}
@@ -464,7 +464,6 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 	}
 	
 }
-
 
 void RecibirMensaje::recibirPosiciones( int cantJugadores )
 {	
