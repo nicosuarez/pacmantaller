@@ -71,13 +71,12 @@ char* Init::Serialize()
 	Mapa *mapa = modelo->GetMapa();
 	tGrafo *grafo = mapa->getGrafo();
 	tListElementos *elementos = modelo->GetElementos();
-	tListElementos *bonus = modelo->GetBonus();
 
 	//Creo el espacio en memoria para el paquete a enviar
 	int cantAristas = mapa->getAlto()*mapa->getAncho()*2;
 	int sizePadding = ( 8 - cantAristas%8 )%8;
-	int sizePktGrafo = (cantAristas +  (8-(cantAristas%8))%8 )/8;
-	int sizePktElementos = sizeof(uint16_t) + sizeof(PktElemento)*(elementos->size()+bonus->size() );
+	int sizePktGrafo = (cantAristas +  (	8-(cantAristas%8))%8 )/8;
+	int sizePktElementos = sizeof(uint16_t) + sizeof(PktElemento)*(elementos->size() );
 	sizePkt = sizeof(PktInit) + sizePktGrafo + sizePktElementos;
 	char *buffer = new char[ sizePkt ];
 	
@@ -157,21 +156,11 @@ char* Init::Serialize()
 	}
 	//Seteo la cantidad de elementos
 	uint16_t *cantElementos = (uint16_t *)( buffer + (sizeof(PktInit) + i/8) );
-	*cantElementos = (uint16_t)( elementos->size() + bonus->size() ) ;
+	*cantElementos = (uint16_t)( elementos->size() ) ;
 
 	//Seteo los elementos
 	tListElementos::iterator it;
 	int j=0;
-	for( it = elementos->begin(); it != elementos->end(); it++ )
-	{
-		PktElemento *elemento = (PktElemento*) ( buffer + (sizeof(PktInit) + i/8 + sizeof(uint16_t) + (j*sizeof(PktElemento)) ) );
-		elemento->tipo =  (*it)->getTipo();
-		elemento->orientacion = (*it)->getOrientacion();
-		elemento->posicion = (*it)->getPosicion();
-		j++;
-	}
-	//Agrego los bonus
-	elementos = modelo->GetBonus();
 	for( it = elementos->begin(); it != elementos->end(); it++ )
 	{
 		PktElemento *elemento = (PktElemento*) ( buffer + (sizeof(PktInit) + i/8 + sizeof(uint16_t) + (j*sizeof(PktElemento)) ) );
