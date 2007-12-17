@@ -54,7 +54,7 @@ private:
 	 * de mensajes
 	 */
 	RecibirMensaje* thrRecibirMensajes;
-	
+
 public:
 	/**
 	 * Se ejecuta el hilo principal del juego el del modelo.
@@ -64,6 +64,5 @@ public:
 	 * Establece conexion con el servidor y permite el intercambio de mensajes
 	 */
 	void recibirMensajes();
-	
 };
 #endif // !defined(EA_14A2EC85_1217_49ba_9849_66D713CD39A6__INCLUDED_)

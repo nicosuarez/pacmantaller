@@ -242,9 +242,48 @@ void dibujarPersonajes() {
 	modelo->getMutexPersonajes().unlock();
 }
 
+/**
+ * Espera a recibir el proximo mapa (INIT) y comienza el nuevo nivel.
+ */
+void comenzarSiguienteNivel()
+{
+	Modelo* modelo = Modelo::getInstance();
+	Mapa* mapa = modelo->getMapa();			
+	std::cout << "Espera recibir el nuevo INIT\n";
+	//Borra el mapa anterior
+	delete mapa;
+	mapa = NULL;
+	
+	//Se espera recibir el siguiente nivel
+	modelo->getRecibiMensajeInitEvent().esperar();
+	//Ajusta visualmente el nuevo mapa.
+	transformarParedes( modelo->getMapa() );
+	
+	std::cout << "Termino la espera.. Comienza el nivel\n";
+	modelo->setFinalizoNivel(false);
+	modelo->setFinalizoJuego(false);
+}
+
+/**
+ * Verifica si el juego termino o si hay  un proximo nivel espera a recibir el mapa.
+ */
+void verificarQueElJuegoContinue()
+{
+	Modelo* modelo = Modelo::getInstance();
+	
+	if( modelo->getFinalizoJuego() ) //Si finalizo el juego
+		finalizarJuego();
+	else if(modelo->getFinalizoNivel()) //Si cambio de nivel
+		comenzarSiguienteNivel();
+}
 
 void render(void) {
 	Modelo *modelo = Modelo::getInstance(); 
+<<<<<<< .mine
+	
+	verificarQueElJuegoContinue();
+	
+=======
 	if( modelo->getFinalizoNivel() )
 	{
 		std::cout << "Espera recibir el nuevo INIT\n";
@@ -254,6 +293,7 @@ void render(void) {
 		transformarParedes( modelo->getMapa() );
 		std::cout << "Termino la espera\n";
 	}
+>>>>>>> .r180
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
@@ -278,6 +318,7 @@ void render(void) {
 	dibujarPersonajes();
 	
 	glutSwapBuffers();
+
 }
 
 void tecladoEvent( int key, int Xx, int Yy ) {

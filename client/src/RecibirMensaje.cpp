@@ -169,6 +169,8 @@ int getbit( int x, char* buffer )
 
 void RecibirMensaje::recibirMapa( int ancho, int alto )
 {	
+	
+	std::cout<<"Recibiendo mapa...\n";
 	//Calculo la cantidad de bytes que hay que recibir
 	int sizePadding = (8-(ancho*alto*2 )%8) %8; 
 	int tamanio = ( (ancho*alto*2)  + sizePadding  )/8;
