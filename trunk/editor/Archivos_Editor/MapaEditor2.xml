@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<Mapa><!--
+--><Alto Tamanio="22"/><!--
+--><Ancho Tamanio="16"/><!--
+--><Elemento id="4" rot="1" fila="2" columna="2"/><!--
+--><Elemento id="1" rot="0" fila="0" columna="0"/><!--
+--><Elemento id="1" rot="1" fila="0" columna="14"/><!--
+--><Elemento id="1" rot="2" fila="20" columna="14"/><!--
+--><Elemento id="1" rot="3" fila="20" columna="0"/><!--
+--><Elemento id="2" rot="0" fila="2" columna="0"/><!--
+--><Elemento id="0" rot="1" fila="0" columna="2"/><!--
+--><Elemento id="0" rot="1" fila="0" columna="5"/><!--
+--><Elemento id="5" rot="3" fila="0" columna="8"/><!--
+--><Elemento id="0" rot="0" fila="2" columna="15"/><!--
+--><Elemento id="2" rot="0" fila="5" columna="0"/><!--
+--><Elemento id="2" rot="0" fila="8" columna="0"/><!--
+--><Elemento id="2" rot="0" fila="11" columna="0"/><!--
+--><Elemento id="2" rot="0" fila="14" columna="0"/><!--
+--><Elemento id="2" rot="0" fila="17" columna="0"/><!--
+--><Elemento id="0" rot="1" fila="6" columna="2"/><!--
+--><Elemento id="0" rot="1" fila="6" columna="5"/><!--
+--><Elemento id="0" rot="1" fila="6" columna="8"/><!--
+--><Elemento id="2" rot="2" fila="5" columna="14"/><!--
+--><Elemento id="3" rot="0" fila="11" columna="2"/><!--
+--><Elemento id="2" rot="1" fila="9" columna="2"/><!--
+--><Elemento id="2" rot="1" fila="9" columna="5"/><!--
+--><Elemento id="2" rot="1" fila="9" columna="8"/><!--
+--><Elemento id="2" rot="1" fila="9" columna="11"/><!--
+--><Elemento id="2" rot="3" fila="14" columna="2"/><!--
+--><Elemento id="2" rot="3" fila="14" columna="5"/><!--
+--><Elemento id="2" rot="3" fila="14" columna="8"/><!--
+--><Elemento id="2" rot="3" fila="14" columna="11"/><!--
+--><Elemento id="2" rot="2" fila="8" columna="14"/><!--
+--><Elemento id="2" rot="2" fila="11" columna="14"/><!--
+--><Elemento id="2" rot="2" fila="14" columna="14"/><!--
+--><Elemento id="0" rot="1" fila="18" columna="2"/><!--
+--><Elemento id="0" rot="1" fila="18" columna="5"/><!--
+--><Elemento id="0" rot="1" fila="18" columna="8"/><!--
+--><Elemento id="0" rot="1" fila="18" columna="11"/><!--
+--><Elemento id="0" rot="1" fila="21" columna="11"/><!--
+--><Elemento id="0" rot="1" fila="21" columna="2"/><!--
+--><Elemento id="0" rot="1" fila="21" columna="5"/><!--
+--><Elemento id="2" rot="2" fila="17" columna="14"/><!--
+--><Elemento id="3" rot="0" fila="11" columna="5"/><!--
+--><Elemento id="3" rot="0" fila="11" columna="8"/><!--
+--><Elemento id="3" rot="0" fila="11" columna="11"/><!--
+--><Elemento id="2" rot="3" fila="5" columna="11"/><!--
+--><Elemento id="2" rot="1" fila="0" columna="11"/><!--
+--><Elemento id="0" rot="0" fila="2" columna="12"/><!--
+--><Modificador id="7" fila="0" columna="0"/><!--
+--><Modificador id="7" fila="0" columna="15"/><!--
+--><Modificador id="7" fila="3" columna="12"/><!--
+--><Modificador id="7" fila="12" columna="9"/><!--
+--><Modificador id="7" fila="18" columna="0"/><!--
+--><Modificador id="7" fila="21" columna="8"/><!--
+--><Modificador id="8" fila="12" columna="0"/><!--
+--><Modificador id="8" fila="9" columna="15"/><!--
+--><Modificador id="8" fila="3" columna="0"/><!--
+--><Modificador id="6" fila="9" columna="9"/><!--
+--></Mapa>
