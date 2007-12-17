@@ -250,7 +250,7 @@ void Modelo:: eliminarBonus()
 	this->m_bonus.unlock();
 }
 
-void Modelo:: eliminarPowers()
+void Modelo::eliminarPowers()
 {
 	tListPower::iterator it;
 	this->m_powers.lock();
@@ -259,7 +259,7 @@ void Modelo:: eliminarPowers()
 		delete(*it);
 	}
 	powers.clear();
-	this->m_powers.lock();
+	this->m_powers.unlock();
 }
 
 

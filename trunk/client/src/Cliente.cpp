@@ -30,6 +30,11 @@ Textura	texPared;
 
 GLfloat angcuad=0;
 
+void finalizarJuego()
+{
+	exit(EXIT_SUCCESS);
+}
+
 void idleEvent() {
 	angcuad += 1;
 	
@@ -241,6 +246,8 @@ void dibujarPersonajes() {
 void render(void) {
 	Modelo *modelo = Modelo::getInstance(); 
 	
+	if( modelo->getFinalizoJuego() )
+		finalizarJuego();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
@@ -265,12 +272,6 @@ void render(void) {
 	dibujarPersonajes();
 	
 	glutSwapBuffers();
-}
-
-
-void finalizarJuego()
-{
-	exit(EXIT_SUCCESS);
 }
 
 void tecladoEvent( int key, int Xx, int Yy ) {
@@ -341,8 +342,10 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key) 
     {
 	 	case KEY_ESC:
+	 		Modelo::getInstance()->setFinalizoJuego( true );
 	 		ptrEnviar->enviarMensaje( new Key(KEY_ESCAPE) );
-			//finalizarJuego();				
+	 		ptrEnviar->join();
+			finalizarJuego();				
 			break;
     }
 } 

@@ -649,11 +649,11 @@ void RecibirMensaje::verRazon( int razon )
 	{
 		case PACMAN_GANO:
 		{
+			std::cout << "PACMAN GANO\n";
 			modelo->eliminarBonus();
 			modelo->eliminarPastillas();
 			modelo->eliminarPowers();
 			modelo->eliminarPersonajes();
-			std::cout << "PACMAN GANO\n";
 			break;
 		}
 		case PACMAN_FUE_COMIDO:
