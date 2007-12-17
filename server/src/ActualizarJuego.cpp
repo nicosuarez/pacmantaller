@@ -265,6 +265,7 @@ void ActualizarJuego::avanzar(Jugador* jugador){
 	//Si choco con una pared, no avanza mas y espera un giro.
 	if(!personaje->chocoConPared())
 	{	
+		std::cout<<"Avanza: " ;
 		Personaje* personaje = jugador->getPersonaje();
 		
 		//Obtengo el vertice destino
@@ -388,6 +389,7 @@ void ActualizarJuego::ganoPacman()
 	tListElementos* elementos = modelo->GetElementos();
 	if(elementos->size()==0)
 	{
+		std::cout<<"GANO PACMAN\n";
 		modelo->getDispatcher()->enviarMensaje( new Stop(PACMAN_GANO) );
 		this->cambiarDeNivel();
 	}
@@ -400,14 +402,19 @@ void ActualizarJuego::cambiarDeNivel()
 	Modelo::getInstance()->agregarOperacion(cambiarNivel);
 }
 /*----------------------------------------------------------------------------*/
-void ActualizarJuego::analizarColision(PacMan* pacman,Fantasma* fantasma)
+void ActualizarJuego::analizarColision(PacMan* pacman,Jugador* jugadorfantasma)
 {
 	if(pacman->IsPowerUp())
 	{
+		Personaje* personaje = jugadorfantasma->getPersonaje();
+		Fantasma* fantasma = (Fantasma*)personaje;
+		
 		//Se muere el fantasma y retorna a la casa
 		fantasma->irACasa();
 		//el pacman incrementa su puntaje
 		pacman->incPuntaje(fantasma->getPuntaje());
+		
+		std::cout<<"El fantasma:"<< jugadorfantasma->GetIdJugador() <<" fue comido\n";
 	}
 	else
 	{
@@ -439,7 +446,7 @@ void ActualizarJuego::detectarColisiones()
 			if(Coordenada::calcularDistancia(posPacMan,posFantasma,mapa) < pacman->getRadio()+fantasma->getRadio())
 			{
 				std::cout<<"Chocaron\n";
-				this->analizarColision(pacman,fantasma);
+				this->analizarColision(pacman,jugador);
 			}
 		}
 	}

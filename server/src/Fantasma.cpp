@@ -51,6 +51,7 @@ void Fantasma::irACasa()
 {
 	Posicion posicion = AgregarJugadorOp::getPosicionInicialFantasmas();
 	this->SetPosicion(posicion);
+	this->chocoConPared(false);
 }
 
 /**

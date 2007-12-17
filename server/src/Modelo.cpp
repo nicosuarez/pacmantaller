@@ -34,7 +34,10 @@ Modelo::Modelo(pBool finalizoJuego,pBool cerroServidor):dispatcher(&jugadores, f
 	this->cerroServidor=cerroServidor;
 	this->puntuacion = 0;
 	this->dispatcher.run();
-	//this->elementos = new tList
+	this->cantPower=0;
+	this->cantPastillas=0;
+	this->cantPowerComidos=0;
+	this->cantPastillasComidos=0;
 }
 /*----------------------------------------------------------------------------*/
 Modelo::Modelo():dispatcher(&jugadores, finalizoJuego, &m_jugadores){
@@ -42,6 +45,8 @@ Modelo::Modelo():dispatcher(&jugadores, finalizoJuego, &m_jugadores){
 	this->cerroServidor=NULL;
 	this->puntuacion = 0;
 	this->dispatcher.run();
+	this->cantPower=0;
+	this->cantPastillas=0;
 }
 /*----------------------------------------------------------------------------*/
 Modelo::~Modelo(){
@@ -431,7 +436,11 @@ void Modelo::liberarNivel()
 	this->eliminarListaBonus();
 	this->eliminarPersonajes();
 	this->eliminarListaElementos();
-	
+	this->cantPowerComidos=0;
+	this->cantPastillasComidos=0;
+	this->cantPower=0;
+	this->cantPastillas=0;
+
 	delete mapa;
 }
 /*----------------------------------------------------------------------------*/
@@ -666,11 +675,15 @@ void Modelo::analizarElementoComido(Elemento* elemento,PacMan* pacman)
 	switch (tipo)
 	{
 		case tPastilla:
-			std::cout<<"PacMan come pastilla:" << elemento->getPosicion() << "\n";
+			this->cantPastillasComidos++;
+			std::cout<<"PacMan come pastilla:" << elemento->getPosicion() << " "
+					<< this->cantPastillasComidos << "/" << this->cantPastillas << "\n";
 			elemento->setEstado(FueComido);
 			break;
 		case tPowerup:
-			std::cout<<"PacMan come powerUp:" << elemento->getPosicion() << "\n";
+			this->cantPowerComidos++;
+			std::cout<<"PacMan come powerUp:" << elemento->getPosicion() << " "<<
+					this->cantPowerComidos<<"/"<<this->cantPower <<  "\n";
 			elemento->setEstado(FueComido);
 			pacman->SetPowerUp();
 			break;

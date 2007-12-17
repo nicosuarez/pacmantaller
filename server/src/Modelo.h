@@ -211,6 +211,16 @@ public:
 	
 	Elemento* getBonus( int idPosicion );
 	
+	/* Estadistica de power up */
+	int getCantPowerUp(){return this->cantPower;};
+	void setCantPowerUp(int cantPower){this->cantPower=cantPower;};
+	void incCantPowerUp(int cantPower=1){this->cantPower+=cantPower;};
+	
+	/* Estadistica de pastillas */
+	int getCantPastillas(){return this->cantPastillas;};
+	void setCantPastillas(int cantPastillas){this->cantPastillas=cantPastillas;};
+	void incCantPastillas(int cantPastillas=1){this->cantPastillas+=cantPastillas;};
+	
 	
 	/* Eventos */
 	Evento& getEsperarAgregarJugadores(){return this->agregarJugadoresEvent;};
@@ -280,6 +290,18 @@ private:
 	int puntuacion;
 	
 	Dispatcher dispatcher;
+
+	//Cantidad total powersUp del nivel
+	int cantPower;
+	
+	//Cantidad total powersUp del nivel
+	int cantPastillas;
+	
+	//Cantidad comidos powersUp del nivel
+	int cantPowerComidos;
+	
+	//Cantidad comidos powersUp del nivel
+	int cantPastillasComidos;
 	
 	//Desacola una operacion de la cola y la ejecuta.
 	void ejecutarOperaciones();
