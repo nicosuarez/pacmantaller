@@ -18,13 +18,13 @@ Elemento::~Elemento()
 
 int Elemento::getPosicion()
 {
-	return posicion;
+	return this->posicion;
 }
 
 
 Orientacion Elemento::getOrientacion()const
 {
-	return orientacion;
+	return this->orientacion;
 }
 
 Estado Elemento::getEstado()const

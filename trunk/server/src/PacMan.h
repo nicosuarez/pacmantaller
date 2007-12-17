@@ -38,7 +38,7 @@ public:
 	/**
 	 * Valor constante de la velocidad inicial del pacman
 	 */
-	static const int velocidadInicial=8;
+	static const int velocidadInicial=16;
 	
 private:
 	/**

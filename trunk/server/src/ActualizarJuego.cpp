@@ -21,6 +21,8 @@ ActualizarJuego::ActualizarJuego(unsigned int updateTime)
 	this->finalizoNivel=Modelo::getInstance()->getFinalizoNivel();
 	this->updateTime=updateTime;
 	std::cout<<"Construyo ActualizarJuego\n";
+	this->mantenerBonus=false;
+	this->bonusActual=NULL;
 }
 
 void ActualizarJuego::esperarAgregarJugadores()
@@ -42,6 +44,52 @@ void ActualizarJuego::main()
 		sleep(updateTime);
 	}
 	std::cout<<"Termino Actualizar Juego\n";
+}
+/*----------------------------------------------------------------------------*/
+void ActualizarJuego::agregaBonusAlJuego()
+{
+	Modelo* modelo = Modelo::getInstance();
+	Elemento* elemento=NULL;
+	
+	if(mantenerBonus)
+		elemento=this->bonusActual;	
+	else
+		elemento=modelo->hayBonus();
+			
+	//Paso el tiempo
+	std::cout<<"agregar bonus time.."<<agregarBonus.getTimeStartNow()<< "\n";
+	if(agregarBonus.getTimeStartNow()>tAgregarBonus)
+	{
+		std::cout<<"agregar bonus.."<<elemento<<"\n";
+		
+		if(elemento!=NULL)
+		{
+			std::cout<<"Hay Bonus Agregarlo..\n";
+			std::cout<<"poner time.."<<mantenerVisible.getTimeStartNow()<< "\n";
+			if(mantenerVisible.getTimeStartNow()<tMantenerVisibleBonus)
+			{
+				std::cout<<"Mantener visible bonus..\n";
+				//MostrarBonus
+				elemento->setEstado(Aparece);
+				this->mantenerBonus=true;
+				this->bonusActual=elemento;
+			}
+			else
+			{
+				std::cout<<"Termino tiempo visible..\n";
+				if(elemento->getEstado()!=FueComido && elemento->getEstado()!=Eliminado)
+				{
+					elemento->setEstado(Desaparece);
+					std::cout<<"Si no lo comio desaparece..\n";
+				}
+				this->mantenerBonus=false;
+				this->bonusActual=NULL;
+				agregarBonus.initial();
+				mantenerVisible.initial();
+			}
+		}
+		
+	}
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::enviarStatus()
@@ -328,6 +376,7 @@ void ActualizarJuego::actualizar()
 {
 	this->actualizarPosiciones();
 	this->actualizarElementos();
+	this->agregaBonusAlJuego();
 	this->detectarColisiones();
 	//this->cambiarDeNivel();
 	this->ganoPacman();

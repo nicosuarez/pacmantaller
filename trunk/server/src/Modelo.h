@@ -73,6 +73,10 @@ public:
 	//Agrega un bonus a la lista de bonus.
 	void agregarBonus( Elemento * bonus );
 	
+	//Determina si queda algun bonus disponible para agregar, retornando el elemento 
+	//o nulo si no hay mas.
+	Elemento* hayBonus();
+	
 	//Elimina el bonus del id.
 	void quitarBonus( int idPosicion );
 	
@@ -144,7 +148,7 @@ public:
 	
 	void liberarNivel();
 	
-	void mostrarElementoComido(Elemento* elemento);
+	void analizarElementoComido(Elemento* elemento,PacMan* pacman);
 	
 	void SetSalidaPacMan(SalidaPacMan& salidaPacMan);
 	

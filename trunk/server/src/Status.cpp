@@ -29,7 +29,10 @@ Status::Status()
 	for( it = elementosModelo->begin(); it != elementosModelo->end(); it++ )
 	{
 		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Aparece || (*it)->getEstado() == Desaparece )
+		{
 			elementos.push_back( *it );
+			std::cout<<"envia bonus estado:"<<(*it)->getEstado()<<"\n";
+		}
 	}
 }
 
