@@ -248,6 +248,16 @@ void render(void) {
 	
 	if( modelo->getFinalizoJuego() )
 		finalizarJuego();
+	else 
+	{
+		if( modelo->getFinalizoNivel() )
+		{
+			std::cout << "Espera recibir el nuevo INIT\n";
+			modelo->getRecibiMensajeInitEvent().esperar();
+			transformarParedes( modelo->getMapa() );
+			std::cout << "Termino la espera\n";
+		}
+	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
