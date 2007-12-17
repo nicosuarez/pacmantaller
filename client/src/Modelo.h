@@ -110,7 +110,7 @@ public:
 	
 	Mutex& getMutexMapa();
 	
-	void quitarBonus( int idPosicion );
+	//void quitarBonus( int idPosicion );
 	
 	void eliminarPersonajes();
 	
@@ -118,7 +118,7 @@ public:
 	
 	void eliminarBonus();
 	
-	//void eliminarPowers();
+	void eliminarPowers();
 	
 	Camara& getCamara(); 
 	
