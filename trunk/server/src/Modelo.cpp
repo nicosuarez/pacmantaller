@@ -54,7 +54,6 @@ Modelo::~Modelo(){
 	//this->eliminarListaJugadores();
 	//this->eliminarListaBonus();
 	//this->eliminarListaElementos()
-	liberarNivel();
 	delete mundo;
 }
 /*----------------------------------------------------------------------------*/
@@ -74,7 +73,6 @@ void Modelo::eliminarListaBonus()
 	m_bonus.lock();
 	for( it = bonus.begin(); it != bonus.end(); it++ )
 	{
-		std::cout<<"Elimina Bonus:"<<(*it)->getPosicion()<<"\n";
 		delete (*it);
 		(*it)=NULL;
 	}
@@ -104,7 +102,6 @@ void Modelo::eliminarListaElementos()
 	m_elemento.lock();
 	for( it = elementos.begin(); it != elementos.end(); it++ )
 	{
-		std::cout<<"Elimina elemento:"<<(*it)->getPosicion()<<"\n";
 		delete (*it);
 		(*it)=NULL;
 	}

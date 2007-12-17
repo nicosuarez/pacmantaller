@@ -387,7 +387,7 @@ void ActualizarJuego::ganoPacman()
 {
 	Modelo *modelo = Modelo::getInstance();
 	tListElementos* elementos = modelo->GetElementos();
-	if(elementos->size()==0)
+	if(elementos->size() == 45)
 	{
 		std::cout<<"GANO PACMAN\n";
 		modelo->getDispatcher()->enviarMensaje( new Stop(PACMAN_GANO) );

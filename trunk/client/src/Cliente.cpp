@@ -260,10 +260,7 @@ void comenzarSiguienteNivel()
 	transformarParedes( modelo->getMapa() );
 	
 	std::cout << "Termino la espera.. Comienza el nivel\n";
-	modelo->setFinalizoNivel(false);
-	modelo->setFinalizoJuego(false);
 }
-
 /**
  * Verifica si el juego termino o si hay  un proximo nivel espera a recibir el mapa.
  */
@@ -279,26 +276,10 @@ void verificarQueElJuegoContinue()
 
 void render(void) {
 	Modelo *modelo = Modelo::getInstance(); 
-<<<<<<< .mine
-	
 	verificarQueElJuegoContinue();
-	
-=======
-	if( modelo->getFinalizoNivel() )
-	{
-		std::cout << "Espera recibir el nuevo INIT\n";
-		modelo->getRecibiMensajeInitEvent().esperar();
-		if( modelo->getFinalizoJuego() )
-			finalizarJuego();
-		transformarParedes( modelo->getMapa() );
-		std::cout << "Termino la espera\n";
-	}
->>>>>>> .r180
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	
 	modelo->getCamara().update(); 
-	
 	glEnable(GL_TEXTURE_2D);
 	glColor3f(1,1,1);//Selecciona el color actual con el que dibujar
 	modelo->getMutexMapa().lock();
