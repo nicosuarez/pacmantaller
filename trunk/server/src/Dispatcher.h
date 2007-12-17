@@ -55,6 +55,9 @@ private:
 	
 	//Envia un mensaje a un jugador en particular.
 	void enviarMensajeParticular(Mensaje* msg);
+	
+	Dispatcher(const Dispatcher&);
+	Dispatcher& operator= (const Dispatcher&);
 public:
 	
 	/*Estos mensajes se acolan para que luego el hilo del 
