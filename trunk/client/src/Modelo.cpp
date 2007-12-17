@@ -10,7 +10,6 @@ Modelo::Modelo()
 	salidaPacMan = NULL;
 	casaFantasmas = NULL;
 	mapa = NULL;
-	
 }
 
 
@@ -66,8 +65,6 @@ void Modelo::setFinalizoNivel( bool finalizo )
 void Modelo::setMapa( Mapa *mapa )
 {
 	this->m_mapa.lock();
-	if( this->mapa != NULL)
-		delete mapa;
 	this->mapa = mapa;
 	this->m_mapa.unlock();
 }
