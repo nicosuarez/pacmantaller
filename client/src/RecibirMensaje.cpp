@@ -102,13 +102,13 @@ void RecibirMensaje::agregarElemento( PktElemento *pktElemento )
 	{
 		case (int)tSalidaPacman:
 		{
-			cout<<" SETEO SALIDA PACMAN CON COORD "<<coord.x<<" "<<coord.y<<" "<<coord.z<<endl;
+//			cout<<" SETEO SALIDA PACMAN CON COORD "<<coord.x<<" "<<coord.y<<" "<<coord.z<<endl;
 			Modelo::getInstance()->setSalidaPacMan( new SalidaPacMan(posicion, coord, orientacion) );
 			break;
 		}
 		case (int)tCasaFantasmas:
 		{			
-			cout<<" SETEO CASA DE FANTASMA CON COORD "<<coord.x<<" "<<coord.y<<" "<<coord.z<<endl;
+//			cout<<" SETEO CASA DE FANTASMA CON COORD "<<coord.x<<" "<<coord.y<<" "<<coord.z<<endl;
 			Modelo::getInstance()->setCasaFantasmas(  new CasaFantasmas( posicion, coord, orientacion) );
 			break;
 		}
@@ -120,7 +120,7 @@ void RecibirMensaje::agregarElemento( PktElemento *pktElemento )
 		case (int)tBonus: 
 		{
 			Modelo::getInstance()->getBonus().push_back( new Bonus( posicion, coord, orientacion) );
-			std::cout<<"recibe bonus estado: Aparece"<<"\n";
+//			std::cout<<"recibe bonus estado: Aparece"<<"\n";
 			break;			
 		}
 		case (int)tPastilla:
@@ -200,7 +200,7 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 			//************************
 			if (numFila==0 && (1-ph[numFila][i])==1) {
 				Modelo::getInstance()->getAristasPortal().push_back(j-1);//por el j++
-				cout<<"arista= "<<j<<" es una arista PORTAL"<<endl;
+//				cout<<"arista= "<<j<<" es una arista PORTAL"<<endl;
 			}
 			//************************
 		}
@@ -213,7 +213,7 @@ void RecibirMensaje::recibirMapa( int ancho, int alto )
 			//************************
 			if (i==(ancho-1) && (1-pv[numFila][i+1])==1) {
 				Modelo::getInstance()->getAristasPortal().push_back(j-1);//por el j++
-				cout<<"arista= "<<j<<" es una arista PORTAL"<<endl;
+//				cout<<"arista= "<<j<<" es una arista PORTAL"<<endl;
 			}
 			//************************
 		}
@@ -251,7 +251,7 @@ void RecibirMensaje::recibirInit( PktCabecera *cabecera )
 	uint16_t cantElementos;
 	socket->recibir( (char*)(&cantElementos), sizeof(uint16_t) );
 	cantElementos = ntohs(cantElementos);
-	std::cout << "Cant elementos: " << (int)cantElementos << std::endl;
+	//std::cout << "Cant elementos: " << (int)cantElementos << std::endl;
 	
 	//Recibo los elementos del mapa
 	recibirElementos( cantElementos );
@@ -270,12 +270,12 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 		PktElementoStatus *elementoStatus = (PktElementoStatus*)(elementos + delta);
 		
 		int estado = elementoStatus->estado;
-		int tipo = elementoStatus->tipo;
-		std::cout<<"elemento tipo: "<<tipo <<" estado: "<< estado<<"\n";
+//		int tipo = elementoStatus->tipo;
+//		std::cout<<"elemento tipo: "<<tipo <<" estado: "<< estado<<"\n";
 		
 		if( estado == Aparece )
 		{
-			std::cout<<"Aparece elemento tipo: "<<tipo<<"\n";
+//			std::cout<<"Aparece elemento tipo: "<<tipo<<"\n";
 			PktElemento pktElemento;
 			pktElemento.tipo = elementoStatus->tipo;
 			pktElemento.orientacion = elementoStatus->orientacion;
@@ -287,7 +287,7 @@ void RecibirMensaje::recibirElementosStatus( int cantElementos )
 			Elemento* elemento = modelo->getElemento( (tipoElemento)elementoStatus->tipo, elementoStatus->posicion );
 			if(elemento!=NULL)
 			{
-				std::cout<<"Desaparece elemento tipo: "<<tipo<<"\n";
+//				std::cout<<"Desaparece elemento tipo: "<<tipo<<"\n";
 				elemento->setEstado( Desaparece );
 			}
 		}
@@ -358,11 +358,11 @@ bool RecibirMensaje::esAristaPortal(int idArista) {
 	
 	while (!existe && itLista!= lista.end()) {
 		if (*itLista==idArista) {
-			cout<<"&&&&& "<<idArista<<" ESSSSSSSSSS arista PORTAL"<<endl;
+//			cout<<"&&&&& "<<idArista<<" ESSSSSSSSSS arista PORTAL"<<endl;
 			existe = true;
 		}
 		else {
-			cout<<"&&&&& "<<idArista<<" no es arista PORTAL"<<endl;
+//			cout<<"&&&&& "<<idArista<<" no es arista PORTAL"<<endl;
 			itLista++;
 		}
 	}	
@@ -379,9 +379,9 @@ void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
 	int alto = Modelo::getInstance()->getMapa()->getAlto();
 	
 	if (eje==2) { //eje x
-		cout<<"PORTAL---------------->EJE X"<<endl;
+//		cout<<"PORTAL---------------->EJE X"<<endl;
 		if (posicion.getDireccion()==1) { //portal esta en la derecha del mapa
-			cout<<"PORTAL-->EJE X---------->portal derecha del mapa"<<endl;
+//			cout<<"PORTAL-->EJE X---------->portal derecha del mapa"<<endl;
 			idVerticeFinal = posicion.getVertice() - (ancho - 1) ;
 			coord = buscarCoordenada(idVerticeFinal);
 			coordCentro = coord;
@@ -389,7 +389,7 @@ void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
 			
 		}
 		else { //portal de la izquierda
-			cout<<"PORTAL-->EJE X---------->portal izquierda del mapa"<<endl;
+//			cout<<"PORTAL-->EJE X---------->portal izquierda del mapa"<<endl;
 			idVerticeFinal = posicion.getVertice() + (ancho - 1) ;
 			coord = buscarCoordenada(idVerticeFinal);
 			coordCentro = coord;
@@ -398,16 +398,16 @@ void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
 		
 	}
 	else { //eje z
-		cout<<"PORTAL---------------->EJE Z"<<endl;
+//		cout<<"PORTAL---------------->EJE Z"<<endl;
 		if (posicion.getDireccion()==1) { //portal de arriba
-			cout<<"PORTAL-->EJE Z---------->portal arriba del mapa"<<endl;
+//			cout<<"PORTAL-->EJE Z---------->portal arriba del mapa"<<endl;
 			idVerticeFinal = (alto-1)*ancho + posicion.getVertice();
 			coord = buscarCoordenada(idVerticeFinal);
 			coordCentro = coord;
 			coordCentro.z -= 1;
 		}
 		else { // portal de abajo
-			cout<<"PORTAL-->EJE Z---------->portal abajo del mapa"<<endl;
+//			cout<<"PORTAL-->EJE Z---------->portal abajo del mapa"<<endl;
 			idVerticeFinal = posicion.getPosicionArista()%ancho;
 			coord = buscarCoordenada(idVerticeFinal);
 			coordCentro = coord;
@@ -417,8 +417,8 @@ void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
 	}
 	
 	if ( idJugador == Modelo::getInstance()->getid()) {
-		cout<<"actualizo camara"<<endl;
-		cout<<"coord "<<coord.x<<"  "<<coord.z<<"     coordCentro "<<coordCentro.x<<"  "<<coordCentro.z<<endl;
+//		cout<<"actualizo camara"<<endl;
+//		cout<<"coord "<<coord.x<<"  "<<coord.z<<"     coordCentro "<<coordCentro.x<<"  "<<coordCentro.z<<endl;
 		Modelo::getInstance()->getCamara().setOjo(coord);
 		Modelo::getInstance()->getCamara().setCentro(coordCentro);		
 	}
@@ -576,7 +576,6 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 
 void RecibirMensaje::recibirPosiciones( int cantJugadores )
 {	
-	cout<<"cant Jugadores: "<<cantJugadores<<endl;
 	int tamanio = cantJugadores*sizeof(PktPosiciones);
 	char *posiciones = new char[ tamanio ];
 	socket->recibir( posiciones, tamanio );
@@ -593,7 +592,7 @@ void RecibirMensaje::recibirPosiciones( int cantJugadores )
 		int idVertice = getIdVertice( idArista, direccion, modelo->getMapa()->getAncho() );
 		
 		//cout<<"INFO STATUS"<<endl;
-		cout<<"IDJUG: "<<idJugador<<" IDARISTA: "<<idArista<<" POSARISTA: "<<posicionArista<<" DIR: "<<direccion<<"  "<<idVertice<<endl;
+//		cout<<"IDJUG: "<<idJugador<<" IDARISTA: "<<idArista<<" POSARISTA: "<<posicionArista<<" DIR: "<<direccion<<"  "<<idVertice<<endl;
 		Posicion posicion( idVertice, idArista, posicionArista, direccion );
 		
 		agregarPersonaje( idJugador, posicion);
