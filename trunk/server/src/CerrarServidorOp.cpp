@@ -20,6 +20,6 @@ bool CerrarServidorOp::ejecutar()
 	modelo->getDispatcher()->getRecibiMensajeEvent().activar();
 	modelo->getDispatcher()->join();
 	std::cout<< "SE CERRO EL SERVIDOR...\n";	
-	return false;
+	return true;
 }
 

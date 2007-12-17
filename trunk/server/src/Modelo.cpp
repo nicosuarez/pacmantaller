@@ -51,9 +51,10 @@ Modelo::Modelo():dispatcher(&jugadores, finalizoJuego, &m_jugadores){
 /*----------------------------------------------------------------------------*/
 Modelo::~Modelo(){
 
-	this->eliminarListaJugadores();
+	//this->eliminarListaJugadores();
 	//this->eliminarListaBonus();
-	//this->eliminarListaElementos();
+	//this->eliminarListaElementos()
+	liberarNivel();
 	delete mundo;
 }
 /*----------------------------------------------------------------------------*/
@@ -222,8 +223,15 @@ void Modelo::cambiarSiguienteNivel()
 			this->agregarOperacion(agregar);
 		}
 		m_jugadores.unlock();
+		sleep(30000);
 	}
-	sleep(30000);
+	else
+	{
+		this->dispatcher.enviarMensaje( new Quit() );
+		CerrarServidorOp operacion;
+		operacion.ejecutar();
+		std::cout << "No hay mas niveles\n";
+	}
 	
 }
 /*----------------------------------------------------------------------------*/
@@ -430,7 +438,8 @@ bool Modelo::hayNiveles()
 /*----------------------------------------------------------------------------*/
 void Modelo::liberarNivel()
 {
-	ActualizarJuego::getInstance()->join();
+	if(ActualizarJuego::getInstance()->running())
+		ActualizarJuego::getInstance()->join();
 	delete ActualizarJuego::getInstance();
 	
 	this->eliminarListaBonus();
