@@ -9,6 +9,12 @@
 
 #include <stdint.h>
 
+#define PACMAN_GANO 0
+#define PACMAN_FUE_COMIDO 1
+#define PACMAN_SE_DESCONECTO 2
+#define JUGADORES_INSUFICIENTES 3
+#define SERVER_TERMINADO 4
+
 typedef struct PktCabecera
 {
 	uint8_t version: 2;

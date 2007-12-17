@@ -10,7 +10,7 @@
 #include "PowerUp.h"
 #include "CasaFantasmas.h"
 #include "SalidaPacMan.h"
-
+#include "Mutex.h"
 #include "Camara.h"
 
 class EnviarMensaje;
@@ -35,11 +35,14 @@ private:
 	CasaFantasmas* casaFantasmas;
 	SalidaPacMan* salidaPacMan;
 	EnviarMensaje *enviarMensaje;
-	Modelo();
-
     Evento recibiMensajeInitEvent;
     Camara camara;
-    
+    Mutex m_pastillas;
+	Mutex m_bonus;
+	Mutex m_powers;
+	Mutex m_personajes;
+	Mutex m_mapa;
+	Modelo();
     
 public:
 	Evento& getRecibiMensajeInitEvent();
@@ -96,14 +99,26 @@ public:
 	CasaFantasmas* getCasaFantasmas();
 	
 	SalidaPacMan* getSalidaPacMan();
-		
+	
+	Mutex& getMutexPastillas();
+	
+	Mutex& getMutexBonus();
+	
+	Mutex& getMutexPowers();
+	
+	Mutex& getMutexPersonajes();
+	
+	Mutex& getMutexMapa();
+	
+	void quitarBonus( int idPosicion );
+	
 	void eliminarPersonajes();
 	
 	void eliminarPastillas();
 	
 	void eliminarBonus();
 	
-	void eliminarPowers();
+	//void eliminarPowers();
 	
 	Camara& getCamara(); 
 	
