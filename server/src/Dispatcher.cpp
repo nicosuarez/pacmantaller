@@ -20,9 +20,14 @@ Dispatcher::~Dispatcher()
 Jugador* Dispatcher::getJugador(int idJugador)
 {
 	listJugadores::iterator it;
+	this->m_jugadores->lock();
 	for( it = jugadores->begin(); it != jugadores->end(); it++ )
 		if((*it)->GetIdJugador() == idJugador )
+		{
+			this->m_jugadores->unlock();
 			return (*it);
+		}
+	this->m_jugadores->unlock();
 	return NULL;
 }
 
@@ -77,7 +82,7 @@ void Dispatcher::enviarBroadCast( Mensaje* msg )
         sk_jugador->enviar( buffer, msg->getSize() );
     }
 	m_jugadores->unlock();
-	delete []buffer;
+	delete[]buffer;
 }
 /*----------------------------------------------------------------------------*/
 void Dispatcher::enviarMensajeParticular( Mensaje* msg )

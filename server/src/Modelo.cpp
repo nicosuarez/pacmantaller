@@ -59,7 +59,7 @@ void Modelo::eliminarListaJugadores()
 	for(it=jugadores.begin();it!=jugadores.end();it++)
 		delete *it;
 	jugadores.clear();
-	m_jugadores.lock();
+	m_jugadores.unlock();
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::eliminarListaBonus()
@@ -72,8 +72,8 @@ void Modelo::eliminarListaBonus()
 		delete (*it);
 		(*it)=NULL;
 	}
-	m_bonus.unlock();
 	bonus.clear();
+	m_bonus.unlock();
 }
 /*----------------------------------------------------------------------------*/
 Elemento* Modelo::hayBonus()

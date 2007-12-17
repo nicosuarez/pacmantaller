@@ -31,9 +31,10 @@ Status::Status()
 		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Aparece || (*it)->getEstado() == Desaparece )
 		{
 			elementos.push_back( *it );
-			std::cout<<"envia bonus estado:"<<(*it)->getEstado()<<"\n";
+			std::cout<<"envia bonus estado:"<< (int) (*it)->getEstado()<<"\n";
 		}
 	}
+	this->sizePkt = 0;
 }
 
 Status::~Status()
@@ -90,7 +91,10 @@ char* Status::Serialize()
 		PktElementoStatus *elemento = (PktElementoStatus*) ( buffer + delta  );
 		elemento->tipo =  (int)(*it)->getTipo();
 		elemento->orientacion = (*it)->getOrientacion();
-		elemento->estado = (*it)->getEstado();
+		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Eliminado || (*it)->getEstado() == Desaparece )
+			elemento->estado = 0;
+		else
+			elemento->estado = 1;
 		elemento->posicion = (*it)->getPosicion();
 		delta += sizeof(PktElementoStatus);
 		//Si el elemento fue comido o eliminado, lo elimino de la lista de elementos
