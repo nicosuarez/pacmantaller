@@ -389,6 +389,7 @@ void ActualizarJuego::ganoPacman()
 	tListElementos* elementos = modelo->GetElementos();
 	if(elementos->size() == 45)
 	{
+		//sleep(3000);
 		std::cout<<"GANO PACMAN\n";
 		modelo->getDispatcher()->enviarMensaje( new Stop(PACMAN_GANO) );
 		this->cambiarDeNivel();

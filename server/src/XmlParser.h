@@ -10,6 +10,7 @@
 #include "Personaje.h"
 #include "CasaFantasmas.h"
 #include "Bonus.h"
+#include <exception>
 #include "LogResource.h"
 #include "Mundo.h"
 #include <vector>

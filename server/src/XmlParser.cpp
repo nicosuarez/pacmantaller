@@ -267,35 +267,33 @@ void XmlParser::mostrarNombre(xmlpp::TextReader& reader)
 /*----------------------------------------------------------------------------*/
 Mapa* XmlParser::getMapa(string mapaPath)
 {
-	xmlpp::TextReader reader(mapaPath);
-	
-	Mapa* mapa = new Mapa;
-	while(reader.read())
-    {
-	  mostrarNombre(reader);
-	  std::string name = reader.get_name();
-      if(name==ANCHO)
-    	  setAncho(mapa,reader);
-      else if(name==ALTO)
-    	  setAlto(mapa,reader);
-      else if(name==GRAFO)
-    	  cargarGrafo(mapa,reader);
-      else if(name==ELEMENTO)
-		  agregarElementos(mapa,reader);  
-    }	
-	reader.close();
-	
-	
-	/*tListaVertice* vertices;
-	tItVertice it;
-	vertices = mapa->getGrafo()->getVertices();
-	for(it=vertices->begin();it!=vertices->end();it++)
+	try
 	{
-		std::cout<<"Vertice:"<<(*it)->getid()<<"\n";
-		//delete (*it);
-	}*/
+		xmlpp::TextReader reader(mapaPath);
+		
+		Mapa* mapa = new Mapa;
+		while(reader.read())
+	    {
+		  mostrarNombre(reader);
+		  std::string name = reader.get_name();
+	      if(name==ANCHO)
+	    	  setAncho(mapa,reader);
+	      else if(name==ALTO)
+	    	  setAlto(mapa,reader);
+	      else if(name==GRAFO)
+	    	  cargarGrafo(mapa,reader);
+	      else if(name==ELEMENTO)
+			  agregarElementos(mapa,reader);  
+	    }	
+		reader.close();
+		
+		return mapa;
 	
-	return mapa;
+	}
+	catch (std::exception& e)
+	{
+		std::cerr<< ERR_XML_MAPA <<"\n";
+	}
 }
 /*----------------------------------------------------------------------------*/
 void XmlParser::cargarMundo(Mundo* mundo,xmlpp::TextReader& reader)
@@ -314,18 +312,26 @@ void XmlParser::cargarMundo(Mundo* mundo,xmlpp::TextReader& reader)
 /*----------------------------------------------------------------------------*/
 Mundo* XmlParser::getMundo(string mundoPath)
 {
-	xmlpp::TextReader reader(mundoPath);
-		
-	Mundo* mundo = new Mundo;
-	while(reader.read())
-    {
-	  mostrarNombre(reader);
-	  std::string name = reader.get_name();
-      if(name==MAPA)
-    	  cargarMundo(mundo,reader);
-    }
-	reader.close();
-	return mundo;
+	try
+	{
+		xmlpp::TextReader reader(mundoPath);
+			
+		Mundo* mundo = new Mundo;
+		while(reader.read())
+		{
+		  mostrarNombre(reader);
+		  std::string name = reader.get_name();
+		  if(name==MAPA)
+			  cargarMundo(mundo,reader);
+		}
+		reader.close();
+		return mundo;
+	}
+	catch (std::exception& e)
+	{
+		std::cerr<< ERR_XML_MUNDO <<"\n";
+	}
+	
 }
 /*----------------------------------------------------------------------------*/
 
