@@ -25,8 +25,8 @@ EnviarMensaje *ptrEnviar = NULL;
 Textura	texSuelo;
 Textura	texPared;
 
-int anchoVentana =500;
-int altoVentana =400;
+int anchoVentana =400;
+int altoVentana =300;
 
 //Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
 
@@ -282,10 +282,10 @@ void dibujarPuntuacion() {
 			
 			glPushMatrix();
 				glScalef (1.1f, 1.1f, 1.1f);
-				//x =  Wwidth / 2 - glutBitmapLength (GLUT_BITMAP_HELVETICA_18, (unsigned char *)buf) / 2;
-				x =  anchoVentana / 2;
-				//y = Wheight - Wheight/3;
-				y = altoVentana/2;
+				x =  anchoVentana / 2 - glutBitmapLength (GLUT_BITMAP_HELVETICA_18, (unsigned char *)buf) / 2;
+				//x =  anchoVentana / 2;
+				y = altoVentana - altoVentana/3;
+				//y = altoVentana/2;
 				glColor4f (0.4f, 0.4f, 0.7f, 0.5f);
 				//renderCadena (x+1, y+1, buf);
 				glColor4f (1.0f, 1.0f, 1.0f, 1.0f);

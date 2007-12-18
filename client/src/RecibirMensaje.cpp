@@ -521,12 +521,12 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			if ( eje==1 ) {
 				//cout<<"#### ejez PARA CAMARA "<<endl;
 				if (posicion.getDireccion()==1) {
-					//coordOjo.z = coordT.z +0.5;
-					coordCentro.z = coordT.z - 1; // porque avanza en la parte negativa del eje z
+					coordOjo.z = coordT.z -0.78;
+					coordCentro.z = coordT.z - 2; // porque avanza en la parte negativa del eje z
 					//cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
 				} else { //direccion=0 izquierda
-					//coordOjo.z = coordT.z -0.5;
-					coordCentro.z = coordT.z + 1;
+					coordOjo.z = coordT.z +0.78;
+					coordCentro.z = coordT.z + 2;
 					//cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
 				}
 	//			cout<<"2-avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
@@ -536,13 +536,13 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 				//**************************
 		//		cout<<"#######ejex PARA CAMARA "<<endl;
 				if (posicion.getDireccion()==1) {
-					//coordOjo.x = coordT.x + 0.5;
-					coordCentro.x = coordT.x + 1;
+					coordOjo.x = coordT.x + 0.78;
+					coordCentro.x = coordT.x + 2;
 			//		cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
 					
 				} else { //direccion=0 izquierda
-					//coordOjo.x = coordT.x - 0.5;
-					coordCentro.x = coordT.x - 1;
+					coordOjo.x = coordT.x - 0.78;
+					coordCentro.x = coordT.x - 2;
 				//	cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
 				}							
 	//			cout<<"avanzo a Ojo: "<<coordOjo.x<<" "<<coordOjo.y<<"  "<<coordOjo.z<<endl;
@@ -551,7 +551,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			}
 			
 			//cout<<"actualizo camara"<<endl;		
-			modelo->getCamara().setOjo(coordT);
+			modelo->getCamara().setOjo(coordOjo);
 			modelo->getCamara().setCentro(coordCentro);
 		}
 		
