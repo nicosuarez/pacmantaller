@@ -267,11 +267,11 @@ void XmlParser::mostrarNombre(xmlpp::TextReader& reader)
 /*----------------------------------------------------------------------------*/
 Mapa* XmlParser::getMapa(string mapaPath)
 {
+	Mapa* mapa=NULL;
 	try
 	{
-		xmlpp::TextReader reader(mapaPath);
-		
-		Mapa* mapa = new Mapa;
+		xmlpp::TextReader reader(mapaPath);	
+		mapa = new Mapa;
 		while(reader.read())
 	    {
 		  mostrarNombre(reader);
@@ -286,14 +286,12 @@ Mapa* XmlParser::getMapa(string mapaPath)
 			  agregarElementos(mapa,reader);  
 	    }	
 		reader.close();
-		
-		return mapa;
-	
 	}
 	catch (std::exception& e)
 	{
 		std::cerr<< ERR_XML_MAPA <<"\n";
 	}
+	return mapa;
 }
 /*----------------------------------------------------------------------------*/
 void XmlParser::cargarMundo(Mundo* mundo,xmlpp::TextReader& reader)
@@ -312,11 +310,11 @@ void XmlParser::cargarMundo(Mundo* mundo,xmlpp::TextReader& reader)
 /*----------------------------------------------------------------------------*/
 Mundo* XmlParser::getMundo(string mundoPath)
 {
+	Mundo* mundo=NULL;
 	try
 	{
 		xmlpp::TextReader reader(mundoPath);
-			
-		Mundo* mundo = new Mundo;
+		mundo = new Mundo;
 		while(reader.read())
 		{
 		  mostrarNombre(reader);
@@ -325,13 +323,12 @@ Mundo* XmlParser::getMundo(string mundoPath)
 			  cargarMundo(mundo,reader);
 		}
 		reader.close();
-		return mundo;
 	}
 	catch (std::exception& e)
 	{
 		std::cerr<< ERR_XML_MUNDO <<"\n";
 	}
-	
+	return mundo;
 }
 /*----------------------------------------------------------------------------*/
 
