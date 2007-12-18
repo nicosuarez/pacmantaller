@@ -160,13 +160,15 @@ void Camara::update() {
 
 }
 
-void Camara::vistaAerea() {	
-	posOjo.x=10;
-	posOjo.y=25;
-	posOjo.z=-10;
-	posCentro.x=10;
-	posCentro.y=4;
-	posCentro.z=-10;
+void Camara::vistaAerea(int alto, int ancho) {	
+	posOjo.x=ancho;
+	posOjo.y=(alto+ancho)*2;
+	posOjo.z=-alto;
+	
+	posCentro.x=ancho;
+	posCentro.y= (alto+ancho)*2 - 5;
+	posCentro.z=-alto;
+	
 	dirArriba.x=1;
 	dirArriba.y=0;
 	dirArriba.z=0;
