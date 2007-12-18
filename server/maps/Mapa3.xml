@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<Mapa><!--
+--><Ancho valor="7"/><!--
+--><Alto valor="7"/><!--
+--><Grafo><!--
+--><Arista id="7" orientacion="ESTE"><Vertice id="0"/><Vertice id="1"/></Arista><!--
+--><Arista id="14" orientacion="NORTE"><Vertice id="7"/><Vertice id="0"/></Arista><!--
+--><Arista id="12" orientacion="ESTE"><Vertice id="5"/><Vertice id="6"/></Arista><!--
+--><Arista id="20" orientacion="NORTE"><Vertice id="13"/><Vertice id="6"/></Arista><!--
+--><Arista id="37" orientacion="ESTE"><Vertice id="16"/><Vertice id="17"/></Arista><!--
+--><Arista id="44" orientacion="NORTE"><Vertice id="23"/><Vertice id="16"/></Arista><!--
+--><Arista id="51" orientacion="ESTE"><Vertice id="23"/><Vertice id="24"/></Arista><!--
+--><Arista id="45" orientacion="NORTE"><Vertice id="24"/><Vertice id="17"/></Arista><!--
+--><Arista id="58" orientacion="NORTE"><Vertice id="30"/><Vertice id="23"/></Arista><!--
+--><Arista id="65" orientacion="ESTE"><Vertice id="30"/><Vertice id="31"/></Arista><!--
+--><Arista id="59" orientacion="NORTE"><Vertice id="31"/><Vertice id="24"/></Arista><!--
+--><Arista id="52" orientacion="ESTE"><Vertice id="24"/><Vertice id="25"/></Arista><!--
+--><Arista id="53" orientacion="ESTE"><Vertice id="25"/><Vertice id="26"/></Arista><!--
+--><Arista id="54" orientacion="ESTE"><Vertice id="26"/><Vertice id="27"/></Arista><!--
+--><Arista id="34" orientacion="NORTE"><Vertice id="20"/><Vertice id="13"/></Arista><!--
+--><Arista id="48" orientacion="NORTE"><Vertice id="27"/><Vertice id="20"/></Arista><!--
+--><Arista id="62" orientacion="NORTE"><Vertice id="34"/><Vertice id="27"/></Arista><!--
+--><Arista id="8" orientacion="ESTE"><Vertice id="1"/><Vertice id="2"/></Arista><!--
+--><Arista id="11" orientacion="ESTE"><Vertice id="4"/><Vertice id="5"/></Arista><!--
+--><Arista id="9" orientacion="ESTE"><Vertice id="2"/><Vertice id="3"/></Arista><!--
+--><Arista id="10" orientacion="ESTE"><Vertice id="3"/><Vertice id="4"/></Arista><!--
+--><Arista id="93" orientacion="ESTE"><Vertice id="44"/><Vertice id="45"/></Arista><!--
+--><Arista id="94" orientacion="ESTE"><Vertice id="45"/><Vertice id="46"/></Arista><!--
+--><Arista id="3" orientacion="NORTE"><Vertice id="3"/><Vertice id="45"/></Arista><!--
+--><Arista id="84" orientacion="NORTE"><Vertice id="42"/><Vertice id="35"/></Arista><!--
+--><Arista id="91" orientacion="ESTE"><Vertice id="42"/><Vertice id="43"/></Arista><!--
+--><Arista id="92" orientacion="ESTE"><Vertice id="43"/><Vertice id="44"/></Arista><!--
+--><Arista id="76" orientacion="NORTE"><Vertice id="41"/><Vertice id="34"/></Arista><!--
+--><Arista id="90" orientacion="NORTE"><Vertice id="48"/><Vertice id="41"/></Arista><!--
+--><Arista id="95" orientacion="ESTE"><Vertice id="46"/><Vertice id="47"/></Arista><!--
+--><Arista id="96" orientacion="ESTE"><Vertice id="47"/><Vertice id="48"/></Arista><!--
+--><Arista id="28" orientacion="NORTE"><Vertice id="14"/><Vertice id="7"/></Arista><!--
+--><Arista id="42" orientacion="NORTE"><Vertice id="21"/><Vertice id="14"/></Arista><!--
+--><Arista id="56" orientacion="NORTE"><Vertice id="28"/><Vertice id="21"/></Arista><!--
+--><Arista id="70" orientacion="NORTE"><Vertice id="35"/><Vertice id="28"/></Arista><!--
+--></Grafo><!--
+--><Elementos><!--
+--><Elemento tipo="PacMan" idv="43"/><!--
+--><Elemento tipo="Bonus" idv="48"/><!--
+--><Elemento tipo="PowerUp" idv="0"/><!--
+--><Elemento tipo="CasaFantasmas" idv="25" idv1="16" idv2="23" idv3="30" idv4="17" idv5="24" idv6="31" orientacion="ESTE"/></Elementos></Mapa>

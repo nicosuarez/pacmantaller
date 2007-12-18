@@ -5,24 +5,24 @@
 --><Grafo><!--
 --><Arista id="52" orientacion="ESTE"><Vertice id="22"/><Vertice id="23"/></Arista><!--
 --><Arista id="53" orientacion="ESTE"><Vertice id="23"/><Vertice id="24"/></Arista><!--
---><Arista id="62" orientacion="ESTE"><Vertice id="32"/><Vertice id="22"/></Arista><!--
---><Arista id="72" orientacion="NORTE"><Vertice id="32"/><Vertice id="33"/></Arista><!--
---><Arista id="63" orientacion="ESTE"><Vertice id="33"/><Vertice id="23"/></Arista><!--
---><Arista id="73" orientacion="NORTE"><Vertice id="33"/><Vertice id="34"/></Arista><!--
---><Arista id="64" orientacion="ESTE"><Vertice id="34"/><Vertice id="24"/></Arista><!--
---><Arista id="83" orientacion="ESTE"><Vertice id="43"/><Vertice id="33"/></Arista><!--
---><Arista id="103" orientacion="ESTE"><Vertice id="53"/><Vertice id="43"/></Arista><!--
---><Arista id="123" orientacion="ESTE"><Vertice id="63"/><Vertice id="53"/></Arista><!--
+--><Arista id="62" orientacion="NORTE"><Vertice id="32"/><Vertice id="22"/></Arista><!--
+--><Arista id="72" orientacion="ESTE"><Vertice id="32"/><Vertice id="33"/></Arista><!--
+--><Arista id="63" orientacion="NORTE"><Vertice id="33"/><Vertice id="23"/></Arista><!--
+--><Arista id="73" orientacion="ESTE"><Vertice id="33"/><Vertice id="34"/></Arista><!--
+--><Arista id="64" orientacion="NORTE"><Vertice id="34"/><Vertice id="24"/></Arista><!--
+--><Arista id="83" orientacion="NORTE"><Vertice id="43"/><Vertice id="33"/></Arista><!--
+--><Arista id="103" orientacion="NORTE"><Vertice id="53"/><Vertice id="43"/></Arista><!--
+--><Arista id="123" orientacion="NORTE"><Vertice id="63"/><Vertice id="53"/></Arista><!--
 --><Arista id="132" orientacion="ESTE"><Vertice id="62"/><Vertice id="63"/></Arista><!--
 --><Arista id="133" orientacion="ESTE"><Vertice id="63"/><Vertice id="64"/></Arista><!--
---><Arista id="120" orientacion="ESTE"><Vertice id="60"/><Vertice id="50"/></Arista><!--
+--><Arista id="120" orientacion="NORTE"><Vertice id="60"/><Vertice id="50"/></Arista><!--
 --><Arista id="130" orientacion="ESTE"><Vertice id="60"/><Vertice id="61"/></Arista><!--
 --><Arista id="131" orientacion="ESTE"><Vertice id="61"/><Vertice id="62"/></Arista><!--
 --><Arista id="10" orientacion="ESTE"><Vertice id="0"/><Vertice id="1"/></Arista><!--
 --><Arista id="20" orientacion="NORTE"><Vertice id="10"/><Vertice id="0"/></Arista><!--
 --><Arista id="18" orientacion="ESTE"><Vertice id="8"/><Vertice id="9"/></Arista><!--
---><Arista id="29" orientacion="ESTE"><Vertice id="19"/><Vertice id="9"/></Arista><!--
---><Arista id="129" orientacion="ESTE"><Vertice id="69"/><Vertice id="59"/></Arista><!--
+--><Arista id="29" orientacion="NORTE"><Vertice id="19"/><Vertice id="9"/></Arista><!--
+--><Arista id="129" orientacion="NORTE"><Vertice id="69"/><Vertice id="59"/></Arista><!--
 --><Arista id="138" orientacion="ESTE"><Vertice id="68"/><Vertice id="69"/></Arista><!--
 --><Arista id="134" orientacion="ESTE"><Vertice id="64"/><Vertice id="65"/></Arista><!--
 --><Arista id="17" orientacion="ESTE"><Vertice id="7"/><Vertice id="8"/></Arista><!--
@@ -37,13 +37,13 @@
 --><Arista id="13" orientacion="ESTE"><Vertice id="3"/><Vertice id="4"/></Arista><!--
 --><Arista id="14" orientacion="ESTE"><Vertice id="4"/><Vertice id="5"/></Arista><!--
 --><Arista id="40" orientacion="NORTE"><Vertice id="20"/><Vertice id="10"/></Arista><!--
---><Arista id="49" orientacion="ESTE"><Vertice id="29"/><Vertice id="19"/></Arista><!--
---><Arista id="100" orientacion="ESTE"><Vertice id="50"/><Vertice id="40"/></Arista><!--
+--><Arista id="49" orientacion="NORTE"><Vertice id="29"/><Vertice id="19"/></Arista><!--
+--><Arista id="100" orientacion="NORTE"><Vertice id="50"/><Vertice id="40"/></Arista><!--
 --><Arista id="109" orientacion="NORTE"><Vertice id="59"/><Vertice id="49"/></Arista><!--
 --><Arista id="60" orientacion="NORTE"><Vertice id="30"/><Vertice id="20"/></Arista><!--
---><Arista id="80" orientacion="ESTE"><Vertice id="40"/><Vertice id="30"/></Arista><!--
+--><Arista id="80" orientacion="NORTE"><Vertice id="40"/><Vertice id="30"/></Arista><!--
 --><Arista id="79" orientacion="ESTE"><Vertice id="39"/><Vertice id="30"/></Arista><!--
---><Arista id="69" orientacion="ESTE"><Vertice id="39"/><Vertice id="29"/></Arista><!--
+--><Arista id="69" orientacion="NORTE"><Vertice id="39"/><Vertice id="29"/></Arista><!--
 --><Arista id="89" orientacion="NORTE"><Vertice id="49"/><Vertice id="39"/></Arista><!--
 --></Grafo><!--
 --><Elementos><!--
