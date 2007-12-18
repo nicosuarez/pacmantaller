@@ -36,6 +36,9 @@ public:
 	bool validarMinJugadores();
 	bool validarMaxJugadores();
 	
+	//Elimina el thread EscucharCliente del cliente identificado por el id
+	void quitarEscucha( int idJugador );
+	
 	/* Destructor */
 	~ConnectionManager();
 private:

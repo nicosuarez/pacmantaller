@@ -40,3 +40,9 @@ int EscucharJugador::recibirMensaje()
 	socket->recibir( (char*)(&buffer), sizeof(PktCabecera) );
 	return (int)buffer.aux;
 }
+
+
+int EscucharJugador::getId()
+{
+	return idJugador;
+}

@@ -64,10 +64,10 @@ void ActualizarJuego::agregaBonusAlJuego()
 	{
 		if(elemento!=NULL)
 		{
-			std::cout<<"agregar bonus.."<<elemento<<"\n";
+//			std::cout<<"agregar bonus.."<<elemento<<"\n";
 			if(mantenerVisible.getTimeStartNow()<tMantenerVisibleBonus)
 			{
-				std::cout<<"Mantener visible bonus..\n";
+//				std::cout<<"Mantener visible bonus..\n";
 				//MostrarBonus
 				if(!mantenerBonus)
 				{
@@ -95,7 +95,6 @@ void ActualizarJuego::enviarStatus()
 	{
 		Status *status = new Status;
 		Modelo::getInstance()->getDispatcher()->enviarMensaje( status);
-		std::cout << "Envio Mensaje STATUS\n";
 	}
 }
 /*----------------------------------------------------------------------------*/
@@ -114,7 +113,7 @@ void ActualizarJuego::presionoKeyAbajo(Jugador* jugador){
 	//contraria
 	Posicion* posicion = jugador->getPersonaje()->GetPosicion();
 	
-	std::cout<<"Inicial: " << *posicion;
+//	std::cout<<"Inicial: " << *posicion;
 	
 	posicion->cambiarDireccion();
 
@@ -127,7 +126,7 @@ void ActualizarJuego::presionoKeyAbajo(Jugador* jugador){
 	if(posicion->estaEnUnVertice())
 		this->avanzar(jugador);
 	
-	std::cout<<"Final: " << *posicion<<"\n";
+//	std::cout<<"Final: " << *posicion<<"\n";
 }
 /*----------------------------------------------------------------------------*/
 tVertice* ActualizarJuego::getVeticeDestino(Posicion* posicion)
@@ -260,12 +259,12 @@ void ActualizarJuego::avanzar(Jugador* jugador){
 	Posicion* posicion = personaje->GetPosicion();
 	tArco* arcoActual=this->getAristaActual(posicion);
 
-	std::cout<<"Inicial: " << *posicion;
+//	std::cout<<"Inicial: " << *posicion;
 	
 	//Si choco con una pared, no avanza mas y espera un giro.
 	if(!personaje->chocoConPared())
 	{	
-		std::cout<<"Avanza: " ;
+//		std::cout<<"Avanza: " ;
 		Personaje* personaje = jugador->getPersonaje();
 		
 		//Obtengo el vertice destino
@@ -311,7 +310,7 @@ void ActualizarJuego::avanzar(Jugador* jugador){
 		}
 	}
 	
-	std::cout<<"  Final: " << *posicion <<"\n";
+//	std::cout<<"  Final: " << *posicion <<"\n";
 	
 }
 /*----------------------------------------------------------------------------*/
@@ -320,10 +319,11 @@ void ActualizarJuego::avanzar(Jugador* jugador){
  */
 void ActualizarJuego::actualizarPosiciones()
 {
+	Modelo *modelo = Modelo::getInstance();
+	int keyPressed=NONE;
+	modelo->getMutexJugadores().lock();
 	tListJugadores jugadores=Modelo::getInstance()->GetJugadores();
 	itListJugadores it;
-	int keyPressed=NONE;
-	
 	for(it=jugadores.begin();it!=jugadores.end();it++)
 	{
 		Jugador* jugador = *it;
@@ -331,32 +331,33 @@ void ActualizarJuego::actualizarPosiciones()
 		switch (keyPressed)
 		{
 			case KEY_ARRIBA:
-				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "UP" <<"\n";
+	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "UP" <<"\n";
 				presionoKeyArriba(jugador);
 				break;
 			case KEY_ABAJO:
-				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "DOWN" <<"\n";
+	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "DOWN" <<"\n";
 				presionoKeyAbajo(jugador);
 				break;
 			case KEY_IZQUIERDA:
-				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "LEFT" <<"\n";
+	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "LEFT" <<"\n";
 				presionoKeyIzquierda(jugador);
 				break;
 			case KEY_DERECHA:
-				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "RIGHT" <<"\n";
+	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "RIGHT" <<"\n";
 				presionoKeyDerecha(jugador);
 				break;
 			case KEY_ESCAPE:
-				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "ESC" <<"\n";
+	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "ESC" <<"\n";
 				desconectarJugador( jugador->GetIdJugador() );
 				break;
 				
 			default: //NONE
-				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "NONE" <<"\n";
+	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "NONE" <<"\n";
 				noPresionoKey(jugador);
 				break;
 		}
 	}
+	modelo->getMutexJugadores().unlock();
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -381,6 +382,7 @@ void ActualizarJuego::actualizar()
 	//this->cambiarDeNivel();
 	this->ganoPacman();
 }
+
 /*----------------------------------------------------------------------------*/
 //Si el pacman comio todas las pastillas y powersUp gano el nivel
 void ActualizarJuego::ganoPacman()

@@ -93,7 +93,6 @@ protected:
 	ActualizarJuego(unsigned int updateTime=500);
 	ActualizarJuego(const ActualizarJuego&);
 	ActualizarJuego& operator= (const ActualizarJuego&);
-
 };
 
 #endif /*ACTUALIZARJUEGO_H_*/

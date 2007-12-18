@@ -152,8 +152,10 @@ void Modelo::quitarJugador( int idJugador )
 		CerrarServidorOp *operacion = new CerrarServidorOp();
 		this->agregarOperacion( operacion );
 	}
+	this->quitarEscuchar( idJugador );
 	m_jugadores.unlock();
 }
+
 /*----------------------------------------------------------------------------*/
 void Modelo::agregarElemento( Elemento * elemento )
 {
@@ -595,7 +597,7 @@ void Modelo::comerElementoDelVertice(tVertice* vertice)
 			this->analizarElementoComido(elemento,pacMan);
 		}
 	}
-	std::cout<<"Esta powerUp? "<< pacMan->IsPowerUp() << "\n";
+//	std::cout<<"Esta powerUp? "<< pacMan->IsPowerUp() << "\n";
 	
 }
 
@@ -605,18 +607,21 @@ void Modelo::comerElementoDelVertice(tVertice* vertice)
  */
 Fantasma* Modelo::getFantasma()
 {
-	tListJugadores jugadores=this->GetJugadores();
-	itListJugadores it;
 	
+	itListJugadores it;
+	this->m_jugadores.lock();
+	tListJugadores jugadores=this->GetJugadores();
 	for(it=jugadores.begin();it!=jugadores.end();it++)
 	{
 		Jugador* jugador = *it;
 		if(jugador->GetIdPersonaje()!=PacMan::PACMAN_TYPE)
 		{
 			Fantasma* fantasma = (Fantasma*)jugador->getPersonaje();
+			this->m_jugadores.unlock();
 			return fantasma;
 		}
 	}
+	this->m_jugadores.unlock();
 	return NULL;
 }
 /*----------------------------------------------------------------------------*/
@@ -704,4 +709,9 @@ void Modelo::analizarElementoComido(Elemento* elemento,PacMan* pacman)
 			break;
 	}
 
+}
+
+void Modelo::quitarEscuchar( int idJugador)
+{
+	ConnectionManager::getInstance()->quitarEscucha( idJugador );
 }

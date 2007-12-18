@@ -38,6 +38,9 @@ public:
 	//Destructor
 	virtual ~EscucharJugador();
 	
+	//Retorna el id del jugador
+	int getId();
+	
 	//Recibe los mensajes que envia el cliente
 	void main();
 	

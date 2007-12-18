@@ -11,8 +11,15 @@ int main(int argc,char* argv[])
 	
 	/* Crea un cliente para jugar */
 	Cliente cliente(host,port);
-	
-	/* Sale con el codigo de retorno correspondiente */
-	err = cliente.ejecutar(argc,argv);
+	Socket *socket = cliente.getSocket();
+	if( *socket ) //Verifica si se pudo conectar
+	{
+		/* Sale con el codigo de retorno correspondiente */
+		err = cliente.ejecutar(argc,argv);
+	}
+	else
+	{
+		std::cout << "Servidor no disponible\n";
+	}
 	return err;	
 }

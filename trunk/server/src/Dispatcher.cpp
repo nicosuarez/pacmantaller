@@ -75,11 +75,15 @@ void Dispatcher::enviarBroadCast( Mensaje* msg )
 {
 	listJugadores::iterator it;
 	char *buffer = msg->Serialize();
+	int bytesEnviados = 0;
 	m_jugadores->lock();
 	for( it = jugadores->begin(); it != jugadores->end(); it++ )
     {
         Socket* sk_jugador = (*it)->GetSocket();
-        sk_jugador->enviar( buffer, msg->getSize() );
+        bytesEnviados = sk_jugador->enviar( buffer, msg->getSize() );
+        //Si hubo un error setea la tecla Escape para luego elminar al cliente.
+        if( bytesEnviados < 0 )
+        	(*it)->SetKeyPressed( KEY_ESCAPE );
     }
 	m_jugadores->unlock();
 	delete[]buffer;
@@ -93,7 +97,10 @@ void Dispatcher::enviarMensajeParticular( Mensaje* msg )
 	{
 		Socket* sk_jugador = jugador->GetSocket();
 		char *buffer = msg->Serialize();
-		sk_jugador->enviar( buffer, msg->getSize() );
+		int bytesEnviados = 0;
+		bytesEnviados = sk_jugador->enviar( buffer, msg->getSize() );
+		if( bytesEnviados < 0 )
+			jugador->SetKeyPressed( KEY_ESCAPE );
 		delete []buffer;
 	}
 }

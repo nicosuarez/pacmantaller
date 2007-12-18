@@ -95,7 +95,7 @@ Socket* Socket::aceptar(){
 /*----------------------------------------------------------------------------*/
 int Socket::enviar(const std::string& buf){
 	size_t bytesEnviados = 0;
-	while( bytesEnviados < buf.size() )
+	while( bytesEnviados < buf.size() && bytesEnviados >= 0 )
 	{
 		bytesEnviados += send( this->fd, buf.c_str() + bytesEnviados, buf.size()-bytesEnviados,0);
 	}
@@ -105,7 +105,7 @@ int Socket::enviar(const std::string& buf){
 int Socket::recibir( std::string& buf, size_t size ){
     char* rec = new char[size+1];
     size_t bytesRecibidos=0;
-    while( bytesRecibidos < size )
+    while( bytesRecibidos < size && bytesRecibidos >= 0 )
     {
     	bytesRecibidos += recv( this->fd, rec + bytesRecibidos,size-bytesRecibidos, 0 );
     }
@@ -116,7 +116,7 @@ int Socket::recibir( std::string& buf, size_t size ){
 /*----------------------------------------------------------------------------*/
 int Socket::enviar(const char* buf, size_t size){
 	size_t bytesEnviados = 0;
-	while( bytesEnviados < size )
+	while( bytesEnviados < size && bytesEnviados >= 0 )
 	{
 		bytesEnviados += send( this->fd, buf + bytesEnviados , size-bytesEnviados , 0 );
 	}
@@ -125,7 +125,7 @@ int Socket::enviar(const char* buf, size_t size){
 /*----------------------------------------------------------------------------*/
 int Socket::recibir(char* buf,size_t size){
     size_t bytesRecibidos = 0;
-    while( bytesRecibidos < size )
+    while( bytesRecibidos < size  && bytesRecibidos >= 0 )
     {
     	bytesRecibidos += recv( this->fd, buf + bytesRecibidos, size-bytesRecibidos, 0 );
     }

@@ -35,7 +35,7 @@ public:
 	virtual ~Cliente();
 	int ejecutar(int cantArg,char* argv[]);
 	EnviarMensaje* enviarMensaje;
-	
+	Socket* getSocket();
 private:
 	/**
 	 *  Socket para escuchar 
