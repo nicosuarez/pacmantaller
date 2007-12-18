@@ -33,7 +33,7 @@ std::string XmlParser::obtenerOrientacion(int a,int cantFilas,int cantColumnas)
 	for ( int f = 0 ; f < cantFilas ; f++ )
 		for ( int c = 0 ; c < cantColumnas ; c++ )
 		{
-			id = f*cantFilas + c;
+			id = f*cantColumnas + c;
 			if ( (id + f*cantColumnas) == a)
 				return ("NORTE");
 			if ( ( (id + f*cantColumnas) +cantColumnas) == a)
