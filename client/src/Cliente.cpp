@@ -25,6 +25,9 @@ EnviarMensaje *ptrEnviar = NULL;
 Textura	texSuelo;
 Textura	texPared;
 
+int anchoVentana =500;
+int altoVentana =400;
+
 //Camara camara(Coordenada(3,0.6,-1),Coordenada(4,0.6,-1), Coordenada(0,1,0));
 
 
@@ -242,6 +245,63 @@ void dibujarPersonajes() {
 	modelo->getMutexPersonajes().unlock();
 }
 
+
+//############################################
+//############################################
+void renderCadena(int x, int y, char *buf){
+	glRasterPos2f (x, y);
+	for (unsigned int i = 0; i < strlen(buf); i++)
+		glutBitmapCharacter (GLUT_BITMAP_HELVETICA_18, buf[i]);
+}
+
+
+void dibujarPuntuacion() {
+
+	int x, y;
+	char buf[128];
+
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glMatrixMode (GL_MODELVIEW);
+	//glLoadIdentity();
+
+	//gluLookAt(0,0,0,0,0,-1,0.0f, 1.0f, 0.0f);		
+		
+	glMatrixMode (GL_PROJECTION);
+	glPushMatrix();
+		glLoadIdentity();
+		gluOrtho2D (0, anchoVentana, 0, altoVentana);
+		glScalef (1.0f, -1.0f, 1.0f); // Snúum við y-ás
+		glTranslatef (0, -anchoVentana, 0);
+	
+		glMatrixMode (GL_MODELVIEW);
+		glPushMatrix();
+			glLoadIdentity();
+		
+			glLineWidth (2.0f);
+			sprintf (buf, " PUNTUACION %d",Modelo::getInstance()->getPuntuacion());			
+			
+			glPushMatrix();
+				glScalef (1.1f, 1.1f, 1.1f);
+				//x =  Wwidth / 2 - glutBitmapLength (GLUT_BITMAP_HELVETICA_18, (unsigned char *)buf) / 2;
+				x =  anchoVentana / 2;
+				//y = Wheight - Wheight/3;
+				y = altoVentana/2;
+				glColor4f (0.4f, 0.4f, 0.7f, 0.5f);
+				//renderCadena (x+1, y+1, buf);
+				glColor4f (1.0f, 1.0f, 1.0f, 1.0f);
+				renderCadena (x, y, buf);
+			glPopMatrix();
+		
+		
+			glMatrixMode (GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode (GL_MODELVIEW);
+	glPopMatrix();
+
+}
+//############################################
+//############################################
+
 /**
  * Espera a recibir el proximo mapa (INIT) y comienza el nuevo nivel.
  */
@@ -292,7 +352,8 @@ void render(void) {
 	glDisable( GL_TEXTURE_2D );		
 	
 	glColor3f(1,1,1);
-	
+
+	dibujarPuntuacion();
 	dibujarPastillas();
 	dibujarPowerUp();
 	dibujarBonus();
@@ -391,7 +452,7 @@ void  iniciarGraficos(int argc, char** argv)
 	Modelo *modelo = Modelo::getInstance(); 
 	std::cout<<"Obtiene mapa\n";
 	glutInit( &argc, argv );	
-	glutInitWindowSize( 500, 400 );
+	glutInitWindowSize( anchoVentana, altoVentana );
 	std::cout<<"inicio windows\n";
 	glutInitWindowPosition( 100, 100 );
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA);
