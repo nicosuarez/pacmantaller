@@ -10,6 +10,11 @@ Modelo::Modelo()
 	salidaPacMan = NULL;
 	casaFantasmas = NULL;
 	mapa = NULL;
+	
+	/*modelPacman = new Model;
+	ObjLoader::cargarModelo(*modelPacman,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
+	modelFantasma = new Model;
+	ObjLoader::cargarModelo(*modelFantasma,OBJ_PATH_FANTASMA,TEX_PATH_FANTASMA);*/
 }
 
 
@@ -289,6 +294,14 @@ Mutex& Modelo::getMutexMapa()
 	return this->m_mapa;
 }
 
+/*
+Model* Modelo::getModelPacman() {
+	return modelPacman;
+}
+
+Model* Modelo::getModelFantasma(){
+	return modelFantasma;
+}*/
 //void Modelo::quitarBonus( int idPosicion )
 //{
 //	tListBonus::iterator it;

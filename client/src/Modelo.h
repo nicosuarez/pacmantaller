@@ -12,6 +12,8 @@
 #include "SalidaPacMan.h"
 #include "Mutex.h"
 #include "Camara.h"
+#include "LogResource.h"
+#include "ObjLoader.h"
 
 class EnviarMensaje;
 typedef std::list<Pastilla*> tListPastilla;
@@ -47,7 +49,10 @@ private:
 	Mutex m_mapa;
 	Modelo();
 	tListAristaPortal aristasPortal;
-    
+	
+	/*
+	Model* modelPacman;
+	Model* modelFantasma;*/
 	
 public:
 	Evento& getRecibiMensajeInitEvent();
@@ -129,6 +134,8 @@ public:
 	
 	tListAristaPortal& getAristasPortal();
 	    
+	/*Model* getModelPacman();
+		Model* getModelFantasma();*/
 };
 
 #endif /*MODELO_H_*/

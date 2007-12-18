@@ -1,7 +1,5 @@
 #include "RecibirMensaje.h"
 
-#define LONGVERTICE 2
-#define ALTURAITEMS 0.5
 
 using namespace std;
 
@@ -373,7 +371,7 @@ bool RecibirMensaje::esAristaPortal(int idArista) {
 void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
 	int eje = calcularEje( posicion.getVertice(),posicion.getArista(),Modelo::getInstance()->getMapa()->getAncho() );
 	int idVerticeFinal;
-	Coordenada coord,coordCentro;
+	Coordenada coord,coordCentro,coordOjo;
 	
 	int ancho = Modelo::getInstance()->getMapa()->getAncho();
 	int alto = Modelo::getInstance()->getMapa()->getAlto();
@@ -385,15 +383,18 @@ void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
 			idVerticeFinal = posicion.getVertice() - (ancho - 1) ;
 			coord = buscarCoordenada(idVerticeFinal);
 			coordCentro = coord;
-			coordCentro.x += 1;
-			
+			coordOjo = coord;
+			coordCentro.x += 2;
+			coordOjo.x = coord.x + 0.82;								
 		}
 		else { //portal de la izquierda
 //			cout<<"PORTAL-->EJE X---------->portal izquierda del mapa"<<endl;
 			idVerticeFinal = posicion.getVertice() + (ancho - 1) ;
 			coord = buscarCoordenada(idVerticeFinal);
 			coordCentro = coord;
-			coordCentro.x -= 1;
+			coordOjo = coord;
+			coordCentro.x -= 2;
+			coordOjo.x = coord.x - 0.82;
 		}
 		
 	}
@@ -404,14 +405,19 @@ void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
 			idVerticeFinal = (alto-1)*ancho + posicion.getVertice();
 			coord = buscarCoordenada(idVerticeFinal);
 			coordCentro = coord;
-			coordCentro.z -= 1;
+			coordOjo = coord;
+			coordCentro.z -= 2;
+			coordOjo.z = coord.z -0.82;
 		}
 		else { // portal de abajo
 //			cout<<"PORTAL-->EJE Z---------->portal abajo del mapa"<<endl;
 			idVerticeFinal = posicion.getPosicionArista()%ancho;
 			coord = buscarCoordenada(idVerticeFinal);
 			coordCentro = coord;
-			coordCentro.z += 1;
+			coordOjo = coord;
+			coordCentro.z += 2;
+			coordOjo.z = coord.z + 0.82;
+			
 		}
 		
 	}
@@ -419,7 +425,8 @@ void RecibirMensaje::pasarPortal( int idJugador, Posicion posicion) {
 	if ( idJugador == Modelo::getInstance()->getid()) {
 //		cout<<"actualizo camara"<<endl;
 //		cout<<"coord "<<coord.x<<"  "<<coord.z<<"     coordCentro "<<coordCentro.x<<"  "<<coordCentro.z<<endl;
-		Modelo::getInstance()->getCamara().setOjo(coord);
+		coordOjo.y=ALTURAPERSONAJE;
+		Modelo::getInstance()->getCamara().setOjo(coordOjo);
 		Modelo::getInstance()->getCamara().setCentro(coordCentro);		
 	}
 	
@@ -451,17 +458,10 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 		
 		if( idJugador == 0 ) {
 			personaje = new PacMan();
-			//personaje->model=new Model;
-//			cout<<"voy a cargar modelo pacman"<<endl;
-			//ObjLoader::cargarModelo(*personaje->model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
-			ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);
-//			cout<<"cargue obj y tga de PACMAN"<<endl;	
-			
-			personaje->SetModel( model);
-			//if (Modelo::getInstance()->getSalidaPacMan() ==NULL )  cout<<"ERROR"<<endl;
-			//coordInicial = (Modelo::getInstance()->getSalidaPacMan())->getCoordenada();
-			//cout<<"obtengo coord"<<endl;
-			//cout<<"coordInicial: "<<coordInicial.x<<" "<<coordInicial.y<<" "<<coordInicial.z<<endl;*/
+									
+			ObjLoader::cargarModelo(*model,OBJ_PATH_PACMAN,TEX_PATH_PACMAN);//				
+			//personaje->SetModel( modelo->getModelPacman() );
+			personaje->SetModel( model);			
 			
 		}
 		else{			
@@ -471,7 +471,7 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			ObjLoader::cargarModelo(*model,OBJ_PATH_FANTASMA,TEX_PATH_FANTASMA);
 //			cout<<"cargue obj y tga de FANTASMA"<<endl;			
 			personaje->SetModel( model);			
-			
+			//personaje->SetModel(modelo->getModelPacman());
 		}
 	}
 	int posArista = posicion.getPosicionArista();
@@ -521,11 +521,11 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			if ( eje==1 ) {
 				//cout<<"#### ejez PARA CAMARA "<<endl;
 				if (posicion.getDireccion()==1) {
-					coordOjo.z = coordT.z -0.78;
+					coordOjo.z = coordT.z -0.82;
 					coordCentro.z = coordT.z - 2; // porque avanza en la parte negativa del eje z
 					//cout<<"##### ejez PARA CAMARA -->DIR==1 "<<endl;
 				} else { //direccion=0 izquierda
-					coordOjo.z = coordT.z +0.78;
+					coordOjo.z = coordT.z +0.82;
 					coordCentro.z = coordT.z + 2;
 					//cout<<"###### ejez PARA CAMARA --> DIR==0 "<<endl;
 				}
@@ -536,12 +536,12 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 				//**************************
 		//		cout<<"#######ejex PARA CAMARA "<<endl;
 				if (posicion.getDireccion()==1) {
-					coordOjo.x = coordT.x + 0.78;
+					coordOjo.x = coordT.x + 0.82;
 					coordCentro.x = coordT.x + 2;
 			//		cout<<"##### ejex PARA CAMARA --> DIR==1 "<<endl;
 					
 				} else { //direccion=0 izquierda
-					coordOjo.x = coordT.x - 0.78;
+					coordOjo.x = coordT.x - 0.82;
 					coordCentro.x = coordT.x - 2;
 				//	cout<<"##### ejex PARA CAMARA --> DIR==0 "<<endl;
 				}							
@@ -550,7 +550,8 @@ void RecibirMensaje::agregarPersonaje(int idJugador, Posicion posicion) {
 			
 			}
 			
-			//cout<<"actualizo camara"<<endl;		
+			//cout<<"actualizo camara"<<endl;	
+			coordOjo.y=ALTURAPERSONAJE;
 			modelo->getCamara().setOjo(coordOjo);
 			modelo->getCamara().setCentro(coordCentro);
 		}

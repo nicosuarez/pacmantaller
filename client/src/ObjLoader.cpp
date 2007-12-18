@@ -281,14 +281,21 @@ int ObjLoader::cargarModelo(Model& model,const char* obj_filename, const char* t
 			
 			glTexImage2D (GL_TEXTURE_2D, 0, 4, model.tex->width, model.tex->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, model.tex->data);
 			
-			//gluBuild2DMipmaps (GL_TEXTURE_2D, 4, model.tex->width, model.tex->height, GL_RGBA, GL_UNSIGNED_BYTE, model.tex->data);
-			/*if (a==GLU_INVALID_VALUE){
-				cout<<"width or height are < 1"<<endl;
-			}
-			else if(a==GLU_INVALID_ENUM){
-				cout<<"internalFormat, format or type are not legal."<<endl;
-			}
-			else if(a==GLU_INVALID_OPERATION)  cout<<"if type is GL_UNSIGNED_BYTE_3_3_2 or GL_UNSIGNED_BYTE_2_3_3_REV and format is not GL_RGB."<<endl;*/
+		//	gluBuild2DMipmaps (GL_TEXTURE_2D, 4, model.tex->width, model.tex->height, GL_RGBA, GL_UNSIGNED_BYTE, model.tex->data);
+			/*switch (gluBuild2DMipmaps (GL_TEXTURE_2D, 4, model.tex->width, model.tex->height, GL_RGBA, GL_UNSIGNED_BYTE, model.tex->data)) {
+				case GLU_INVALID_VALUE:{
+					cout<<"width or height are < 1"<<endl;
+					break;
+					}
+				case GLU_INVALID_ENUM: {
+					cout<<"internalFormat, format or type are not legal."<<endl;
+					break;
+				}
+				case GLU_INVALID_OPERATION: {
+					cout<<"if type is GL_UNSIGNED_BYTE_3_3_2 or GL_UNSIGNED_BYTE_2_3_3_REV and format is not GL_RGB."<<endl;
+					break;
+				}			
+			}*/
 		} 
 		else {
 			model.tex = NULL;

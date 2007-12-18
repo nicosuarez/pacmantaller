@@ -25,6 +25,9 @@
 #include "LogResource.h"
 #include "Camara.h"
 
+#define LONGVERTICE 2
+
+
 
 class RecibirMensaje : public Thread
 {
