@@ -387,7 +387,7 @@ void ActualizarJuego::ganoPacman()
 {
 	Modelo *modelo = Modelo::getInstance();
 	tListElementos* elementos = modelo->GetElementos();
-	if(elementos->size() == 45)
+	if(elementos->size() == 0)
 	{
 		//sleep(3000);
 		std::cout<<"GANO PACMAN\n";
