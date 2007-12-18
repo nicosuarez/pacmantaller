@@ -27,9 +27,7 @@ public:
 	bool IsPowerUp();
 	void SetPowerUp(bool powerUp);
 	bool operator==( int tipo )const;
-	
-	//***********************//
-	virtual void renderizar();
+		
 
 private:
 	/**

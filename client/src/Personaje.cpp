@@ -98,7 +98,7 @@ void Personaje::renderizar() {
 	glRotatef(rotacion.y, 0.0f, 1.0f, 0.0f);	
 	glRotatef(rotacion.z, 0.0f, 0.0f, 1.0f);
 	if (GetRol()==0)
-		glScalef(P_ESCALAX, P_ESCALAY, P_ESCALAZ);
+		glScalef(P_ESCALAX, P_ESCALAY, P_ESCALAZ);		
 	else 
 		glScalef(F_ESCALAX, F_ESCALAY, F_ESCALAZ);
 	

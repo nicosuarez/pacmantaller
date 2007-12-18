@@ -389,8 +389,8 @@ void tecladoEvent( int key, int Xx, int Yy ) {
 			Modelo::getInstance()->getCamara().strafeUp(-1);
 			break;
 		case GLUT_KEY_F1: 
-			cout<<"camara aerea"<<endl;
-			Modelo::getInstance()->getCamara().vistaAerea();
+			
+			Modelo::getInstance()->getCamara().vistaAerea(Modelo::getInstance()->getMapa()->getAlto(),Modelo::getInstance()->getMapa()->getAncho());
 			break;
 	}
 	glutPostRedisplay();
