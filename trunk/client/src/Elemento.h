@@ -11,6 +11,7 @@
 #include "Coordenada.h"
 #include <GL/glut.h>
 
+#define ALTURAITEMS 0.5
 
 typedef enum tipoElemento
 {

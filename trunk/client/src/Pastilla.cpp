@@ -39,7 +39,7 @@ void Pastilla::renderizar(){
 		glTranslatef(coord.x , coord.y, coord.z);
 		//glRotatef( angcuad, 1,1,1 );
 		glRotatef( 90, 1,1,1 );
-		glColor3f(1,1,0);
+		glColor3f(0,1,1);
 		glutSolidSphere( 0.06, 10, 10 );
 		glPopMatrix();
 	}

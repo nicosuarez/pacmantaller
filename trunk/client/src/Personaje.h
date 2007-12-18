@@ -20,6 +20,7 @@
 #define	F_ESCALAY 0.060f
 #define	F_ESCALAZ 0.050f
 
+#define ALTURAPERSONAJE 0.62
 /**
  * Clase que modela los personajes del juego
  */
