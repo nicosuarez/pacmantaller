@@ -14,6 +14,7 @@
 #include "Mutex.h"
 #include "Mensaje.h"
 #include "Jugador.h"
+#include "Key.h"
 
 typedef  std::queue<Mensaje*> tQueueMensajes;
 typedef std::list<Jugador*> listJugadores;
@@ -55,6 +56,9 @@ private:
 	
 	//Envia un mensaje a un jugador en particular.
 	void enviarMensajeParticular(Mensaje* msg);
+	
+	//Elimina un jugador
+	void quitarJugador( int idJugador );
 	
 	Dispatcher(const Dispatcher&);
 	Dispatcher& operator= (const Dispatcher&);

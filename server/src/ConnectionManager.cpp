@@ -143,3 +143,16 @@ void ConnectionManager::asignarIdJugador(Jugador* jugador)
 	this->asignarId++;
 }
 
+/*----------------------------------------------------------------------------*/
+void ConnectionManager::quitarEscucha( int idJugador )
+{
+	tListEscuchar::iterator it;
+	for( it = this->listEscuchar.begin() ; it != this->listEscuchar.end(); it++ )
+	{
+		if( (*it)->getId() == idJugador )
+		{
+			(*it)->cancelThread();
+			break;
+		}
+	}
+}

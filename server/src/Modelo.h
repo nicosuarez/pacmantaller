@@ -29,12 +29,9 @@
 #include "ActualizarJuego.h"
 #include "AgregarJugadorOp.h"
 #include "Stop.h"
+#include "ConnectionManager.h"
 
 using std::string;
-
-class Operacion;
-class PacMan;
-class Fantasma;
 
 typedef std::list<Elemento*> tListElementos; 
 typedef std::queue<Operacion*> tQueueOperacion;
@@ -215,6 +212,7 @@ public:
 	int getCantPowerUp(){return this->cantPower;};
 	void setCantPowerUp(int cantPower){this->cantPower=cantPower;};
 	void incCantPowerUp(int cantPower=1){this->cantPower+=cantPower;};
+
 	
 	/* Estadistica de pastillas */
 	int getCantPastillas(){return this->cantPastillas;};
@@ -305,5 +303,8 @@ private:
 	
 	//Desacola una operacion de la cola y la ejecuta.
 	void ejecutarOperaciones();
+
+	//Llama al quitarEscucha de ConnectionManager para eliminar el thread que escuha al cliente
+	void quitarEscuchar( int idJugador );
 };
 #endif // !defined(EA_C452893E_00CB_470e_BB7D_F33E91B1347A__INCLUDED_)

@@ -493,6 +493,14 @@ Cliente::~Cliente(){
 	delete skCliente;
 	delete enviarMensaje;
 }
+
+/*----------------------------------------------------------------------------*/
+
+Socket* Cliente::getSocket()
+{
+	return skCliente;
+}
+
 /*----------------------------------------------------------------------------*/
 int Cliente::ejecutar(int cantArg,char* argv[]){
 	
