@@ -27,7 +27,6 @@ void Parser::cargarConfiguracion(char* pathConfig)
     fileConfig.open(pathConfig);
     if(!fileConfig.fail())
     {          
-    	  cout << CONFIGURACION << "\n";
     	  tConf conf;
 		  while (getline(fileConfig, s))
 		  {
@@ -44,7 +43,6 @@ void Parser::cargarConfiguracion(char* pathConfig)
 		      string key = s.substr(0, s.find('='));
 		      string val = s.substr(s.find('=')+1, string::npos);
 		      conf[strip(key)] = strip(val);
-		      cout<< strip(key)<<": "<< strip(val) << "\n";
 		  }
 		  cargarConfiguracion(conf);
     }

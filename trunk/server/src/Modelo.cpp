@@ -50,10 +50,6 @@ Modelo::Modelo():dispatcher(&jugadores, finalizoJuego, &m_jugadores){
 }
 /*----------------------------------------------------------------------------*/
 Modelo::~Modelo(){
-
-	//this->eliminarListaJugadores();
-	//this->eliminarListaBonus();
-	//this->eliminarListaElementos()
 	delete mundo;
 }
 /*----------------------------------------------------------------------------*/
@@ -224,7 +220,7 @@ void Modelo::cambiarSiguienteNivel()
 			this->agregarOperacion(agregar);
 		}
 		m_jugadores.unlock();
-		sleep(30000);
+		sleep(7000);
 	}
 	else
 	{
@@ -411,7 +407,6 @@ void Modelo::main(){
 		this->seFinalizoElNivel(false);
 		while(!this->seFinalizoElNivel())
 		{
-			std::cout<<"Procesando operaciones..\n";
 			this->ejecutarOperaciones();
 		}
 
@@ -425,7 +420,7 @@ void Modelo::main(){
 
 void Modelo::esperarMinJugadores()
 {
-	std::cout<<"Esperando comienzo de nivel..\n";
+	std::cout<<"Esperando comienzo de nivel (min Jugadores):"<<Config::getInstance()->GetMinJugadores()<<"\n";
 	if(this->GetJugadores().size() < Config::getInstance()->GetMinJugadores())
 		this->esperarMinJugadoresEvent.esperar();
 	std::cout<<"Jugando nivel..\n";
@@ -593,12 +588,9 @@ void Modelo::comerElementoDelVertice(tVertice* vertice)
 		if(elemento->getEstado()!=FueComido)
 		{
 			//Si encontro incrementa el puntaje y marca el estado FueComido
-			pacMan->incPuntaje(elemento->getPuntaje());
 			this->analizarElementoComido(elemento,pacMan);
 		}
 	}
-//	std::cout<<"Esta powerUp? "<< pacMan->IsPowerUp() << "\n";
-	
 }
 
 /*----------------------------------------------------------------------------*/
@@ -639,8 +631,7 @@ void Modelo::restoreDefaultSpeed()
 
 	pacman->SetVelocidad(vPacman);
 	this->cambiarVelocidadFantasmas(vFantasma);
-	
-	std::cout<<"VPAC REST: "<< vPacman<< " VFAN REST: "<<vFantasma<<"\n";
+
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::cambiarVelocidadFantasmas(int vPacman)
@@ -679,7 +670,6 @@ void Modelo::intercambiarVelocidades()
 
 	pacman->SetVelocidad(vFantasma);
 	this->cambiarVelocidadFantasmas(vPacman);
-	std::cout<<"VPAC: "<< vFantasma<< " VFAN: "<<vPacman<<"\n";
 }
 /*----------------------------------------------------------------------------*/
 void Modelo::analizarElementoComido(Elemento* elemento,PacMan* pacman)
@@ -689,22 +679,27 @@ void Modelo::analizarElementoComido(Elemento* elemento,PacMan* pacman)
 	{
 		case tPastilla:
 			this->cantPastillasComidos++;
-			std::cout<<"PacMan come pastilla:" << elemento->getPosicion() << " "
-					<< this->cantPastillasComidos << "/" << this->cantPastillas << "\n";
+			std::cout<<"PacMan come pastilla: "
+					<< this->cantPastillasComidos 
+					<< "/" << this->cantPastillas << "\n";
 			elemento->setEstado(FueComido);
+			pacman->incPuntaje(elemento->getPuntaje());
 			break;
 		case tPowerup:
 			this->cantPowerComidos++;
-			std::cout<<"PacMan come powerUp:" << elemento->getPosicion() << " "<<
-					this->cantPowerComidos<<"/"<<this->cantPower <<  "\n";
+			std::cout<<"PacMan come powerUp: "
+					<< this->cantPowerComidos
+					<<"/"<<this->cantPower <<  "\n";
 			elemento->setEstado(FueComido);
 			pacman->SetPowerUp();
+			pacman->incPuntaje(elemento->getPuntaje());
 			break;
 		case tBonus:
 			if(elemento->getEstado()==Aparece || elemento->getEstado()==Visible)
 			{
-				std::cout<<"PacMan come bonus:" << elemento->getPosicion() << "\n";
+				std::cout<<"PacMan come bonus"<< "\n";
 				elemento->setEstado(FueComido);
+				pacman->incPuntaje(elemento->getPuntaje());
 			}
 			break;
 	}

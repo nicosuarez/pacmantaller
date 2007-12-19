@@ -16,8 +16,6 @@ AgregarJugadorOp::AgregarJugadorOp(Jugador* jugador){
  */
 bool AgregarJugadorOp::ejecutar()
 {
-	//Enviar mensaje init
-	std::cout<<"Enviar mensaje init al jugador: "<<this->jugador->GetIdJugador()<<"\n";
 	//Se le asigna un personaje al jugador
 	this->asignarPersonaje();
 	//Se le envia al cliente el paquete init
@@ -92,7 +90,6 @@ void AgregarJugadorOp::initPacMan()
 	jugador->SetPersonaje( personaje );
 	
 	std::cout<<"Entra PacMan al juego. ID:"<< jugador->GetIdJugador()<<"\n";
-	std::cout<<"ID:"<< jugador->GetIdJugador()<< " " << posicion <<"\n";
 }
 
 Posicion AgregarJugadorOp::getPosicionInicialPacman()
@@ -148,7 +145,6 @@ void AgregarJugadorOp::initFantasma()
 	jugador->SetPersonaje( personaje );
 	
 	std::cout<<"Entra Fantasma al juego. ID:"<< jugador->GetIdJugador()<<"\n";
-	std::cout<<"ID:"<< jugador->GetIdJugador()<< " " << posicion <<"\n";
 }
 
 

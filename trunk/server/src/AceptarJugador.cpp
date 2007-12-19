@@ -31,9 +31,7 @@ void AceptarJugador::main(){
     while(!this->seFinalizoElJuego())
     {	
         //Acepta conexiones nuevas
-    	std::cout<<"Aceptando Jugadores...\n";
     	Socket* scliente = this->aceptarJugador();
-    	std::cout<<"Acepto..\n";
         if(!this->seFinalizoElJuego())
         {
             //Si se pudo conectar el cliente
@@ -55,7 +53,6 @@ void AceptarJugador::agregarJugador(Socket* scliente){
 	
 	//Creo un nuevo jugador
     Jugador* jugador=new Jugador(scliente);
-    std::cout<<"Se conecto un Jugador Nuevo...\n";
     //Agrega el jugador
     ConnectionManager::getInstance()->agregarJugador(jugador);
 }

@@ -31,7 +31,6 @@ Status::Status()
 		if( (*it)->getEstado() == FueComido || (*it)->getEstado() == Aparece || (*it)->getEstado() == Desaparece )
 		{
 			elementos.push_back( *it );
-			std::cout<<"envia bonus estado:"<< (int) (*it)->getEstado()<<"\n";
 		}
 	}
 	this->sizePkt = 0;
@@ -103,12 +102,10 @@ char* Status::Serialize()
 			if( (*it)->getTipo() == tBonus )
 			{
 				modelo->quitarBonus((*it)->getPosicion() );
-				std::cout<<"quita bonus de la lista:"<<(*it)->getPosicion()<<"\n";
 			}
 			else
 			{
 				modelo->quitarElemento( (*it)->getPosicion() );
-				std::cout<<"quita elemento de la lista:"<<(*it)->getPosicion()<<"\n";
 			}
 		}
 	} 

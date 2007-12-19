@@ -15,7 +15,6 @@ void MonitorearEntrada::main(){
     }
 	*cerrarServidor = true;
 	Modelo *modelo = Modelo::getInstance();
-	std::cout<<"Agregar operacion CerrarServidorOp\n";
 	modelo->getDispatcher()->enviarMensaje( new Stop(SERVER_TERMINADO) );
 	modelo->agregarOperacion(new CerrarServidorOp());
 	modelo->getEsperarMinJugadoresEvent().activar();

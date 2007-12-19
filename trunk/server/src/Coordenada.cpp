@@ -76,12 +76,8 @@ double Coordenada::calcularDistancia(Posicion* pos1,Posicion* pos2,Mapa* mapa)
 	double dX = coord1.getX() - coord2.getX();
 	double dY = coord1.getY() - coord2.getY();
 	
-	std::cout<<"Coord1("<<coord1.getX()<<","<<coord1.getY()<<") Coord2("<<coord2.getX()<<","<<coord2.getY()<<") ";
-	
 	double dist = pow(dX,2)+pow(dY,2);
 	dist = sqrt(dist);
-	
-	std::cout<<"Distancia: "<< dist <<"\n";
 	
 	return dist;
 }

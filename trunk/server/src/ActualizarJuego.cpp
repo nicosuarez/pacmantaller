@@ -20,7 +20,6 @@ ActualizarJuego::ActualizarJuego(unsigned int updateTime)
 {
 	this->finalizoNivel=Modelo::getInstance()->getFinalizoNivel();
 	this->updateTime=updateTime;
-	std::cout<<"Construyo ActualizarJuego\n";
 	this->mantenerBonus=false;
 	this->bonusActual=NULL;
 }
@@ -33,8 +32,6 @@ void ActualizarJuego::esperarAgregarJugadores()
 
 void ActualizarJuego::main()
 {
-	std::cout<<"Corre ActualizarJuego\n";
-	
 	this->esperarAgregarJugadores();
 	
 	while(!seFinalizoElNivel())
@@ -43,7 +40,6 @@ void ActualizarJuego::main()
 		this->enviarStatus();
 		sleep(updateTime);
 	}
-	std::cout<<"Termino Actualizar Juego\n";
 }
 /*----------------------------------------------------------------------------*/
 void ActualizarJuego::agregaBonusAlJuego()
@@ -64,10 +60,8 @@ void ActualizarJuego::agregaBonusAlJuego()
 	{
 		if(elemento!=NULL)
 		{
-//			std::cout<<"agregar bonus.."<<elemento<<"\n";
 			if(mantenerVisible.getTimeStartNow()<tMantenerVisibleBonus)
 			{
-//				std::cout<<"Mantener visible bonus..\n";
 				//MostrarBonus
 				if(!mantenerBonus)
 				{
@@ -113,8 +107,6 @@ void ActualizarJuego::presionoKeyAbajo(Jugador* jugador){
 	//contraria
 	Posicion* posicion = jugador->getPersonaje()->GetPosicion();
 	
-//	std::cout<<"Inicial: " << *posicion;
-	
 	posicion->cambiarDireccion();
 
 	//Cambio de vertice origen
@@ -125,8 +117,6 @@ void ActualizarJuego::presionoKeyAbajo(Jugador* jugador){
 	jugador->SetKeyPressed(NONE);
 	if(posicion->estaEnUnVertice())
 		this->avanzar(jugador);
-	
-//	std::cout<<"Final: " << *posicion<<"\n";
 }
 /*----------------------------------------------------------------------------*/
 tVertice* ActualizarJuego::getVeticeDestino(Posicion* posicion)
@@ -195,7 +185,6 @@ void ActualizarJuego::doblarJugador(Jugador* jugador,bool izq)
 	}
 	if(!giro)
 	{
-		std::cout<<"No puede doblar no llego al vertice o hay una pared\n";
 		this->avanzar(jugador);
 	}
 	else
@@ -223,8 +212,6 @@ bool ActualizarJuego::girar(Jugador* jugador,tVertice* vertice
 
 	if(arcoNuevo != NULL)
 	{
-		std::cout<<"Viene por el " << oriActual
-				<<" y gira hacia el "<< ori <<"\n";
 		//Actualizar Posicion
 		posicion->setVertice(vertice->getid());
 		posicion->setArista(arcoNuevo->getid());
@@ -235,11 +222,6 @@ bool ActualizarJuego::girar(Jugador* jugador,tVertice* vertice
 
 		giro=true;
 		personaje->chocoConPared(false);
-	}
-	else
-	{
-		std::cout<<"Viene por el " << oriActual
-				<< " y hay PARED al "<< ori <<"\n";
 	}
 		
 	return giro;
@@ -259,12 +241,9 @@ void ActualizarJuego::avanzar(Jugador* jugador){
 	Posicion* posicion = personaje->GetPosicion();
 	tArco* arcoActual=this->getAristaActual(posicion);
 
-//	std::cout<<"Inicial: " << *posicion;
-	
 	//Si choco con una pared, no avanza mas y espera un giro.
 	if(!personaje->chocoConPared())
 	{	
-//		std::cout<<"Avanza: " ;
 		Personaje* personaje = jugador->getPersonaje();
 		
 		//Obtengo el vertice destino
@@ -309,9 +288,6 @@ void ActualizarJuego::avanzar(Jugador* jugador){
 			
 		}
 	}
-	
-//	std::cout<<"  Final: " << *posicion <<"\n";
-	
 }
 /*----------------------------------------------------------------------------*/
 /**
@@ -331,28 +307,22 @@ void ActualizarJuego::actualizarPosiciones()
 		switch (keyPressed)
 		{
 			case KEY_ARRIBA:
-	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "UP" <<"\n";
 				presionoKeyArriba(jugador);
 				break;
 			case KEY_ABAJO:
-	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "DOWN" <<"\n";
 				presionoKeyAbajo(jugador);
 				break;
 			case KEY_IZQUIERDA:
-	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "LEFT" <<"\n";
 				presionoKeyIzquierda(jugador);
 				break;
 			case KEY_DERECHA:
-	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "RIGHT" <<"\n";
 				presionoKeyDerecha(jugador);
 				break;
 			case KEY_ESCAPE:
-	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "ESC" <<"\n";
 				desconectarJugador( jugador->GetIdJugador() );
 				break;
 				
 			default: //NONE
-	//				std::cout<<"Id:" << jugador->GetIdJugador() <<" "<< "Key:"<< "NONE" <<"\n";
 				noPresionoKey(jugador);
 				break;
 		}
@@ -379,7 +349,6 @@ void ActualizarJuego::actualizar()
 	this->agregaBonusAlJuego();
 	this->actualizarElementos();
 	this->detectarColisiones();
-	//this->cambiarDeNivel();
 	this->ganoPacman();
 }
 
@@ -391,8 +360,7 @@ void ActualizarJuego::ganoPacman()
 	tListElementos* elementos = modelo->GetElementos();
 	if(elementos->size() == 0)
 	{
-		//sleep(3000);
-		std::cout<<"GANO PACMAN\n";
+		std::cout<<"Gano PacMan\n";
 		modelo->getDispatcher()->enviarMensaje( new Stop(PACMAN_GANO) );
 		this->cambiarDeNivel();
 	}
@@ -417,7 +385,7 @@ void ActualizarJuego::analizarColision(PacMan* pacman,Jugador* jugadorfantasma)
 		//el pacman incrementa su puntaje
 		pacman->incPuntaje(fantasma->getPuntaje());
 		
-		std::cout<<"El fantasma:"<< jugadorfantasma->GetIdJugador() <<" fue comido\n";
+		std::cout<<"El Fantasma:"<< jugadorfantasma->GetIdJugador() <<" fue comido\n";
 	}
 	else
 	{
@@ -448,7 +416,6 @@ void ActualizarJuego::detectarColisiones()
 			Posicion* posFantasma = fantasma->GetPosicion();
 			if(Coordenada::calcularDistancia(posPacMan,posFantasma,mapa) < pacman->getRadio()+fantasma->getRadio())
 			{
-				std::cout<<"Chocaron\n";
 				this->analizarColision(pacman,jugador);
 			}
 		}
