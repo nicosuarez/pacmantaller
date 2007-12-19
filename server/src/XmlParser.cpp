@@ -12,7 +12,6 @@ void XmlParser::setAncho(Mapa* mapa,xmlpp::TextReader& reader)
 	ancho=getAtributoInt(reader,ATRIB_VALOR);
 	if(ancho!=-1)
 		mapa->setAncho(ancho);
-	std::cout<<ATRIB_VALOR << ": "<< ancho << "\n";
 }
 /*----------------------------------------------------------------------------*/
 void XmlParser::setAlto(Mapa* mapa,xmlpp::TextReader& reader)
@@ -21,7 +20,6 @@ void XmlParser::setAlto(Mapa* mapa,xmlpp::TextReader& reader)
 	alto=getAtributoInt(reader,ATRIB_VALOR);
 	if(alto!=-1)
 		mapa->setAlto(alto);
-	std::cout<<ATRIB_VALOR << ": "<< alto << "\n";
 }
 /*----------------------------------------------------------------------------*/
 int XmlParser::getAtributoInt(xmlpp::TextReader& reader,string atrib)
@@ -96,13 +94,10 @@ void XmlParser::cargarPasillo(Mapa* mapa,int arcoId,string orientacion,int vIdOr
     if(ida==NULL)
     {
     	mapa->getGrafo()->agregarArco(vOrig,vDest,arcoId,orientacionParser(orientacion));
-    	std::cout << arcoId<<","<<vIdOrig<<","<<vIdDest<<","<< orientacion << std::endl;
     }
     if(vuelta==NULL)
     {
     	mapa->getGrafo()->agregarArco(vDest,vOrig,arcoId,getOrientacionContraria(orientacion));
-    	std::cout << arcoId<<","<<vIdDest<<","<<vIdOrig<<","<< 
-    	LogResource::getOrientacionContraria(orientacion)<< std::endl;;
     }
 }
 /*----------------------------------------------------------------------------*/
@@ -146,7 +141,6 @@ void XmlParser::cargarGrafo(Mapa* mapa,xmlpp::TextReader& reader)
 	do
     {
 		buscarElemento(reader);
-		mostrarNombre(reader);	
 		name = reader.get_name();
 		if(name==ARISTA)
 			agregarArista(mapa,reader);
@@ -161,7 +155,6 @@ void XmlParser::agregarPowerUp(Mapa* mapa,xmlpp::TextReader& reader)
 	Modelo::getInstance()->agregarElemento(powerUp);
 	elementosNoPastillas.push_back(idVertice);
 	Modelo::getInstance()->incCantPowerUp();
-	std::cout << POWER_UP << " " << ATRIB_ID << ": " << idVertice << "\n";
 }
 /*----------------------------------------------------------------------------*/
 void XmlParser::agregarBonus(Mapa* mapa,xmlpp::TextReader& reader)
@@ -171,7 +164,6 @@ void XmlParser::agregarBonus(Mapa* mapa,xmlpp::TextReader& reader)
 	bonus->setEstado(Inicial);
 	Modelo::getInstance()->agregarBonus(bonus);
 	elementosNoPastillas.push_back(idVertice);
-	std::cout << BONUS << " " << ATRIB_ID << ": " << idVertice << "\n";
 }
 /*----------------------------------------------------------------------------*/
 void XmlParser::agregarSalidaPacMan(Mapa* mapa,xmlpp::TextReader& reader)
@@ -180,7 +172,6 @@ void XmlParser::agregarSalidaPacMan(Mapa* mapa,xmlpp::TextReader& reader)
 	SalidaPacMan salida(idVertice);
 	Modelo::getInstance()->SetSalidaPacMan(salida);
 	elementosNoPastillas.push_back(idVertice);
-	std::cout << SALIDA_PACMAN << " " << ATRIB_ID << ": " << idVertice << "\n";
 }
 /*----------------------------------------------------------------------------*/
 void XmlParser::agregarCasaFantasmas(Mapa* mapa,xmlpp::TextReader& reader)
@@ -190,16 +181,14 @@ void XmlParser::agregarCasaFantasmas(Mapa* mapa,xmlpp::TextReader& reader)
 	tVecVerticeId vertices; 
 	elementosNoPastillas.push_back(idPuerta);
 
-	std::cout << CASA_FANTASMAS << " " << "Entrada" << ": " << idPuerta << "\n";
 	for(int i=1;i<7;i++)
 	{
 		idVertice=getAtributoInt(reader,ATRIB_ID_VERTICE+StrToken::intToString(i));
 		elementosNoPastillas.push_back(idVertice);
 		vertices.push_back(idVertice);
-		std::cout << CASA_FANTASMAS << " " << ATRIB_ID << ": " << idVertice << "\n";
+
 	}	
 	string orientacion=reader.get_attribute(ATRIB_ORIENTACION);
-	std::cout << ATRIB_ORIENTACION << ": " << orientacion << "\n";
 	CasaFantasmas casaFantasmas(idPuerta,orientacionParser(orientacion));
 	casaFantasmas.setVerticesId(vertices);
 	Modelo::getInstance()->SetCasaFantasmas(casaFantasmas);
@@ -233,7 +222,6 @@ void XmlParser::agregarPastillas(Mapa* mapa)
 			Pastilla* pastilla = new Pastilla(idVertice);
 			Modelo::getInstance()->agregarElemento(pastilla);
 			Modelo::getInstance()->incCantPastillas();
-			std::cout << PASTILLAS << " " << ATRIB_ID << ": " << idVertice << "\n";
 		}
 	}
 }
@@ -274,7 +262,6 @@ Mapa* XmlParser::getMapa(string mapaPath)
 		mapa = new Mapa;
 		while(reader.read())
 	    {
-		  mostrarNombre(reader);
 		  std::string name = reader.get_name();
 	      if(name==ANCHO)
 	    	  setAncho(mapa,reader);
@@ -302,7 +289,6 @@ void XmlParser::cargarMundo(Mundo* mundo,xmlpp::TextReader& reader)
 		string path = reader.get_attribute(ATRIB_PATH);
 		if(path!="")
 		{
-			std::cout<<"Mostrar path: "<<path<<"\n";
 			mundo->getNiveles()->push(path);
 		}	
     }while(reader.read());
@@ -317,7 +303,6 @@ Mundo* XmlParser::getMundo(string mundoPath)
 		mundo = new Mundo;
 		while(reader.read())
 		{
-		  mostrarNombre(reader);
 		  std::string name = reader.get_name();
 		  if(name==MAPA)
 			  cargarMundo(mundo,reader);

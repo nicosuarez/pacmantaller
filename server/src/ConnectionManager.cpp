@@ -41,16 +41,13 @@ void ConnectionManager::agregarJugador(Jugador* jugador){
 	EscucharJugador *escuchar = new EscucharJugador( jugador->GetIdJugador(), jugador->GetSocket() );
 	escuchar->run();
 	listEscuchar.push_back( escuchar );
-	std::cout<<"escuchar jugador...\n";
 	
 	//AgregarJugadorOp Operacion
 	Operacion* operacion = new AgregarJugadorOp(jugador);
-	std::cout<<"Se crea operacion AGREGAR...\n";
-	
+
 	//Agrego la operacion al modelo
 	Modelo::getInstance()->agregarOperacion(operacion);
-	std::cout<<"Se agrega la operacion AGREGAR...\n";
-	
+
 	//Validar cantidad minima de jugadores para poder jugar.
     if(this->validarMinJugadores())
 	{

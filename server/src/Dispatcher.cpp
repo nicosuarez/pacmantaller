@@ -68,7 +68,6 @@ void Dispatcher::main()
         if( mensajes.empty() && !(*terminoJuego) )
     		this->getRecibiMensajeEvent().esperar();
     }
-    std::cout << "Sale del dispatcher\n";
 }
 /*----------------------------------------------------------------------------*/
 void Dispatcher::enviarBroadCast( Mensaje* msg )

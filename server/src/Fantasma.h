@@ -34,14 +34,14 @@ public:
 	/**
 	 * Velocidad inicial constante del fantasma
 	 */
-	static const int velocidadInicial=16;
+	static const int velocidadInicial=4;
 	
 private:
 	
 	/**
 	 * Radio constante del fantasma
 	 */
-	static const double radio=0.5;
+	static const double radio=0.25;
 	
 	/**
 	 * Determina si el fantasma esta en estado invisible que ocurre cuando un pacman

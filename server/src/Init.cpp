@@ -25,37 +25,6 @@ int getbit( int x, uint8_t byte )
 	return byte;
 }
 
-void imprimir( char* pkt)
-{
-	PktInit *pktInit = (PktInit*) pkt;
-	cout << "Version: " << (int)pktInit->version << endl;
-	cout << "Tipo: " << (int)pktInit->tipo << endl;
-	cout << "Rol: " << (int)pktInit->rol << endl;
-	cout << "Ancho: " << (int)pktInit->ancho << endl;
-	cout << "Alto: " << (int)pktInit->alto << endl;
-	int cantAristas = ((int)pktInit->ancho)*((int)pktInit->alto)*2;
-	int tamanio =  cantAristas + ( 8-( cantAristas %8) )%8;
-	int i;
-	for(i=0; i<tamanio; i++)
-	{
-		uint8_t *byte = (uint8_t*)(pkt + sizeof(PktInit) + i/8);
-		cout << getbit( 7 - (i%8), *byte );
-	}
-	cout<< endl;
-	//salteo los bits del padding
-	//i += 8- i%8;
-	uint16_t *cantElementos = (uint16_t*) (pkt + (sizeof(PktInit) + i/8 ));
-	cout << "Cant Elementos: " << (int)(*cantElementos) << endl;
-//	for(int j=0; j<(int)(*cantElementos); j++ )
-//	{
-//		PktElemento *elemento = (PktElemento*) (pkt + (sizeof(PktInit) + i/8 + 2 + j*sizeof(PktElemento)));
-//		cout << "Tipo: " << (int)elemento->tipo << endl;
-//		cout << "Orientacion: " << (int)elemento->orientacion<< endl;
-//		cout << "Posicion: " << (int)elemento->posicion<< endl;
-//	}
-}
-
-
 tArco* getArco( tListaArco *arcos, Orientacion orientacion )
 {
 	tItArco it;
@@ -169,6 +138,5 @@ char* Init::Serialize()
 		elemento->posicion = (*it)->getPosicion();
 		j++;
 	}
-	imprimir(buffer);
 	return buffer;
 }

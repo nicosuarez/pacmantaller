@@ -11,11 +11,13 @@
 PacMan::PacMan(){
 	this->isPowerUp=false;
 	this->velocidad=velocidadInicial;
+	this->puntaje=0;
 }
 
 PacMan::PacMan(Posicion& posicion):Personaje(posicion){
 	this->isPowerUp=false;
 	this->velocidad=velocidadInicial;
+	this->puntaje=0;
 }
 
 PacMan::~PacMan(){

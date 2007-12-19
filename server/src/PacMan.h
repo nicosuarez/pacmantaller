@@ -38,7 +38,7 @@ public:
 	/**
 	 * Valor constante de la velocidad inicial del pacman
 	 */
-	static const int velocidadInicial=16;
+	static const int velocidadInicial=2;
 	
 private:
 	/**
@@ -52,7 +52,7 @@ private:
 	/**
 	 * Radio constante del pacman
 	 */
-	static const double radio = 0.5;
+	static const double radio = 0.25;
 	
 	/**
 	 * Valor constante de tiempo en estado de powerUp (ms)
